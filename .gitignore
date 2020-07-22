@@ -13,3 +13,6 @@ npm-debug.log
 
 # asdf
 .tool-versions
+
+# nextjs
+.next
