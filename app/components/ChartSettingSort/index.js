@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { injectIntl, intlShape } from 'react-intl';
 
-import { Box, DropButton, ResponsiveContext, Text } from 'grommet';
+import { Box, DropButton, ResponsiveContext, Text, Button } from 'grommet';
 import { FormDown, FormUp } from 'grommet-icons';
 
 import { isMinSize, isMaxSize } from 'utils/responsive';
@@ -23,7 +23,7 @@ const StyledDropButton = styled(DropButton)`
 }
 `;
 
-const StyledSortButton = styled(DropButton)`
+const StyledSortButton = styled(Button)`
   width: 85px;
   text-align: right;
 `;

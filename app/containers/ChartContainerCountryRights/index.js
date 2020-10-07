@@ -20,8 +20,8 @@ import {
   GRADES,
   COLUMNS,
   DIMENSIONS,
-  SUBREGIONS_FOR_COMPARISON_CPR,
-  SUBREGIONS_CPR_COMPLETE,
+  // SUBREGIONS_FOR_COMPARISON_CPR,
+  // SUBREGIONS_CPR_COMPLETE,
 } from 'containers/App/constants';
 
 import {
@@ -509,23 +509,12 @@ export function ChartContainerCountryRights({
                 dimensionKey={dimensionCode}
                 score={dimension.score}
                 someRights={hasSomeRights}
-                hadSurvey={
-                  hasSomeOtherCPRScore ||
-                  SUBREGIONS_CPR_COMPLETE.indexOf(
-                    country[COLUMNS.COUNTRIES.SUBREGION],
-                  ) > -1
-                }
+                hadSurvey={hasSomeOtherCPRScore}
                 country={country}
                 countryGrammar={countryGrammar}
                 referenceScore={reference && reference.average}
                 referenceCount={reference && reference.count}
-                comparativeGroup={
-                  SUBREGIONS_FOR_COMPARISON_CPR.indexOf(
-                    country.subregion_code,
-                  ) > -1
-                    ? 'subregion'
-                    : 'all'
-                }
+                comparativeGroup="all"
               />
               {hasCountryGovRespondents(country) && (
                 <NarrativeCPRGovRespondents

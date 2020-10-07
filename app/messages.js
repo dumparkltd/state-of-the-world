@@ -1378,6 +1378,32 @@ export default defineMessages({
       defaultMessage: 'WB_POVCAL',
     },
   },
+  un_regions: {
+    AG: {
+      id: `${scope}.un_regions.AG`,
+      defaultMessage: 'African Group',
+    },
+    APG: {
+      id: `${scope}.un_regions.APG`,
+      defaultMessage: 'Asia-Pacific Group',
+    },
+    EEG: {
+      id: `${scope}.un_regions.EEG`,
+      defaultMessage: 'Eastern European Group',
+    },
+    GRULAC: {
+      id: `${scope}.un_regions.GRULAC`,
+      defaultMessage: 'Latin American & Caribbean Group',
+    },
+    WEOG: {
+      id: `${scope}.un_regions.WEOG`,
+      defaultMessage: 'Western European & Others Group',
+    },
+    none: {
+      id: `${scope}.un_regions.NONE`,
+      defaultMessage: 'No UN regional Group',
+    },
+  },
   regions: {
     americas: {
       id: `${scope}.regions.americas`,

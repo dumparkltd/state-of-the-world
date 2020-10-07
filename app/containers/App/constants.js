@@ -85,6 +85,7 @@ export const COLUMNS = {
   COUNTRIES: {
     CODE: 'country_code',
     HIGH_INCOME: 'high_income_country',
+    UN_REGION: 'un_regional_group',
     REGION: 'region_code',
     SUBREGION: 'subregion_code',
     GROUPS: 'group_codes',
@@ -92,6 +93,10 @@ export const COLUMNS = {
     STATUS: 'country_status',
     RELATED: 'related_country_code',
     GOV_RESPONDENTS: 'gov_respondents',
+    HRC_TERMS: 'HRC_terms',
+    HRC_INVITATION: 'HRC_invitation',
+    LAST_UPR: 'last_UPR',
+    TREATIS_RAT: 'treaties_ratified',
   },
   FEATURED: {
     CAT: 'featured_category',
@@ -120,8 +125,8 @@ export const LANGUAGES = {
 };
 
 // URLs for external resources loaded on request
-export const DATA_URL = '//data-store.humanrightsmeasurement.org/data';
-export const PAGES_URL = '//content-store.humanrightsmeasurement.org/v3_1/';
+export const DATA_URL = '//app.dumpark.com/state-of-the-world-data/data';
+export const PAGES_URL = '//app.dumpark.com/state-of-the-world-content/v3_1/';
 
 export const PAGES = {
   about: {
@@ -198,7 +203,7 @@ export const FAQS = {
 export const DATA_RESOURCES = [
   {
     key: 'countries',
-    file: 'countries_v3-1.csv',
+    file: 'countries_v3-1-sotw.csv',
   },
   {
     key: 'countriesGrammar',
@@ -214,7 +219,7 @@ export const DATA_RESOURCES = [
   },
   {
     key: 'auxIndicators',
-    file: 'auxiliary-indicators_v3-1.csv',
+    file: 'auxiliary-indicators_v3-1-sotw.csv',
   },
   {
     key: 'cprScores',
@@ -235,6 +240,10 @@ export const DATA_RESOURCES = [
   {
     key: 'sources',
     file: 'sources_v3-1.csv',
+  },
+  {
+    key: 'hrcTerms',
+    file: 'hrc_terms.csv',
   },
 ];
 
@@ -261,26 +270,29 @@ export const COUNTRY_SORTS = {
   },
 };
 
-export const REGIONS = {
-  values: [
-    'americas',
-    'middle-east-north-africa',
-    'sub-saharan-africa',
-    'europe-central-asia',
-    'south-asia',
-    'east-asia-pacific',
-  ],
+export const UN_REGIONS = {
+  values: ['AG', 'APG', 'EEG', 'GRULAC', 'WEOG'],
 };
-export const SUBREGIONS = {
-  values: [
-    'middle-east',
-    'north-africa',
-    'europe',
-    'central-asia',
-    'east-asia',
-    'pacific',
-  ],
-};
+// export const REGIONS = {
+//   values: [
+//     'americas',
+//     'middle-east-north-africa',
+//     'sub-saharan-africa',
+//     'europe-central-asia',
+//     'south-asia',
+//     'east-asia-pacific',
+//   ],
+// };
+// export const SUBREGIONS = {
+//   values: [
+//     'middle-east',
+//     'north-africa',
+//     'europe',
+//     'central-asia',
+//     'east-asia',
+//     'pacific',
+//   ],
+// };
 export const COUNTRY_GROUPS = {
   values: ['oecd', 'not-oecd', 'asean', 'oic'],
   multiple: true,
@@ -312,8 +324,8 @@ export const INCOME_GROUPS = {
 };
 
 export const COUNTRY_FILTERS = {
-  ALL: ['income', 'region', 'assessed', 'subregion', 'treaty', 'cgroup'],
-  SINGLE_METRIC: ['income', 'region', 'subregion', 'treaty', 'cgroup'],
+  ALL: ['income', 'unregion', 'assessed', 'subregion', 'treaty', 'cgroup'],
+  SINGLE_METRIC: ['income', 'unregion', 'subregion', 'treaty', 'cgroup'],
 };
 
 export const STANDARDS = [

@@ -25,8 +25,9 @@ import {
   SCALES,
   STANDARDS,
   BENCHMARKS,
-  REGIONS,
-  SUBREGIONS,
+  // REGIONS,
+  // SUBREGIONS,
+  UN_REGIONS,
   COUNTRY_SORTS,
   INCOME_GROUPS,
   COUNTRY_GROUPS,
@@ -40,7 +41,7 @@ import {
   AT_RISK_GROUPS,
   COLUMNS,
   ASSESSED_FILTERS,
-  SUBREGIONS_FOR_COMPARISON_CPR,
+  // SUBREGIONS_FOR_COMPARISON_CPR,
 } from './constants';
 
 // global sub-state
@@ -216,18 +217,24 @@ const searchValues = (validValues, search) => {
   return validSearchValues.length > 0 && validSearchValues;
 };
 
-export const getRegionSearch = createSelector(
+export const getUNRegionSearch = createSelector(
   getRouterSearchParams,
   search =>
-    search.has('region') &&
-    searchValues(REGIONS.values, search.getAll('region')),
+    search.has('unregion') &&
+    searchValues(UN_REGIONS.values, search.getAll('unregion')),
 );
-export const getSubregionSearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('subregion') &&
-    searchValues(SUBREGIONS.values, search.getAll('subregion')),
-);
+// export const getRegionSearch = createSelector(
+//   getRouterSearchParams,
+//   search =>
+//     search.has('region') &&
+//     searchValues(REGIONS.values, search.getAll('region')),
+// );
+// export const getSubregionSearch = createSelector(
+//   getRouterSearchParams,
+//   search =>
+//     search.has('subregion') &&
+//     searchValues(SUBREGIONS.values, search.getAll('subregion')),
+// );
 export const getAssessedSearch = createSelector(
   getRouterSearchParams,
   search =>
@@ -254,13 +261,12 @@ export const getTreatySearch = createSelector(
 );
 
 const getHasChartSettingFilters = createSelector(
-  getRegionSearch,
-  getSubregionSearch,
+  getUNRegionSearch,
+  // getSubregionSearch,
   getIncomeSearch,
   getCountryGroupSearch,
   getTreatySearch,
-  (region, subregion, income, cgroup, treaty) =>
-    region || subregion || income || cgroup || treaty,
+  (unregion, income, cgroup, treaty) => unregion || income || cgroup || treaty,
 );
 export const getSortSearch = createSelector(
   getRouterSearchParams,
@@ -462,18 +468,16 @@ export const getStandardSearch = createSelector(
 
 export const getCountriesFiltered = createSelector(
   getCountries,
-  getRegionSearch,
-  getSubregionSearch,
+  getUNRegionSearch,
+  // getSubregionSearch,
   getIncomeSearch,
   getCountryGroupSearch,
   getTreatySearch,
-  (countries, region, subregion, income, cgroup, treaty) =>
+  (countries, unregion, income, cgroup, treaty) =>
     countries &&
     countries
-      .filter(c => !region || region.indexOf(c[COLUMNS.COUNTRIES.REGION]) > -1)
       .filter(
-        c =>
-          !subregion || subregion.indexOf(c[COLUMNS.COUNTRIES.SUBREGION]) > -1,
+        c => !unregion || unregion.indexOf(c[COLUMNS.COUNTRIES.UN_REGION]) > -1,
       )
       .filter(
         c =>
@@ -1421,18 +1425,12 @@ export const getReferenceScores = createSelector(
             c =>
               isCountryHighIncome(c) && c.country_code !== country.country_code,
           );
-        } else if (country.subregion_code.trim() !== '') {
-          // use countries from same subregion
-          referenceCountriesESR = countries.filter(
-            c =>
-              c.subregion_code === country.subregion_code &&
-              c.country_code !== country.country_code,
-          );
         } else {
           // use countries from region
           referenceCountriesESR = countries.filter(
             c =>
-              c.region_code === country.region_code &&
+              c[COLUMNS.COUNTRIES.UN_REGION] ===
+                country[COLUMNS.COUNTRIES.UN_REGION] &&
               c.country_code !== country.country_code,
           );
         }
@@ -1482,15 +1480,6 @@ export const getReferenceScores = createSelector(
           if (isCountryHighIncome(country) && isCountryOECD(country)) {
             referenceCountries = countries.filter(
               c => isCountryHighIncome(c) && isCountryOECD(c),
-            );
-          } else if (
-            SUBREGIONS_FOR_COMPARISON_CPR.indexOf(country.subregion_code) > -1
-          ) {
-            // use countries from same subregion
-            referenceCountries = countries.filter(
-              c =>
-                c.subregion_code === country.subregion_code &&
-                c.country_code !== country.country_code,
             );
           } else {
             // use other countries

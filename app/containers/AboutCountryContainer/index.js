@@ -271,40 +271,23 @@ function AboutCountryContainer({
       )}
       {(!collapsible || more) && (
         <>
-          <Box direction="row" margin={{ bottom: 'xsmall' }}>
-            <Box width="50%">
-              <Label>
-                <FormattedMessage {...messages.region} />
-              </Label>
-            </Box>
-            <Box width="50%">
-              {renderCategory(
-                intl.formatMessage(
-                  rootMessages.regions[country[COLUMNS.COUNTRIES.REGION]],
-                ),
-                onCategoryClick,
-                'region',
-                country[COLUMNS.COUNTRIES.REGION],
-              )}
-            </Box>
-          </Box>
-          {country[COLUMNS.COUNTRIES.SUBREGION] && (
+          {country[COLUMNS.COUNTRIES.UN_REGION] !== '' && (
             <Box direction="row" margin={{ bottom: 'xsmall' }}>
               <Box width="50%">
                 <Label>
-                  <FormattedMessage {...messages.subregion} />
+                  <FormattedMessage {...messages.un_region} />
                 </Label>
               </Box>
               <Box width="50%">
                 {renderCategory(
                   intl.formatMessage(
-                    rootMessages.subregions[
-                      country[COLUMNS.COUNTRIES.SUBREGION]
+                    rootMessages.un_regions[
+                      country[COLUMNS.COUNTRIES.UN_REGION]
                     ],
                   ),
                   onCategoryClick,
-                  'subregion',
-                  country[COLUMNS.COUNTRIES.SUBREGION],
+                  'unregion',
+                  country[COLUMNS.COUNTRIES.UN_REGION],
                 )}
               </Box>
             </Box>

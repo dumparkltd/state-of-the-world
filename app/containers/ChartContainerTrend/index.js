@@ -265,7 +265,7 @@ export function mapDispatchToProps(dispatch) {
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),
     onCategoryClick: (key, value) => {
-      const deleteParams = ['income', 'region', 'assessed'];
+      const deleteParams = ['income', 'unregion', 'assessed'];
       dispatch(
         navigate(
           { pathname: '', search: `?${key}=${value}` },

@@ -20,8 +20,7 @@ import {
   getBenchmarkSearch,
   getIndicatorScores,
   getStandardSearch,
-  getRegionSearch,
-  getSubregionSearch,
+  getUNRegionSearch,
   getIncomeSearch,
   getCountryGroupSearch,
   getTreatySearch,
@@ -159,8 +158,7 @@ export function ChartContainerMetric({
   scores,
   benchmark,
   standard,
-  regionFilterValue,
-  subregionFilterValue,
+  unRegionFilterValue,
   incomeFilterValue,
   countryGroupFilterValue,
   treatyFilterValue,
@@ -200,8 +198,7 @@ export function ChartContainerMetric({
     // check if any filters are already set -
     // if not we can just return all specified options
     areAnyFiltersSet(COUNTRY_FILTERS.SINGLE_METRIC, {
-      regionFilterValue,
-      subregionFilterValue,
+      unRegionFilterValue,
       incomeFilterValue,
       countryGroupFilterValue,
       treatyFilterValue,
@@ -251,8 +248,7 @@ export function ChartContainerMetric({
             }}
             messageValues={{ no: scores.length }}
             filter={{
-              regionFilterValue,
-              subregionFilterValue,
+              unRegionFilterValue,
               onRemoveFilter,
               onAddFilter,
               incomeFilterValue,
@@ -354,8 +350,7 @@ ChartContainerMetric.propTypes = {
   auxIndicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   onAddFilter: PropTypes.func,
   onRemoveFilter: PropTypes.func,
-  regionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-  subregionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   incomeFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   countryGroupFilterValue: PropTypes.oneOfType([
     PropTypes.bool,
@@ -394,8 +389,7 @@ const mapStateToProps = createStructuredSelector({
   auxIndicators: state => getAuxIndicatorsLatest(state),
   benchmark: state => getBenchmarkSearch(state),
   standard: state => getStandardSearch(state),
-  regionFilterValue: state => getRegionSearch(state),
-  subregionFilterValue: state => getSubregionSearch(state),
+  unRegionFilterValue: state => getUNRegionSearch(state),
   incomeFilterValue: state => getIncomeSearch(state),
   countryGroupFilterValue: state => getCountryGroupSearch(state),
   treatyFilterValue: state => getTreatySearch(state),

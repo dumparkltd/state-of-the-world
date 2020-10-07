@@ -68,6 +68,10 @@ export default defineMessages({
       defaultMessage: 'treaties',
     },
   },
+  un_region: {
+    id: `${scope}.un_region`,
+    defaultMessage: 'UN Regional Group',
+  },
   region: {
     id: `${scope}.region`,
     defaultMessage: 'Region',

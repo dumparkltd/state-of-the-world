@@ -179,8 +179,7 @@ export function ChartHeader({
               )}
               {filter && (
                 <ChartSettingFilters
-                  regionFilterValue={filter.regionFilterValue}
-                  subregionFilterValue={filter.subregionFilterValue}
+                  unRegionFilterValue={filter.unRegionFilterValue}
                   assessedFilterValue={filter.assessedFilterValue}
                   onRemoveFilter={filter.onRemoveFilter}
                   onAddFilter={filter.onAddFilter}

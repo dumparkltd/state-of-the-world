@@ -18,7 +18,7 @@ function NarrativeCPRGovRespondents({ countryGrammar, country, intl }) {
     ...getMessageGrammar(
       intl,
       country[COLUMNS.COUNTRIES.CODE],
-      country[COLUMNS.COUNTRIES.REGION],
+      country[COLUMNS.COUNTRIES.UN_REGION],
       countryGrammar,
     ),
   };

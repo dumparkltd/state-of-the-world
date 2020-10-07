@@ -13,13 +13,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Paragraph, Box, Heading } from 'grommet';
 import styled from 'styled-components';
 
-import {
-  COLUMNS,
-  BENCHMARKS,
-  STANDARDS,
-  SUBREGIONS_FOR_COMPARISON_CPR,
-  SUBREGIONS_CPR_COMPLETE,
-} from 'containers/App/constants';
+import { COLUMNS, BENCHMARKS, STANDARDS } from 'containers/App/constants';
 import {
   getStandardSearch,
   getBenchmarkSearch,
@@ -266,13 +260,7 @@ export function ChartContainerCountrySnapshot({
               dimensionKey="physint"
               score={dimensions.physint.score}
               someRights={hasSomePhysintScore}
-              hadSurvey={
-                hasSomePhysintScore ||
-                hasSomeEmpowermentScore ||
-                SUBREGIONS_CPR_COMPLETE.indexOf(
-                  country[COLUMNS.COUNTRIES.SUBREGION],
-                ) > -1
-              }
+              hadSurvey={hasSomePhysintScore || hasSomeEmpowermentScore}
               country={country}
               countryGrammar={countryGrammar}
               referenceScore={
@@ -285,12 +273,7 @@ export function ChartContainerCountrySnapshot({
                 dimensionAverages.physint &&
                 dimensionAverages.physint.count
               }
-              comparativeGroup={
-                SUBREGIONS_FOR_COMPARISON_CPR.indexOf(country.subregion_code) >
-                -1
-                  ? 'subregion'
-                  : 'all'
-              }
+              comparativeGroup="all"
             />
           </BreakBefore>
         </AddToPDFWrapper>
@@ -324,13 +307,7 @@ export function ChartContainerCountrySnapshot({
               dimensionKey="empowerment"
               score={dimensions.empowerment.score}
               someRights={hasSomeEmpowermentScore}
-              hadSurvey={
-                hasSomePhysintScore ||
-                hasSomeEmpowermentScore ||
-                SUBREGIONS_CPR_COMPLETE.indexOf(
-                  country[COLUMNS.COUNTRIES.SUBREGION],
-                ) > -1
-              }
+              hadSurvey={hasSomePhysintScore || hasSomeEmpowermentScore}
               country={country}
               countryGrammar={countryGrammar}
               referenceScore={
@@ -343,12 +320,7 @@ export function ChartContainerCountrySnapshot({
                 dimensionAverages.empowerment &&
                 dimensionAverages.empowerment.count
               }
-              comparativeGroup={
-                SUBREGIONS_FOR_COMPARISON_CPR.indexOf(country.subregion_code) >
-                -1
-                  ? 'subregion'
-                  : 'all'
-              }
+              comparativeGroup="all"
             />
           </Box>
         </AddToPDFWrapper>
@@ -422,13 +394,7 @@ export function ChartContainerCountrySnapshot({
             dimensionKey="physint"
             score={dimensions.physint.score}
             someRights={hasSomePhysintScore}
-            hadSurvey={
-              hasSomePhysintScore ||
-              hasSomeEmpowermentScore ||
-              SUBREGIONS_CPR_COMPLETE.indexOf(
-                country[COLUMNS.COUNTRIES.SUBREGION],
-              ) > -1
-            }
+            hadSurvey={hasSomePhysintScore || hasSomeEmpowermentScore}
             country={country}
             countryGrammar={countryGrammar}
             referenceScore={
@@ -441,11 +407,7 @@ export function ChartContainerCountrySnapshot({
               dimensionAverages.physint &&
               dimensionAverages.physint.count
             }
-            comparativeGroup={
-              SUBREGIONS_FOR_COMPARISON_CPR.indexOf(country.subregion_code) > -1
-                ? 'subregion'
-                : 'all'
-            }
+            comparativeGroup="all"
           />
           {hasSomePhysintScore && (
             <Paragraph>
@@ -474,13 +436,7 @@ export function ChartContainerCountrySnapshot({
             dimensionKey="empowerment"
             score={dimensions.empowerment.score}
             someRights={hasSomeEmpowermentScore}
-            hadSurvey={
-              hasSomePhysintScore ||
-              hasSomeEmpowermentScore ||
-              SUBREGIONS_CPR_COMPLETE.indexOf(
-                country[COLUMNS.COUNTRIES.SUBREGION],
-              ) > -1
-            }
+            hadSurvey={hasSomePhysintScore || hasSomeEmpowermentScore}
             country={country}
             countryGrammar={countryGrammar}
             referenceScore={
@@ -493,11 +449,7 @@ export function ChartContainerCountrySnapshot({
               dimensionAverages.empowerment &&
               dimensionAverages.empowerment.count
             }
-            comparativeGroup={
-              SUBREGIONS_FOR_COMPARISON_CPR.indexOf(country.subregion_code) > -1
-                ? 'subregion'
-                : 'all'
-            }
+            comparativeGroup="all"
           />
           {hasSomeEmpowermentScore && (
             <Paragraph>

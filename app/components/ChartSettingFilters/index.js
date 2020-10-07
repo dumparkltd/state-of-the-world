@@ -8,8 +8,8 @@ import { Close, FormDown } from 'grommet-icons';
 
 import {
   INCOME_GROUPS,
-  REGIONS,
-  SUBREGIONS,
+  // REGIONS,
+  // SUBREGIONS,
   COUNTRY_GROUPS,
   TREATIES,
   ASSESSED_FILTERS,
@@ -33,43 +33,43 @@ const StyledButtonIcon = styled(ButtonIcon)`
 const FilterWrap = styled.div``;
 
 const getFilterOptions = (
-  { region, subregion, income, assessed, cgroup, treaty },
+  { unregion, income, assessed, cgroup, treaty },
   intl,
   filterValues,
 ) => {
   let groups = [];
-  if ((!region || REGIONS.multiple) && filterValues.region) {
+  if (!unregion && filterValues.unregion) {
     groups = [
       ...groups,
       {
         group: 'regions',
         label: intl.formatMessage(messages.regionsFilterOptionGroup),
-        options: filterValues.region
-          .filter(value => !region || region.indexOf(value) === -1)
+        options: filterValues.unregion
+          .filter(value => !unregion || unregion.indexOf(value) === -1)
           .map(value => ({
-            key: 'region',
+            key: 'unregion',
             value,
-            label: intl.formatMessage(rootMessages.regions[value]),
+            label: intl.formatMessage(rootMessages.un_regions[value]),
           })),
       },
     ];
   }
-  if ((!subregion || SUBREGIONS.multiple) && filterValues.subregion) {
-    groups = [
-      ...groups,
-      {
-        group: 'subregions',
-        label: intl.formatMessage(messages.subregionsFilterOptionGroup),
-        options: filterValues.subregion
-          .filter(value => !subregion || subregion.indexOf(value) === -1)
-          .map(value => ({
-            key: 'subregion',
-            value,
-            label: intl.formatMessage(rootMessages.subregions[value]),
-          })),
-      },
-    ];
-  }
+  // if ((!subregion || SUBREGIONS.multiple) && filterValues.subregion) {
+  //   groups = [
+  //     ...groups,
+  //     {
+  //       group: 'subregions',
+  //       label: intl.formatMessage(messages.subregionsFilterOptionGroup),
+  //       options: filterValues.subregion
+  //         .filter(value => !subregion || subregion.indexOf(value) === -1)
+  //         .map(value => ({
+  //           key: 'subregion',
+  //           value,
+  //           label: intl.formatMessage(rootMessages.subregions[value]),
+  //         })),
+  //     },
+  //   ];
+  // }
   if ((!income || INCOME_GROUPS.multiple) && filterValues.income) {
     groups = [
       ...groups,
@@ -153,8 +153,9 @@ const renderContent = (filterOptions, setFilterOpen, onAddFilter) => (
 );
 
 export function ChartSettingFilters({
-  regionFilterValue,
-  subregionFilterValue,
+  unRegionFilterValue,
+  // regionFilterValue,
+  // subregionFilterValue,
   onRemoveFilter,
   onAddFilter,
   incomeFilterValue,
@@ -168,8 +169,9 @@ export function ChartSettingFilters({
   const [filterOpen, setFilterOpen] = useState(false);
   const countryTarget = useRef(null);
   const setFilters = {
-    region: filterValues.region && regionFilterValue,
-    subregion: filterValues.subregion && subregionFilterValue,
+    unregion: filterValues.unregion && unRegionFilterValue,
+    // region: filterValues.region && regionFilterValue,
+    // subregion: filterValues.subregion && subregionFilterValue,
     income: filterValues.income && incomeFilterValue,
     assessed: filterValues.assessed && assessedFilterValue,
     cgroup: filterValues.cgroup && countryGroupFilterValue,
@@ -181,8 +183,9 @@ export function ChartSettingFilters({
   );
   const optionGroups = getFilterOptions(
     {
-      region: regionFilterValue,
-      subregion: subregionFilterValue,
+      unregion: unRegionFilterValue,
+      // region: regionFilterValue,
+      // subregion: subregionFilterValue,
       income: incomeFilterValue,
       assessed: assessedFilterValue,
       cgroup: countryGroupFilterValue,
@@ -195,24 +198,24 @@ export function ChartSettingFilters({
     (memo, g) => memo || g.options.length > 0,
     false,
   );
+  // {setFilters.subregion &&
+  //   setFilters.subregion.map(value => (
+  //     <ActiveFilterButton
+  //       key={value}
+  //       onRemove={() => onRemoveFilter('subregion', value)}
+  //       label={intl.formatMessage(rootMessages.subregions[value])}
+  //     />
+  //   ))}
   return (
     <ResponsiveContext.Consumer>
       {size => (
         <FilterWrap>
-          {setFilters.region &&
-            setFilters.region.map(value => (
+          {setFilters.unregion &&
+            setFilters.unregion.map(value => (
               <ActiveFilterButton
                 key={value}
-                onRemove={() => onRemoveFilter('region', value)}
-                label={intl.formatMessage(rootMessages.regions[value])}
-              />
-            ))}
-          {setFilters.subregion &&
-            setFilters.subregion.map(value => (
-              <ActiveFilterButton
-                key={value}
-                onRemove={() => onRemoveFilter('subregion', value)}
-                label={intl.formatMessage(rootMessages.subregions[value])}
+                onRemove={() => onRemoveFilter('unregion', value)}
+                label={intl.formatMessage(rootMessages.un_regions[value])}
               />
             ))}
           {setFilters.income &&
@@ -291,8 +294,9 @@ export function ChartSettingFilters({
 
 ChartSettingFilters.propTypes = {
   intl: intlShape.isRequired,
-  regionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-  subregionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  // regionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  // subregionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   incomeFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   assessedFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   countryGroupFilterValue: PropTypes.oneOfType([

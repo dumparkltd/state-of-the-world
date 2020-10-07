@@ -1,8 +1,9 @@
 import {
   COLUMNS,
   INCOME_GROUPS,
-  REGIONS,
-  SUBREGIONS,
+  // REGIONS,
+  // SUBREGIONS,
+  UN_REGIONS,
   COUNTRY_GROUPS,
   TREATIES,
   ASSESSED_FILTERS,
@@ -19,8 +20,9 @@ import {
 export const areAnyFiltersSet = (
   filterGroups,
   {
-    regionFilterValue,
-    subregionFilterValue,
+    // regionFilterValue,
+    // subregionFilterValue,
+    unRegionFilterValue,
     incomeFilterValue,
     assessedFilterValue,
     countryGroupFilterValue,
@@ -31,8 +33,9 @@ export const areAnyFiltersSet = (
     (memo, filter) =>
       memo ||
       (filter === 'income' && !!incomeFilterValue) ||
-      (filter === 'region' && !!regionFilterValue) ||
-      (filter === 'subregion' && !!subregionFilterValue) ||
+      (filter === 'unregion' && !!unRegionFilterValue) ||
+      // (filter === 'region' && !!regionFilterValue) ||
+      // (filter === 'subregion' && !!subregionFilterValue) ||
       (filter === 'assessed' && !!assessedFilterValue) ||
       (filter === 'cgroup' && !!countryGroupFilterValue) ||
       (filter === 'treaty' && !!treatyFilterValue),
@@ -108,38 +111,54 @@ const getCountryFilterValues = (
   standard,
   scoresAllCountries,
 ) => {
-  if (filter === 'region') {
+  if (filter === 'unregion') {
     return countries
       .reduce(
         (memo, country) =>
           addCountryAttribute(
             memo,
             country,
-            COLUMNS.COUNTRIES.REGION,
-            REGIONS.values,
+            COLUMNS.COUNTRIES.UN_REGION,
+            UN_REGIONS.values,
           ),
         [],
       )
       .sort((a, b) =>
-        REGIONS.values.indexOf(a) > REGIONS.values.indexOf(b) ? 1 : -1,
+        UN_REGIONS.values.indexOf(a) > UN_REGIONS.values.indexOf(b) ? 1 : -1,
       );
   }
-  if (filter === 'subregion') {
-    return countries
-      .reduce(
-        (memo, country) =>
-          addCountryAttribute(
-            memo,
-            country,
-            COLUMNS.COUNTRIES.SUBREGION,
-            SUBREGIONS.values,
-          ),
-        [],
-      )
-      .sort((a, b) =>
-        SUBREGIONS.values.indexOf(a) > SUBREGIONS.values.indexOf(b) ? 1 : -1,
-      );
-  }
+  // if (filter === 'region') {
+  //   return countries
+  //     .reduce(
+  //       (memo, country) =>
+  //         addCountryAttribute(
+  //           memo,
+  //           country,
+  //           COLUMNS.COUNTRIES.REGION,
+  //           REGIONS.values,
+  //         ),
+  //       [],
+  //     )
+  //     .sort((a, b) =>
+  //       REGIONS.values.indexOf(a) > REGIONS.values.indexOf(b) ? 1 : -1,
+  //     );
+  // }
+  // if (filter === 'subregion') {
+  //   return countries
+  //     .reduce(
+  //       (memo, country) =>
+  //         addCountryAttribute(
+  //           memo,
+  //           country,
+  //           COLUMNS.COUNTRIES.SUBREGION,
+  //           SUBREGIONS.values,
+  //         ),
+  //       [],
+  //     )
+  //     .sort((a, b) =>
+  //       SUBREGIONS.values.indexOf(a) > SUBREGIONS.values.indexOf(b) ? 1 : -1,
+  //     );
+  // }
   if (filter === 'income') {
     return countries
       .reduce(
@@ -207,12 +226,15 @@ const getCountryFilterValues = (
   return [];
 };
 const getAllCountryFilterValues = filter => {
-  if (filter === 'region') {
-    return REGIONS.values;
+  if (filter === 'unregion') {
+    return UN_REGIONS.values;
   }
-  if (filter === 'subregion') {
-    return SUBREGIONS.values;
-  }
+  // if (filter === 'region') {
+  //   return REGIONS.values;
+  // }
+  // if (filter === 'subregion') {
+  //   return SUBREGIONS.values;
+  // }
   if (filter === 'income') {
     return INCOME_GROUPS.values.map(g => g.key);
   }

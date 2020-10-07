@@ -14,8 +14,7 @@ import { Box, InfiniteScroll, ResponsiveContext } from 'grommet';
 import styled, { withTheme } from 'styled-components';
 
 import {
-  getRegionSearch,
-  getSubregionSearch,
+  getUNRegionSearch,
   getIncomeSearch,
   getCountryGroupSearch,
   getTreatySearch,
@@ -86,8 +85,7 @@ const getCardWidth = (width, number, theme) => {
 export function OverviewCountries({
   countries,
   scoresAllCountries,
-  regionFilterValue,
-  subregionFilterValue,
+  unRegionFilterValue,
   incomeFilterValue,
   assessedFilterValue,
   countryGroupFilterValue,
@@ -133,8 +131,7 @@ export function OverviewCountries({
     sort && SORT_OPTIONS.indexOf(sort) > -1 ? sort : 'assessment';
   const currentSortOrder = sortOrder || COUNTRY_SORTS[currentSort].order;
   const filtersSet = areAnyFiltersSet(COUNTRY_FILTERS.ALL, {
-    regionFilterValue,
-    subregionFilterValue,
+    unRegionFilterValue,
     incomeFilterValue,
     assessedFilterValue,
     countryGroupFilterValue,
@@ -223,8 +220,7 @@ export function OverviewCountries({
               },
             }}
             filter={{
-              regionFilterValue,
-              subregionFilterValue,
+              unRegionFilterValue,
               onRemoveFilter,
               onAddFilter,
               incomeFilterValue,
@@ -374,8 +370,7 @@ OverviewCountries.propTypes = {
   scoresAllCountries: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   auxIndicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   dataReady: PropTypes.bool,
-  regionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-  subregionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   incomeFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   assessedFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   countryGroupFilterValue: PropTypes.oneOfType([
@@ -400,8 +395,7 @@ OverviewCountries.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  regionFilterValue: state => getRegionSearch(state),
-  subregionFilterValue: state => getSubregionSearch(state),
+  unRegionFilterValue: state => getUNRegionSearch(state),
   incomeFilterValue: state => getIncomeSearch(state),
   assessedFilterValue: state => getAssessedSearch(state),
   countryGroupFilterValue: state => getCountryGroupSearch(state),

@@ -31,7 +31,12 @@ import {
   navigate,
   selectCountry,
 } from 'containers/App/actions';
-import { PATHS, IMAGE_PATH, COLUMNS, REGIONS } from 'containers/App/constants';
+import {
+  PATHS,
+  IMAGE_PATH,
+  COLUMNS,
+  UN_REGIONS,
+} from 'containers/App/constants';
 
 import saga from 'containers/App/saga';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -104,14 +109,15 @@ export function PathPeople({
         })
         .filter(c => !!c)
         .sort((a, b) =>
-          REGIONS.values.indexOf(a[COLUMNS.COUNTRIES.REGION]) >
-          REGIONS.values.indexOf(b[COLUMNS.COUNTRIES.REGION])
+          UN_REGIONS.values.indexOf(a[COLUMNS.COUNTRIES.UN_REGION]) >
+          UN_REGIONS.values.indexOf(b[COLUMNS.COUNTRIES.UN_REGION])
             ? 1
             : -1,
         ),
-      c => c[COLUMNS.COUNTRIES.REGION],
+      c => c[COLUMNS.COUNTRIES.UN_REGION],
     );
   /* eslint-enable no-console */
+  console.log(groupedCountries);
   return (
     <ResponsiveContext.Consumer>
       {size => {
@@ -204,7 +210,9 @@ export function PathPeople({
                           key={regionCode}
                         >
                           <FormattedMessage
-                            {...rootMessages.regions[regionCode]}
+                            {...rootMessages.un_regions[
+                              regionCode !== '' ? regionCode : 'none'
+                            ]}
                           />
                           <Box>
                             {groupCountries

@@ -22,7 +22,7 @@ import ContentWrap from 'styled/ContentWrap';
 import ContentContainer from 'styled/ContentContainer';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import PageTitle from 'styled/PageTitle';
-import icon from 'images/graphics/about.png';
+// import icon from 'images/graphics/about.png';
 
 import rootMessages from 'messages';
 
@@ -57,20 +57,6 @@ const StyledContentSubHeading = styled.div`
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
     width: 60%;
-  }
-`;
-
-const StyledContentImg = styled.img`
-  display: none;
-  position: absolute;
-  top: -42px;
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    left: 60%;
-  }
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
-    display: block;
-    left: 75%;
-    width: 200px;
   }
 `;
 
@@ -129,7 +115,6 @@ export function AboutPathPage({
             <StyledContentSubHeading>
               <p>{subHeading}</p>
             </StyledContentSubHeading>
-            <StyledContentImg src={icon} />
           </ContentMaxWidth>
         </StyledContentHeader>
 
