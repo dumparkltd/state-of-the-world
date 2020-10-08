@@ -1850,16 +1850,25 @@ export const getHasCountryESRScores = createSelector(
   },
 );
 
+// export const getUNRegionsCountries = createSelector(
+//   getCountries,
+//   countries =>
+//     countries &&
+//     countries.filter(
+//       c =>
+//         c[COLUMNS.COUNTRIES.UN_REGION] &&
+//         c[COLUMNS.COUNTRIES.UN_REGION].trim() !== ''
+//     ),
+// );
+
 export const getHRCCountries = createSelector(
   getCountries,
   countries =>
     countries &&
     countries.filter(
       c =>
-        c[COLUMNS.COUNTRIES.UN_REGION] &&
-        c[COLUMNS.COUNTRIES.UN_REGION].trim() !== '',
-      // c[COLUMNS.COUNTRIES.HRC_TERMS] &&
-      // c[COLUMNS.COUNTRIES.HRC_TERMS].trim() !== '',
+        c[COLUMNS.COUNTRIES.HRC_TERMS] &&
+        c[COLUMNS.COUNTRIES.HRC_TERMS].trim() !== '',
     ),
 );
 export const getHRCCountryCodes = createSelector(
