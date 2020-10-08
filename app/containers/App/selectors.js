@@ -4,7 +4,7 @@
 
 import { createSelector } from 'reselect';
 import { uniq } from 'lodash/array';
-import { map } from 'lodash/collection';
+import { groupBy, map } from 'lodash/collection';
 import { DEFAULT_LOCALE, appLocales } from 'i18n';
 import 'url-search-params-polyfill';
 
@@ -1847,5 +1847,144 @@ export const getHasCountryESRScores = createSelector(
         countryScores &&
         countryScores.filter(s => s.standard === otherStandard.code).length > 0,
     };
+  },
+);
+
+export const getHRCCountries = createSelector(
+  getCountries,
+  countries =>
+    countries &&
+    countries.filter(
+      c =>
+        c[COLUMNS.COUNTRIES.UN_REGION] &&
+        c[COLUMNS.COUNTRIES.UN_REGION].trim() !== '',
+      // c[COLUMNS.COUNTRIES.HRC_TERMS] &&
+      // c[COLUMNS.COUNTRIES.HRC_TERMS].trim() !== '',
+    ),
+);
+export const getHRCCountryCodes = createSelector(
+  getHRCCountries,
+  countries => countries && countries.map(c => c[COLUMNS.COUNTRIES.CODE]),
+);
+const calculateRegionAverageColumn = (scores, column) =>
+  Object.keys(scores).reduce((memo, year) => {
+    const yearScores = scores[year];
+    const { sum, count } = yearScores.reduce(
+      (statsMemo, s) => ({
+        sum: statsMemo.sum + parseFloat(s[column]),
+        count: statsMemo.count + 1,
+      }),
+      { sum: 0, count: 0 },
+    );
+    return {
+      ...memo,
+      [year]: sum / count,
+    };
+  }, {});
+
+const calculateRegionAverage = (regionCode, countries, scores, columns) => {
+  const regionCountryCodes = countries
+    .filter(
+      c =>
+        regionCode === 'all' || c[COLUMNS.COUNTRIES.UN_REGION] === regionCode,
+    )
+    .map(c => c[COLUMNS.COUNTRIES.CODE]);
+  const scoresByYear = groupBy(
+    scores.filter(s => regionCountryCodes.indexOf(s.country_code) > -1),
+    s => s.year,
+  );
+  return columns.reduce(
+    (m, col) => ({
+      ...m,
+      [col.key]: calculateRegionAverageColumn(scoresByYear, col.column),
+    }),
+    {},
+  );
+};
+
+export const getESRScoresForUNRegions = createSelector(
+  (state, { metricCode }) => metricCode,
+  (state, { standard }) => standard,
+  getESRScores,
+  getHRCCountries,
+  getHRCCountryCodes,
+  (metricCode, standardKey, scores, countries, countryCodes) => {
+    const metric = getMetricDetails(metricCode);
+    const standard = STANDARDS.find(s => s.key === standardKey);
+    const group = PEOPLE_GROUPS.find(g => g.key === 'all');
+    if (metric && group && countries && scores) {
+      // prettier-ignore
+      const scoresFiltered = scores.filter(s =>
+        s[COLUMNS.ESR.GROUP] === group.code &&
+        s[COLUMNS.ESR.STANDARD] === standard.code &&
+        s[COLUMNS.ESR.METRIC] === metric.code &&
+        countryCodes.indexOf(s.country_code) > -1,
+      );
+      const regionScores = UN_REGIONS.values.reduce(
+        (m, regionCode) => ({
+          ...m,
+          [regionCode]: calculateRegionAverage(
+            regionCode,
+            countries,
+            scoresFiltered,
+            BENCHMARKS,
+          ),
+        }),
+        {},
+      );
+      const globalScores = calculateRegionAverage(
+        'all',
+        countries,
+        scoresFiltered,
+        BENCHMARKS,
+      );
+      // console.log(regionScores)
+      return {
+        all: globalScores,
+        ...regionScores,
+      };
+    }
+    return null;
+  },
+);
+export const getCPRScoresForUNRegions = createSelector(
+  (state, { metricCode }) => metricCode,
+  getCPRScores,
+  getHRCCountries,
+  getHRCCountryCodes,
+  (metricCode, scores, countries, countryCodes) => {
+    const metric = getMetricDetails(metricCode);
+    if (metric && countries && scores) {
+      // prettier-ignore
+      const scoresFiltered = scores.filter(s =>
+        s[COLUMNS.CPR.METRIC] === metric.code &&
+        countryCodes.indexOf(s.country_code) > -1,
+      );
+      const columns = [{ key: 'mean', column: COLUMNS.CPR.MEAN }];
+      const regionScores = UN_REGIONS.values.reduce(
+        (m, regionCode) => ({
+          ...m,
+          [regionCode]: calculateRegionAverage(
+            regionCode,
+            countries,
+            scoresFiltered,
+            columns,
+          ),
+        }),
+        {},
+      );
+      const globalScores = calculateRegionAverage(
+        'all',
+        countries,
+        scoresFiltered,
+        columns,
+      );
+      // console.log(regionScores)
+      return {
+        all: globalScores,
+        ...regionScores,
+      };
+    }
+    return null;
   },
 );

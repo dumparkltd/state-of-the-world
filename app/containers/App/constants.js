@@ -62,6 +62,7 @@ export const COLUMNS = {
     MEAN: 'mean',
     LO: 'lobound_10',
     HI: 'upbound_90',
+    METRIC: 'metric_code',
   },
   ESR: {
     SCORE_ADJUSTED: 'score_wrt_immediate_duty',
@@ -70,6 +71,10 @@ export const COLUMNS = {
     INDICATOR_SCORE_DUTY_BEST: 'immediate_duty_wrt_global_best',
     PENALTY: 'penalty',
     RAW: 'value',
+    GROUP: 'group',
+    STANDARD: 'standard',
+    COUNTRY: 'country_code',
+    METRIC: 'metric_code',
     RAW_REF: 'immediate_duty',
     RAW_REF_MIN: 'natural_minimum',
     RAW_REF_BEST: 'global_best_all',

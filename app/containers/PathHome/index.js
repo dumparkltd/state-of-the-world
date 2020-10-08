@@ -10,39 +10,19 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import {
-  getNumberCountriesWithScores,
-  getFeaturedCountries,
-  getLocale,
-  getPeopleAtRiskCountryNo,
-} from 'containers/App/selectors';
-import {
-  loadDataIfNeeded,
-  navigate,
-  selectCountry,
-  selectMetric,
-} from 'containers/App/actions';
-import {
-  RIGHTS,
-  PATHS,
-  COUNTRY_FILTERS,
-  AT_RISK_GROUPS,
-} from 'containers/App/constants';
+import { getLocale } from 'containers/App/selectors';
+import { loadDataIfNeeded, navigate } from 'containers/App/actions';
+import { RIGHTS } from 'containers/App/constants';
 
 import saga from 'containers/App/saga';
 import { useInjectSaga } from 'utils/injectSaga';
 
-import SectionRights from 'components/Sections/SectionRights';
 import SectionIntro from 'components/Sections/SectionIntro';
-import SectionOurData from 'components/Sections/SectionOurData';
-import SectionDataCards from 'components/Sections/SectionDataCards';
-import SectionCountries from 'components/Sections/SectionCountries';
-import SectionSearch from 'components/Sections/SectionSearch';
-import SectionPeople from 'components/Sections/SectionPeople';
-import SectionAbout from 'components/Sections/SectionAbout';
 import SectionFooter from 'components/Sections/SectionFooter';
+import ChartContainerRegionMetricTrend from 'containers/ChartContainerRegionMetricTrend';
 
 // styles
+import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentWrap from 'styled/ContentWrap';
 
 const DEPENDENCIES = [
@@ -53,50 +33,46 @@ const DEPENDENCIES = [
   'cprScores',
 ];
 
-export function PathHome({
-  onLoadData,
-  nav,
-  countryCount,
-  countriesFeatured,
-  onSelectMetric,
-  onSelectCountry,
-  onSelectCountryCategory,
-  locale,
-  countryCountAtRisk,
-}) {
+export function PathHome({ onLoadData, nav, locale }) {
   useInjectSaga({ key: 'app', saga });
   useEffect(() => {
     // kick off loading of data
     onLoadData();
   }, []);
+  const cpr = RIGHTS.filter(right => right.type === 'cpr');
+  const esr = RIGHTS.filter(right => right.type === 'esr');
   return (
     <ContentWrap>
       <SectionIntro />
-      <SectionDataCards
-        noCountries={countryCount}
-        noRights={RIGHTS.length}
-        noGroups={AT_RISK_GROUPS.length}
-        navCountries={() => nav(PATHS.COUNTRIES)}
-        navRights={() => nav(PATHS.METRICS)}
-        navGroups={() => nav(PATHS.GROUPS)}
-      />
-      <SectionRights
-        rights={RIGHTS}
-        onSelectRight={onSelectMetric}
-        navAllRights={() => nav(PATHS.METRICS)}
-        allCats
-        marginTop
-      />
-      <SectionCountries
-        countries={countriesFeatured}
-        onSelectCountry={onSelectCountry}
-        navAllCountries={() => nav(PATHS.COUNTRIES)}
-        onCatClick={cat => onSelectCountryCategory('featured', cat)}
-      />
-      <SectionSearch />
-      <SectionPeople nav={nav} countryNo={countryCountAtRisk} />
-      <SectionOurData locale={locale} nav={nav} />
-      <SectionAbout locale={locale} nav={nav} />
+      <ContentMaxWidth column>
+        <h1>CPR</h1>
+        {cpr.map(right => (
+          <ChartContainerRegionMetricTrend
+            key={right.key}
+            metricCode={right.key}
+          />
+        ))}
+      </ContentMaxWidth>
+      <ContentMaxWidth column>
+        <h1>ESR - low & middle income standard</h1>
+        {esr.map(right => (
+          <ChartContainerRegionMetricTrend
+            key={right.key}
+            metricCode={right.key}
+            standard="core"
+          />
+        ))}
+      </ContentMaxWidth>
+      <ContentMaxWidth column>
+        <h1>ESR - high income standard</h1>
+        {esr.map(right => (
+          <ChartContainerRegionMetricTrend
+            key={right.key}
+            metricCode={right.key}
+            standard="hi"
+          />
+        ))}
+      </ContentMaxWidth>
       <SectionFooter locale={locale} nav={nav} />
     </ContentWrap>
   );
@@ -105,21 +81,11 @@ export function PathHome({
 PathHome.propTypes = {
   nav: PropTypes.func.isRequired,
   onLoadData: PropTypes.func.isRequired,
-  // dataReady: PropTypes.bool,
-  countryCount: PropTypes.number,
-  countryCountAtRisk: PropTypes.number,
-  countriesFeatured: PropTypes.array,
-  onSelectMetric: PropTypes.func,
-  onSelectCountry: PropTypes.func,
-  onSelectCountryCategory: PropTypes.func,
   locale: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  countriesFeatured: state => getFeaturedCountries(state),
-  countryCount: state => getNumberCountriesWithScores(state),
   locale: state => getLocale(state),
-  countryCountAtRisk: state => getPeopleAtRiskCountryNo(state),
 });
 
 export function mapDispatchToProps(dispatch) {
@@ -127,27 +93,6 @@ export function mapDispatchToProps(dispatch) {
     onLoadData: () => {
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key)));
     },
-    onSelectCountry: country => dispatch(selectCountry(country)),
-    onSelectMetric: metric => dispatch(selectMetric(metric)),
-    onSelectCountryCategory: (key, value) =>
-      dispatch(
-        navigate(
-          {
-            pathname: `/${PATHS.COUNTRIES}`,
-            search: `?${key}=${value}`,
-          },
-          {
-            replace: false,
-            deleteParams: COUNTRY_FILTERS.ALL,
-            multiple: true,
-            trackEvent: {
-              category: 'Data',
-              action: 'Country filter (Overview)',
-              value: `${key}/${value}`,
-            },
-          },
-        ),
-      ),
     // navigate to location
     nav: location => {
       dispatch(
