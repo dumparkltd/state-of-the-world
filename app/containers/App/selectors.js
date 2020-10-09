@@ -1887,7 +1887,10 @@ const calculateRegionAverageColumn = (scores, column) =>
     );
     return {
       ...memo,
-      [year]: sum / count,
+      [year]: {
+        average: sum / count,
+        count,
+      },
     };
   }, {});
 

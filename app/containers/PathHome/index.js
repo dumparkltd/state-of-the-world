@@ -17,7 +17,7 @@ import { RIGHTS } from 'containers/App/constants';
 import saga from 'containers/App/saga';
 import { useInjectSaga } from 'utils/injectSaga';
 
-import SectionIntro from 'components/Sections/SectionIntro';
+// import SectionIntro from 'components/Sections/SectionIntro';
 import SectionFooter from 'components/Sections/SectionFooter';
 import ChartContainerRegionMetricTrend from 'containers/ChartContainerRegionMetricTrend';
 
@@ -41,9 +41,9 @@ export function PathHome({ onLoadData, nav, locale }) {
   }, []);
   const cpr = RIGHTS.filter(right => right.type === 'cpr');
   const esr = RIGHTS.filter(right => right.type === 'esr');
+  // <SectionIntro />
   return (
     <ContentWrap>
-      <SectionIntro />
       <ContentMaxWidth column>
         <h1>CPR</h1>
         {cpr.map(right => (
