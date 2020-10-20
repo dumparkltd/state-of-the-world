@@ -508,6 +508,7 @@ export const getESRDimensionScores = createSelector(
   (scores, countries, hasChartSettingFilters, standardSearch, year) => {
     const standard = STANDARDS.find(as => as.key === standardSearch);
     const dimension = DIMENSIONS.find(d => d.key === 'esr');
+    const countryCodes = countries ? countries.map(c => c.country_code) : [];
     return (
       standard &&
       dimension &&
@@ -518,8 +519,7 @@ export const getESRDimensionScores = createSelector(
           s.standard === standard.code &&
           s.metric_code === dimension.code &&
           quasiEquals(s.year, year) &&
-          (!hasChartSettingFilters ||
-            countries.map(c => c.country_code).indexOf(s.country_code) > -1),
+          countryCodes.indexOf(s.country_code) > -1,
       )
     );
   },
@@ -534,6 +534,7 @@ export const getCPRDimensionScores = createSelector(
   (metric, scores, countries, hasChartSettingFilters, year) => {
     // make sure a metric is set
     const dimension = !!metric && DIMENSIONS.find(d => d.key === metric);
+    const countryCodes = countries ? countries.map(c => c.country_code) : [];
     return (
       dimension &&
       scores &&
@@ -542,8 +543,7 @@ export const getCPRDimensionScores = createSelector(
         s =>
           s.metric_code === dimension.code &&
           quasiEquals(s.year, year) &&
-          (!hasChartSettingFilters ||
-            countries.map(c => c.country_code).indexOf(s.country_code) > -1),
+          countryCodes.indexOf(s.country_code) > -1,
       )
     );
   },
@@ -561,6 +561,7 @@ export const getESRRightScores = createSelector(
     const standard = STANDARDS.find(as => as.key === standardSearch);
     const group = PEOPLE_GROUPS[0];
     const right = !!metric && RIGHTS.find(d => d.key === metric);
+    const countryCodes = countries ? countries.map(c => c.country_code) : [];
     return (
       scores &&
       countries &&
@@ -571,8 +572,7 @@ export const getESRRightScores = createSelector(
           s.standard === standard.code &&
           s.metric_code === right.code &&
           quasiEquals(s.year, year) &&
-          (!hasChartSettingFilters ||
-            countries.map(c => c.country_code).indexOf(s.country_code) > -1),
+          countryCodes.indexOf(s.country_code) > -1,
       )
     );
   },
@@ -587,6 +587,7 @@ export const getCPRRightScores = createSelector(
   getCPRYear,
   (metric, scores, countries, hasChartSettingFilters, year) => {
     const right = !!metric && RIGHTS.find(d => d.key === metric);
+    const countryCodes = countries ? countries.map(c => c.country_code) : [];
     return (
       scores &&
       countries &&
@@ -595,8 +596,7 @@ export const getCPRRightScores = createSelector(
         s =>
           s.metric_code === right.code &&
           quasiEquals(s.year, year) &&
-          (!hasChartSettingFilters ||
-            countries.map(c => c.country_code).indexOf(s.country_code) > -1),
+          countryCodes.indexOf(s.country_code) > -1,
       )
     );
   },
@@ -614,12 +614,14 @@ export const getIndicatorScores = createSelector(
       const group = PEOPLE_GROUPS[0];
       if (indicator) {
         // first filter by group, metric, countries
+        const countryCodes = countries
+          ? countries.map(c => c.country_code)
+          : [];
         const filteredScores = scores.filter(
           s =>
             s.group === group.code &&
             s.metric_code === indicator.code &&
-            (!hasChartSettingFilters ||
-              countries.map(c => c.country_code).indexOf(s.country_code) > -1),
+            countryCodes.indexOf(s.country_code) > -1,
         );
         // then get the most recent year for each country
         // figure out most recent data by country
