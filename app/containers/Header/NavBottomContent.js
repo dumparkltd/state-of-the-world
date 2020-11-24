@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import NavCountry from 'containers/Search/NavCountry';
 import NavMetric from 'containers/Search/NavMetric';
-import NavGroups from 'containers/Search/NavGroups';
 
 const NavBottomContent = ({ type, size, onClose, setOpen }) => {
   if (type === 'metrics') {
@@ -20,17 +19,6 @@ const NavBottomContent = ({ type, size, onClose, setOpen }) => {
   if (type === 'countries') {
     return (
       <NavCountry
-        size={size}
-        onClose={() => {
-          if (onClose) onClose();
-          setOpen(false);
-        }}
-      />
-    );
-  }
-  if (type === 'people') {
-    return (
-      <NavGroups
         size={size}
         onClose={() => {
           if (onClose) onClose();

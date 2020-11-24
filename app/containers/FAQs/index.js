@@ -7,8 +7,6 @@ import styled from 'styled-components';
 import { Accordion, AccordionPanel, Box, Heading, Text } from 'grommet';
 import { Down, Up } from 'grommet-icons';
 
-import { STANDARDS } from 'containers/App/constants';
-import AboutMetricSources from 'containers/AboutMetricSources';
 import FormattedMarkdown from 'components/FormattedMarkdown';
 
 import { navigate } from 'containers/App/actions';
@@ -16,8 +14,6 @@ import InfoBenchmark from 'containers/LayerSettings/InfoBenchmark';
 import InfoStandard from 'containers/LayerSettings/InfoStandard';
 
 import { lowerCase } from 'utils/string';
-
-import UL from 'styled/UL';
 
 import rootMessages from 'messages';
 import aboutMessages from 'components/AboutMetric/messages';
@@ -30,9 +26,6 @@ const OL = styled.ol`
 `;
 const LI = styled.li`
   margin-bottom: 8px;
-`;
-const StyledUL = styled(UL)`
-  margin-top: 0;
 `;
 const StyledText = styled(Text)`
   font-size: 14px;
@@ -141,19 +134,7 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
   );
 };
 
-function FAQs({
-  questions,
-  intl,
-  metric,
-  navMethodology,
-  metrics,
-  metricInfo,
-  standard,
-  showSources,
-  onSelectMetric,
-  dateRange,
-  countryCode,
-}) {
+function FAQs({ questions, intl, metric, navMethodology, metrics }) {
   const [actives, setActive] = useState([]);
   const msgValues = {
     metric,
@@ -161,21 +142,15 @@ function FAQs({
   };
 
   let metricType;
-  let hasIndicator;
   let hasAbout;
   const aboutIndex = 0;
-  let indicatorIndex;
-  let sourceIndex;
 
   // for metric pages
   if (metrics) {
     /* eslint-disable prefer-destructuring */
     metricType = metrics.metricType;
     /* eslint-enable prefer-destructuring */
-    hasIndicator = metricType === 'indicators' && metricInfo;
     hasAbout = rootMessages[`${metricType}-about`];
-    indicatorIndex = hasIndicator && hasAbout ? 1 : 0;
-    sourceIndex = aboutIndex + indicatorIndex + 1;
   }
 
   return (
@@ -224,96 +199,6 @@ function FAQs({
             </Box>
           </AccordionPanel>
         )}
-        {hasIndicator && (
-          <AccordionPanel
-            header={
-              <Box
-                direction="row"
-                gap="xsmall"
-                align="center"
-                justify="between"
-              >
-                <Box>
-                  <Heading
-                    responsive={false}
-                    level={6}
-                    margin={{ vertical: 'xsmall' }}
-                    style={{ fontWeight: 400 }}
-                  >
-                    <FormattedMessage {...aboutMessages.titleStandards} />
-                  </Heading>
-                </Box>
-                <Box margin={{ left: 'auto' }}>
-                  {!actives.includes(indicatorIndex) && <Down size="small" />}
-                  {actives.includes(indicatorIndex) && <Up size="small" />}
-                </Box>
-              </Box>
-            }
-          >
-            <Box pad={{ vertical: 'small', horizontal: 'xsmall' }} border="top">
-              {metricInfo.standard === 'Both' && (
-                <StyledUL>
-                  {STANDARDS.map(s => (
-                    <li key={s.key}>
-                      <FormattedMessage
-                        {...rootMessages.settings.standard[s.key]}
-                      />
-                    </li>
-                  ))}
-                </StyledUL>
-              )}
-              {metricInfo.standard !== 'Both' && standard && (
-                <FormattedMessage
-                  {...rootMessages.settings.standard[standard.key]}
-                />
-              )}
-            </Box>
-          </AccordionPanel>
-        )}
-        {showSources && (
-          <AccordionPanel
-            header={
-              <Box
-                direction="row"
-                gap="xsmall"
-                align="center"
-                justify="between"
-              >
-                <Box>
-                  <Heading
-                    responsive={false}
-                    level={6}
-                    margin={{ vertical: 'xsmall' }}
-                    style={{ fontWeight: 400 }}
-                  >
-                    {metricType === 'indicators' && (
-                      <FormattedMessage {...aboutMessages.titleSource} />
-                    )}
-                    {metricType !== 'indicators' && (
-                      <FormattedMessage
-                        {...aboutMessages.titleSourcesByIndicator}
-                      />
-                    )}
-                  </Heading>
-                </Box>
-                <Box margin={{ left: 'auto' }}>
-                  {!actives.includes(sourceIndex) && <Down size="small" />}
-                  {actives.includes(sourceIndex) && <Up size="small" />}
-                </Box>
-              </Box>
-            }
-          >
-            <Box pad={{ vertical: 'small', horizontal: 'xsmall' }} border="top">
-              <AboutMetricSources
-                metric={metrics}
-                indicatorInfo={metricInfo}
-                onSelectMetric={onSelectMetric}
-                countryCode={countryCode}
-                dateRange={dateRange}
-              />
-            </Box>
-          </AccordionPanel>
-        )}
 
         {/* for all pages */}
         {questions.map((q, index) => (
@@ -352,17 +237,15 @@ function FAQs({
 }
 
 FAQs.propTypes = {
-  navMethodology: PropTypes.func,
-  metric: PropTypes.string,
   questions: PropTypes.array,
-  intl: intlShape.isRequired,
+  metric: PropTypes.string,
   metrics: PropTypes.object,
-  metricInfo: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  standard: PropTypes.object,
-  showSources: PropTypes.bool,
   onSelectMetric: PropTypes.func,
-  countryCode: PropTypes.string,
+  showSources: PropTypes.bool,
   dateRange: PropTypes.object,
+  countryCode: PropTypes.string,
+  navMethodology: PropTypes.func,
+  intl: intlShape.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

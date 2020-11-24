@@ -6,12 +6,10 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Box } from 'grommet';
 import { withTheme } from 'styled-components';
 
-import { PATHS } from 'containers/App/constants';
-import { selectCountry, navigate } from 'containers/App/actions';
+import { selectCountry } from 'containers/App/actions';
 import { getCountries } from 'containers/App/selectors';
 
 import { getHeaderHeight } from 'utils/responsive';
-import rootMessages from 'messages';
 
 import { prepCountries } from './search';
 
@@ -28,7 +26,6 @@ export function NavCountry({
   intl,
   onClose,
   size,
-  nav,
   theme,
 }) {
   const [search, setSearch] = useState('');
@@ -75,25 +72,6 @@ export function NavCountry({
       />
       <NavScroll>
         <Box flex overflow="auto" pad={{ vertical: 'medium' }}>
-          {search === '' && (
-            <NavOptionGroup
-              label={intl.formatMessage(messages.optionGroups.overview)}
-              options={[
-                {
-                  key: 'countries',
-                  code: 'countries',
-                  label: intl.formatMessage(rootMessages.labels.allCountries),
-                  special: true,
-                },
-              ]}
-              activeResult={activeResult}
-              onClick={() => {
-                onClose();
-                nav(PATHS.COUNTRIES);
-              }}
-              special
-            />
-          )}
           {(!sorted || sorted.length === 0) && (
             <FormattedMessage {...messages.noResults} />
           )}
@@ -117,7 +95,6 @@ export function NavCountry({
 NavCountry.propTypes = {
   onSelectCountry: PropTypes.func,
   onClose: PropTypes.func,
-  nav: PropTypes.func,
   // currentCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   countries: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   intl: intlShape.isRequired,
@@ -132,18 +109,6 @@ const mapStateToProps = state => ({
 export function mapDispatchToProps(dispatch) {
   return {
     onSelectCountry: country => dispatch(selectCountry(country)),
-    nav: location => {
-      dispatch(
-        navigate(location, {
-          keepTab: true,
-          trackEvent: {
-            category: 'Content',
-            action: 'Header: navigate',
-            value: typeof location === 'object' ? location.pathname : location,
-          },
-        }),
-      );
-    },
   };
 }
 

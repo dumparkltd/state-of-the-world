@@ -5,11 +5,7 @@ import { compose } from 'redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Box } from 'grommet';
 
-import {
-  selectCountry,
-  selectMetric,
-  selectGroup,
-} from 'containers/App/actions';
+import { selectCountry, selectMetric } from 'containers/App/actions';
 import Hint from 'styled/Hint';
 
 import rootMessages from 'messages';
@@ -19,13 +15,9 @@ import NavOptionGroup from './NavOptionGroup';
 
 export function SearchResults({
   countries,
-  dimensions,
   rights,
-  indicators,
-  groups,
   onSelectCountry,
   onSelectMetric,
-  onSelectGroup,
   onSelect,
   intl,
   onClose,
@@ -59,23 +51,21 @@ export function SearchResults({
     };
   }, [activeResult, maxResult]);
 
-  const hasMetrics =
-    dimensions.length > 0 || rights.length > 0 || indicators.length > 0;
+  const hasMetrics = rights.length > 0;
   const hasCountries = countries && countries.length > 0;
-  const hasGroups = groups && groups.length > 0;
   return (
     <Box flex overflow="auto" pad={{ top: 'medium' }}>
-      {!hasCountries && !hasMetrics && !hasGroups && (
+      {!hasCountries && !hasMetrics && (
         <Box pad="small">
           <Hint italic>
             <FormattedMessage {...messages.noResults} />
           </Hint>
         </Box>
       )}
-      {dimensions.length > 0 && (
+      {rights.length > 0 && (
         <NavOptionGroup
-          label={intl.formatMessage(rootMessages.metricTypes.dimensions)}
-          options={dimensions}
+          label={intl.formatMessage(rootMessages.metricTypes.rights)}
+          options={rights}
           activeResult={activeResult}
           onClick={key => {
             onClose();
@@ -86,82 +76,18 @@ export function SearchResults({
           onFocus={index => setActiveResult(index)}
         />
       )}
-      {rights.length > 0 && (
-        <NavOptionGroup
-          label={intl.formatMessage(rootMessages.metricTypes.rights)}
-          options={rights}
-          activeResult={activeResult - dimensions.length}
-          onClick={key => {
-            onClose();
-            onSelect();
-            onSelectMetric(key);
-          }}
-          focus={focus}
-          onFocus={index => setActiveResult(index + dimensions.length)}
-        />
-      )}
-      {indicators.length > 0 && (
-        <NavOptionGroup
-          label={intl.formatMessage(rootMessages.metricTypes.indicators)}
-          options={indicators}
-          activeResult={activeResult - dimensions.length - rights.length}
-          onClick={key => {
-            onClose();
-            onSelect();
-            onSelectMetric(key);
-          }}
-          focus={focus}
-          onFocus={index =>
-            setActiveResult(index + dimensions.length + rights.length)
-          }
-        />
-      )}
       {hasCountries && (
         <NavOptionGroup
           label={intl.formatMessage(rootMessages.labels.countries)}
           options={countries}
-          activeResult={
-            activeResult - dimensions.length - rights.length - indicators.length
-          }
+          activeResult={activeResult - rights.length}
           onClick={key => {
             onClose();
             onSelect();
             onSelectCountry(key);
           }}
           focus={focus}
-          onFocus={index =>
-            setActiveResult(
-              index + dimensions.length + rights.length + indicators.length,
-            )
-          }
-        />
-      )}
-      {hasGroups && (
-        <NavOptionGroup
-          label={intl.formatMessage(rootMessages.labels.people)}
-          options={groups}
-          activeResult={
-            activeResult -
-            dimensions.length -
-            rights.length -
-            indicators.length -
-            countries.length
-          }
-          onClick={key => {
-            onClose();
-            onSelect();
-            onSelectGroup(key);
-          }}
-          focus={focus}
-          onFocus={index =>
-            setActiveResult(
-              index +
-                dimensions.length +
-                rights.length +
-                indicators.length +
-                countries.length,
-            )
-          }
+          onFocus={index => setActiveResult(index + rights.length)}
         />
       )}
     </Box>
@@ -171,13 +97,9 @@ export function SearchResults({
 SearchResults.propTypes = {
   onSelectCountry: PropTypes.func,
   onSelectMetric: PropTypes.func,
-  onSelectGroup: PropTypes.func,
   setActiveResult: PropTypes.func,
   countries: PropTypes.array,
-  indicators: PropTypes.array,
   rights: PropTypes.array,
-  dimensions: PropTypes.array,
-  groups: PropTypes.array,
   onClose: PropTypes.func,
   onSelect: PropTypes.func,
   search: PropTypes.string,
@@ -190,7 +112,6 @@ export function mapDispatchToProps(dispatch) {
   return {
     onSelectMetric: code => dispatch(selectMetric(code)),
     onSelectCountry: code => dispatch(selectCountry(code)),
-    onSelectGroup: code => dispatch(selectGroup(code)),
     intl: intlShape.isRequired,
   };
 }

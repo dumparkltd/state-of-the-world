@@ -50,24 +50,18 @@ import {
   PAGES_URL,
   SELECT_COUNTRY,
   SELECT_METRIC,
-  SELECT_GROUP,
   NAVIGATE,
   STANDARDS,
   INCOME_GROUPS,
-  SET_SCALE,
   SET_STANDARD,
-  SET_BENCHMARK,
   SET_TAB,
-  SET_RAW,
   CHECK_COOKIECONSENT,
   COOKIECONSENT_NAME,
   SET_COOKIECONSENT,
   COOKIECONSENT_CHECKED,
   GA_PROPERTY_ID,
   TRACK_EVENT,
-  TOGGLE_GROUP,
   PATHS,
-  HIGHLIGHT_GROUP,
 } from './constants';
 
 const MAX_LOAD_ATTEMPTS = 5;
@@ -234,29 +228,6 @@ export function* selectCountrySaga({ code, tab, atRisk }) {
   yield put(push(`/${requestLocale}/${PATHS.COUNTRY}/${code}${search}`));
 }
 
-const getScaleValue = value => {
-  if (value === 'r') return 'rights';
-  if (value === 'd') return 'dimensions';
-  return value;
-};
-
-export function* setScaleSaga({ value }) {
-  // get URL search params
-  const searchParams = yield select(getRouterSearchParams);
-  yield searchParams.set('scale', value);
-
-  yield put(
-    trackEvent({
-      category: 'Setting',
-      action: 'Change scale',
-      value: getScaleValue(value),
-    }),
-  );
-  // navigate to country and default standard
-  const path = yield select(getRouterPath);
-  yield put(replace(`${path}?${searchParams.toString()}`));
-}
-
 export function* setStandardSaga({ value }) {
   // get URL search params
   const searchParams = yield select(getRouterSearchParams);
@@ -273,74 +244,7 @@ export function* setStandardSaga({ value }) {
   const path = yield select(getRouterPath);
   yield put(replace(`${path}?${searchParams.toString()}`));
 }
-export function* highlightGroupSaga({ code }) {
-  // get URL search params
-  const searchParams = yield select(getRouterSearchParams);
-  if (code) {
-    yield searchParams.set('atRisk', code);
-  } else {
-    searchParams.delete('atRisk');
-  }
 
-  yield put(
-    trackEvent({
-      category: 'Setting',
-      action: 'Change at risk group highlight',
-      value: code,
-    }),
-  );
-  // navigate to country and default standard
-  const path = yield select(getRouterPath);
-  yield put(replace(`${path}?${searchParams.toString()}`));
-}
-
-export function* setBenchmarkSaga({ value }) {
-  // get URL search params
-  const searchParams = yield select(getRouterSearchParams);
-  yield searchParams.set('pb', value);
-
-  yield put(
-    trackEvent({
-      category: 'Setting',
-      action: 'Change benchmark',
-      value,
-    }),
-  );
-  // navigate to country and default standard
-  const path = yield select(getRouterPath);
-  yield put(replace(`${path}?${searchParams.toString()}`));
-}
-export function* setRawSaga({ value }) {
-  // get URL search params
-  const searchParams = yield select(getRouterSearchParams);
-  yield searchParams.set('raw', value ? '1' : '0');
-
-  const path = yield select(getRouterPath);
-  yield put(
-    trackEvent({
-      category: 'Setting',
-      action: 'Change raw',
-      value,
-    }),
-  );
-  yield put(push(`${path}?${searchParams.toString()}`));
-}
-
-export function* toggleGroupSaga({ values }) {
-  // get URL search params
-  const searchParams = yield select(getRouterSearchParams);
-  searchParams.delete('gactive');
-  values.forEach(g => searchParams.append('gactive', g));
-  const path = yield select(getRouterPath);
-  yield put(
-    trackEvent({
-      category: 'Setting',
-      action: 'Toggle groups',
-      value: values.toString(),
-    }),
-  );
-  yield put(push(`${path}?${searchParams.toString()}`));
-}
 export function* setTabSaga({ value }) {
   // get URL search params
   const searchParams = yield select(getRouterSearchParams);
@@ -375,22 +279,6 @@ export function* selectMetricSaga({ code }) {
   );
   yield put(setAsideLayer(null));
   yield put(push(`/${requestLocale}/${PATHS.METRIC}/${code}${search}`));
-}
-export function* selectGroupSaga({ code }) {
-  const requestLocale = yield select(getLocale);
-  const currentLocation = yield select(getRouterLocation);
-  const currentSearchParams = new URLSearchParams(currentLocation.search);
-  currentSearchParams.delete('tab');
-  const newSearch = currentSearchParams.toString();
-  const search = newSearch.length > 0 ? `?${newSearch}` : '';
-  yield put(
-    trackEvent({
-      category: 'Content',
-      action: 'Select group',
-      value: code,
-    }),
-  );
-  yield put(push(`/${requestLocale}/${PATHS.GROUP}/${code}${search}`));
 }
 
 // location can either be string or object { pathname, search}
@@ -566,14 +454,8 @@ export default function* defaultSaga() {
   );
   yield takeLatest(SELECT_COUNTRY, selectCountrySaga);
   yield takeLatest(SELECT_METRIC, selectMetricSaga);
-  yield takeLatest(SELECT_GROUP, selectGroupSaga);
-  yield takeLatest(SET_SCALE, setScaleSaga);
   yield takeLatest(SET_STANDARD, setStandardSaga);
-  yield takeLatest(SET_BENCHMARK, setBenchmarkSaga);
   yield takeLatest(SET_TAB, setTabSaga);
-  yield takeLatest(SET_RAW, setRawSaga);
-  yield takeLatest(TOGGLE_GROUP, toggleGroupSaga);
-  yield takeLatest(HIGHLIGHT_GROUP, highlightGroupSaga);
   yield takeLatest(NAVIGATE, navigateSaga);
   yield takeLatest(CHECK_COOKIECONSENT, checkCookieConsentSaga);
   yield takeLatest(SET_COOKIECONSENT, setCookieConsentSaga);

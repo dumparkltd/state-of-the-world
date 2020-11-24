@@ -6,14 +6,7 @@ import styled from 'styled-components';
 import { Box, Drop, ResponsiveContext, Layer } from 'grommet';
 import { Close, FormDown } from 'grommet-icons';
 
-import {
-  INCOME_GROUPS,
-  // REGIONS,
-  // SUBREGIONS,
-  COUNTRY_GROUPS,
-  TREATIES,
-  ASSESSED_FILTERS,
-} from 'containers/App/constants';
+import { INCOME_GROUPS } from 'containers/App/constants';
 
 import ButtonIcon from 'styled/ButtonIcon';
 
@@ -32,11 +25,7 @@ const StyledButtonIcon = styled(ButtonIcon)`
 
 const FilterWrap = styled.div``;
 
-const getFilterOptions = (
-  { unregion, income, assessed, cgroup, treaty },
-  intl,
-  filterValues,
-) => {
+const getFilterOptions = ({ unregion, income }, intl, filterValues) => {
   let groups = [];
   if (!unregion && filterValues.unregion) {
     groups = [
@@ -54,22 +43,6 @@ const getFilterOptions = (
       },
     ];
   }
-  // if ((!subregion || SUBREGIONS.multiple) && filterValues.subregion) {
-  //   groups = [
-  //     ...groups,
-  //     {
-  //       group: 'subregions',
-  //       label: intl.formatMessage(messages.subregionsFilterOptionGroup),
-  //       options: filterValues.subregion
-  //         .filter(value => !subregion || subregion.indexOf(value) === -1)
-  //         .map(value => ({
-  //           key: 'subregion',
-  //           value,
-  //           label: intl.formatMessage(rootMessages.subregions[value]),
-  //         })),
-  //     },
-  //   ];
-  // }
   if ((!income || INCOME_GROUPS.multiple) && filterValues.income) {
     groups = [
       ...groups,
@@ -82,54 +55,6 @@ const getFilterOptions = (
             key: 'income',
             value,
             label: intl.formatMessage(rootMessages.income[value]),
-          })),
-      },
-    ];
-  }
-  if ((!cgroup || COUNTRY_GROUPS.multiple) && filterValues.cgroup) {
-    groups = [
-      ...groups,
-      {
-        group: 'cgroup',
-        label: intl.formatMessage(messages.countryGroupFilterOptionGroup),
-        options: filterValues.cgroup
-          .filter(value => !cgroup || cgroup.indexOf(value) === -1)
-          .map(value => ({
-            key: 'cgroup',
-            value,
-            label: intl.formatMessage(rootMessages.countryGroups[value]),
-          })),
-      },
-    ];
-  }
-  if ((!treaty || TREATIES.multiple) && filterValues.treaty) {
-    groups = [
-      ...groups,
-      {
-        group: 'treaty',
-        label: intl.formatMessage(messages.treatyFilterOptionGroup),
-        options: filterValues.treaty
-          .filter(value => !treaty || treaty.indexOf(value) === -1)
-          .map(value => ({
-            key: 'treaty',
-            value,
-            label: intl.formatMessage(rootMessages.treaties[value]),
-          })),
-      },
-    ];
-  }
-  if ((!assessed || ASSESSED_FILTERS.multiple) && filterValues.assessed) {
-    groups = [
-      ...groups,
-      {
-        group: 'assessed',
-        label: intl.formatMessage(messages.assessedFilterOptionGroup),
-        options: filterValues.assessed
-          .filter(value => !assessed || assessed.indexOf(value) === -1)
-          .map(value => ({
-            key: 'assessed',
-            value,
-            label: intl.formatMessage(rootMessages.assessedFilters[value]),
           })),
       },
     ];
@@ -159,9 +84,6 @@ export function ChartSettingFilters({
   onRemoveFilter,
   onAddFilter,
   incomeFilterValue,
-  assessedFilterValue,
-  countryGroupFilterValue,
-  treatyFilterValue,
   intl,
   filterValues,
   hasWhiteBG,
@@ -173,9 +95,6 @@ export function ChartSettingFilters({
     // region: filterValues.region && regionFilterValue,
     // subregion: filterValues.subregion && subregionFilterValue,
     income: filterValues.income && incomeFilterValue,
-    assessed: filterValues.assessed && assessedFilterValue,
-    cgroup: filterValues.cgroup && countryGroupFilterValue,
-    treaty: filterValues.treaty && treatyFilterValue,
   };
   const setAllFilters = Object.keys(filterValues).reduce(
     (memo, key) => memo && setFilters[key],
@@ -187,9 +106,6 @@ export function ChartSettingFilters({
       // region: regionFilterValue,
       // subregion: subregionFilterValue,
       income: incomeFilterValue,
-      assessed: assessedFilterValue,
-      cgroup: countryGroupFilterValue,
-      treaty: treatyFilterValue,
     },
     intl,
     filterValues,
@@ -224,30 +140,6 @@ export function ChartSettingFilters({
                 key={value}
                 onRemove={() => onRemoveFilter('income', value)}
                 label={intl.formatMessage(rootMessages.income[value])}
-              />
-            ))}
-          {setFilters.cgroup &&
-            setFilters.cgroup.map(value => (
-              <ActiveFilterButton
-                key={value}
-                onRemove={() => onRemoveFilter('cgroup', value)}
-                label={intl.formatMessage(rootMessages.countryGroups[value])}
-              />
-            ))}
-          {setFilters.treaty &&
-            setFilters.treaty.map(value => (
-              <ActiveFilterButton
-                key={value}
-                onRemove={() => onRemoveFilter('treaty', value)}
-                label={intl.formatMessage(rootMessages.treaties[value])}
-              />
-            ))}
-          {setFilters.assessed &&
-            setFilters.assessed.map(value => (
-              <ActiveFilterButton
-                key={value}
-                onRemove={() => onRemoveFilter('assessed', value)}
-                label={intl.formatMessage(rootMessages.assessedFilters[value])}
               />
             ))}
           {!setAllFilters && hasOptions && (
@@ -298,12 +190,6 @@ ChartSettingFilters.propTypes = {
   // regionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   // subregionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   incomeFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-  assessedFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-  countryGroupFilterValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.array,
-  ]),
-  treatyFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   onRemoveFilter: PropTypes.func,
   onAddFilter: PropTypes.func,
   filterValues: PropTypes.object,

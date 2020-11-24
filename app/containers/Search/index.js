@@ -13,12 +13,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { withTheme } from 'styled-components';
 import { Box, Button, Drop, Text } from 'grommet';
 import { Close, Search as SearchIcon } from 'grommet-icons';
-import {
-  DIMENSIONS,
-  RIGHTS,
-  INDICATORS,
-  AT_RISK_GROUPS,
-} from 'containers/App/constants';
+import { RIGHTS } from 'containers/App/constants';
 import { getCountries } from 'containers/App/selectors';
 import { navigate, trackEvent } from 'containers/App/actions';
 // import { isMinSize, isMaxSize } from 'utils/responsive';
@@ -26,7 +21,7 @@ import { navigate, trackEvent } from 'containers/App/actions';
 import messages from './messages';
 import SearchResults from './SearchResults';
 import TextInput from './TextInput';
-import { prepMetrics, prepCountries, prepGroups } from './search';
+import { prepMetrics, prepCountries } from './search';
 
 export function Search({
   intl,
@@ -87,16 +82,10 @@ export function Search({
   }, [expand]);
 
   let sortedCountries = [];
-  let dimensions = [];
   let rights = [];
-  let indicators = [];
-  let groups = [];
   if (drop && search.length > 0) {
     sortedCountries = countries ? prepCountries(countries, search, intl) : [];
-    dimensions = prepMetrics(DIMENSIONS, 'dimensions', search, intl);
     rights = prepMetrics(RIGHTS, 'rights', search, intl);
-    indicators = prepMetrics(INDICATORS, 'indicators', search, intl);
-    groups = prepGroups(AT_RISK_GROUPS, search, intl);
   }
 
   return (
@@ -203,17 +192,8 @@ export function Search({
             activeResult={activeResult}
             setActiveResult={setActiveResult}
             countries={sortedCountries}
-            dimensions={dimensions}
             rights={rights}
-            indicators={indicators}
-            groups={groups}
-            maxResult={
-              sortedCountries.length +
-              groups.length +
-              rights.length +
-              indicators.length +
-              dimensions.length
-            }
+            maxResult={sortedCountries.length + rights.length}
           />
         </Drop>
       )}

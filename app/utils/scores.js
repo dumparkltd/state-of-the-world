@@ -15,6 +15,16 @@ export const getRightsScoresForDimension = (rights, dimensionKey) =>
         ? 1
         : -1,
     );
+export const getRightsScoresForType = (rights, typeKey) =>
+  rights &&
+  Object.values(rights)
+    .filter(r => r.type === typeKey && typeof r.aggregate === 'undefined')
+    .sort((a, b) =>
+      RIGHTS.map(r => r.key).indexOf(a.key) >
+      RIGHTS.map(r => r.key).indexOf(b.key)
+        ? 1
+        : -1,
+    );
 
 export const hasCPR = data =>
   data && data.empowerment && !!data.empowerment.score;

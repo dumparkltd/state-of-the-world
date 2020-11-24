@@ -1,13 +1,4 @@
-import {
-  COLUMNS,
-  INCOME_GROUPS,
-  // REGIONS,
-  // SUBREGIONS,
-  UN_REGIONS,
-  COUNTRY_GROUPS,
-  TREATIES,
-  ASSESSED_FILTERS,
-} from 'containers/App/constants';
+import { COLUMNS, INCOME_GROUPS, UN_REGIONS } from 'containers/App/constants';
 
 import {
   getScoresForCountry,
@@ -24,21 +15,13 @@ export const areAnyFiltersSet = (
     // subregionFilterValue,
     unRegionFilterValue,
     incomeFilterValue,
-    assessedFilterValue,
-    countryGroupFilterValue,
-    treatyFilterValue,
   },
 ) =>
   filterGroups.reduce(
     (memo, filter) =>
       memo ||
       (filter === 'income' && !!incomeFilterValue) ||
-      (filter === 'unregion' && !!unRegionFilterValue) ||
-      // (filter === 'region' && !!regionFilterValue) ||
-      // (filter === 'subregion' && !!subregionFilterValue) ||
-      (filter === 'assessed' && !!assessedFilterValue) ||
-      (filter === 'cgroup' && !!countryGroupFilterValue) ||
-      (filter === 'treaty' && !!treatyFilterValue),
+      (filter === 'unregion' && !!unRegionFilterValue),
     false,
   );
 
@@ -55,20 +38,20 @@ const addCountryAttribute = (values, country, attribute, validValues) => {
   return [value, ...values];
 };
 
-const addCountryAttributeMulti = (values, country, attribute, validValues) => {
-  const value = country[attribute];
-  if (!value) {
-    return values;
-  }
-  const newValues = value.split(',').reduce((memo, v) => {
-    // do not add if already present or invalid
-    if (validValues.indexOf(v) === -1 || values.indexOf(v) > -1) {
-      return memo;
-    }
-    return [v, ...memo];
-  }, []);
-  return [...newValues, ...values];
-};
+// const addCountryAttributeMulti = (values, country, attribute, validValues) => {
+//   const value = country[attribute];
+//   if (!value) {
+//     return values;
+//   }
+//   const newValues = value.split(',').reduce((memo, v) => {
+//     // do not add if already present or invalid
+//     if (validValues.indexOf(v) === -1 || values.indexOf(v) > -1) {
+//       return memo;
+//     }
+//     return [v, ...memo];
+//   }, []);
+//   return [...newValues, ...values];
+// };
 const addCountryAttributeLookup = (values, country, attribute, validValues) => {
   let value = country[attribute];
   if (!value) {
@@ -83,34 +66,7 @@ const addCountryAttributeLookup = (values, country, attribute, validValues) => {
   return [value, ...values];
 };
 
-const addCountryAssessed = (values, country, standard, scoresAllCountries) => {
-  const countryScores = getScoresForCountry(
-    country.country_code,
-    scoresAllCountries,
-  );
-  const hasCPR = hasAllCPRScores(countryScores);
-  const hasESR = hasAllESRScores(countryScores, standard);
-  let value;
-  if (hasCPR && hasESR) {
-    value = 'all';
-  } else if (hasCPR) {
-    value = 'cpr-all';
-  } else if (hasESR) {
-    value = 'esr-all';
-  } else if (hasSomeScores(countryScores)) {
-    value = 'some';
-  }
-  if (!value || values.indexOf(value) > -1) {
-    return values;
-  }
-  return [value, ...values];
-};
-const getCountryFilterValues = (
-  countries,
-  filter,
-  standard,
-  scoresAllCountries,
-) => {
+const getCountryFilterValues = (countries, filter) => {
   if (filter === 'unregion') {
     return countries
       .reduce(
@@ -176,53 +132,6 @@ const getCountryFilterValues = (
         return keys.indexOf(a) > keys.indexOf(b) ? 1 : -1;
       });
   }
-  if (filter === 'cgroup') {
-    return countries
-      .reduce(
-        (memo, country) =>
-          addCountryAttributeMulti(
-            memo,
-            country,
-            COLUMNS.COUNTRIES.GROUPS,
-            COUNTRY_GROUPS.values,
-          ),
-        [],
-      )
-      .sort((a, b) =>
-        COUNTRY_GROUPS.values.indexOf(a) > COUNTRY_GROUPS.values.indexOf(b)
-          ? 1
-          : -1,
-      );
-  }
-  if (filter === 'treaty') {
-    return countries
-      .reduce(
-        (memo, country) =>
-          addCountryAttributeMulti(
-            memo,
-            country,
-            COLUMNS.COUNTRIES.TREATIES,
-            TREATIES.values,
-          ),
-        [],
-      )
-      .sort((a, b) =>
-        TREATIES.values.indexOf(a) > TREATIES.values.indexOf(b) ? 1 : -1,
-      );
-  }
-  if (filter === 'assessed' && standard && scoresAllCountries) {
-    return countries
-      .reduce(
-        (memo, country) =>
-          addCountryAssessed(memo, country, standard, scoresAllCountries),
-        [],
-      )
-      .sort((a, b) =>
-        ASSESSED_FILTERS.values.indexOf(a) > ASSESSED_FILTERS.values.indexOf(b)
-          ? 1
-          : -1,
-      );
-  }
   return [];
 };
 const getAllCountryFilterValues = filter => {
@@ -237,15 +146,6 @@ const getAllCountryFilterValues = filter => {
   // }
   if (filter === 'income') {
     return INCOME_GROUPS.values.map(g => g.key);
-  }
-  if (filter === 'cgroup') {
-    return COUNTRY_GROUPS.values;
-  }
-  if (filter === 'treaty') {
-    return TREATIES.values;
-  }
-  if (filter === 'assessed') {
-    return ASSESSED_FILTERS.values;
   }
   return [];
 };

@@ -164,7 +164,7 @@ function ChartRegionMetricTrend({
         <Box direction="row" align="center" pad={{ vertical: 'medium' }}>
           <Box flex={{ shrink: 0 }}>
             {Object.keys(colors).map(region => (
-              <Box direction="row" gap="small" align="center">
+              <Box direction="row" gap="small" align="center" key="region">
                 <div
                   style={{
                     background: colors[region],
@@ -356,7 +356,7 @@ function ChartRegionMetricTrend({
 //   });
 // cpr ranges
 ChartRegionMetricTrend.propTypes = {
-  scores: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  scores: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   maxYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   minYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

@@ -31,20 +31,6 @@ export const prepCountries = (countries, search, intl) =>
     .filter(country => filterCountry(country, search))
     .sort((a, b) => (a.label < b.label ? -1 : 1));
 
-export const prepGroups = (groups, search, intl) =>
-  groups &&
-  groups
-    .map(group => ({
-      code: group.key,
-      // prettier-ignore
-      label: rootMessages['people-at-risk'][group.key]
-        ? intl.formatMessage(
-          rootMessages['people-at-risk'][group.key],
-        )
-        : group.key
-    }))
-    .filter(group => filterGroup(group, search));
-
 export const prepMetrics = (metrics, metricType, search, intl) =>
   metrics &&
   metrics

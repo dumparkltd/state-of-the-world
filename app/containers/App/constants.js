@@ -42,15 +42,9 @@ export const CONTENT_READY = 'hrmi/App/CONTENT_READY';
 // navigation actions
 export const SELECT_COUNTRY = 'hrmi/App/SELECT_COUNTRY';
 export const SELECT_METRIC = 'hrmi/App/SELECT_METRIC';
-export const SELECT_GROUP = 'hrmi/App/SELECT_GROUP';
 export const NAVIGATE = 'hrmi/App/NAVIGATE';
-export const SET_SCALE = 'hrmi/App/SET_SCALE';
 export const SET_STANDARD = 'hrmi/App/SET_STANDARD';
-export const SET_BENCHMARK = 'hrmi/App/SET_BENCHMARK';
 export const SET_TAB = 'hrmi/App/SET_TAB';
-export const SET_RAW = 'hrmi/App/SET_RAW';
-export const TOGGLE_GROUP = 'hrmi/App/TOGGLE_GROUP';
-export const HIGHLIGHT_GROUP = 'hrmi/App/HIGHLIGHT_GROUP';
 
 // state actions
 export const ASIDE_LAYER = 'hrmi/App/ASIDE_LAYER';
@@ -103,15 +97,6 @@ export const COLUMNS = {
     LAST_UPR: 'last_UPR',
     TREATIS_RAT: 'treaties_ratified',
   },
-  FEATURED: {
-    CAT: 'featured_category',
-    COUNTRIES: 'country_codes',
-  },
-  AT_RISK: {
-    CODE: 'people_code',
-    METRIC_CODE: 'metric_code',
-    COUNTRY_CODE: 'country_code',
-  },
 };
 
 export const LANGUAGES = {
@@ -142,47 +127,23 @@ export const PAGES = {
     key: 'methodology',
     primary: true,
   },
-  download: {
-    key: 'download',
-    primary: true,
-    url: 'https://humanrightsmeasurement.org/download-the-dataset/',
-  },
 };
 
 export const PATHS = {
   HOME: '',
-  METRICS: 'metrics',
   METRIC: 'metric',
-  COUNTRIES: 'countries',
   COUNTRY: 'country',
   PAGE: 'page',
-  GROUPS: 'groups',
-  GROUP: 'group',
 };
 export const IMAGE_PATH =
-  '//content-store.humanrightsmeasurement.org/assets/uploads';
+  '//app.dumpark.com/state-of-the-world-content/assets/uploads';
 
 export const XPATHS = {
   home: {
-    en: '//humanrightsmeasurement.org',
-    fr: '//humanrightsmeasurement.org/fr',
-    es: '//humanrightsmeasurement.org/es',
-    pt: '//humanrightsmeasurement.org/pt-pt',
-  },
-  contact: {
-    en: '//humanrightsmeasurement.org/about-hrmi/contact-hrmi/',
-    fr: '//humanrightsmeasurement.org/fr/a-propos-de-hrmi/contactez-hrmi/',
-    es: '//humanrightsmeasurement.org/es/sobre-hrmi/contactar-con-hrmi/',
-    pt:
-      '//humanrightsmeasurement.org/pt-pt/about-hrmi/entre-em-contato-com-hrmi/',
-  },
-  download: {
-    en: 'https://humanrightsmeasurement.org/download-the-dataset/',
-    es: 'https://humanrightsmeasurement.org/es/descarga-de-contenido/',
-    pt:
-      'https://humanrightsmeasurement.org/pt-pt/descarregue-o-conjunto-de-dados/',
-    fr:
-      'https://humanrightsmeasurement.org/fr/telechargez-lensemble-de-donnees/',
+    en: '//www.universal-rights.org',
+    fr: '//www.universal-rights.org',
+    es: '//www.universal-rights.org',
+    pt: '//www.universal-rights.org',
   },
 };
 
@@ -192,7 +153,6 @@ export const FAQS = {
   COUNTRY_CPR: ['grades', 'uncertainty'],
   ESR_DIMENSION: ['measureDimensionESR', 'benchmarks', 'standards'],
   ESR_RIGHT: ['measureRightESR', 'benchmarks', 'standards'],
-  ESR_INDICATOR: ['measureIndicators', 'benchmarks', 'standards'],
   CPR_DIMENSION: ['measureDimensionCPR', 'uncertainty'],
   CPR_RIGHT: ['measureRightCPR', 'uncertainty'],
 };
@@ -219,10 +179,6 @@ export const DATA_RESOURCES = [
     file: 'esr-indicators_v3-1.csv',
   },
   {
-    key: 'atRisk',
-    file: 'people-at-risk_v3-1.csv',
-  },
-  {
     key: 'auxIndicators',
     file: 'auxiliary-indicators_v3-1-sotw.csv',
   },
@@ -237,10 +193,6 @@ export const DATA_RESOURCES = [
   {
     key: 'esrIndicatorScores',
     file: 'esr-indicator-scores_v3-1.csv',
-  },
-  {
-    key: 'featured',
-    file: 'featured_v3.csv',
   },
   {
     key: 'sources',
@@ -298,19 +250,6 @@ export const UN_REGIONS = {
 //     'pacific',
 //   ],
 // };
-export const COUNTRY_GROUPS = {
-  values: ['oecd', 'not-oecd', 'asean', 'oic'],
-  multiple: true,
-};
-
-export const TREATIES = {
-  values: ['iccpr', 'icescr'],
-  multiple: true,
-};
-
-export const ASSESSED_FILTERS = {
-  values: ['all', 'cpr-all', 'esr-all', 'some'],
-};
 
 // column: 'high_income_country',
 export const INCOME_GROUPS = {
@@ -329,8 +268,8 @@ export const INCOME_GROUPS = {
 };
 
 export const COUNTRY_FILTERS = {
-  ALL: ['income', 'unregion', 'assessed', 'subregion', 'treaty', 'cgroup'],
-  SINGLE_METRIC: ['income', 'unregion', 'subregion', 'treaty', 'cgroup'],
+  ALL: ['income', 'unregion'],
+  SINGLE_METRIC: ['income', 'unregion'],
 };
 
 export const STANDARDS = [
@@ -347,10 +286,6 @@ export const STANDARDS = [
 ];
 
 export const BENCHMARKS = [
-  {
-    key: 'adjusted',
-    column: COLUMNS.ESR.SCORE_ADJUSTED,
-  },
   {
     key: 'best',
     column: COLUMNS.ESR.SCORE_BEST,
@@ -378,17 +313,12 @@ export const PEOPLE_GROUPS = [
     color: 'male',
   },
 ];
-
-export const METRIC_TYPES = ['dimensions', 'rights', 'indicators'];
+export const METRIC_TYPES = ['rights'];
 
 export const RIGHTS_TYPES = ['esr', 'cpr'];
 
 // d: dimensions, r: rights
 export const SCALES = [
-  {
-    key: 'd',
-    type: 'dimensions',
-  },
   {
     key: 'r',
     type: 'rights',
@@ -434,9 +364,6 @@ export const GRADES = {
   ],
 };
 
-export const SUBREGIONS_CPR_COMPLETE = ['pacific'];
-export const SUBREGIONS_FOR_COMPARISON_CPR = ['pacific'];
-
 export const DIMENSIONS = [
   {
     key: 'esr',
@@ -465,7 +392,6 @@ export const RIGHTS = [
     dimension: 'esr',
     type: 'esr',
     resource: 'esrScores',
-    hasGroups: ['core', 'hi'], // for standards
     icon: education,
   },
   {
@@ -474,7 +400,6 @@ export const RIGHTS = [
     dimension: 'esr',
     type: 'esr',
     resource: 'esrScores',
-    hasGroups: ['core'],
     icon: food,
   },
   {
@@ -567,251 +492,5 @@ export const RIGHTS = [
   },
 ];
 
-export const AT_RISK_INDICATORS = [
-  {
-    right: 'arrest',
-    code: 'arrest_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'assembly',
-    code: 'assem_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'disappearance',
-    code: 'disap_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'death-penalty',
-    code: 'dpex_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'extrajud-killing',
-    code: 'exkill_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'expression',
-    code: 'express_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'participation',
-    code: 'polpart_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'torture',
-    code: 'tort_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'education',
-    code: 'educ_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'food',
-    code: 'food_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'health',
-    code: 'health_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'housing',
-    code: 'house_atrisk',
-    resource: 'atRisk',
-  },
-  {
-    right: 'work',
-    code: 'job_atrisk',
-    resource: 'atRisk',
-  },
-];
-
-export const INDICATOR_LOOKBACK = 10;
-
-export const INDICATORS = [
-  {
-    key: 'net-primary',
-    code: 'NetPrimEnrol',
-    right: 'education',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'sec-enrol',
-    code: 'NetSecEnrol',
-    right: 'education',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'pisa-science',
-    code: 'PISAscience',
-    right: 'education',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'pisa-math',
-    code: 'PISAmath',
-    right: 'education',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'pisa-reading',
-    code: 'PISAreading',
-    right: 'education',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'not-stunted',
-    code: 'NotStunted',
-    right: 'food',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'food-security',
-    code: 'FoodSecure',
-    right: 'food',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'adult-survival',
-    code: 'AdultSurvival',
-    right: 'health',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'under-5-survival',
-    code: 'U5Survival',
-    right: 'health',
-    resource: 'esrIndicatorScores',
-    hasGroups: true,
-  },
-  {
-    key: 'contraception',
-    code: 'Contraception',
-    right: 'health',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'birth-weight',
-    code: 'NotLowBirWt',
-    right: 'health',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'water-in-home',
-    code: 'WaterInHome',
-    right: 'housing',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'basic-sanitation',
-    code: 'BasicSanitation',
-    right: 'housing',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'safe-sanitation',
-    code: 'SafeSanitation',
-    right: 'housing',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'affordable-housing',
-    code: 'AffordHouse',
-    right: 'housing',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'relative-poverty',
-    code: 'NotRelPoor',
-    right: 'work',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'absolute-poverty',
-    code: 'NotAbsPoor',
-    right: 'work',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-  {
-    key: 'longterm-unemployment',
-    code: 'NotLTUnemploy',
-    right: 'work',
-    resource: 'esrIndicatorScores',
-    hasGroups: false,
-  },
-];
-
-export const AT_RISK_GROUPS = [
-  { key: '1', code: '1' },
-  { key: '2', code: '2' },
-  { key: '3', code: '3' },
-  { key: '4', code: '4' },
-  { key: '5', code: '5' },
-  { key: '6', code: '6' },
-  { key: '7', code: '7' },
-  { key: '8', code: '8' },
-  { key: '9', code: '9' },
-  { key: '10', code: '10' },
-  { key: '11', code: '11' },
-  { key: '12', code: '12' },
-  { key: '13', code: '13' },
-  { key: '14', code: '14' },
-  { key: '15', code: '15' },
-  { key: '16', code: '16' },
-  { key: '17', code: '17' },
-  { key: '18', code: '18' },
-  { key: '19', code: '19' },
-  { key: '20', code: '20' },
-  { key: '21', code: '21' },
-  { key: '22', code: '22' },
-  { key: '23', code: '23' },
-  { key: '24', code: '24' },
-  { key: '25', code: '25' },
-  { key: '26', code: '26' },
-  { key: '27', code: '27' },
-  { key: '28', code: '28' },
-  { key: '29', code: '29' },
-  { key: '30', code: '30' },
-  { key: '32', code: '32' },
-  { key: '33', code: '33' },
-  { key: '31', code: '31' }, // other
-];
-
-export const COOKIECONSENT_NAME = 'hrmi-dataportal-cookie-consent-status';
-export const GA_PROPERTY_ID = 'UA-103815452-2';
-
-export const INTRO_IMAGES = [
-  // `${IMAGE_PATH}/intro_1.png`,
-  `${IMAGE_PATH}/intro_2.png`,
-  `${IMAGE_PATH}/intro_3.png`,
-  `${IMAGE_PATH}/intro_4.png`,
-  `${IMAGE_PATH}/intro_5.png`,
-  `${IMAGE_PATH}/intro_6.png`,
-  `${IMAGE_PATH}/intro_7.png`,
-  `${IMAGE_PATH}/intro_8.png`,
-];
+export const COOKIECONSENT_NAME = 'state-of-the-world-cookie-consent-status';
+export const GA_PROPERTY_ID = 'none';

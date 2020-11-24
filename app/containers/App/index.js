@@ -20,11 +20,7 @@ import GlobalStyle from 'global-styles';
 import Header from 'containers/Header';
 import PathHome from 'containers/PathHome';
 import PathMetric from 'containers/PathMetric';
-import PathMetricOverview from 'containers/PathMetricOverview';
 import PathCountry from 'containers/PathCountry';
-import PathCountryOverview from 'containers/PathCountryOverview';
-import PathPeople from 'containers/PathPeople';
-import PathPeopleOverview from 'containers/PathPeopleOverview';
 import PathPage from 'containers/PathPage';
 import PathNotFoundPage from 'containers/PathNotFoundPage';
 import LayerAside from 'containers/LayerAside';
@@ -95,28 +91,12 @@ export function App({ match, intl }) {
           <Switch>
             <Route exact path={`/${locale}`} component={PathHome} />
             <Route
-              path={`/${locale}/${PATHS.METRICS}`}
-              component={PathMetricOverview}
-            />
-            <Route
               path={`/${locale}/${PATHS.METRIC}/:metric`}
               component={PathMetric}
             />
             <Route
-              path={`/${locale}/${PATHS.COUNTRIES}`}
-              component={PathCountryOverview}
-            />
-            <Route
               path={`/${locale}/${PATHS.COUNTRY}/:country`}
               component={PathCountry}
-            />
-            <Route
-              path={`/${locale}/${PATHS.GROUPS}`}
-              component={PathPeopleOverview}
-            />
-            <Route
-              path={`/${locale}/${PATHS.GROUP}/:group`}
-              component={PathPeople}
             />
             <Route
               path={`/${locale}/${PATHS.PAGE}/:page`}

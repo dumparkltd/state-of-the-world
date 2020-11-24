@@ -25,13 +25,7 @@ import ChartContainerRegionMetricTrend from 'containers/ChartContainerRegionMetr
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentWrap from 'styled/ContentWrap';
 
-const DEPENDENCIES = [
-  'countries',
-  'featured',
-  'atRisk',
-  'esrScores',
-  'cprScores',
-];
+const DEPENDENCIES = ['countries', 'esrScores', 'cprScores'];
 
 export function PathHome({ onLoadData, nav, locale }) {
   useInjectSaga({ key: 'app', saga });

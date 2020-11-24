@@ -13,17 +13,12 @@ import { compose } from 'redux';
 import { Box, ResponsiveContext } from 'grommet';
 
 import {
-  getESRDimensionScores,
-  getCPRDimensionScores,
   getESRRightScores,
   getCPRRightScores,
   getBenchmarkSearch,
-  getIndicatorScores,
   getStandardSearch,
   getUNRegionSearch,
   getIncomeSearch,
-  getCountryGroupSearch,
-  getTreatySearch,
   getSortSearch,
   getSortOrderSearch,
   getCountries,
@@ -160,8 +155,6 @@ export function ChartContainerMetric({
   standard,
   unRegionFilterValue,
   incomeFilterValue,
-  countryGroupFilterValue,
-  treatyFilterValue,
   onRemoveFilter,
   onAddFilter,
   sort,
@@ -200,8 +193,6 @@ export function ChartContainerMetric({
     areAnyFiltersSet(COUNTRY_FILTERS.SINGLE_METRIC, {
       unRegionFilterValue,
       incomeFilterValue,
-      countryGroupFilterValue,
-      treatyFilterValue,
     }),
   );
 
@@ -252,8 +243,6 @@ export function ChartContainerMetric({
               onRemoveFilter,
               onAddFilter,
               incomeFilterValue,
-              countryGroupFilterValue,
-              treatyFilterValue,
               filterValues,
             }}
             sort={{
@@ -352,11 +341,6 @@ ChartContainerMetric.propTypes = {
   onRemoveFilter: PropTypes.func,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   incomeFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-  countryGroupFilterValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.array,
-  ]),
-  treatyFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   intl: intlShape.isRequired,
   sort: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   sortOrder: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -369,30 +353,16 @@ ChartContainerMetric.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   dataReady: state => getDependenciesReady(state, DEPENDENCIES),
-  scores: (state, { metric }) => {
-    if (metric.metricType === 'dimensions') {
-      return metric.type === 'esr'
-        ? getESRDimensionScores(state)
-        : getCPRDimensionScores(state, metric.key);
-    }
-    if (metric.metricType === 'rights') {
-      return metric.type === 'esr'
-        ? getESRRightScores(state, metric.key)
-        : getCPRRightScores(state, metric.key);
-    }
-    if (metric.metricType === 'indicators') {
-      return getIndicatorScores(state, metric.key);
-    }
-    return false;
-  },
+  scores: (state, { metric }) =>
+    metric.type === 'esr'
+      ? getESRRightScores(state, metric.key)
+      : getCPRRightScores(state, metric.key),
   countries: state => getCountries(state),
   auxIndicators: state => getAuxIndicatorsLatest(state),
   benchmark: state => getBenchmarkSearch(state),
   standard: state => getStandardSearch(state),
   unRegionFilterValue: state => getUNRegionSearch(state),
   incomeFilterValue: state => getIncomeSearch(state),
-  countryGroupFilterValue: state => getCountryGroupSearch(state),
-  treatyFilterValue: state => getTreatySearch(state),
   sort: state => getSortSearch(state),
   sortOrder: state => getSortOrderSearch(state),
 });

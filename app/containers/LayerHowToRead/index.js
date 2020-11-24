@@ -11,8 +11,6 @@ import { DIMENSIONS } from 'containers/App/constants';
 import rootMessages from 'messages';
 import messages from './messages';
 
-import HTROverviewDimensions from './HTROverviewDimensions';
-import HTROverviewRights from './HTROverviewRights';
 import HTRBulletCPR from './HTRBulletCPR';
 import HTRBar from './HTRBar';
 import HTRTrendESR from './HTRTrendESR';
@@ -38,8 +36,6 @@ function LayerHowToRead({ layer }) {
       {charts &&
         charts.map(chrt => (
           <div key={chrt}>
-            {chrt === 'Diamonds' && scale === 'd' && <HTROverviewDimensions />}
-            {chrt === 'Diamonds' && scale === 'r' && <HTROverviewRights />}
             {chrt === 'Bullet' && (
               <HTRBulletCPR contxt={contxt} dimension={dimension} />
             )}

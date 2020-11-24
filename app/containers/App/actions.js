@@ -17,11 +17,8 @@ import {
   CONTENT_REQUESTED,
   SELECT_COUNTRY,
   SELECT_METRIC,
-  SELECT_GROUP,
   NAVIGATE,
-  SET_SCALE,
   SET_STANDARD,
-  SET_BENCHMARK,
   SET_TAB,
   ASIDE_LAYER,
   CHECK_COOKIECONSENT,
@@ -29,9 +26,6 @@ import {
   SET_COOKIECONSENT,
   GA_INITIALISED,
   TRACK_EVENT,
-  SET_RAW,
-  TOGGLE_GROUP,
-  HIGHLIGHT_GROUP,
 } from './constants';
 
 export function checkCookieConsent() {
@@ -165,39 +159,9 @@ export function selectMetric(code) {
     code,
   };
 }
-export function selectGroup(code) {
-  return {
-    type: SELECT_GROUP,
-    code,
-  };
-}
-export function setScale(value) {
-  return {
-    type: SET_SCALE,
-    value,
-  };
-}
 export function setStandard(value) {
   return {
     type: SET_STANDARD,
-    value,
-  };
-}
-export function setBenchmark(value) {
-  return {
-    type: SET_BENCHMARK,
-    value,
-  };
-}
-export function toggleGroup(values) {
-  return {
-    type: TOGGLE_GROUP,
-    values,
-  };
-}
-export function setRaw(value) {
-  return {
-    type: SET_RAW,
     value,
   };
 }
@@ -225,11 +189,5 @@ export function setAsideLayer(args) {
   return {
     type: ASIDE_LAYER,
     layer: args,
-  };
-}
-export function setHighlightGroup(code) {
-  return {
-    type: HIGHLIGHT_GROUP,
-    code,
   };
 }

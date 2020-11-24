@@ -3,7 +3,6 @@
  */
 
 import { createSelector } from 'reselect';
-import { uniq } from 'lodash/array';
 import { groupBy, map } from 'lodash/collection';
 import { DEFAULT_LOCALE, appLocales } from 'i18n';
 import 'url-search-params-polyfill';
@@ -13,35 +12,19 @@ import quasiEquals from 'utils/quasi-equals';
 
 import getMetricDetails from 'utils/metric-details';
 
-import {
-  hasCountryAttribute,
-  hasCountryIncome,
-  isCountryHighIncome,
-  isCountryOECD,
-} from 'utils/countries';
+import { hasCountryIncome } from 'utils/countries';
 
 import { initialState } from './reducer';
 import {
-  SCALES,
   STANDARDS,
   BENCHMARKS,
-  // REGIONS,
-  // SUBREGIONS,
   UN_REGIONS,
   COUNTRY_SORTS,
   INCOME_GROUPS,
-  COUNTRY_GROUPS,
-  TREATIES,
   DIMENSIONS,
   RIGHTS,
-  INDICATORS,
   PEOPLE_GROUPS,
-  INDICATOR_LOOKBACK,
-  AT_RISK_INDICATORS,
-  AT_RISK_GROUPS,
   COLUMNS,
-  ASSESSED_FILTERS,
-  // SUBREGIONS_FOR_COMPARISON_CPR,
 } from './constants';
 
 // global sub-state
@@ -77,18 +60,6 @@ export const getAuxIndicators = createSelector(
   getData,
   data => data.auxIndicators,
 );
-export const getESRIndicators = createSelector(
-  getData,
-  data => data.esrIndicators,
-);
-export const getESRIndicatorScores = createSelector(
-  getData,
-  data => data.esrIndicatorScores,
-);
-export const getAtRiskData = createSelector(
-  getData,
-  data => data.atRisk,
-);
 export const getCountries = createSelector(
   getData,
   data => data.countries,
@@ -96,10 +67,6 @@ export const getCountries = createSelector(
 export const getCountriesGrammar = createSelector(
   getData,
   data => data.countriesGrammar,
-);
-export const getFeatured = createSelector(
-  getData,
-  data => data.featured,
 );
 export const getSources = createSelector(
   getData,
@@ -160,17 +127,6 @@ export const getRouterMatch = createSelector(
   },
 );
 
-export const getRawSearch = createSelector(
-  getRouterSearchParams,
-  search => !!(search.has('raw') && search.get('raw') === '1'),
-);
-
-export const getActiveGroupsSearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('gactive') ? search.getAll('gactive') : [PEOPLE_GROUPS[0].key],
-);
-
 export const getTabSearch = createSelector(
   getRouterSearchParams,
   search => (search.has('tab') ? search.get('tab') : '0'),
@@ -180,23 +136,8 @@ export const getAtRiskSearch = createSelector(
   search => search.has('atRisk') && search.get('atRisk'),
 );
 
-export const getScaleSearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('scale') &&
-    SCALES.map(s => s.key).indexOf(search.get('scale')) > -1
-      ? search.get('scale')
-      : SCALES[0].key,
-);
+export const getBenchmarkSearch = () => BENCHMARKS[0].key;
 
-export const getBenchmarkSearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('pb') &&
-    BENCHMARKS.map(s => s.key).indexOf(search.get('pb')) > -1
-      ? search.get('pb')
-      : BENCHMARKS[0].key,
-);
 export const getYearESRSearch = createSelector(
   getRouterSearchParams,
   search =>
@@ -223,50 +164,18 @@ export const getUNRegionSearch = createSelector(
     search.has('unregion') &&
     searchValues(UN_REGIONS.values, search.getAll('unregion')),
 );
-// export const getRegionSearch = createSelector(
-//   getRouterSearchParams,
-//   search =>
-//     search.has('region') &&
-//     searchValues(REGIONS.values, search.getAll('region')),
-// );
-// export const getSubregionSearch = createSelector(
-//   getRouterSearchParams,
-//   search =>
-//     search.has('subregion') &&
-//     searchValues(SUBREGIONS.values, search.getAll('subregion')),
-// );
-export const getAssessedSearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('assessed') &&
-    searchValues(ASSESSED_FILTERS.values, search.getAll('assessed')),
-);
+
 export const getIncomeSearch = createSelector(
   getRouterSearchParams,
   search =>
     search.has('income') &&
     searchValues(INCOME_GROUPS.values.map(s => s.key), search.getAll('income')),
 );
-export const getCountryGroupSearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('cgroup') &&
-    searchValues(COUNTRY_GROUPS.values, search.getAll('cgroup')),
-);
-export const getTreatySearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('treaty') &&
-    searchValues(TREATIES.values, search.getAll('treaty')),
-);
 
 const getHasChartSettingFilters = createSelector(
   getUNRegionSearch,
-  // getSubregionSearch,
   getIncomeSearch,
-  getCountryGroupSearch,
-  getTreatySearch,
-  (unregion, income, cgroup, treaty) => unregion || income || cgroup || treaty,
+  (unregion, income) => unregion || income,
 );
 export const getSortSearch = createSelector(
   getRouterSearchParams,
@@ -281,38 +190,6 @@ export const getSortOrderSearch = createSelector(
     search.has('dir') &&
     ['asc', 'desc'].indexOf(search.get('dir')) > -1 &&
     search.get('dir'),
-);
-
-// return featured countries in order as determined in "featured" data table
-export const getFeaturedCountries = createSelector(
-  getFeatured,
-  getCountries,
-  (featured, countries) => {
-    if (!featured || !countries) {
-      return null;
-    }
-    return featured.reduce((featuredFountries, featuredCat) => {
-      if (featuredCat[COLUMNS.FEATURED.COUNTRIES]) {
-        return featuredFountries.concat(
-          featuredCat[COLUMNS.FEATURED.COUNTRIES]
-            .split(',')
-            .reduce((catCountries, countryCode) => {
-              const country = countries.find(
-                c => c[COLUMNS.COUNTRIES.CODE] === countryCode,
-              );
-              return [
-                ...catCountries,
-                {
-                  ...country,
-                  featured: featuredCat[COLUMNS.FEATURED.CAT],
-                },
-              ];
-            }, []),
-        );
-      }
-      return countries;
-    }, []);
-  },
 );
 
 // data / content
@@ -416,14 +293,6 @@ export const getMinYearCPR = createSelector(
   getCPRScores,
   scores => calcMinYear(scores),
 );
-export const getMaxYearAtRisk = createSelector(
-  getAtRiskData,
-  data => calcMaxYear(data),
-);
-export const getMinYearAtRisk = createSelector(
-  getAtRiskData,
-  data => calcMinYear(data),
-);
 export const getESRYear = createSelector(
   getYearESRSearch,
   getMaxYearESR,
@@ -469,84 +338,14 @@ export const getStandardSearch = createSelector(
 export const getCountriesFiltered = createSelector(
   getCountries,
   getUNRegionSearch,
-  // getSubregionSearch,
   getIncomeSearch,
-  getCountryGroupSearch,
-  getTreatySearch,
-  (countries, unregion, income, cgroup, treaty) =>
+  (countries, unregion, income) =>
     countries &&
     countries
       .filter(
         c => !unregion || unregion.indexOf(c[COLUMNS.COUNTRIES.UN_REGION]) > -1,
       )
-      .filter(
-        c =>
-          !cgroup || hasCountryAttribute(c, cgroup, COLUMNS.COUNTRIES.GROUPS),
-      )
-      .filter(
-        c =>
-          !treaty || hasCountryAttribute(c, treaty, COLUMNS.COUNTRIES.TREATIES),
-      )
       .filter(c => !income || hasCountryIncome(c, income)),
-);
-
-// single metric
-export const getIndicatorInfo = createSelector(
-  (state, metricCode) => metricCode,
-  getESRIndicators,
-  (metricCode, indicators) =>
-    indicators && indicators.find(i => i.metric_code === metricCode),
-);
-
-// single dimension, multiple countries, single year
-export const getESRDimensionScores = createSelector(
-  getESRScores,
-  getCountriesFiltered,
-  getHasChartSettingFilters,
-  getStandardSearch,
-  getESRYear,
-  (scores, countries, hasChartSettingFilters, standardSearch, year) => {
-    const standard = STANDARDS.find(as => as.key === standardSearch);
-    const dimension = DIMENSIONS.find(d => d.key === 'esr');
-    const countryCodes = countries ? countries.map(c => c.country_code) : [];
-    return (
-      standard &&
-      dimension &&
-      scores &&
-      countries &&
-      scores.filter(
-        s =>
-          s.standard === standard.code &&
-          s.metric_code === dimension.code &&
-          quasiEquals(s.year, year) &&
-          countryCodes.indexOf(s.country_code) > -1,
-      )
-    );
-  },
-);
-
-export const getCPRDimensionScores = createSelector(
-  (state, metric) => metric,
-  getCPRScores,
-  getCountriesFiltered,
-  getHasChartSettingFilters,
-  getCPRYear,
-  (metric, scores, countries, hasChartSettingFilters, year) => {
-    // make sure a metric is set
-    const dimension = !!metric && DIMENSIONS.find(d => d.key === metric);
-    const countryCodes = countries ? countries.map(c => c.country_code) : [];
-    return (
-      dimension &&
-      scores &&
-      countries &&
-      scores.filter(
-        s =>
-          s.metric_code === dimension.code &&
-          quasiEquals(s.year, year) &&
-          countryCodes.indexOf(s.country_code) > -1,
-      )
-    );
-  },
 );
 
 // single right, multiple countries, single year
@@ -599,55 +398,6 @@ export const getCPRRightScores = createSelector(
           countryCodes.indexOf(s.country_code) > -1,
       )
     );
-  },
-);
-// single indicator, multiple countries, single year
-export const getIndicatorScores = createSelector(
-  (state, metric) => metric,
-  getESRIndicatorScores,
-  getCountriesFiltered,
-  getHasChartSettingFilters,
-  getESRYear,
-  (metric, scores, countries, hasChartSettingFilters, year) => {
-    if (scores && countries) {
-      const indicator = metric && INDICATORS.find(d => d.key === metric);
-      const group = PEOPLE_GROUPS[0];
-      if (indicator) {
-        // first filter by group, metric, countries
-        const countryCodes = countries
-          ? countries.map(c => c.country_code)
-          : [];
-        const filteredScores = scores.filter(
-          s =>
-            s.group === group.code &&
-            s.metric_code === indicator.code &&
-            countryCodes.indexOf(s.country_code) > -1,
-        );
-        // then get the most recent year for each country
-        // figure out most recent data by country
-        const countryYears = filteredScores.reduce((memo, s) => {
-          const result = memo;
-          const country = s.country_code;
-          if (
-            typeof result[country] === 'undefined' ||
-            (parseInt(s.year, 10) > result[country] &&
-              parseInt(s.year, 10) <= year)
-          ) {
-            result[country] = parseInt(s.year, 10);
-          }
-          return result;
-        }, {});
-        // finally filter by year or most recent year
-        const filteredYear = filteredScores.filter(
-          s =>
-            quasiEquals(s.year, year) ||
-            quasiEquals(s.year, countryYears[s.country_code]),
-        );
-        return filteredYear;
-      }
-      return [];
-    }
-    return false;
   },
 );
 
@@ -713,134 +463,6 @@ export const getESRScoreForCountry = createSelector(
   },
 );
 
-export const getESRIndicatorScoresForCountry = createSelector(
-  (state, { countryCode }) => countryCode,
-  (state, { metricCode }) => metricCode,
-  getESRIndicatorScores,
-  (countryCode, metricCode, scores) =>
-    scores &&
-    scores.filter(
-      s => s.country_code === countryCode && s.metric_code === metricCode,
-    ),
-);
-
-export const getSingleIndicatorScoresForCountry = createSelector(
-  (state, { dateRange }) => dateRange,
-  (state, { groups }) => groups,
-  getESRIndicatorScoresForCountry, // all scores for a country and metric
-  getESRYear,
-  (dateRange, groups, scores, esrYear) => {
-    if (!scores) return null;
-    // the group codes
-    const filterGroups = PEOPLE_GROUPS.filter(g =>
-      groups ? groups.indexOf(g.key) : g.key === 'all',
-    );
-    // the years
-    const filterRange = dateRange || {
-      min: esrYear,
-      max: esrYear,
-    };
-
-    const scoresByGroup = filterGroups.reduce((memo, group) => {
-      const data = [];
-      const groupCode = group.code;
-      const scoresAll = groupCode
-        ? scores.filter(s => s.group === groupCode)
-        : scores;
-      const scoresSorted = scoresAll.sort((a, b) =>
-        parseInt(a.year, 10) > parseInt(b.year, 10) ? 1 : -1,
-      );
-      /* eslint-disable no-plusplus */
-      for (
-        let y = parseInt(filterRange.min, 10);
-        y <= parseInt(filterRange.max, 10);
-        y++
-      ) {
-        const score = scoresSorted.reduce((m, s) => {
-          const scoreYear = parseInt(s.year, 10);
-          if (scoreYear === y) return s;
-          if (scoreYear < y && scoreYear >= y - INDICATOR_LOOKBACK) {
-            return s;
-          }
-          return m;
-        }, null);
-        // check if already present
-        if (score) {
-          const containsScore = data.find(
-            d => d.year === score.year && d.group === score.group,
-          );
-          if (!containsScore) data.push(score);
-        }
-      }
-      if (data.length === 0) {
-        return memo;
-      }
-      return {
-        ...memo,
-        [group.key]: data,
-      };
-    }, {});
-    return Object.keys(scoresByGroup).reduce(
-      (memo, group) => [...memo, ...scoresByGroup[group]],
-      [],
-    );
-  },
-);
-
-export const getAlternativeIndicatorCountrySources = createSelector(
-  getSingleIndicatorScoresForCountry,
-  getSources,
-  (scores, sources) => {
-    if (!scores || !sources) return null;
-    return scores.reduce((memo, score) => {
-      if (score.source_code && score.source_code.trim() !== '') {
-        const hasSource = memo.find(m => m.source_code === score.source_code);
-        if (!hasSource) {
-          const source = sources.find(s => s.source_code === score.source_code);
-          if (source) {
-            return [...memo, { ...source, ...score }];
-          }
-          return memo;
-        }
-        return memo;
-      }
-      return memo;
-    }, []);
-  },
-);
-
-// single country
-// single country, all dimensions, single year
-export const getDimensionScoresForCountry = createSelector(
-  (state, country) => country,
-  getESRScores,
-  getCPRScores,
-  getESRYear,
-  getCPRYear,
-  (country, esrScores, cprScores, esrYear, cprYear) => {
-    const esr = DIMENSIONS.find(d => d.key === 'esr');
-    const cprs = DIMENSIONS.filter(d => d.type === 'cpr').map(d => d.code);
-    return (
-      country &&
-      esrScores &&
-      cprScores && {
-        esr: esrScores.filter(
-          s =>
-            s.country_code === country &&
-            quasiEquals(s.year, esrYear) &&
-            s.metric_code === esr.code,
-        ),
-        cpr: cprScores.filter(
-          s =>
-            s.country_code === country &&
-            quasiEquals(s.year, cprYear) &&
-            cprs.indexOf(s.metric_code) > -1,
-        ),
-      }
-    );
-  },
-);
-
 // single country, all rights, single year
 export const getRightScoresForCountry = createSelector(
   (state, country) => country,
@@ -872,207 +494,13 @@ export const getRightScoresForCountry = createSelector(
   },
 );
 
-// single country, all indicators, single year
-export const getIndicatorScoresForCountry = createSelector(
-  (state, country) => country,
-  getESRIndicatorScores,
-  getESRIndicators, // ForStandard,
-  getESRYear,
-  (country, scores, indicators, year) => {
-    if (scores && country && indicators) {
-      // first filter by country
-      const filteredByCountry = scores.filter(s => s.country_code === country);
-      // filter by standard
-      // const filteredByStandard = filteredByCountry.filter(s =>
-      //   indicators.find(i => i.metric_code === s.metric_code),
-      // );
-      // then get the most recent year for each metric
-      // figure out most recent data by metric
-      const metricYears = filteredByCountry.reduce((memo, s) => {
-        const result = memo;
-        const metric = s.metric_code;
-        if (
-          parseInt(s.year, 10) >= year - INDICATOR_LOOKBACK &&
-          (typeof memo[metric] === 'undefined' ||
-            (parseInt(s.year, 10) > result[metric] &&
-              parseInt(s.year, 10) <= year))
-        ) {
-          result[metric] = parseInt(s.year, 10);
-        }
-        return result;
-      }, {});
-      // filter by year or most recent year
-      const filteredByYear = filteredByCountry.filter(
-        s =>
-          quasiEquals(s.year, year) ||
-          quasiEquals(s.year, metricYears[s.metric_code]),
-      );
-      return filteredByYear;
-    }
-    return false;
-  },
-);
-
-export const getIndicatorsForCountry = createSelector(
-  getIndicatorScoresForCountry,
-  getESRIndicators,
-  getStandardSearch,
-  (scores, indicators, standard) => {
-    const standardCode = STANDARDS.find(as => as.key === standard).code;
-    return (
-      scores &&
-      indicators &&
-      INDICATORS.reduce((memo, i) => {
-        const details = indicators.find(id => id.metric_code === i.code);
-        if (details.standard === 'Both' || details.standard === standardCode) {
-          return {
-            [i.key]: {
-              score: scores.find(
-                s =>
-                  s.metric_code === i.code && s.group === PEOPLE_GROUPS[0].code,
-              ),
-              details,
-              ...i,
-            },
-            ...memo,
-          };
-        }
-        return memo;
-      }, {})
-    );
-  },
-);
-
-// single country, all indicators, single year
-export const getIndicatorsForCountryAndRight = createSelector(
-  (state, country, { metricCode }) => metricCode,
-  getIndicatorsForCountry,
-  (metricCode, indicators) => {
-    if (metricCode && indicators) {
-      // first filter by country
-      return Object.values(indicators).filter(i => i.right === metricCode);
-    }
-    return false;
-  },
-);
-
-export const getDimensionsForCountry = createSelector(
-  getDimensionScoresForCountry,
-  getRightScoresForCountry,
-  getIndicatorScoresForCountry,
-  getESRIndicators,
-  getStandardSearch,
-  (scores, rightScores, indicatorScores, indicators, standard) => {
-    const standardCode = STANDARDS.find(as => as.key === standard).code;
-    return (
-      scores &&
-      rightScores &&
-      indicatorScores &&
-      indicators &&
-      DIMENSIONS.reduce((memo, d) => {
-        if (d.type === 'cpr') {
-          return {
-            [d.key]: {
-              score: scores.cpr.find(s => s.metric_code === d.code),
-              ...d,
-            },
-            ...memo,
-          };
-        }
-        // esr
-        const score = scores.esr.find(s => s.standard === standardCode);
-        if (score) {
-          return {
-            [d.key]: {
-              score,
-              ...d,
-            },
-            ...memo,
-          };
-        }
-        // without dimension score
-        const indicatorsStandard = indicators
-          .filter(i => i.standard === 'Both' || i.standard === standardCode)
-          .map(i => i.metric_code);
-        const indicatorsAlternate = indicators
-          .filter(i => i.standard !== 'Both' && i.standard !== standardCode)
-          .map(i => i.metric_code);
-
-        const rightsScoresStandardAll =
-          rightScores.esr &&
-          rightScores.esr.filter(
-            s => s.standard === standardCode && s.group === 'All',
-          );
-        const rightsScoresSum =
-          rightsScoresStandardAll &&
-          rightsScoresStandardAll.reduce((sum, s) => {
-            if (!sum) {
-              const metric = RIGHTS.find(r =>
-                quasiEquals(r.code, s.metric_code),
-              );
-              return {
-                ...s,
-                metric: metric.key,
-              };
-            }
-            const sSum = sum;
-            BENCHMARKS.forEach(b => {
-              sSum[b.column] =
-                parseFloat(sum[b.column]) + parseFloat(s[b.column]);
-            });
-            return {
-              ...sSum,
-              metric: 'some',
-              metric_code: '',
-            };
-          }, null);
-        // prettier-ignore
-        const rightsScoresAvg =
-          rightsScoresStandardAll.length > 1
-            ? BENCHMARKS.reduce((avg, b) => ({
-              ...avg,
-              [b.column]: avg[b.column] / rightsScoresStandardAll.length
-            }), rightsScoresSum)
-            : rightsScoresSum;
-        return {
-          [d.key]: {
-            score: false,
-            scoreSome: rightsScoresAvg,
-            hasScoreAlternate: scores.esr.some(
-              s => s.standard !== standardCode,
-            ),
-            hasScoreRights: rightScores.esr.some(
-              s => s.standard === standardCode,
-            ),
-            hasScoreRightsAlternate: rightScores.esr.some(
-              s => s.standard !== standardCode,
-            ),
-            hasScoreIndicators: indicatorScores.some(
-              s => indicatorsStandard.indexOf(s.metric_code) > -1,
-            ),
-            hasScoreIndicatorsAlternate: indicatorScores.some(
-              s => indicatorsAlternate.indexOf(s.metric_code) > -1,
-            ),
-            ...d,
-          },
-          ...memo,
-        };
-      }, {})
-    );
-  },
-);
-
 export const getRightsForCountry = createSelector(
   getRightScoresForCountry,
-  getIndicatorScoresForCountry,
-  getESRIndicators,
   getStandardSearch,
-  (scores, indicatorScores, indicators, standard) => {
+  (scores, standard) => {
     const standardCode = STANDARDS.find(as => as.key === standard).code;
     return (
       scores &&
-      indicatorScores &&
-      indicators &&
       RIGHTS.reduce((memo, r) => {
         if (r.type === 'cpr') {
           return {
@@ -1099,21 +527,6 @@ export const getRightsForCountry = createSelector(
             ...memo,
           };
         }
-        // without dimension score
-        // get indicator definitions (to know right relationship)
-        const indicatorDetailsRight = INDICATORS.filter(
-          i => i.right === r.key,
-        ).map(i => i.code);
-        // get indicator look up info (to know standard info)
-        const indicatorsRight = indicators.filter(
-          i => indicatorDetailsRight.indexOf(i.metric_code) > -1,
-        );
-        const indicatorsStandard = indicatorsRight
-          .filter(i => i.standard === 'Both' || i.standard === standardCode)
-          .map(i => i.metric_code);
-        const indicatorsAlternate = indicatorsRight
-          .filter(i => i.standard !== 'Both' && i.standard !== standardCode)
-          .map(i => i.metric_code);
 
         return {
           [r.key]: {
@@ -1121,132 +534,12 @@ export const getRightsForCountry = createSelector(
             hasScoreAlternate: !!scores.esr.find(
               s => s.standard !== standardCode && s.metric_code === r.code,
             ),
-            hasScoreIndicators: !!indicatorScores.find(
-              s => indicatorsStandard.indexOf(s.metric_code) > -1,
-            ),
-            hasScoreIndicatorsAlternate: !!indicatorScores.find(
-              s => indicatorsAlternate.indexOf(s.metric_code) > -1,
-            ),
             ...r,
           },
           ...memo,
         };
       }, {})
     );
-  },
-);
-
-// at risk
-const atRiskScores = (data, rightKey, includeSubright = false) => {
-  const indicators = AT_RISK_INDICATORS.filter(
-    i => i.right === rightKey || (includeSubright && i.subright === rightKey),
-  );
-  const atRiskCodes = AT_RISK_GROUPS.map(g => g.code);
-  return indicators.reduce(
-    (m, i) => ({
-      ...m,
-      [i.code]: {
-        ...i,
-        scores: data.filter(
-          d =>
-            d.metric_code === i.code &&
-            atRiskCodes.indexOf(d.people_code) > -1 &&
-            parseInt(d.count, 10) > 0,
-        ),
-      },
-    }),
-    {},
-  );
-};
-
-// single country, multiple rights, single year
-export const getPeopleAtRiskForCountryYear = createSelector(
-  (state, { country }) => country,
-  getAtRiskData,
-  getMaxYearAtRisk,
-  (countryCode, data, year) => {
-    if (!data) return null;
-    const countryData = data.filter(
-      d => d.country_code === countryCode && quasiEquals(d.year, year),
-    );
-    return countryData && countryData.length > 0 && countryData;
-  },
-);
-export const getPeopleAtRiskForCountry = createSelector(
-  getPeopleAtRiskForCountryYear,
-  data =>
-    data &&
-    DIMENSIONS.map(dim => ({
-      // prettier-ignore
-      rights: RIGHTS.reduce(
-        (memo, r) =>
-          typeof r.aggregate !== 'undefined' || r.dimension !== dim.key
-            ? memo
-            : {
-              ...memo,
-              [r.key]: {
-                ...r,
-                atRiskData: atRiskScores(data, r.key),
-              },
-            },
-        {},
-      ),
-      ...dim,
-    })),
-);
-
-export const getPeopleAtRisk = createSelector(
-  (state, { metric }) => getMetricDetails(metric),
-  getPeopleAtRiskForCountryYear,
-  (metric, data) => {
-    if (!data) return false;
-    if (metric.metricType === 'rights') {
-      return atRiskScores(data, metric.key, true);
-    }
-    if (metric.metricType === 'dimensions') {
-      // prettier-ignore
-      return RIGHTS.reduce(
-        (memo, r) =>
-          typeof r.aggregate !== 'undefined' || r.dimension !== metric.key
-            ? memo
-            : {
-              ...memo,
-              [r.key]: {
-                ...r,
-                atRiskData: atRiskScores(data, r.key),
-              },
-            },
-        {},
-      );
-      // return atRiskScores(data, right.key, country, year, true);
-    }
-    return false;
-  },
-);
-
-export const getPeopleAtRiskCountryNo = createSelector(
-  getAtRiskData,
-  data => {
-    if (!data) return 0;
-    const year = calcMaxYear(data);
-    const countries = data
-      .filter(d => quasiEquals(d.year, year))
-      .map(d => d[COLUMNS.AT_RISK.COUNTRY_CODE]);
-    return countries ? uniq(countries).length : 0;
-  },
-);
-
-export const getPeopleAtRiskForGroup = createSelector(
-  (state, { group }) => group,
-  getAtRiskData,
-  (group, data) => {
-    if (!data) return null;
-    const year = calcMaxYear(data);
-    const groupData = data
-      .filter(d => quasiEquals(d.year, year))
-      .filter(d => quasiEquals(d[COLUMNS.AT_RISK.CODE], group))
-      .map(d => d[COLUMNS.AT_RISK.COUNTRY_CODE]);
-    return uniq(groupData);
   },
 );
 
@@ -1269,251 +562,6 @@ export const getCPRScoresForYear = createSelector(
   getCPRYear,
   getCPRScores,
   (year, scores) => filterScoresByYear(year, scores),
-);
-
-// export const getESRDimensionScoresForYear = createSelector(
-//   getESRYear,
-//   getESRScores,
-//   (year, scores) => {
-//     const dimension = DIMENSIONS.find(d => d.key === 'esr');
-//     return (
-//       dimension &&
-//       scores &&
-//       scores.filter(
-//         s => s.metric_code === dimension.code && quasiEquals(s.year, year),
-//       )
-//     );
-//   },
-// );
-
-// export const getCPRDimensionScoresForYear = createSelector(
-//   getCPRYear,
-//   getCPRScores,
-//   (year, scores) => {
-//     const dimensions = DIMENSIONS.filter(d => d.type === 'cpr');
-//     return (
-//       dimensions &&
-//       scores &&
-//       dimensions.reduce(
-//         (m, d) => ({
-//           ...m,
-//           [d.key]: scores.filter(
-//             s => s.metric_code === d.code && quasiEquals(s.year, year),
-//           ),
-//         }),
-//         {},
-//       )
-//     );
-//   },
-// );
-
-// esr: average of countries in same region, if high income country use ALL high income average best calculate for both standards and benchmarks
-// cpr: average mean score of other countries worldwide, if high income oecd country only use HI OECD average
-
-const esrScoreAdder = (stats, referenceCountry, scores, metrics) => {
-  // look up country score
-  const referenceScores = scores.filter(
-    s =>
-      s.country_code === referenceCountry.country_code &&
-      metrics.map(m => m.code).indexOf(s.metric_code) > -1,
-  );
-  if (!referenceScores || referenceScores.length === 0) {
-    return stats;
-  }
-  let referenceAverage;
-  if (referenceScores.length === 1) {
-    [referenceAverage] = referenceScores;
-  } else {
-    // rights averages
-    const rightsSum = referenceScores.reduce(
-      (sumR, s) => ({
-        [COLUMNS.ESR.SCORE_ADJUSTED]:
-          sumR[COLUMNS.ESR.SCORE_ADJUSTED] +
-          parseFloat(s[COLUMNS.ESR.SCORE_ADJUSTED]),
-        [COLUMNS.ESR.SCORE_BEST]:
-          sumR[COLUMNS.ESR.SCORE_BEST] + parseFloat(s[COLUMNS.ESR.SCORE_BEST]),
-      }),
-      {
-        [COLUMNS.ESR.SCORE_ADJUSTED]: 0,
-        [COLUMNS.ESR.SCORE_BEST]: 0,
-      },
-    );
-    referenceAverage = {
-      [COLUMNS.ESR.SCORE_ADJUSTED]:
-        rightsSum[COLUMNS.ESR.SCORE_ADJUSTED] / referenceScores.length,
-      [COLUMNS.ESR.SCORE_BEST]:
-        rightsSum[COLUMNS.ESR.SCORE_BEST] / referenceScores.length,
-    };
-  }
-  // sums by benchmark & count
-  return {
-    sumAdjusted:
-      stats.sumAdjusted +
-      parseFloat(referenceAverage[COLUMNS.ESR.SCORE_ADJUSTED]),
-    sumBest:
-      stats.sumBest + parseFloat(referenceAverage[COLUMNS.ESR.SCORE_BEST]),
-    count: stats.count + 1,
-  };
-};
-const cprScoreAdder = (stats, referenceCountry, scores, dimension) => {
-  // look up country score
-  const referenceScore = scores.find(
-    s =>
-      s.country_code === referenceCountry.country_code &&
-      dimension === s.metric_code,
-  );
-  if (!referenceScore) {
-    return stats;
-  }
-  // sums by benchmark & count
-  return {
-    sum: stats.sum + parseFloat(referenceScore[COLUMNS.CPR.MEAN]),
-    count: stats.count + 1,
-  };
-};
-
-export const getReferenceScores = createSelector(
-  getCountryFromRouter,
-  getCountries,
-  getStandardSearch,
-  getESRScoresForYear,
-  getCPRScoresForYear,
-  (country, countries, standard, esrScores, cprScores) => {
-    if (!country || !countries || !esrScores || !cprScores) return false;
-
-    // esr data
-    // 1. check if our country even has any dim or rights scores
-    let esrAverages;
-    const currentStandard = STANDARDS.find(s => s.key === standard);
-    const group = PEOPLE_GROUPS.find(g => g.key === 'all');
-
-    const countryScores = esrScores.filter(
-      s =>
-        s.country_code === country.country_code &&
-        s.standard === currentStandard.code &&
-        s.group === group.code,
-    );
-    if (countryScores && countryScores.length > 0) {
-      const dimension = DIMENSIONS.find(d => d.key === 'esr');
-      const countryDimScore = countryScores.find(
-        s => s.metric_code === dimension.code,
-      );
-      const hasCountryDimScore = !!countryDimScore;
-      // check rights scores if no dim score present
-      let countryRightsScores;
-      let hasCountryRightsScores;
-      let countryMetrics;
-      if (hasCountryDimScore) {
-        countryMetrics = [dimension];
-      } else {
-        countryRightsScores = countryScores.filter(
-          s => s.metric_code !== dimension.code,
-        );
-        countryMetrics = countryRightsScores
-          .map(s => RIGHTS.find(r => r.code === s.metric_code))
-          .filter(s => !!s);
-        hasCountryRightsScores =
-          countryRightsScores && countryRightsScores.length > 0;
-      }
-      // 2. get reference countries if scores present
-      if (hasCountryDimScore || hasCountryRightsScores) {
-        // these are the countries that we are comparing our country to
-        // if country high income country then compare with all other HI
-        // if not, compare with region/subregion
-        let referenceCountriesESR;
-        if (isCountryHighIncome(country)) {
-          // use high income countries for comparison
-          referenceCountriesESR = countries.filter(
-            c =>
-              isCountryHighIncome(c) && c.country_code !== country.country_code,
-          );
-        } else {
-          // use countries from region
-          referenceCountriesESR = countries.filter(
-            c =>
-              c[COLUMNS.COUNTRIES.UN_REGION] ===
-                country[COLUMNS.COUNTRIES.UN_REGION] &&
-              c.country_code !== country.country_code,
-          );
-        }
-        // 3. calculate average score of reference countries
-        const esrSums = referenceCountriesESR.reduce(
-          (sum, referenceCountry) =>
-            esrScoreAdder(sum, referenceCountry, esrScores, countryMetrics),
-          {
-            sumAdjusted: 0,
-            sumBest: 0,
-            count: 0,
-          },
-        );
-        // prettier-ignore
-        esrAverages = esrSums
-          ? {
-            ...esrSums,
-            average: {
-              adjusted: esrSums.sumAdjusted / esrSums.count,
-              best: esrSums.sumBest / esrSums.count,
-            },
-            countryMetrics,
-          }
-          : null;
-      }
-    }
-
-    // CPR
-    let cprAverages;
-    const countryScoresCPR = cprScores.filter(
-      s => s.country_code === country.country_code,
-    );
-    if (countryScoresCPR && countryScoresCPR.length > 0) {
-      const cprDimensions = DIMENSIONS.filter(d => d.type === 'cpr');
-      cprAverages = cprDimensions.reduce((averages, dimension) => {
-        const countryDimScore = countryScoresCPR.find(
-          s => s.metric_code === dimension.code,
-        );
-        const hasCountryDimScore = !!countryDimScore;
-        // 2. get reference countries if scores present
-        if (hasCountryDimScore) {
-          // these are the countries that we are comparing our country to
-          // if country high income AND OECD country then
-          //   compare it with all other HI AND OECD countries
-          // if not, compare with region/subregion
-          let referenceCountries;
-          if (isCountryHighIncome(country) && isCountryOECD(country)) {
-            referenceCountries = countries.filter(
-              c => isCountryHighIncome(c) && isCountryOECD(c),
-            );
-          } else {
-            // use other countries
-            referenceCountries = countries.filter(
-              c => c.country_code !== country.country_code,
-            );
-          }
-          // 3. calculate average score of reference countries
-          const dimSums = referenceCountries.reduce(
-            (sum, referenceCountry) =>
-              cprScoreAdder(sum, referenceCountry, cprScores, dimension.code),
-            {
-              sum: 0,
-              count: 0,
-            },
-          );
-          return {
-            ...averages,
-            [dimension.key]: {
-              ...dimSums,
-              average: dimSums.sum / dimSums.count,
-            },
-          };
-        }
-        return averages;
-      }, {});
-    }
-    return {
-      esr: esrAverages,
-      ...cprAverages,
-    };
-  },
 );
 
 // All countries
@@ -1552,65 +600,6 @@ const scoresByCountry = scores =>
     };
   }, {});
 
-// TODO refactor for better IE/Edge performance
-const indicatorScoresByCountry = (year, scores) =>
-  !!scores &&
-  scores.reduce((memo, score) => {
-    // ignore all outdated scores
-    if (parseInt(score.year, 10) < year - INDICATOR_LOOKBACK) return memo;
-    const metric = INDICATORS.find(i => i.code === score.metric_code);
-    if (!metric) return memo;
-    // add to list of country scores if already present
-    const memoCountry = memo[score.country_code];
-    if (memoCountry) {
-      const memoCountryMetric = memoCountry[metric.key];
-      if (memoCountryMetric) {
-        // replace group score with newer score if already present
-        const memoCountryMetricGroup = memoCountryMetric.find(
-          i => i.group === score.group,
-        );
-        if (
-          memoCountryMetricGroup &&
-          parseInt(memoCountryMetricGroup.year, 10) < parseInt(score.year, 10)
-        ) {
-          return {
-            ...memo,
-            [score.country_code]: {
-              ...memoCountry,
-              [metric.key]: memoCountryMetric.reduce(
-                (mm, i) => (i.group === score.group ? mm : [...mm, i]),
-                [score],
-              ),
-            },
-          };
-        }
-        // if not yet score present for group remember score
-        return {
-          ...memo,
-          [score.country_code]: {
-            ...memoCountry,
-            [metric.key]: [...memoCountryMetric, score],
-          },
-        };
-      }
-      // else remember score for indicator
-      return {
-        ...memo,
-        [score.country_code]: {
-          ...memoCountry,
-          [metric.key]: [score],
-        },
-      };
-    }
-    // else add country and remember score for indicator
-    return {
-      ...memo,
-      [score.country_code]: {
-        [metric.key]: [score],
-      },
-    };
-  }, {});
-
 export const getESRScoresByCountry = createSelector(
   getESRScoresForYear,
   scores => scoresByCountry(scores, 'esr'),
@@ -1621,22 +610,12 @@ export const getCPRScoresByCountry = createSelector(
   scores => scoresByCountry(scores, 'cpr'),
 );
 
-// NOTE not currently used due to bad performance
-export const getIndicatorScoresByCountry = createSelector(
-  getESRYear,
-  getESRIndicatorScores,
-  (year, scores) => indicatorScoresByCountry(year, scores),
-);
-
 export const getScoresByCountry = createSelector(
   getESRScoresByCountry,
   getCPRScoresByCountry,
-  // getIndicatorScoresByCountry,
-  // (esr, cpr, indicators) => ({
   (esr, cpr) => ({
     esr,
     cpr,
-    // indicators,
   }),
 );
 
@@ -1795,38 +774,6 @@ export const getDependenciesReady = createSelector(
   (dependencies, data) => dependencies.reduce((m, d) => !!data[d] && m, true),
 );
 
-export const getHasCountryESRIndicatorScores = createSelector(
-  getIndicatorScoresForCountry,
-  getESRIndicators,
-  getStandardSearch,
-  (countryScores, indicators, standardSearch) => {
-    const standard = STANDARDS.find(as => as.key === standardSearch);
-    const otherStandard = STANDARDS.find(as => as.key !== standardSearch);
-    return {
-      some: countryScores && countryScores.length > 0,
-      standard:
-        countryScores &&
-        indicators &&
-        countryScores.filter(s => {
-          const details = indicators.find(i => i.metric_code === s.metric_code);
-          return (
-            details.standard === 'Both' || details.standard === standard.code
-          );
-        }).length > 0,
-      otherStandard:
-        countryScores &&
-        indicators &&
-        countryScores.filter(s => {
-          const details = indicators.find(i => i.metric_code === s.metric_code);
-          return (
-            details.standard === 'Both' ||
-            details.standard === otherStandard.code
-          );
-        }).length > 0,
-    };
-  },
-);
-
 export const getHasCountryESRScores = createSelector(
   (state, countryCode) => countryCode,
   getESRScores,
@@ -1852,29 +799,8 @@ export const getHasCountryESRScores = createSelector(
   },
 );
 
-// export const getUNRegionsCountries = createSelector(
-//   getCountries,
-//   countries =>
-//     countries &&
-//     countries.filter(
-//       c =>
-//         c[COLUMNS.COUNTRIES.UN_REGION] &&
-//         c[COLUMNS.COUNTRIES.UN_REGION].trim() !== ''
-//     ),
-// );
-
-export const getHRCCountries = createSelector(
+export const getCountryCodes = createSelector(
   getCountries,
-  countries =>
-    countries &&
-    countries.filter(
-      c =>
-        c[COLUMNS.COUNTRIES.HRC_TERMS] &&
-        c[COLUMNS.COUNTRIES.HRC_TERMS].trim() !== '',
-    ),
-);
-export const getHRCCountryCodes = createSelector(
-  getHRCCountries,
   countries => countries && countries.map(c => c[COLUMNS.COUNTRIES.CODE]),
 );
 const calculateRegionAverageColumn = (scores, column) =>
@@ -1920,8 +846,8 @@ export const getESRScoresForUNRegions = createSelector(
   (state, { metricCode }) => metricCode,
   (state, { standard }) => standard,
   getESRScores,
-  getHRCCountries,
-  getHRCCountryCodes,
+  getCountries,
+  getCountryCodes,
   (metricCode, standardKey, scores, countries, countryCodes) => {
     const metric = getMetricDetails(metricCode);
     const standard = STANDARDS.find(s => s.key === standardKey);
@@ -1964,8 +890,8 @@ export const getESRScoresForUNRegions = createSelector(
 export const getCPRScoresForUNRegions = createSelector(
   (state, { metricCode }) => metricCode,
   getCPRScores,
-  getHRCCountries,
-  getHRCCountryCodes,
+  getCountries,
+  getCountryCodes,
   (metricCode, scores, countries, countryCodes) => {
     const metric = getMetricDetails(metricCode);
     if (metric && countries && scores) {

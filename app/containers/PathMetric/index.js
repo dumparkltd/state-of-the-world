@@ -8,24 +8,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
-import { ResponsiveContext, Paragraph } from 'grommet';
+import { ResponsiveContext } from 'grommet';
 import { withTheme } from 'styled-components';
 
-import { navigate, setAsideLayer } from 'containers/App/actions';
+import { setAsideLayer } from 'containers/App/actions';
 import {
   getCloseTargetMetric,
   getAsideLayer,
   getAsideLayerActiveCode,
 } from 'containers/App/selectors';
-import { PATHS, IMAGE_PATH, PAGES, RIGHTS } from 'containers/App/constants';
+import { IMAGE_PATH, RIGHTS } from 'containers/App/constants';
 import ChartContainerMetric from 'containers/ChartContainerMetric';
 import TabContainer from 'containers/TabContainer';
 import AboutMetricContainer from 'containers/AboutMetricContainer';
 
-import Breadcrumb from 'components/Breadcrumb';
 import AsideBackground from 'components/AsideBackground';
 import Aside from 'components/Aside';
 
@@ -34,19 +33,15 @@ import MainColumn from 'styled/MainColumn';
 import ContentContainer from 'styled/ContentContainer';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import PageTitle from 'styled/PageTitle';
-import ButtonTextIcon from 'styled/ButtonTextIcon';
 
 import getMetricDetails from 'utils/metric-details';
-import { isMinSize, isMaxSize } from 'utils/responsive';
+import { isMinSize } from 'utils/responsive';
 
 import rootMessages from 'messages';
-import messages from './messages';
 
 export function PathMetric({
   match,
   intl,
-  onMetricClick,
-  nav,
   theme,
   onSetAsideLayer,
   asideLayer,
@@ -129,53 +124,7 @@ export function PathMetric({
                 hasAside={isMinSize(size, 'large')}
               >
                 <MainColumn hasAside={isMinSize(size, 'large')} header hasLinks>
-                  <div>
-                    <Breadcrumb
-                      onItemClick={key => onMetricClick(key)}
-                      breadcrumb
-                      items={ancestors.map(ancestor => ({
-                        key: ancestor.key,
-                        label: intl.formatMessage(
-                          ancestor.key === 'all'
-                            ? rootMessages.labels.allMetrics
-                            : rootMessages[ancestor.type][ancestor.key],
-                        ),
-                      }))}
-                    />
-                  </div>
-                  <div>
-                    <PageTitle>{metricTitle}</PageTitle>
-                  </div>
-                  {messages[metric.metricType][metricCode].header.a && (
-                    <p style={{ fontSize: '21px', lineHeight: '38px' }}>
-                      <FormattedMessage
-                        {...messages[metric.metricType][metricCode].header.a}
-                      />
-                    </p>
-                  )}
-                  {messages[metric.metricType][metricCode].header.b && (
-                    <p style={{ fontSize: '21px', lineHeight: '38px' }}>
-                      <FormattedMessage
-                        {...messages[metric.metricType][metricCode].header.b}
-                      />
-                    </p>
-                  )}
-                  {messages[metric.metricType][metricCode].link && (
-                    <Paragraph
-                      size={isMaxSize(size, 'sm') ? 'small' : 'medium'}
-                    >
-                      <ButtonTextIcon
-                        label={intl.formatMessage(
-                          messages[metric.metricType][metricCode].link,
-                        )}
-                        onClick={() =>
-                          nav(`${PATHS.PAGE}/${PAGES.methodology.key}`)
-                        }
-                        size="small"
-                        hasIcon
-                      />
-                    </Paragraph>
-                  )}
+                  <PageTitle>{metricTitle}</PageTitle>
                 </MainColumn>
                 {isMinSize(size, 'large') && (
                   <Aside image>
@@ -238,8 +187,6 @@ export function PathMetric({
 
 PathMetric.propTypes = {
   intl: intlShape.isRequired,
-  onMetricClick: PropTypes.func,
-  nav: PropTypes.func,
   match: PropTypes.object,
   theme: PropTypes.object,
   onSetAsideLayer: PropTypes.func,
@@ -257,34 +204,6 @@ export function mapDispatchToProps(dispatch) {
   return {
     onSetAsideLayer: config => {
       dispatch(setAsideLayer(config));
-    },
-    onMetricClick: code =>
-      dispatch(
-        navigate(
-          {
-            pathname:
-              code === 'all' ? `/${PATHS.METRICS}` : `/${PATHS.METRIC}/${code}`,
-          },
-          {
-            trackEvent: {
-              category: 'Data',
-              action: 'Change metric (Metric, header links)',
-              value: code,
-            },
-          },
-        ),
-      ),
-    nav: location => {
-      dispatch(
-        navigate(location, {
-          keepTab: true,
-          trackEvent: {
-            category: 'Content',
-            action: 'Header: navigate',
-            value: typeof location === 'object' ? location.pathname : location,
-          },
-        }),
-      );
     },
   };
 }

@@ -177,20 +177,6 @@ const BrandBox = styled(Box)`
   }
 `;
 
-const AddToPDFWrapper = styled.div`
-  display: none;
-  @media print {
-    display: initial;
-    margin-top: 15px;
-  }
-`;
-
-const RemoveFromPDFBox = styled(Box)`
-  @media print {
-    display: none;
-  }
-`;
-
 const navButtonOnClick = ({ match, onClick, align, locale }) =>
   PAGES &&
   Object.values(PAGES)
@@ -329,20 +315,8 @@ export function Header({
                     </MenuList>
                   </Layer>
                 )}
-                <AddToPDFWrapper>
-                  {rootMessages.countries[match] && (
-                    <FormattedMessage
-                      {...rootMessages.pdf.subtitle}
-                      values={{
-                        country: intl.formatMessage(
-                          rootMessages.countries[match],
-                        ),
-                      }}
-                    />
-                  )}
-                </AddToPDFWrapper>
               </BrandBox>
-              <RemoveFromPDFBox fill>
+              <Box fill>
                 {isMinSize(size, 'large') && (
                   <NavBarTop
                     theme={theme}
@@ -406,13 +380,6 @@ export function Header({
                           onHideAsideLayer();
                         }}
                       />
-                      <NavBottom
-                        type="people"
-                        active={path === PATHS.GROUPS || path === PATHS.GROUP}
-                        onClick={() => {
-                          onHideAsideLayer();
-                        }}
-                      />
                     </>
                   )}
                   {isMinSize(size, 'large') && (
@@ -425,7 +392,7 @@ export function Header({
                     </SearchWrap>
                   )}
                 </NavBarBottom>
-              </RemoveFromPDFBox>
+              </Box>
             </ContentMaxWidth>
           </ElevationBox>
         </Styled>

@@ -22,7 +22,7 @@ import {
   getMinYearESR,
   getMinYearCPR,
 } from 'containers/App/selectors';
-import { loadDataIfNeeded, setBenchmark } from 'containers/App/actions';
+import { loadDataIfNeeded } from 'containers/App/actions';
 
 import ChartRegionMetricTrend from 'components/ChartRegionMetricTrend';
 
@@ -52,7 +52,6 @@ export function ChartContainerRegionMetricTrend({
   minYearESR,
   minYearCPR,
   theme,
-  onSetBenchmark,
 }) {
   useEffect(() => {
     onLoadData();
@@ -61,7 +60,6 @@ export function ChartContainerRegionMetricTrend({
   const metric = getMetricDetails(metricCode);
   const isESR = metric.type === 'esr';
 
-  // console.log(scores)
   if (!scores) return null;
   return (
     <div>
@@ -80,7 +78,6 @@ export function ChartContainerRegionMetricTrend({
         maxYear={isESR ? maxYearESR : maxYearCPR}
         minYear={isESR ? minYearESR : minYearCPR}
         hasBenchmarkOption={isESR}
-        onSetBenchmark={onSetBenchmark}
         benchmark={benchmark}
         metric={metric}
       />
@@ -94,10 +91,9 @@ ChartContainerRegionMetricTrend.propTypes = {
   minYearESR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   minYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   benchmark: PropTypes.string,
-  onSetBenchmark: PropTypes.func,
   onLoadData: PropTypes.func,
   metricCode: PropTypes.string.isRequired,
-  scores: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  scores: PropTypes.object,
   theme: PropTypes.object,
 };
 
@@ -120,7 +116,6 @@ export function mapDispatchToProps(dispatch) {
   return {
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),
-    onSetBenchmark: value => dispatch(setBenchmark(value)),
   };
 }
 const withConnect = connect(
