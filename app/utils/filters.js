@@ -1,13 +1,5 @@
 import { COLUMNS, INCOME_GROUPS, UN_REGIONS } from 'containers/App/constants';
 
-import {
-  getScoresForCountry,
-  hasAllScores,
-  hasAllCPRScores,
-  hasAllESRScores,
-  hasSomeScores,
-} from 'utils/scores';
-
 export const areAnyFiltersSet = (
   filterGroups,
   {
@@ -172,32 +164,3 @@ export const getFilterOptionValues = (
       ...memo,
     };
   }, {});
-
-export const filterByAssessment = (
-  country,
-  scoresAllCountries,
-  filter,
-  standard,
-) => {
-  const countryScores = getScoresForCountry(
-    country.country_code,
-    scoresAllCountries,
-  );
-  if (filter[0] === 'all') {
-    // true if we have all dimension scores for current standard
-    return hasAllScores(countryScores, standard);
-  }
-  if (filter[0] === 'cpr-all') {
-    // true if we have a cpr dimension score
-    return hasAllCPRScores(countryScores);
-  }
-  if (filter[0] === 'esr-all') {
-    // true if we have an esr dimension score for current standard
-    return hasAllESRScores(countryScores, standard);
-  }
-  if (filter[0] === 'some') {
-    // true if we have any rights score for any standard
-    return hasSomeScores(countryScores);
-  }
-  return true;
-};

@@ -10,8 +10,6 @@ import { FormattedMessage } from 'react-intl';
 import { Box, Text, ResponsiveContext } from 'grommet';
 import styled from 'styled-components';
 
-import AnnotateBenchmark from 'components/ChartBars/AnnotateBenchmark';
-
 import rootMessages from 'messages';
 // import messages from './messages';
 import { scoreAsideWidth, chartLabelWidth } from './chart-utils';
@@ -30,11 +28,6 @@ const CountryWrap = styled(Box)`
   border-right: 1px solid;
   border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 `;
-const RemoveFromPDFWrapper = styled.div`
-  @media print {
-    display: none;
-  }
-`;
 const getScoreAsideWidth = (size, hasAside = false) => {
   if (hasAside) {
     return scoreAsideWidth(size);
@@ -46,13 +39,9 @@ export function ListHeader({
   benchmark,
   commonLabel,
   labelColor = 'dark',
-  annotateBetter = true,
   hasAside = false,
-  benchmarkIconOnly = true,
-  annotateBenchmark = true,
   annotateMinMax = true,
 }) {
-  const annotateBk = annotateBenchmark && metric && metric.type === 'esr';
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -101,15 +90,6 @@ export function ListHeader({
                 </Text>
               </Box>
             )}
-            <RemoveFromPDFWrapper>
-              {annotateBk && (
-                <AnnotateBenchmark
-                  benchmarkKey={benchmark}
-                  hasBetter={annotateBetter}
-                  type={benchmarkIconOnly ? 'icon' : 'header'}
-                />
-              )}
-            </RemoveFromPDFWrapper>
           </BarWrap>
           {hasAside && (
             <Box width={getScoreAsideWidth(size, true)} flex={{ shrink: 0 }} />
@@ -127,8 +107,6 @@ ListHeader.propTypes = {
   labelColor: PropTypes.string,
   annotateBetter: PropTypes.bool,
   hasAside: PropTypes.bool,
-  benchmarkIconOnly: PropTypes.bool,
-  annotateBenchmark: PropTypes.bool,
   annotateMinMax: PropTypes.bool,
 };
 

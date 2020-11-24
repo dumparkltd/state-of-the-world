@@ -198,20 +198,12 @@ const theme = {
       highlight3: '#AD6500', // AA
       focus: 'transparent',
       selected: 'brand',
-      empowermentTrans: 'rgba(38, 32, 100, 0.3)', // AA
-      empowermentActiveTrans: 'rgba(38, 32, 100, 0.3)', // AA
-      empowerment: '#262262', // AA
-      empowermentLight: '#DFDFEF', // AA
-      empowermentDark: '#262262', // AA
-      empowermentActive: '#110d50', // AA
-      empowermentCloud: '#262262', // AA
-      physintTrans: 'rgba(108, 63, 153, 0.3)', // AA
-      physintActiveTrans: 'rgba(108, 63, 153, 0.3)', // AA
-      physint: '#6C3F99', // AA large
-      physintLight: '#E7DFEF', // AA large
-      physintDark: '#6C3F99', // AA
-      physintActive: '#491d75', // AA
-      physintCloud: '#6C3F99', // AA
+      cprTrans: 'rgba(108, 63, 153, 0.3)', // AA
+      cprActiveTrans: 'rgba(108, 63, 153, 0.3)', // AA
+      cpr: '#6C3F99', // AA large
+      cprLight: '#E7DFEF', // AA large
+      cprDark: '#6C3F99', // AA
+      cprActive: '#491d75', // AA
       esrTrans: 'rgba(39, 170, 225, 0.3)', // AA large
       esrActiveTrans: 'rgba(39, 170, 225, 0.3)', // AA large
       esr: '#27AAE1', // AA large
@@ -236,13 +228,6 @@ const theme = {
       graphicYellow: '#FDC65B',
       buttonPrimary: '#7F59A6',
       footer: '#423E86',
-      female: '#EE5A45',
-      male: '#0D6D64',
-      allPeople: '#027AC0',
-      femaleActive: '#EE5A45',
-      maleActive: '#0D6D64',
-      femaleTrans: 'rgba(238, 90, 69, 0.3)',
-      maleTrans: 'rgba(13, 109, 100, 0.3)',
       buttonPrimaryHover: '#626096',
       buttonSecondary: '#deddec',
       buttonSecondaryOnWhite: '#ededf5',

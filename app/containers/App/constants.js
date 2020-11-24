@@ -148,12 +148,10 @@ export const XPATHS = {
 };
 
 export const FAQS = {
-  COUNTRY_SNAPSHOT: ['scale', 'year', 'benchmarks', 'standards', 'grades'],
-  COUNTRY_ESR: ['benchmarks', 'standards', 'grades'],
+  COUNTRY_SNAPSHOT: ['scale', 'year', 'standards', 'grades'],
+  COUNTRY_ESR: ['standards', 'grades'],
   COUNTRY_CPR: ['grades', 'uncertainty'],
-  ESR_DIMENSION: ['measureDimensionESR', 'benchmarks', 'standards'],
-  ESR_RIGHT: ['measureRightESR', 'benchmarks', 'standards'],
-  CPR_DIMENSION: ['measureDimensionCPR', 'uncertainty'],
+  ESR_RIGHT: ['measureRightESR', 'standards'],
   CPR_RIGHT: ['measureRightCPR', 'uncertainty'],
 };
 
@@ -175,10 +173,6 @@ export const DATA_RESOURCES = [
     file: 'countries_grammar_v3.csv',
   },
   {
-    key: 'esrIndicators',
-    file: 'esr-indicators_v3-1.csv',
-  },
-  {
     key: 'auxIndicators',
     file: 'auxiliary-indicators_v3-1-sotw.csv',
   },
@@ -189,14 +183,6 @@ export const DATA_RESOURCES = [
   {
     key: 'esrScores',
     file: 'esr-scores_v3-1.csv',
-  },
-  {
-    key: 'esrIndicatorScores',
-    file: 'esr-indicator-scores_v3-1.csv',
-  },
-  {
-    key: 'sources',
-    file: 'sources_v3-1.csv',
   },
   {
     key: 'hrcTerms',
@@ -300,22 +286,8 @@ export const PEOPLE_GROUPS = [
     code: 'All',
     color: 'allPeople',
   },
-  {
-    key: 'female',
-    code: 'Female',
-    breakdown: 'sex',
-    color: 'female',
-  },
-  {
-    key: 'male',
-    code: 'Male',
-    breakdown: 'sex',
-    color: 'male',
-  },
 ];
 export const METRIC_TYPES = ['rights'];
-
-export const RIGHTS_TYPES = ['esr', 'cpr'];
 
 // d: dimensions, r: rights
 export const SCALES = [
@@ -364,23 +336,13 @@ export const GRADES = {
   ],
 };
 
-export const DIMENSIONS = [
+export const TYPES = [
   {
     key: 'esr',
-    code: 'SER_Average',
-    type: 'esr',
     resource: 'esrScores',
   },
   {
-    key: 'physint',
-    code: 'physint',
-    type: 'cpr',
-    resource: 'cprScores',
-  },
-  {
-    key: 'empowerment',
-    code: 'empower',
-    type: 'cpr',
+    key: 'cpr',
     resource: 'cprScores',
   },
 ];
@@ -389,7 +351,6 @@ export const RIGHTS = [
   {
     key: 'education',
     code: 'Education',
-    dimension: 'esr',
     type: 'esr',
     resource: 'esrScores',
     icon: education,
@@ -397,7 +358,6 @@ export const RIGHTS = [
   {
     key: 'food',
     code: 'Food',
-    dimension: 'esr',
     type: 'esr',
     resource: 'esrScores',
     icon: food,
@@ -405,7 +365,6 @@ export const RIGHTS = [
   {
     key: 'health',
     code: 'Health',
-    dimension: 'esr',
     type: 'esr',
     resource: 'esrScores',
     icon: health,
@@ -413,7 +372,6 @@ export const RIGHTS = [
   {
     key: 'housing',
     code: 'Housing',
-    dimension: 'esr',
     type: 'esr',
     resource: 'esrScores',
     icon: housing,
@@ -421,7 +379,6 @@ export const RIGHTS = [
   {
     key: 'work',
     code: 'Work',
-    dimension: 'esr',
     type: 'esr',
     resource: 'esrScores',
     icon: work,
@@ -429,7 +386,6 @@ export const RIGHTS = [
   {
     key: 'arrest',
     code: 'arrest',
-    dimension: 'physint',
     type: 'cpr',
     resource: 'cprScores',
     icon: arrest,
@@ -437,7 +393,6 @@ export const RIGHTS = [
   {
     key: 'disappearance',
     code: 'disap',
-    dimension: 'physint',
     type: 'cpr',
     resource: 'cprScores',
     icon: disappearance,
@@ -445,7 +400,6 @@ export const RIGHTS = [
   {
     key: 'death-penalty',
     code: 'dpex',
-    dimension: 'physint',
     type: 'cpr',
     resource: 'cprScores',
     icon: deathPenalty,
@@ -453,7 +407,6 @@ export const RIGHTS = [
   {
     key: 'extrajud-killing',
     code: 'exkill',
-    dimension: 'physint',
     type: 'cpr',
     resource: 'cprScores',
     icon: extrajudKilling,
@@ -461,7 +414,6 @@ export const RIGHTS = [
   {
     key: 'torture',
     code: 'tort',
-    dimension: 'physint',
     type: 'cpr',
     resource: 'cprScores',
     icon: torture,
@@ -469,7 +421,6 @@ export const RIGHTS = [
   {
     key: 'assembly',
     code: 'assem',
-    dimension: 'empowerment',
     type: 'cpr',
     resource: 'cprScores',
     icon: assembly,
@@ -477,7 +428,6 @@ export const RIGHTS = [
   {
     key: 'expression',
     code: 'express',
-    dimension: 'empowerment',
     type: 'cpr',
     resource: 'cprScores',
     icon: expression,
@@ -485,7 +435,6 @@ export const RIGHTS = [
   {
     key: 'participation',
     code: 'polpart',
-    dimension: 'empowerment',
     type: 'cpr',
     resource: 'cprScores',
     icon: participation,

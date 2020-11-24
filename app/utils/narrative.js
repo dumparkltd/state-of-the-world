@@ -1,5 +1,4 @@
 import rootMessages from 'messages';
-import { roundScore } from './scores';
 import { startsWithVowel, upperCaseFirst } from './string';
 
 const ARTICLES_DEFAULT = {
@@ -379,12 +378,6 @@ export const getRegionIn = (locale, regionCode, regionLabel) => {
       if (isPluralRegion(locale, regionCode)) {
         return `aux ${regionLabel}`;
       }
-      if (
-        regionCode === 'middle-east-north-africa' ||
-        regionCode === 'middle-east'
-      ) {
-        return `au ${regionLabel}`;
-      }
     }
     return `en ${regionLabel}`;
   }
@@ -392,9 +385,6 @@ export const getRegionIn = (locale, regionCode, regionLabel) => {
     return `en ${regionLabel}`;
   }
   if (locale === 'pt') {
-    if (regionCode === 'americas') {
-      return `nas ${regionLabel}`;
-    }
     if (isRegionFeminine(locale, regionCode)) {
       return `na ${regionLabel}`;
     }
@@ -408,20 +398,12 @@ export const getMessageGrammar = (
   countryCode,
   regionCode,
   countryGrammar,
-  subregionCode,
 ) => {
   const { locale } = intl;
-  const useSubregion = subregionCode && subregionCode.trim() !== '';
   const countryLabel = rootMessages.countries[countryCode]
     ? intl.formatMessage(rootMessages.countries[countryCode])
     : countryCode;
   let regionLabel;
-  if (!useSubregion && regionCode) {
-    regionLabel = intl.formatMessage(rootMessages.regions[regionCode]);
-  }
-  if (useSubregion) {
-    regionLabel = intl.formatMessage(rootMessages.subregions[subregionCode]);
-  }
   const countryWithArticle = getCountryWithArticle(
     locale,
     countryGrammar,
@@ -441,87 +423,12 @@ export const getMessageGrammar = (
     genderNumber: genderNumber(locale, countryGrammar),
     countryOf: getCountryOf(locale, countryGrammar, countryLabel),
     region: regionLabel,
-    regionGenderNumber: getRegionGenderNumber(
-      locale,
-      useSubregion ? subregionCode : regionCode,
-    ),
-    regionWithArticle: getRegionWithArticle(
-      locale,
-      useSubregion ? subregionCode : regionCode,
-      regionLabel,
-    ),
-    regionOf: getRegionOf(
-      locale,
-      useSubregion ? subregionCode : regionCode,
-      regionLabel,
-    ),
-    regionIn: getRegionIn(
-      locale,
-      useSubregion ? subregionCode : regionCode,
-      regionLabel,
-    ),
-    needsArticleRegion: needsArticleRegion(
-      locale,
-      useSubregion ? subregionCode : regionCode,
-    ),
+    regionGenderNumber: getRegionGenderNumber(locale, regionCode),
+    regionWithArticle: getRegionWithArticle(locale, regionCode, regionLabel),
+    regionOf: getRegionOf(locale, regionCode, regionLabel),
+    regionIn: getRegionIn(locale, regionCode, regionLabel),
+    needsArticleRegion: needsArticleRegion(locale, regionCode),
   };
-};
-
-const CPR_SCORE_RANGES = [
-  {
-    range: 'a',
-    min: 0,
-    max: 6,
-  },
-  {
-    range: 'b',
-    min: 6,
-    max: 8,
-  },
-  {
-    range: 'c',
-    min: 8,
-    max: 10,
-  },
-];
-
-const ESR_SCORE_RANGES = [
-  {
-    range: 'a',
-    min: 0,
-    max: 70,
-  },
-  {
-    range: 'b',
-    min: 70,
-    max: 80,
-  },
-  {
-    range: 'c',
-    min: 80,
-    max: 98,
-  },
-  {
-    range: 'd',
-    min: 98,
-    max: 99.9,
-  },
-];
-
-export const getCPRScoreRange = value => {
-  const rvalue = roundScore(value);
-  const range = CPR_SCORE_RANGES.find(r => rvalue >= r.min && rvalue < r.max);
-  return range && range.range;
-};
-export const getESRScoreRange = value => {
-  const rvalue = roundScore(value);
-  const range = ESR_SCORE_RANGES.find(r => rvalue >= r.min && rvalue < r.max);
-  return range && range.range;
-};
-export const compareRange = ({ lo, hi, reference }) => {
-  if (lo > reference) return 'a'; // better than average
-  if (hi < reference) return 'b'; // worse than average
-  return 'c'; // close to average
 };
 
 const TERRITORY_GRAMMAR = {

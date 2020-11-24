@@ -49,14 +49,7 @@ import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
 
 import rootMessages from 'messages';
 
-const DEPENDENCIES = [
-  'countries',
-  'cprScores',
-  'esrScores',
-  'esrIndicators',
-  'esrIndicatorScores',
-  'auxIndicators',
-];
+const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'auxIndicators'];
 
 const SORT_OPTIONS = ['score', 'name', 'population', 'gdp'];
 
@@ -109,7 +102,7 @@ const prepareData = ({
 }) =>
   // prettier-ignore
   scores.map(s =>
-    metric.type === 'esr' || metric.metricType === 'indicators'
+    metric.type === 'esr'
       ? {
         color: 'esr',
         refValues: getDimensionRefs(s, currentBenchmark, metric.metricType),
@@ -129,7 +122,7 @@ const prepareData = ({
         active: activeCode === s.country_code,
       }
       : {
-        color: metric.dimension || metric.key,
+        color: 'cpr',
         value: getCPRDimensionValue(s),
         maxValue: 10,
         unit: '',

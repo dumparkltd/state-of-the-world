@@ -10,7 +10,6 @@ import { Down, Up } from 'grommet-icons';
 import FormattedMarkdown from 'components/FormattedMarkdown';
 
 import { navigate } from 'containers/App/actions';
-import InfoBenchmark from 'containers/LayerSettings/InfoBenchmark';
 import InfoStandard from 'containers/LayerSettings/InfoStandard';
 
 import { lowerCase } from 'utils/string';
@@ -80,17 +79,6 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
     return (
       <>
         <InfoStandard />
-        <MethodologyLink
-          onClick={() => navMethodology()}
-          text={<FormattedMessage {...messages.methodology} />}
-        />
-      </>
-    );
-  }
-  if (question === 'benchmarks') {
-    return (
-      <>
-        <InfoBenchmark />
         <MethodologyLink
           onClick={() => navMethodology()}
           text={<FormattedMessage {...messages.methodology} />}

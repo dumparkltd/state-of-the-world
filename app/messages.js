@@ -46,11 +46,6 @@ export default defineMessages({
       defaultMessage:
         "To change the performance benchmark or assessment standard, please click on 'Switch View' above",
     },
-    noAtRiskData: {
-      id: `${scope}.hints.noAtRiskData`,
-      defaultMessage:
-        'Information on which people are at extra risk of rights violations comes from our annual expert survey, and is not yet available for {country}',
-    },
   },
   labels: {
     score: {
@@ -77,10 +72,6 @@ export default defineMessages({
       id: `${scope}.labels.loading`,
       defaultMessage: 'Loading...',
     },
-    atRiksFor: {
-      id: `${scope}.labels.atRiskFor`,
-      defaultMessage: 'People at risk for',
-    },
     allCountries: {
       id: `${scope}.labels.allCountries`,
       defaultMessage: 'All countries',
@@ -89,10 +80,6 @@ export default defineMessages({
       id: `${scope}.labels.allMetrics`,
       defaultMessage: 'All metrics',
     },
-    allPeople: {
-      id: `${scope}.labels.allPeople`,
-      defaultMessage: 'All people',
-    },
     countries: {
       id: `${scope}.labels.countries`,
       defaultMessage: 'Countries',
@@ -100,10 +87,6 @@ export default defineMessages({
     metrics: {
       id: `${scope}.labels.metrics`,
       defaultMessage: 'Metrics',
-    },
-    people: {
-      id: `${scope}.labels.people`,
-      defaultMessage: 'People',
     },
     grades: {
       poor: {
@@ -132,10 +115,6 @@ export default defineMessages({
         id: `${scope}.labels.chartTools.settings`,
         defaultMessage: 'Data settings',
       },
-      downloadPDF: {
-        id: `${scope}.labels.chartTools.downloadPDF`,
-        defaultMessage: 'Download PDF',
-      },
     },
     abbrev: {
       notAvailable: {
@@ -158,44 +137,10 @@ export default defineMessages({
       },
     },
   },
-  assessedFilters: {
-    all: {
-      id: `${scope}.assessedFilters.all`,
-      defaultMessage: 'All rights',
-    },
-    'cpr-all': {
-      id: `${scope}.assessedFilters.cpr-all`,
-      defaultMessage: 'All CPR',
-    },
-    'esr-all': {
-      id: `${scope}.assessedFilters.esr-all`,
-      defaultMessage: 'All ESR',
-    },
-    some: {
-      id: `${scope}.assessedFilters.some`,
-      defaultMessage: 'Some rights',
-    },
-  },
   tabs: {
     snapshot: {
       id: `${scope}.tabs.snapshot`,
       defaultMessage: 'Snapshot',
-    },
-    esr: {
-      id: `${scope}.tabs.esr`,
-      defaultMessage: 'Quality of Life',
-    },
-    physint: {
-      id: `${scope}.tabs.physint`,
-      defaultMessage: 'Safety from the State',
-    },
-    empowerment: {
-      id: `${scope}.tabs.empowerment`,
-      defaultMessage: 'Empowerment',
-    },
-    'people-at-risk': {
-      id: `${scope}.tabs.people-at-risk`,
-      defaultMessage: 'People at risk',
     },
     about: {
       id: `${scope}.tabs.about`,
@@ -206,22 +151,6 @@ export default defineMessages({
         id: `${scope}.tabs.mobile.snapshot`,
         defaultMessage: 'Snapshot',
       },
-      esr: {
-        id: `${scope}.tabs.mobile.esr`,
-        defaultMessage: 'Quality of Life',
-      },
-      physint: {
-        id: `${scope}.tabs.mobile.physint`,
-        defaultMessage: 'Safety from the State',
-      },
-      empowerment: {
-        id: `${scope}.tabs.mobile.empowerment`,
-        defaultMessage: 'Empowerment',
-      },
-      'people-at-risk': {
-        id: `${scope}.tabs.mobile.people-at-risk`,
-        defaultMessage: 'People at risk',
-      },
       about: {
         id: `${scope}.tabs.mobile.about`,
         defaultMessage: 'About',
@@ -229,28 +158,6 @@ export default defineMessages({
     },
   },
   charts: {
-    dimensionSummaryLabel: {
-      id: `${scope}.charts.dimensionSummaryLabel`,
-      defaultMessage: 'Summary Score',
-    },
-    rightsColumnLabel: {
-      esr: {
-        id: `${scope}.charts.rightsColumnLabel.esr`,
-        defaultMessage: 'Right to',
-      },
-      empowerment: {
-        id: `${scope}.charts.rightsColumnLabel.empowerment`,
-        defaultMessage: 'Right to',
-      },
-      physint: {
-        id: `${scope}.charts.rightsColumnLabel.physint`,
-        defaultMessage: 'Right to freedom from',
-      },
-    },
-    indicatorsColumnLabel: {
-      id: `${scope}.charts.indicatorsColumnLabel`,
-      defaultMessage: 'Indicators',
-    },
     noData: {
       id: `${scope}.charts.noData`,
       defaultMessage: 'No data',
@@ -262,83 +169,13 @@ export default defineMessages({
     incompleteData: {
       id: `${scope}.charts.incompleteData`,
       defaultMessage: 'Incomplete data',
-      drillDownIndicators: {
-        id: `${scope}.charts.incompleteData.drillDownIndicators`,
-        defaultMessage: 'explore indicator data',
-      },
-      drillDownRights: {
-        id: `${scope}.charts.incompleteData.drillDownRights`,
-        defaultMessage: 'drillDownRights',
-      },
       changeStandard: {
         id: `${scope}.charts.incompleteData.changeStandard`,
         defaultMessage: 'changeStandard',
       },
-      changeScale: {
-        id: `${scope}.charts.incompleteData.changeScale`,
-        defaultMessage: 'changeScale',
-      },
-      scrollDown: {
-        id: `${scope}.charts.incompleteData.scrollDown`,
-        defaultMessage: 'scrollDown',
-      },
-      viewCountry: {
-        id: `${scope}.charts.incompleteData.viewCountry`,
-        defaultMessage: 'view country',
-      },
-    },
-    dimensionIntro: {
-      esr: {
-        adjusted: {
-          id: `${scope}.charts.dimensionIntro.esr.adjusted`,
-          defaultMessage:
-            'How well {isPlural, select, true {are} false {is}} {countryWithArticle} doing compared to what is possible at {isPlural, select, true {their} false {its}} level of income?',
-        },
-        best: {
-          id: `${scope}.charts.dimensionIntro.esr.best`,
-          defaultMessage:
-            'How well {isPlural, select, true {are} false {is}} {countryWithArticle} doing compared to the best in the world?',
-        },
-      },
-      physint: {
-        id: `${scope}.charts.dimensionIntro.physint`,
-        defaultMessage:
-          'How well is {needsArticle, select, true {the } false { }}{countryPossessive} government respecting each right?',
-      },
-      empowerment: {
-        id: `${scope}.charts.dimensionIntro.empowerment`,
-        defaultMessage:
-          'How well is {needsArticle, select, true {the } false { }}{countryPossessive} government respecting each right?',
-      },
     },
   },
   settings: {
-    scale: {
-      name: {
-        id: `${scope}.settings.scale.name`,
-        defaultMessage: 'Metric scale',
-      },
-      intro: {
-        id: `${scope}.settings.scale.intro`,
-        defaultMessage: 'About scale',
-      },
-      dimensions: {
-        id: `${scope}.settings.scale.dimensions`,
-        defaultMessage: 'Categories',
-      },
-      rights: {
-        id: `${scope}.settings.scale.rights`,
-        defaultMessage: 'Rights',
-      },
-      dimensionsInfo: {
-        id: `${scope}.settings.scale.dimensionsInfo`,
-        defaultMessage: 'Categories Info',
-      },
-      rightsInfo: {
-        id: `${scope}.settings.scale.rightsInfo`,
-        defaultMessage: 'Rights Info',
-      },
-    },
     standard: {
       name: {
         id: `${scope}.settings.standard.name`,
@@ -368,138 +205,15 @@ export default defineMessages({
           'Uses indicators that are available for fewer countries, and/or better reflect the human rights challenges of high-income countries.',
       },
     },
-    benchmark: {
-      name: {
-        id: `${scope}.settings.benchmark.name`,
-        defaultMessage: 'Performance benchmark',
-      },
-      nameShort: {
-        id: `${scope}.settings.benchmark.nameShort`,
-        defaultMessage: 'Benchmark',
-      },
-      adjusted: {
-        id: `${scope}.settings.benchmark.adjusted`,
-        defaultMessage: 'Income-adjusted',
-      },
-      best: {
-        id: `${scope}.settings.benchmark.best`,
-        defaultMessage: 'Global best',
-      },
-      min: {
-        id: `${scope}.settings.benchmark.min`,
-        defaultMessage: 'Natural minimum',
-      },
-      intro: {
-        id: `${scope}.settings.benchmark.intro`,
-        defaultMessage:
-          'For the quality of life rights, HRMI measures countries against 2 different benchmarks.',
-      },
-      introSingle: {
-        id: `${scope}.settings.benchmark.introSingle`,
-        defaultMessage:
-          'For the quality of life rights, HRMI measures countries against 2 different benchmarks. The current benchmark is:',
-      },
-      adjustedInfo: {
-        id: `${scope}.settings.benchmark.adjustedInfo`,
-        defaultMessage:
-          'How well is the country doing compared to the best performance of other countries at roughly the same income level?',
-      },
-      bestInfo: {
-        id: `${scope}.settings.benchmark.bestInfo`,
-        defaultMessage:
-          'How well is the country doing compared to the best performance of all countries?',
-      },
-    },
-    dataYear: {
-      present: {
-        id: `${scope}.settings.dataYear.present`,
-        defaultMessage: 'Score based on data from specified year',
-      },
-      previous: {
-        id: `${scope}.settings.dataYear.previous`,
-        defaultMessage: 'Score based on data from earlier year',
-      },
-      presentShort: {
-        id: `${scope}.settings.dataYear.presentShort`,
-        defaultMessage: 'Specified year data',
-      },
-      previousShort: {
-        id: `${scope}.settings.dataYear.previousShort`,
-        defaultMessage: 'Previous year data',
-      },
-    },
-    groups: {
-      name: {
-        id: `${scope}.settings.groups.name`,
-        defaultMessage: 'Groups',
-      },
-      nameShort: {
-        id: `${scope}.settings.groups.nameShort`,
-        defaultMessage: 'Groups',
-      },
-    },
-    value: {
-      note: {
-        id: `${scope}.settings.value.note`,
-        defaultMessage:
-          'Note: raw indicator values are first converted into scores and then aggregated into the right score',
-      },
-      score: {
-        id: `${scope}.settings.value.score`,
-        defaultMessage: 'Scores',
-      },
-      raw: {
-        id: `${scope}.settings.value.raw`,
-        defaultMessage: 'Raw values',
-      },
-    },
-  },
-  groups: {
-    all: {
-      id: `${scope}.groups.all`,
-      defaultMessage: 'All people',
-    },
-    female: {
-      id: `${scope}.groups.female`,
-      defaultMessage: 'Female',
-    },
-    male: {
-      id: `${scope}.groups.male`,
-      defaultMessage: 'Male',
-    },
   },
   metricTypes: {
-    dimensions: {
-      id: `${scope}.metricTypes.dimensions`,
-      defaultMessage: 'Categories of Rights',
-    },
-    'dimensions-short': {
-      id: `${scope}.metricTypes.dimensions-short`,
-      defaultMessage: 'Categories',
-    },
     rights: {
       id: `${scope}.metricTypes.rights`,
       defaultMessage: 'Rights',
     },
-    indicators: {
-      id: `${scope}.metricTypes.indicators`,
-      defaultMessage: 'Indicators',
-    },
-    dimension: {
-      id: `${scope}.metricTypes.dimension`,
-      defaultMessage: 'Category of Rights',
-    },
-    'dimension-short': {
-      id: `${scope}.metricTypes.dimensions-short`,
-      defaultMessage: 'Category',
-    },
     right: {
       id: `${scope}.metricTypes.right`,
       defaultMessage: 'Right',
-    },
-    indicator: {
-      id: `${scope}.metricTypes.indicator`,
-      defaultMessage: 'Indicator',
     },
   },
   page: {
@@ -515,278 +229,6 @@ export default defineMessages({
       id: `${scope}.page.download`,
       defaultMessage: 'Download Data',
     },
-    'at-risk': {
-      id: `${scope}.page.at-risk`,
-      defaultMessage: 'Groups at risk',
-    },
-  },
-  'people-at-risk': {
-    0: {
-      id: `${scope}.people-at-risk.0`,
-      defaultMessage: 'People 0',
-    },
-    1: {
-      id: `${scope}.people-at-risk.1`,
-      defaultMessage: 'People 1',
-    },
-    2: {
-      id: `${scope}.people-at-risk.2`,
-      defaultMessage: 'People 2',
-    },
-    3: {
-      id: `${scope}.people-at-risk.3`,
-      defaultMessage: 'People 3',
-    },
-    4: {
-      id: `${scope}.people-at-risk.4`,
-      defaultMessage: 'People 4',
-    },
-    5: {
-      id: `${scope}.people-at-risk.5`,
-      defaultMessage: 'People 5',
-    },
-    6: {
-      id: `${scope}.people-at-risk.6`,
-      defaultMessage: 'People 6',
-    },
-    7: {
-      id: `${scope}.people-at-risk.7`,
-      defaultMessage: 'People 7',
-    },
-    8: {
-      id: `${scope}.people-at-risk.8`,
-      defaultMessage: 'People 8',
-    },
-    9: {
-      id: `${scope}.people-at-risk.9`,
-      defaultMessage: 'People 9',
-    },
-    10: {
-      id: `${scope}.people-at-risk.10`,
-      defaultMessage: 'People 10',
-    },
-    11: {
-      id: `${scope}.people-at-risk.11`,
-      defaultMessage: 'People 11',
-    },
-    12: {
-      id: `${scope}.people-at-risk.12`,
-      defaultMessage: 'People 12',
-    },
-    13: {
-      id: `${scope}.people-at-risk.13`,
-      defaultMessage: 'People 13',
-    },
-    14: {
-      id: `${scope}.people-at-risk.14`,
-      defaultMessage: 'People 14',
-    },
-    15: {
-      id: `${scope}.people-at-risk.15`,
-      defaultMessage: 'People 15',
-    },
-    16: {
-      id: `${scope}.people-at-risk.16`,
-      defaultMessage: 'People 16',
-    },
-    17: {
-      id: `${scope}.people-at-risk.17`,
-      defaultMessage: 'People 17',
-    },
-    18: {
-      id: `${scope}.people-at-risk.18`,
-      defaultMessage: 'People 18',
-    },
-    19: {
-      id: `${scope}.people-at-risk.19`,
-      defaultMessage: 'People 19',
-    },
-    20: {
-      id: `${scope}.people-at-risk.20`,
-      defaultMessage: 'People 20',
-    },
-    21: {
-      id: `${scope}.people-at-risk.21`,
-      defaultMessage: 'People 21',
-    },
-    22: {
-      id: `${scope}.people-at-risk.22`,
-      defaultMessage: 'People 22',
-    },
-    23: {
-      id: `${scope}.people-at-risk.23`,
-      defaultMessage: 'People 23',
-    },
-    24: {
-      id: `${scope}.people-at-risk.24`,
-      defaultMessage: 'People 24',
-    },
-    25: {
-      id: `${scope}.people-at-risk.25`,
-      defaultMessage: 'People 25',
-    },
-    26: {
-      id: `${scope}.people-at-risk.26`,
-      defaultMessage: 'People 26',
-    },
-    27: {
-      id: `${scope}.people-at-risk.27`,
-      defaultMessage: 'People 27',
-    },
-    28: {
-      id: `${scope}.people-at-risk.28`,
-      defaultMessage: 'People 28',
-    },
-    29: {
-      id: `${scope}.people-at-risk.29`,
-      defaultMessage: 'People 29',
-    },
-    30: {
-      id: `${scope}.people-at-risk.30`,
-      defaultMessage: 'People 30',
-    },
-    31: {
-      id: `${scope}.people-at-risk.31`,
-      defaultMessage: 'People 31',
-    },
-    32: {
-      id: `${scope}.people-at-risk.32`,
-      defaultMessage: 'People 32',
-    },
-    33: {
-      id: `${scope}.people-at-risk.33`,
-      defaultMessage: 'People 33',
-    },
-  },
-  'people-at-risk-intro': {
-    0: {
-      id: `${scope}.people-at-risk-intro.0`,
-      defaultMessage: 'People 0',
-    },
-    1: {
-      id: `${scope}.people-at-risk-intro.1`,
-      defaultMessage: 'People 1',
-    },
-    2: {
-      id: `${scope}.people-at-risk-intro.2`,
-      defaultMessage: 'People 2',
-    },
-    3: {
-      id: `${scope}.people-at-risk-intro.3`,
-      defaultMessage: 'People 3',
-    },
-    4: {
-      id: `${scope}.people-at-risk-intro.4`,
-      defaultMessage: 'People 4',
-    },
-    5: {
-      id: `${scope}.people-at-risk-intro.5`,
-      defaultMessage: 'People 5',
-    },
-    6: {
-      id: `${scope}.people-at-risk-intro.6`,
-      defaultMessage: 'People 6',
-    },
-    7: {
-      id: `${scope}.people-at-risk-intro.7`,
-      defaultMessage: 'People 7',
-    },
-    8: {
-      id: `${scope}.people-at-risk-intro.8`,
-      defaultMessage: 'People 8',
-    },
-    9: {
-      id: `${scope}.people-at-risk-intro.9`,
-      defaultMessage: 'People 9',
-    },
-    10: {
-      id: `${scope}.people-at-risk-intro.10`,
-      defaultMessage: 'People 10',
-    },
-    11: {
-      id: `${scope}.people-at-risk-intro.11`,
-      defaultMessage: 'People 11',
-    },
-    12: {
-      id: `${scope}.people-at-risk-intro.12`,
-      defaultMessage: 'People 12',
-    },
-    13: {
-      id: `${scope}.people-at-risk-intro.13`,
-      defaultMessage: 'People 13',
-    },
-    14: {
-      id: `${scope}.people-at-risk-intro.14`,
-      defaultMessage: 'People 14',
-    },
-    15: {
-      id: `${scope}.people-at-risk-intro.15`,
-      defaultMessage: 'People 15',
-    },
-    16: {
-      id: `${scope}.people-at-risk-intro.16`,
-      defaultMessage: 'People 16',
-    },
-    17: {
-      id: `${scope}.people-at-risk-intro.17`,
-      defaultMessage: 'People 17',
-    },
-    18: {
-      id: `${scope}.people-at-risk-intro.18`,
-      defaultMessage: 'People 18',
-    },
-    19: {
-      id: `${scope}.people-at-risk-intro.19`,
-      defaultMessage: 'People 19',
-    },
-    20: {
-      id: `${scope}.people-at-risk-intro.20`,
-      defaultMessage: 'People 20',
-    },
-    21: {
-      id: `${scope}.people-at-risk-intro.21`,
-      defaultMessage: 'People 21',
-    },
-    22: {
-      id: `${scope}.people-at-risk-intro.22`,
-      defaultMessage: 'People 22',
-    },
-    23: {
-      id: `${scope}.people-at-risk-intro.23`,
-      defaultMessage: 'People 23',
-    },
-    24: {
-      id: `${scope}.people-at-risk-intro.24`,
-      defaultMessage: 'People 24',
-    },
-    25: {
-      id: `${scope}.people-at-risk-intro.25`,
-      defaultMessage: 'People 25',
-    },
-    26: {
-      id: `${scope}.people-at-risk-intro.26`,
-      defaultMessage: 'People 26',
-    },
-    27: {
-      id: `${scope}.people-at-risk-intro.27`,
-      defaultMessage: 'People 27',
-    },
-    28: {
-      id: `${scope}.people-at-risk-intro.28`,
-      defaultMessage: 'People 28',
-    },
-    29: {
-      id: `${scope}.people-at-risk-intro.29`,
-      defaultMessage: 'People 29',
-    },
-    30: {
-      id: `${scope}.people-at-risk-intro.30`,
-      defaultMessage: 'People 30',
-    },
-    31: {
-      id: `${scope}.people-at-risk-intro.31`,
-      defaultMessage: 'People 31',
-    },
   },
   'rights-types': {
     cpr: {
@@ -796,34 +238,6 @@ export default defineMessages({
     esr: {
       id: `${scope}.rights-types.esr`,
       defaultMessage: 'esr',
-    },
-  },
-  dimensions: {
-    esr: {
-      id: `${scope}.dimensions.esr`,
-      defaultMessage: 'esr',
-    },
-    empowerment: {
-      id: `${scope}.dimensions.empowerment`,
-      defaultMessage: 'empowerment',
-    },
-    physint: {
-      id: `${scope}.dimensions.physint`,
-      defaultMessage: 'physint',
-    },
-  },
-  'dimensions-about': {
-    esr: {
-      id: `${scope}.dimensions-about.esr`,
-      defaultMessage: 'about esr',
-    },
-    empowerment: {
-      id: `${scope}.dimensions-about.empowerment`,
-      defaultMessage: 'empowerment-about',
-    },
-    physint: {
-      id: `${scope}.dimensions-about.physint`,
-      defaultMessage: 'physint-about',
     },
   },
   rights: {
@@ -1090,294 +504,6 @@ export default defineMessages({
       defaultMessage: 'union-about',
     },
   },
-  indicators: {
-    'net-primary': {
-      id: `${scope}.indicators.net-primary`,
-      defaultMessage: 'net-primary',
-    },
-    'sec-enrol': {
-      id: `${scope}.indicators.sec-enrol`,
-      defaultMessage: 'sec-enrol',
-    },
-    'pisa-science': {
-      id: `${scope}.indicators.pisa-science`,
-      defaultMessage: 'pisa-science',
-    },
-    'pisa-math': {
-      id: `${scope}.indicators.pisa-math`,
-      defaultMessage: 'pisa-math',
-    },
-    'pisa-reading': {
-      id: `${scope}.indicators.pisa-reading`,
-      defaultMessage: 'pisa-reading',
-    },
-    'not-stunted': {
-      id: `${scope}.indicators.not-stunted`,
-      defaultMessage: 'not-stunted',
-    },
-    'food-security': {
-      id: `${scope}.indicators.food-security`,
-      defaultMessage: 'food-security',
-    },
-    'adult-survival': {
-      id: `${scope}.indicators.adult-survival`,
-      defaultMessage: 'adult-survival',
-    },
-    'under-5-survival': {
-      id: `${scope}.indicators.under-5-survival`,
-      defaultMessage: 'under-5-survival',
-    },
-    contraception: {
-      id: `${scope}.indicators.contraception`,
-      defaultMessage: 'contraception',
-    },
-    'birth-weight': {
-      id: `${scope}.indicators.birth-weight`,
-      defaultMessage: 'birth-weight',
-    },
-    'water-in-home': {
-      id: `${scope}.indicators.water-in-home`,
-      defaultMessage: 'water-in-home',
-    },
-    'basic-sanitation': {
-      id: `${scope}.indicators.basic-sanitation`,
-      defaultMessage: 'basic-sanitation',
-    },
-    'safe-sanitation': {
-      id: `${scope}.indicators.safe-sanitation`,
-      defaultMessage: 'safe-sanitation',
-    },
-    'relative-poverty': {
-      id: `${scope}.indicators.relative-poverty`,
-      defaultMessage: 'relative-poverty',
-    },
-    'absolute-poverty': {
-      id: `${scope}.indicators.absolute-poverty`,
-      defaultMessage: 'absolute-poverty',
-    },
-    'longterm-unemployment': {
-      id: `${scope}.indicators.longterm-unemployment`,
-      defaultMessage: 'longterm-unemployment',
-    },
-    'affordable-housing': {
-      id: `${scope}.indicators.affordable-housing`,
-      defaultMessage: 'affordable-housing',
-    },
-  },
-  'indicators-raw': {
-    'net-primary': {
-      id: `${scope}.indicators-raw.net-primary`,
-      defaultMessage: 'net-primary',
-    },
-    'sec-enrol': {
-      id: `${scope}.indicators-raw.sec-enrol`,
-      defaultMessage: 'sec-enrol',
-    },
-    'pisa-science': {
-      id: `${scope}.indicators-raw.pisa-science`,
-      defaultMessage: 'pisa-science',
-    },
-    'pisa-math': {
-      id: `${scope}.indicators-raw.pisa-math`,
-      defaultMessage: 'pisa-math',
-    },
-    'pisa-reading': {
-      id: `${scope}.indicators-raw.pisa-reading`,
-      defaultMessage: 'pisa-reading',
-    },
-    'not-stunted': {
-      id: `${scope}.indicators-raw.not-stunted`,
-      defaultMessage: 'not-stunted',
-    },
-    'food-security': {
-      id: `${scope}.indicators-raw.food-security`,
-      defaultMessage: 'food-security',
-    },
-    'adult-survival': {
-      id: `${scope}.indicators-raw.adult-survival`,
-      defaultMessage: 'adult-survival',
-    },
-    'under-5-survival': {
-      id: `${scope}.indicators-raw.under-5-survival`,
-      defaultMessage: 'under-5-survival',
-    },
-    contraception: {
-      id: `${scope}.indicators-raw.contraception`,
-      defaultMessage: 'contraception',
-    },
-    'birth-weight': {
-      id: `${scope}.indicators-raw.birth-weight`,
-      defaultMessage: 'birth-weight',
-    },
-    'water-in-home': {
-      id: `${scope}.indicators-raw.water-in-home`,
-      defaultMessage: 'water-in-home',
-    },
-    'basic-sanitation': {
-      id: `${scope}.indicators-raw.basic-sanitation`,
-      defaultMessage: 'basic-sanitation',
-    },
-    'safe-sanitation': {
-      id: `${scope}.indicators-raw.safe-sanitation`,
-      defaultMessage: 'safe-sanitation',
-    },
-    'relative-poverty': {
-      id: `${scope}.indicators-raw.relative-poverty`,
-      defaultMessage: 'relative-poverty',
-    },
-    'absolute-poverty': {
-      id: `${scope}.indicators-raw.absolute-poverty`,
-      defaultMessage: 'absolute-poverty',
-    },
-    'longterm-unemployment': {
-      id: `${scope}.indicators-raw.longterm-unemployment`,
-      defaultMessage: 'longterm-unemployment',
-    },
-    'affordable-housing': {
-      id: `${scope}.indicators-raw.affordable-housing`,
-      defaultMessage: 'affordable-housing',
-    },
-  },
-  'indicators-about': {
-    'net-primary': {
-      id: `${scope}.indicators-about.net-primary`,
-      defaultMessage: 'net-primary-about',
-    },
-    'sec-enrol': {
-      id: `${scope}.indicators-about.sec-enrol`,
-      defaultMessage: 'sec-enrol-about',
-    },
-    'pisa-science': {
-      id: `${scope}.indicators-about.pisa-science`,
-      defaultMessage: 'pisa-science-about',
-    },
-    'pisa-math': {
-      id: `${scope}.indicators-about.pisa-math`,
-      defaultMessage: 'pisa-math-about',
-    },
-    'pisa-reading': {
-      id: `${scope}.indicators-about.pisa-reading`,
-      defaultMessage: 'pisa-reading-about',
-    },
-    'not-stunted': {
-      id: `${scope}.indicators-about.not-stunted`,
-      defaultMessage: 'not-stunted-about',
-    },
-    'food-security': {
-      id: `${scope}.indicators-about.food-security`,
-      defaultMessage: 'food-security-about',
-    },
-    'adult-survival': {
-      id: `${scope}.indicators-about.adult-survival`,
-      defaultMessage: 'adult-survival-about',
-    },
-    'under-5-survival': {
-      id: `${scope}.indicators-about.under-5-survival`,
-      defaultMessage: 'under-5-survival-about',
-    },
-    contraception: {
-      id: `${scope}.indicators-about.contraception`,
-      defaultMessage: 'contraception-about',
-    },
-    'birth-weight': {
-      id: `${scope}.indicators-about.birth-weight`,
-      defaultMessage: 'birth-weight-about',
-    },
-    'water-in-home': {
-      id: `${scope}.indicators-about.water-in-home`,
-      defaultMessage: 'water-in-home-about',
-    },
-    'basic-sanitation': {
-      id: `${scope}.indicators-about.basic-sanitation`,
-      defaultMessage: 'basic-sanitation-about',
-    },
-    'safe-sanitation': {
-      id: `${scope}.indicators-about.safe-sanitation`,
-      defaultMessage: 'safe-sanitation-about',
-    },
-    'relative-poverty': {
-      id: `${scope}.indicators-about.relative-poverty`,
-      defaultMessage: 'relative-poverty-about',
-    },
-    'absolute-poverty': {
-      id: `${scope}.indicators-about.absolute-poverty`,
-      defaultMessage: 'absolute-poverty-about',
-    },
-    'longterm-unemployment': {
-      id: `${scope}.indicators-about.longterm-unemployment`,
-      defaultMessage: 'longterm-unemployment-about',
-    },
-    'affordable-housing': {
-      id: `${scope}.indicators-about.affordable-housing`,
-      defaultMessage: 'affordable-housing-about',
-    },
-  },
-  sources: {
-    WB_WDI: {
-      id: `${scope}.sources.WB_WDI`,
-      defaultMessage: 'WB_WDI',
-    },
-    WHO_UNICEF_JMP: {
-      id: `${scope}.sources.WHO_UNICEF_JMP`,
-      defaultMessage: 'WHO_UNICEF_JMP',
-    },
-    LIS: {
-      id: `${scope}.sources.LIS`,
-      defaultMessage: 'LIS',
-    },
-    JME: {
-      id: `${scope}.sources.JME`,
-      defaultMessage: 'JME',
-    },
-    FAOSTAT: {
-      id: `${scope}.sources.FAOSTAT`,
-      defaultMessage: 'FAOSTAT',
-    },
-    OECD: {
-      id: `${scope}.sources.OECD`,
-      defaultMessage: 'OECD',
-    },
-    OECD_ed: {
-      id: `${scope}.sources.OECD_ed`,
-      defaultMessage: 'OECD_ed',
-    },
-    OECD_unempl: {
-      id: `${scope}.sources.OECD_unempl`,
-      defaultMessage: 'OECD_unempl',
-    },
-    OECD_housing: {
-      id: `${scope}.sources.OECD_housing`,
-      defaultMessage: 'OECD_housing',
-    },
-    UNESCO: {
-      id: `${scope}.sources.UNESCO`,
-      defaultMessage: 'UNESCO',
-    },
-    UNICEF: {
-      id: `${scope}.sources.UNICEF`,
-      defaultMessage: 'UNICEF',
-    },
-    UN_IGME: {
-      id: `${scope}.sources.UN_IGME`,
-      defaultMessage: 'UN_IGME',
-    },
-    UNDP: {
-      id: `${scope}.sources.UNDP`,
-      defaultMessage: 'UNDP',
-    },
-    UNPD: {
-      id: `${scope}.sources.UNPD`,
-      defaultMessage: 'United Nations Population Division',
-    },
-    UNPD_MPI: {
-      id: `${scope}.sources.UNPD_MPI`,
-      defaultMessage: 'UNPD_MPI',
-    },
-    WB_POVCAL: {
-      id: `${scope}.sources.WB_POVCAL`,
-      defaultMessage: 'WB_POVCAL',
-    },
-  },
   un_regions: {
     AG: {
       id: `${scope}.un_regions.AG`,
@@ -1404,58 +530,6 @@ export default defineMessages({
       defaultMessage: 'No UN regional Group',
     },
   },
-  regions: {
-    americas: {
-      id: `${scope}.regions.americas`,
-      defaultMessage: 'americas',
-    },
-    'east-asia-pacific': {
-      id: `${scope}.regions.east-asia-pacific`,
-      defaultMessage: 'east-asia-pacific',
-    },
-    'europe-central-asia': {
-      id: `${scope}.regions.europe-central-asia`,
-      defaultMessage: 'europe-central-asia',
-    },
-    'middle-east-north-africa': {
-      id: `${scope}.regions.middle-east-north-africa`,
-      defaultMessage: 'middle-east-north-africa',
-    },
-    'south-asia': {
-      id: `${scope}.regions.south-asia`,
-      defaultMessage: 'south-asia',
-    },
-    'sub-saharan-africa': {
-      id: `${scope}.regions.sub-saharan-africa`,
-      defaultMessage: 'sub-saharan-africa',
-    },
-  },
-  subregions: {
-    'east-asia': {
-      id: `${scope}.subregions.east-asia`,
-      defaultMessage: 'east-asia',
-    },
-    pacific: {
-      id: `${scope}.subregions.pacific`,
-      defaultMessage: 'pacific',
-    },
-    europe: {
-      id: `${scope}.subregions.europe`,
-      defaultMessage: 'europe',
-    },
-    'central-asia': {
-      id: `${scope}.subregions.central-asia`,
-      defaultMessage: 'central-asia',
-    },
-    'middle-east': {
-      id: `${scope}.subregions.middle-east`,
-      defaultMessage: 'middle-east',
-    },
-    'north-africa': {
-      id: `${scope}.subregions.north-africa`,
-      defaultMessage: 'north-africa',
-    },
-  },
   income: {
     hi: {
       id: `${scope}.income.hi`,
@@ -1464,44 +538,6 @@ export default defineMessages({
     lmi: {
       id: `${scope}.income.lmi`,
       defaultMessage: 'lmi',
-    },
-  },
-  countryGroups: {
-    oecd: {
-      id: `${scope}.countryGroups.oecd`,
-      defaultMessage: 'OECD',
-    },
-    'not-oecd': {
-      id: `${scope}.countryGroups.not-oecd`,
-      defaultMessage: 'not OECD',
-    },
-    asean: {
-      id: `${scope}.countryGroups.asean`,
-      defaultMessage: 'ASEAN',
-    },
-    oic: {
-      id: `${scope}.countryGroups.oic`,
-      defaultMessage: 'OIC',
-    },
-  },
-  treaties: {
-    icescr: {
-      id: `${scope}.treaties.icescr`,
-      defaultMessage: 'icescr',
-    },
-    iccpr: {
-      id: `${scope}.treaties.iccpr`,
-      defaultMessage: 'iccpr',
-    },
-  },
-  assessed: {
-    cpr: {
-      id: `${scope}.assessed.cpr`,
-      defaultMessage: 'cpr assessed',
-    },
-    'not-cpr': {
-      id: `${scope}.assessed.not-cpr`,
-      defaultMessage: 'cpr not assessed',
     },
   },
   countries: {
@@ -2394,36 +1430,6 @@ export default defineMessages({
       defaultMessage: 'WLF',
     },
   },
-  featured: {
-    A: {
-      id: `${scope}.featured.A`,
-      defaultMessage: 'In the news',
-    },
-    B: {
-      id: `${scope}.featured.B`,
-      defaultMessage: 'UPR upcoming',
-    },
-    C: {
-      id: `${scope}.featured.C`,
-      defaultMessage: 'Featured C',
-    },
-    D: {
-      id: `${scope}.featured.D`,
-      defaultMessage: 'Featured D',
-    },
-    E: {
-      id: `${scope}.featured.E`,
-      defaultMessage: 'Featured E',
-    },
-    F: {
-      id: `${scope}.featured.F`,
-      defaultMessage: 'Featured F',
-    },
-    any: {
-      id: `${scope}.featured.any`,
-      defaultMessage: 'Featured',
-    },
-  },
   status: {
     unincorporated: {
       id: `${scope}.status.unincorporated`,
@@ -2452,21 +1458,6 @@ export default defineMessages({
     commonwealth_politicalunion: {
       id: `${scope}.status.commonwealth_politicalunion`,
       defaultMessage: 'Commonwealth in political union',
-    },
-  },
-  pdf: {
-    subtitle: {
-      id: `${scope}.pdf.subtitle`,
-      defaultMessage: 'Country Profiles | Human Rights in',
-    },
-    noData: {
-      id: `${scope}.pdf.noData`,
-      defaultMessage: 'This category includes the following rights:',
-    },
-    explore: {
-      id: `${scope}.pdf.explore`,
-      defaultMessage:
-        "To explore this country's scores in more detail please go to rightstracker.org",
     },
   },
 });

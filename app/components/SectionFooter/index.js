@@ -46,7 +46,7 @@ export function SectionFooter() {
                 margin={{ bottom: 'large' }}
               >
                 <Text size="small">
-                  <FormattedMessage {...messages.footer.text} />
+                  <FormattedMessage {...messages.text} />
                 </Text>
               </Box>
             </Box>

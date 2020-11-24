@@ -11,21 +11,9 @@ export const scope = 'hrmi.components.AboutMetric';
 /* eslint-disable no-template-curly-in-string */
 export default defineMessages({
   title: {
-    dimensions: {
-      id: `${scope}.title.dimensions`,
-      defaultMessage: 'How is this category of rights defined?',
-    },
     rights: {
       id: `${scope}.title.rights`,
       defaultMessage: 'How is this human right defined?',
-    },
-    indicators: {
-      id: `${scope}.title.indicators`,
-      defaultMessage: 'What data is the indicator based on?',
-    },
-    indicatorsRaw: {
-      id: `${scope}.title.indicatorsRaw`,
-      defaultMessage: 'How is this indicator defined?',
     },
   },
   titleStandards: {

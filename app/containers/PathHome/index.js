@@ -18,7 +18,7 @@ import saga from 'containers/App/saga';
 import { useInjectSaga } from 'utils/injectSaga';
 
 // import SectionIntro from 'components/Sections/SectionIntro';
-import SectionFooter from 'components/Sections/SectionFooter';
+import SectionFooter from 'components/SectionFooter';
 import ChartContainerRegionMetricTrend from 'containers/ChartContainerRegionMetricTrend';
 
 // styles

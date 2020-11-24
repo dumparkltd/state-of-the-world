@@ -149,13 +149,6 @@ function AboutCountryContainer({
   const hasPopulation =
     population && population.value && population.value !== '';
 
-  const countryGroups =
-    country[COLUMNS.COUNTRIES.GROUPS] &&
-    country[COLUMNS.COUNTRIES.GROUPS].split(',');
-  const treaties =
-    country[COLUMNS.COUNTRIES.TREATIES] &&
-    country[COLUMNS.COUNTRIES.TREATIES].split(',');
-
   const countryStatus = country[COLUMNS.COUNTRIES.STATUS];
 
   return (
@@ -289,56 +282,6 @@ function AboutCountryContainer({
                   'unregion',
                   country[COLUMNS.COUNTRIES.UN_REGION],
                 )}
-              </Box>
-            </Box>
-          )}
-          {countryGroups && (
-            <Box direction="row" margin={{ bottom: 'xsmall' }}>
-              <Box width="50%">
-                <Label>
-                  <FormattedMessage
-                    {...messages.groups[
-                      countryGroups.length === 1 ? 'single' : 'plural'
-                    ]}
-                  />
-                </Label>
-              </Box>
-              <Box width="50%">
-                {countryGroups.map(g => (
-                  <span key={g}>
-                    {renderCategory(
-                      intl.formatMessage(rootMessages.countryGroups[g]),
-                      onCategoryClick,
-                      'cgroup',
-                      g,
-                    )}
-                  </span>
-                ))}
-              </Box>
-            </Box>
-          )}
-          {treaties && (
-            <Box direction="row" margin={{ bottom: 'xsmall' }}>
-              <Box width="50%">
-                <Label>
-                  <FormattedMessage
-                    {...messages.treaties[
-                      treaties.length === 1 ? 'single' : 'plural'
-                    ]}
-                  />
-                </Label>
-              </Box>
-              <Box width="50%">
-                {treaties.map(g => (
-                  <span key={g}>
-                    {renderCategory(
-                      intl.formatMessage(rootMessages.treaties[g]),
-                      onCategoryClick,
-                      'treaty',
-                      g,
-                    )}
-                  </span>
-                ))}
               </Box>
             </Box>
           )}

@@ -21,25 +21,9 @@ export default defineMessages({
     id: `${scope}.countries-overview-sub`,
     defaultMessage: '{noWithout} countries without scores',
   },
-  'dimension-overview': {
-    id: `${scope}.dimension-overview`,
-    defaultMessage: '{dimension} overview',
-  },
-  indicators: {
-    id: `${scope}.indicators`,
-    defaultMessage: 'Indicator data',
-  },
-  sex: {
-    id: `${scope}.sex`,
-    defaultMessage: 'By sex',
-  },
   trend: {
     id: `${scope}.trend`,
     defaultMessage: 'Over time',
-  },
-  people: {
-    id: `${scope}.people`,
-    defaultMessage: 'People at risk',
   },
   'assessment-standard-hi-sub': {
     id: `${scope}.assessment-standard-high-sub`,

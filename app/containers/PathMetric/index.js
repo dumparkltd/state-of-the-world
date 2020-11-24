@@ -20,7 +20,7 @@ import {
   getAsideLayer,
   getAsideLayerActiveCode,
 } from 'containers/App/selectors';
-import { IMAGE_PATH, RIGHTS } from 'containers/App/constants';
+import { RIGHTS } from 'containers/App/constants';
 import ChartContainerMetric from 'containers/ChartContainerMetric';
 import TabContainer from 'containers/TabContainer';
 import AboutMetricContainer from 'containers/AboutMetricContainer';
@@ -55,41 +55,15 @@ export function PathMetric({
   let metricTitleShort;
   let dimensionCode = metricCode;
 
-  const ancestors = [{ key: 'all' }];
   let imageSrc;
 
-  if (metric.metricType === 'dimensions') {
-    imageSrc = `${IMAGE_PATH}/dimension_${metricCode}.png`;
-  }
   if (metric.metricType === 'rights') {
     metricTitleShort = intl.formatMessage(
       rootMessages[`${metric.metricType}-xshort`][metric.key],
     );
     const right = RIGHTS.find(r => r.key === metricCode);
     imageSrc = right.icon;
-    ancestors.push({
-      type: 'dimensions',
-      key: metric.dimension,
-    });
-    if (metric.aggregate) {
-      ancestors.push({
-        type: 'rights-short',
-        key: metric.aggregate,
-      });
-    }
-    dimensionCode = metric.dimension;
-  }
-  if (metric.metricType === 'indicators') {
-    imageSrc = `${IMAGE_PATH}/indicator_${metricCode}.png`;
-    ancestors.push({
-      type: 'dimensions',
-      key: 'esr',
-    });
-    ancestors.push({
-      type: 'rights-short',
-      key: metric.right,
-    });
-    dimensionCode = 'esr';
+    dimensionCode = metric.type;
   }
   const onCountryClick = code => {
     if (asideLayer && asideLayer.key === code) {
@@ -167,7 +141,6 @@ export function PathMetric({
                   <AboutMetricContainer
                     {...props}
                     metricCode={metricCode}
-                    ancestors={ancestors}
                     showFAQs
                     showRelated
                     showSources={

@@ -4,7 +4,6 @@ import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import styled from 'styled-components';
 import { Box, ResponsiveContext } from 'grommet';
 import Bar from 'components/ChartBars/Bar';
-import AnnotateBenchmark from 'components/ChartBars/AnnotateBenchmark';
 import AnnotateBetterWorse from 'components/AnnotateBetterWorse';
 
 import rootMessages from 'messages';
@@ -40,14 +39,6 @@ function HTRBar({ contxt, intl, dimension }) {
                 margin={{ bottom: 'medium' }}
                 responsive={false}
               >
-                {dimension === 'esr' && (
-                  <AnnotateBenchmark
-                    label={intl.formatMessage(
-                      rootMessages.settings.benchmark.name,
-                    )}
-                    type="htr"
-                  />
-                )}
                 <Bar
                   level={2}
                   data={{

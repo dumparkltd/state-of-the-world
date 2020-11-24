@@ -28,79 +28,7 @@ export default defineMessages({
         'The maximum value of 100% refers to the chosen {benchmark}',
     },
   },
-  overview: {
-    dimensions: {
-      intro: {
-        id: `${scope}.overview.dimensions.intro`,
-        defaultMessage:
-          "Each chart shows the Human Rights Performance of each country at a glance. Countries' scores are visualised for our 3 categories of Human Rights:",
-      },
-      empowerment: {
-        id: `${scope}.overview.dimensions.empowerment`,
-        defaultMessage:
-          'Summary score for 3 Civil and Political Rights, mapped on a scale from 0 to 10.',
-      },
-      physint: {
-        id: `${scope}.overview.dimensions.physint`,
-        defaultMessage:
-          "Summary score for 4 Civil and Political Rights that foster citizens' physical integrity, mapped on a scale from 0 to 10.",
-      },
-      esr: {
-        id: `${scope}.overview.dimensions.esr`,
-        defaultMessage:
-          'Summary percentage score for our 5 Economic and Social Rights, ranging from 0 to 100%.',
-      },
-    },
-    rights: {
-      intro: {
-        id: `${scope}.overview.rights.intro`,
-        defaultMessage:
-          "Each chart shows the Human Rights Performance of each country at a glance. Countries' scores are visualised for our 12 Human Rights, grouped and colour-coded in our 3 categories of rights:",
-      },
-      rightsListTitle: {
-        id: `${scope}.overview.rights.rightsListTitle`,
-        defaultMessage: 'Rights from top to bottom',
-      },
-      empowerment: {
-        id: `${scope}.overview.rights.empowerment`,
-        defaultMessage:
-          '3 Civil and Political Rights that strengthen democratic empowerment, scores mapped on a scale from 0 to 10',
-      },
-      physint: {
-        id: `${scope}.overview.rights.physint`,
-        defaultMessage:
-          "Score for 4 Civil and Political Rights that foster citizens' physical integrity, mapped on a scale from 0 to 10",
-      },
-      esr: {
-        id: `${scope}.overview.rights.esr`,
-        defaultMessage:
-          'Percentage score for our 5 Economic and Social Rights, ranging from 0 to 100%.',
-      },
-    },
-  },
   summary: {
-    dimensions: {
-      intro: {
-        id: `${scope}.summary.dimensions.intro`,
-        defaultMessage:
-          "Countries' scores are visualised for our 3 categories of Human Rights:",
-      },
-      empowerment: {
-        id: `${scope}.summary.dimensions.empowerment`,
-        defaultMessage:
-          'Summary score for 3 Civil and Political Rights, mapped on a scale from 0 to 10.',
-      },
-      physint: {
-        id: `${scope}.summary.dimensions.physint`,
-        defaultMessage:
-          "Summary score for 4 Civil and Political Rights that foster citizens' physical integrity, mapped on a scale from 0 to 10.",
-      },
-      esr: {
-        id: `${scope}.summary.dimensions.esr`,
-        defaultMessage:
-          'Summary percentage score for our 5 Economic and Social Rights, ranging from 0 to 100%.',
-      },
-    },
     rights: {
       intro: {
         id: `${scope}.summary.rights.intro`,
@@ -111,15 +39,10 @@ export default defineMessages({
         id: `${scope}.summary.rights.rightsListTitle`,
         defaultMessage: 'Rights from top to bottom',
       },
-      empowerment: {
-        id: `${scope}.summary.rights.empowerment`,
+      cpr: {
+        id: `${scope}.summary.rights.cpr`,
         defaultMessage:
-          '3 Civil and Political Rights that strengthen democratic empowerment, scores mapped on a scale from 0 to 10',
-      },
-      physint: {
-        id: `${scope}.summary.rights.physint`,
-        defaultMessage:
-          "Score for 4 Civil and Political Rights that foster citizens' physical integrity, mapped on a scale from 0 to 10",
+          "Scores for 8 Civil and Political Rights that foster citizens' physical integrity and democratic empowerment, mapped on a scale from 0 to 10",
       },
       esr: {
         id: `${scope}.summary.rights.esr`,

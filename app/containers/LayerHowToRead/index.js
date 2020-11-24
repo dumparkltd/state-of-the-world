@@ -6,7 +6,7 @@ import { Box, Heading } from 'grommet';
 
 import asArray from 'utils/as-array';
 
-import { DIMENSIONS } from 'containers/App/constants';
+import { TYPES } from 'containers/App/constants';
 
 import rootMessages from 'messages';
 import messages from './messages';
@@ -42,10 +42,12 @@ function LayerHowToRead({ layer }) {
             {chrt === 'Bar' && <HTRBar contxt={contxt} dimension={dimension} />}
             {chrt === 'Snapshot' && (
               <>
-                {DIMENSIONS.map(d => (
+                {TYPES.map(d => (
                   <span key={d.key}>
                     <Heading level={4}>
-                      <FormattedMessage {...rootMessages.dimensions[d.key]} />
+                      <FormattedMessage
+                        {...rootMessages['rights-types'][d.key]}
+                      />
                     </Heading>
                     <HTRBar contxt={contxt} dimension={d.key} />
                   </span>

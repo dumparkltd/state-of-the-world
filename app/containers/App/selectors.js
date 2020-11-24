@@ -21,7 +21,6 @@ import {
   UN_REGIONS,
   COUNTRY_SORTS,
   INCOME_GROUPS,
-  DIMENSIONS,
   RIGHTS,
   PEOPLE_GROUPS,
   COLUMNS,
@@ -568,9 +567,7 @@ export const getCPRScoresForYear = createSelector(
 const scoresByCountry = scores =>
   !!scores &&
   scores.reduce((memo, score) => {
-    const metricR = RIGHTS.find(r => r.code === score.metric_code);
-    const metricD = DIMENSIONS.find(d => d.code === score.metric_code);
-    const metric = metricR || metricD;
+    const metric = RIGHTS.find(r => r.code === score.metric_code);
     if (!metric) return memo;
     const memoCountry = memo[score.country_code];
     if (memoCountry) {

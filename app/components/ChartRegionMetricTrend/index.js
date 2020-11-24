@@ -164,7 +164,7 @@ function ChartRegionMetricTrend({
         <Box direction="row" align="center" pad={{ vertical: 'medium' }}>
           <Box flex={{ shrink: 0 }}>
             {Object.keys(colors).map(region => (
-              <Box direction="row" gap="small" align="center" key="region">
+              <Box direction="row" gap="small" align="center" key={region}>
                 <div
                   style={{
                     background: colors[region],
@@ -226,6 +226,7 @@ function ChartRegionMetricTrend({
               {scores &&
                 Object.keys(scores).map(region => (
                   <LineMarkSeries
+                    key={region}
                     data={getRegionData(
                       region,
                       scores,
