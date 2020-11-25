@@ -5,12 +5,15 @@ import { compose } from 'redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Box } from 'grommet';
 import { withTheme } from 'styled-components';
+import { groupBy } from 'lodash/collection';
 
 import { selectCountry } from 'containers/App/actions';
 import { getCountries } from 'containers/App/selectors';
 
 import { getHeaderHeight } from 'utils/responsive';
 
+import rootMessages from 'messages';
+import messages from './messages';
 import { prepCountries } from './search';
 
 import NavWrapper from './NavWrapper';
@@ -18,7 +21,12 @@ import NavTop from './NavTop';
 import NavScroll from './NavScroll';
 import NavOptionGroup from './NavOptionGroup';
 
-import messages from './messages';
+const getActiveOffset = (index, list, grouped) =>
+  list.reduce((offset, key) => {
+    const keyIndex = list.indexOf(key);
+    if (keyIndex < index) return offset + grouped[key].length;
+    return offset;
+  }, 0);
 
 export function NavCountry({
   countries,
@@ -56,6 +64,13 @@ export function NavCountry({
     };
   }, [activeResult]);
   const sorted = countries && prepCountries(countries, search, intl);
+  const grouped = groupBy(sorted, 'group');
+  const groupKeys = Object.keys(grouped).sort((a, b) => {
+    const aLabel = intl.formatMessage(rootMessages.un_regions[a]);
+    const bLabel = intl.formatMessage(rootMessages.un_regions[b]);
+    return aLabel < bLabel ? -1 : 1;
+  });
+
   // figure out available height for IE11
   const h = window.innerHeight - getHeaderHeight(size, theme);
   return (
@@ -76,15 +91,27 @@ export function NavCountry({
             <FormattedMessage {...messages.noResults} />
           )}
           {sorted && sorted.length > 0 && (
-            <NavOptionGroup
-              label={intl.formatMessage(messages.optionGroups.countries)}
-              options={sorted}
-              activeResult={search === '' ? activeResult - 1 : activeResult}
-              onClick={key => {
-                onClose();
-                onSelectCountry(key);
-              }}
-            />
+            <>
+              {groupKeys.map((gkey, index, list) => {
+                const offset = getActiveOffset(index, list, grouped);
+                return (
+                  <NavOptionGroup
+                    key={gkey}
+                    label={intl.formatMessage(rootMessages.un_regions[gkey])}
+                    options={grouped[gkey]}
+                    activeResult={
+                      search === ''
+                        ? activeResult - 1 - offset
+                        : activeResult - offset
+                    }
+                    onClick={key => {
+                      onClose();
+                      onSelectCountry(key);
+                    }}
+                  />
+                );
+              })}
+            </>
           )}
         </Box>
       </NavScroll>

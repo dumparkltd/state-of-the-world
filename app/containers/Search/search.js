@@ -1,3 +1,5 @@
+import { COLUMNS } from 'containers/App/constants';
+
 import {
   cleanupSearchTarget,
   startsWith,
@@ -22,12 +24,16 @@ export const filterCountries = (countries, search, intl) =>
 export const prepCountries = (countries, search, intl) =>
   countries &&
   countries
-    .map(country => ({
-      code: country.country_code,
-      label: rootMessages.countries[country.country_code]
-        ? intl.formatMessage(rootMessages.countries[country.country_code])
-        : country.country_code,
-    }))
+    .map(country => {
+      const code = country[COLUMNS.COUNTRIES.CODE];
+      return {
+        code,
+        group: country[COLUMNS.COUNTRIES.UN_REGION],
+        label: rootMessages.countries[code]
+          ? intl.formatMessage(rootMessages.countries[code])
+          : code,
+      };
+    })
     .filter(country => filterCountry(country, search))
     .sort((a, b) => (a.label < b.label ? -1 : 1));
 

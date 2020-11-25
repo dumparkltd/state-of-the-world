@@ -50,10 +50,22 @@ export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
       document.removeEventListener('keydown', onKey, false);
     };
   }, [activeResult]);
-  const rights = prepMetrics(RIGHTS, 'rights', search, intl);
-  const hasMetrics = rights.length > 0;
+  const esr = prepMetrics(
+    RIGHTS.filter(r => r.type === 'esr'),
+    'rights',
+    search,
+    intl,
+  );
+  const cpr = prepMetrics(
+    RIGHTS.filter(r => r.type === 'cpr'),
+    'rights',
+    search,
+    intl,
+  );
+  const hasMetrics = esr.length > 0 || cpr.length > 0;
   // figure out available height for IE11
   const h = window.innerHeight - getHeaderHeight(size, theme);
+
   return (
     <NavWrapper h={h}>
       <NavTop
@@ -66,11 +78,26 @@ export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
       <NavScroll>
         <Box flex overflow="auto" pad={{ vertical: 'medium' }}>
           {!hasMetrics && <FormattedMessage {...messages.noResults} />}
-          {rights.length > 0 && (
+          {esr.length > 0 && (
             <NavOptionGroup
-              label={intl.formatMessage(rootMessages.metricTypes.rights)}
-              options={rights}
+              label={intl.formatMessage(rootMessages['rights-types'].esr)}
+              options={esr}
               activeResult={search === '' ? activeResult - 1 : activeResult}
+              onClick={key => {
+                onClose();
+                onSelectMetric(key);
+              }}
+            />
+          )}
+          {cpr.length > 0 && (
+            <NavOptionGroup
+              label={intl.formatMessage(rootMessages['rights-types'].cpr)}
+              options={cpr}
+              activeResult={
+                search === ''
+                  ? activeResult - 1 - esr.length
+                  : activeResult - esr.length
+              }
               onClick={key => {
                 onClose();
                 onSelectMetric(key);
