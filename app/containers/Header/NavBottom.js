@@ -7,7 +7,7 @@ import { isMinSize, isMaxSize } from 'utils/responsive';
 import NavBottomButton from './NavBottomButton';
 import NavBottomContent from './NavBottomContent';
 
-export function NavBottom({ active, onClick, onClose, type }) {
+export function NavBottom({ active, onClick, type }) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
 
@@ -30,8 +30,7 @@ export function NavBottom({ active, onClick, onClose, type }) {
             <NavBottomContent
               size={size}
               type={type}
-              onClose={onClose}
-              setOpen={setOpen}
+              setOpen={o => setOpen(o)}
             />
           )}
           {open && isMinSize(size, 'medium') && (
@@ -42,15 +41,13 @@ export function NavBottom({ active, onClick, onClose, type }) {
                 if (buttonRef.current && buttonRef.current.contains(e.target)) {
                   return;
                 }
-                if (onClose) onClose();
                 setOpen(false);
               }}
             >
               <NavBottomContent
                 size={size}
                 type={type}
-                onClose={onClose}
-                setOpen={setOpen}
+                setOpen={o => setOpen(o)}
               />
             </Drop>
           )}
@@ -63,7 +60,6 @@ export function NavBottom({ active, onClick, onClose, type }) {
 NavBottom.propTypes = {
   active: PropTypes.bool,
   onClick: PropTypes.func,
-  onClose: PropTypes.func,
   type: PropTypes.string,
 };
 

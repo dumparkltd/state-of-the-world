@@ -99,11 +99,7 @@ export function NavCountry({
                     key={gkey}
                     label={intl.formatMessage(rootMessages.un_regions[gkey])}
                     options={grouped[gkey]}
-                    activeResult={
-                      search === ''
-                        ? activeResult - 1 - offset
-                        : activeResult - offset
-                    }
+                    activeResult={activeResult - offset}
                     onClick={key => {
                       onClose();
                       onSelectCountry(key);

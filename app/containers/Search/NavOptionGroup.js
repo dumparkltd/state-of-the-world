@@ -28,6 +28,7 @@ export function NavOptionGroup({
     event => {
       // on enter
       if (event.keyCode === 13) {
+        event.preventDefault();
         if (options[activeResult]) onClick(options[activeResult].code);
       }
     },

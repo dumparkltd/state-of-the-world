@@ -82,7 +82,7 @@ export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
             <NavOptionGroup
               label={intl.formatMessage(rootMessages['rights-types'].esr)}
               options={esr}
-              activeResult={search === '' ? activeResult - 1 : activeResult}
+              activeResult={activeResult}
               onClick={key => {
                 onClose();
                 onSelectMetric(key);
@@ -93,11 +93,7 @@ export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
             <NavOptionGroup
               label={intl.formatMessage(rootMessages['rights-types'].cpr)}
               options={cpr}
-              activeResult={
-                search === ''
-                  ? activeResult - 1 - esr.length
-                  : activeResult - esr.length
-              }
+              activeResult={activeResult - esr.length}
               onClick={key => {
                 onClose();
                 onSelectMetric(key);
