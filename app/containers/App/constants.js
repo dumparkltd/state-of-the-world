@@ -218,45 +218,11 @@ export const COUNTRY_SORTS = {
   score: {
     order: 'desc',
   },
-  assessment: {
-    order: 'desc',
-    data: 'scores',
-  },
-  gdp: {
-    order: 'desc',
-    data: 'aux',
-    column: COLUMNS.AUX.GDP_2011_PPP,
-  },
-  population: {
-    order: 'desc',
-    data: 'aux',
-    column: COLUMNS.AUX.POPULATION,
-  },
 };
 
 export const UN_REGIONS = {
   values: ['AG', 'APG', 'EEG', 'GRULAC', 'WEOG'],
 };
-// export const REGIONS = {
-//   values: [
-//     'americas',
-//     'middle-east-north-africa',
-//     'sub-saharan-africa',
-//     'europe-central-asia',
-//     'south-asia',
-//     'east-asia-pacific',
-//   ],
-// };
-// export const SUBREGIONS = {
-//   values: [
-//     'middle-east',
-//     'north-africa',
-//     'europe',
-//     'central-asia',
-//     'east-asia',
-//     'pacific',
-//   ],
-// };
 
 // column: 'high_income_country',
 export const INCOME_GROUPS = {
@@ -275,8 +241,8 @@ export const INCOME_GROUPS = {
 };
 
 export const COUNTRY_FILTERS = {
-  ALL: ['income', 'unregion'],
-  SINGLE_METRIC: ['income', 'unregion'],
+  ALL: ['unregion'],
+  SINGLE_METRIC: ['unregion'],
 };
 
 export const STANDARDS = [

@@ -1,19 +1,8 @@
-import { COLUMNS, INCOME_GROUPS, UN_REGIONS } from 'containers/App/constants';
+import { COLUMNS, UN_REGIONS } from 'containers/App/constants';
 
-export const areAnyFiltersSet = (
-  filterGroups,
-  {
-    // regionFilterValue,
-    // subregionFilterValue,
-    unRegionFilterValue,
-    incomeFilterValue,
-  },
-) =>
+export const areAnyFiltersSet = (filterGroups, { unRegionFilterValue }) =>
   filterGroups.reduce(
-    (memo, filter) =>
-      memo ||
-      (filter === 'income' && !!incomeFilterValue) ||
-      (filter === 'unregion' && !!unRegionFilterValue),
+    (memo, filter) => memo || (filter === 'unregion' && !!unRegionFilterValue),
     false,
   );
 
@@ -25,34 +14,6 @@ const addCountryAttribute = (values, country, attribute, validValues) => {
     values.indexOf(value) > -1 ||
     validValues.indexOf(value) === -1
   ) {
-    return values;
-  }
-  return [value, ...values];
-};
-
-// const addCountryAttributeMulti = (values, country, attribute, validValues) => {
-//   const value = country[attribute];
-//   if (!value) {
-//     return values;
-//   }
-//   const newValues = value.split(',').reduce((memo, v) => {
-//     // do not add if already present or invalid
-//     if (validValues.indexOf(v) === -1 || values.indexOf(v) > -1) {
-//       return memo;
-//     }
-//     return [v, ...memo];
-//   }, []);
-//   return [...newValues, ...values];
-// };
-const addCountryAttributeLookup = (values, country, attribute, validValues) => {
-  let value = country[attribute];
-  if (!value) {
-    return values;
-  }
-  const group = validValues.find(i => i.value === value);
-  value = group && group.key;
-  // do not add if already present or invalid
-  if (values.indexOf(value) > -1 || !value) {
     return values;
   }
   return [value, ...values];
@@ -75,69 +36,11 @@ const getCountryFilterValues = (countries, filter) => {
         UN_REGIONS.values.indexOf(a) > UN_REGIONS.values.indexOf(b) ? 1 : -1,
       );
   }
-  // if (filter === 'region') {
-  //   return countries
-  //     .reduce(
-  //       (memo, country) =>
-  //         addCountryAttribute(
-  //           memo,
-  //           country,
-  //           COLUMNS.COUNTRIES.REGION,
-  //           REGIONS.values,
-  //         ),
-  //       [],
-  //     )
-  //     .sort((a, b) =>
-  //       REGIONS.values.indexOf(a) > REGIONS.values.indexOf(b) ? 1 : -1,
-  //     );
-  // }
-  // if (filter === 'subregion') {
-  //   return countries
-  //     .reduce(
-  //       (memo, country) =>
-  //         addCountryAttribute(
-  //           memo,
-  //           country,
-  //           COLUMNS.COUNTRIES.SUBREGION,
-  //           SUBREGIONS.values,
-  //         ),
-  //       [],
-  //     )
-  //     .sort((a, b) =>
-  //       SUBREGIONS.values.indexOf(a) > SUBREGIONS.values.indexOf(b) ? 1 : -1,
-  //     );
-  // }
-  if (filter === 'income') {
-    return countries
-      .reduce(
-        (memo, country) =>
-          addCountryAttributeLookup(
-            memo,
-            country,
-            COLUMNS.COUNTRIES.HIGH_INCOME,
-            INCOME_GROUPS.values,
-          ),
-        [],
-      )
-      .sort((a, b) => {
-        const keys = INCOME_GROUPS.values.map(g => g.key);
-        return keys.indexOf(a) > keys.indexOf(b) ? 1 : -1;
-      });
-  }
   return [];
 };
 const getAllCountryFilterValues = filter => {
   if (filter === 'unregion') {
     return UN_REGIONS.values;
-  }
-  // if (filter === 'region') {
-  //   return REGIONS.values;
-  // }
-  // if (filter === 'subregion') {
-  //   return SUBREGIONS.values;
-  // }
-  if (filter === 'income') {
-    return INCOME_GROUPS.values.map(g => g.key);
   }
   return [];
 };

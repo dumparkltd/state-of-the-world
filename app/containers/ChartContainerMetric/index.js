@@ -18,12 +18,10 @@ import {
   getBenchmarkSearch,
   getStandardSearch,
   getUNRegionSearch,
-  getIncomeSearch,
   getSortSearch,
   getSortOrderSearch,
   getCountries,
   getDependenciesReady,
-  getAuxIndicatorsLatest,
 } from 'containers/App/selectors';
 import { loadDataIfNeeded, navigate } from 'containers/App/actions';
 import {
@@ -49,41 +47,8 @@ import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
 
 import rootMessages from 'messages';
 
-const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'auxIndicators'];
+const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
 
-const SORT_OPTIONS = ['score', 'name', 'population', 'gdp'];
-
-const getESRDimensionValue = (score, benchmark) => {
-  if (score) {
-    const col = (benchmark && benchmark.column) || COLUMNS.ESR.SCORE_ADJUSTED;
-    return score && parseFloat(score[col]);
-  }
-  return false;
-};
-const getCPRDimensionValue = score =>
-  score && parseFloat(score[COLUMNS.CPR.MEAN]);
-
-// const getDimensionRefs = (score, benchmark, metricType) => {
-const getDimensionRefs = (score, benchmark) => {
-  if (benchmark && benchmark.key === 'adjusted') {
-    return [{ value: 100, style: 'dotted', key: 'adjusted' }];
-  }
-  if (benchmark && benchmark.key === 'best') {
-    // const col =
-    //   metricType === 'indicators'
-    //     ? benchmark.refIndicatorColumn
-    //     : benchmark.refColumn;
-    return [
-      { value: 100, style: 'solid', key: 'best' },
-      // {
-      //   value: score && parseFloat(score[col]),
-      //   style: 'dotted',
-      //   key: 'adjusted',
-      // },
-    ];
-  }
-  return false;
-};
 const getBand = score => ({
   lo: score && parseFloat(score[COLUMNS.CPR.LO]),
   hi: score && parseFloat(score[COLUMNS.CPR.HI]),
@@ -92,53 +57,62 @@ const getBand = score => ({
 const prepareData = ({
   scores,
   metric,
-  currentBenchmark,
-  standard,
   countries,
   onCountryClick,
   activeCode,
   showHILabel,
   showGovRespondentsLabel,
+  intl,
 }) =>
-  // prettier-ignore
-  scores.map(s =>
-    metric.type === 'esr'
-      ? {
-        color: 'esr',
-        refValues: getDimensionRefs(s, currentBenchmark, metric.metricType),
-        value: getESRDimensionValue(s, currentBenchmark),
-        maxValue: 100,
-        unit: '%',
-        stripes: standard === 'hi',
-        key: s.country_code,
-        label: (
-          <CountryLabel
-            country={countries.find(c => c.country_code === s.country_code)}
-            showGovRespondentsLabel={showGovRespondentsLabel}
-            showHILabel={showHILabel}
-          />
-        ),
-        onClick: () => onCountryClick(s.country_code),
-        active: activeCode === s.country_code,
+  scores.map(s => {
+    const country = countries.find(c => c.country_code === s.country_code);
+    let name = '';
+    if (rootMessages.countries[country[COLUMNS.COUNTRIES.CODE]]) {
+      name = intl.formatMessage(
+        rootMessages.countries[country[COLUMNS.COUNTRIES.CODE]],
+      );
+    } else {
+      console.log(
+        'Country code not in language files:',
+        country[COLUMNS.COUNTRIES.CODE],
+      );
+      name = country[COLUMNS.COUNTRIES.CODE];
+    }
+    let trend = '';
+
+    if (s.rank && s.prevRank) {
+      if (s.rank < s.prevRank) {
+        trend = `+ (${s.prevRank})`;
       }
-      : {
-        color: 'cpr',
-        value: getCPRDimensionValue(s),
-        maxValue: 10,
-        unit: '',
-        band: getBand(s),
-        key: s.country_code,
-        label: (
-          <CountryLabel
-            country={countries.find(c => c.country_code === s.country_code)}
-            showGovRespondentsLabel={showGovRespondentsLabel}
-            showHILabel={showHILabel}
-          />
-        ),
-        onClick: () => onCountryClick(s.country_code),
-        active: activeCode === s.country_code,
+      if (s.rank > s.prevRank) {
+        trend = `- (${s.prevRank})`;
       }
-  );
+      if (s.rank === s.prevRank) {
+        trend = `<> (${s.prevRank})`;
+      }
+    }
+    return {
+      value: s.value,
+      rank: s.rank,
+      prevRank: s.prevRank,
+      trend,
+      key: s.country_code,
+      name,
+      band: metric.type === 'cpr' && getBand(s),
+      label: (
+        <CountryLabel
+          name={name}
+          country={country}
+          showGovRespondentsLabel={showGovRespondentsLabel}
+          showHILabel={showHILabel}
+        />
+      ),
+      onClick: () => onCountryClick(s.country_code),
+      active: activeCode === s.country_code,
+    };
+  });
+
+// const rankScores
 
 export function ChartContainerMetric({
   onLoadData,
@@ -147,7 +121,6 @@ export function ChartContainerMetric({
   benchmark,
   standard,
   unRegionFilterValue,
-  incomeFilterValue,
   onRemoveFilter,
   onAddFilter,
   sort,
@@ -157,7 +130,6 @@ export function ChartContainerMetric({
   onOrderChange,
   countries,
   dataReady,
-  auxIndicators,
   onCountryClick,
   activeCode,
 }) {
@@ -168,7 +140,7 @@ export function ChartContainerMetric({
 
   const currentBenchmark = BENCHMARKS.find(s => s.key === benchmark);
 
-  const currentSort = sort && SORT_OPTIONS.indexOf(sort) > -1 ? sort : 'score';
+  const currentSort = sort && COUNTRY_SORTS[sort] ? sort : 'score';
   const currentSortOrder = sortOrder || COUNTRY_SORTS[currentSort].order;
 
   // prettier-ignore
@@ -185,21 +157,34 @@ export function ChartContainerMetric({
     // if not we can just return all specified options
     areAnyFiltersSet(COUNTRY_FILTERS.SINGLE_METRIC, {
       unRegionFilterValue,
-      incomeFilterValue,
     }),
   );
 
-  const { sorted, other } = sortScores({
-    intl,
-    sort: currentSort,
-    order: currentSortOrder,
-    scores,
-    auxIndicators,
-    column: metric.type === 'cpr' ? COLUMNS.CPR.MEAN : currentBenchmark.column,
-  });
+  // extract value, name and more
+  const data =
+    scores &&
+    prepareData({
+      scores,
+      metric,
+      countries,
+      onCountryClick,
+      activeCode,
+      showHILabel,
+      showGovRespondentsLabel,
+      intl,
+    });
 
-  const hasResults =
-    dataReady && ((sorted && sorted.length > 0) || (other && other.length > 0));
+  // sort again by custom sort option
+  // prettier-ignore
+  const sorted =
+    scores &&
+    sortScores({
+      data,
+      sort: currentSort,
+      order: currentSortOrder,
+    });
+
+  const hasResults = dataReady && (sorted && sorted.length > 0);
   const hasHICountries = countriesForScores.some(c => isCountryHighIncome(c));
   const hasGovRespondentsCountries = countriesForScores.some(c =>
     hasCountryGovRespondents(c),
@@ -214,38 +199,12 @@ export function ChartContainerMetric({
       {size => (
         <Box margin={{ bottom: 'xlarge' }}>
           <ChartHeader
-            chartId="single-metric"
-            hasSubHeading={metric.type === 'esr'}
-            tools={{
-              howToReadConfig: {
-                contxt: 'PathMetric',
-                chart: metric.type === 'cpr' ? 'Bullet' : 'Bar',
-                dimension: metric.color,
-                data: metric.color,
-              },
-              settingsConfig: (metric.type === 'esr' ||
-                metric.metricType === 'indicators') && {
-                key: 'metric',
-                showStandard: metric.metricType !== 'indicators',
-                showBenchmark: true,
-              },
-            }}
-            messageValues={{ no: scores.length }}
             filter={{
               unRegionFilterValue,
               onRemoveFilter,
               onAddFilter,
-              incomeFilterValue,
               filterValues,
             }}
-            sort={{
-              sort: currentSort,
-              options: SORT_OPTIONS,
-              order: currentSortOrder,
-              onSortSelect,
-              onOrderToggle: onOrderChange,
-            }}
-            standard={standard}
           />
           {!dataReady && <LoadingIndicator />}
           {!hasResults && dataReady && (
@@ -255,51 +214,20 @@ export function ChartContainerMetric({
           )}
           {hasResults && sorted && sorted.length > 0 && (
             <ChartBars
-              data={prepareData({
-                scores: sorted,
-                metric,
-                currentBenchmark,
-                standard,
-                countries,
-                onCountryClick,
-                activeCode,
-                showHILabel,
-                showGovRespondentsLabel,
-              })}
+              data={sorted}
               currentBenchmark={currentBenchmark}
               metric={metric}
-              listHeader
               bullet={metric.type === 'cpr'}
-              allowWordBreak
-              labelColor={`${metric.color}Dark`}
-              padVertical="xsmall"
-              annotateBetter
+              maxValue={metric.type === 'esr' ? 100 : 10}
+              unit={metric.type === 'esr' ? '%' : null}
+              stripes={metric.type === 'esr' && standard === 'hi'}
+              sort={{
+                sort: currentSort,
+                order: currentSortOrder,
+                onSortSelect,
+                onOrderToggle: onOrderChange,
+              }}
             />
-          )}
-          {hasResults && other && other.length > 0 && (
-            <Box border="top">
-              <Hint italic>
-                <FormattedMessage {...rootMessages.hints.noSortData} />
-              </Hint>
-              <ChartBars
-                data={prepareData({
-                  scores: other,
-                  metric,
-                  currentBenchmark,
-                  standard,
-                  countries,
-                  onCountryClick,
-                  activeCode,
-                  showHILabel,
-                  showGovRespondentsLabel,
-                })}
-                currentBenchmark={currentBenchmark}
-                metric={metric}
-                bullet={metric.type === 'cpr'}
-                allowWordBreak
-                padVertical="xsmall"
-              />
-            </Box>
           )}
           {hasResults && <Source />}
           <CountryNotes
@@ -329,11 +257,9 @@ ChartContainerMetric.propTypes = {
   activeCode: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   scores: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   countries: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  auxIndicators: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   onAddFilter: PropTypes.func,
   onRemoveFilter: PropTypes.func,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
-  incomeFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   intl: intlShape.isRequired,
   sort: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   sortOrder: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -351,11 +277,9 @@ const mapStateToProps = createStructuredSelector({
       ? getESRRightScores(state, metric.key)
       : getCPRRightScores(state, metric.key),
   countries: state => getCountries(state),
-  auxIndicators: state => getAuxIndicatorsLatest(state),
   benchmark: state => getBenchmarkSearch(state),
   standard: state => getStandardSearch(state),
   unRegionFilterValue: state => getUNRegionSearch(state),
-  incomeFilterValue: state => getIncomeSearch(state),
   sort: state => getSortSearch(state),
   sortOrder: state => getSortOrderSearch(state),
 });

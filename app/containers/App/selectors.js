@@ -11,6 +11,7 @@ import isInteger from 'utils/is-integer';
 import quasiEquals from 'utils/quasi-equals';
 
 import getMetricDetails from 'utils/metric-details';
+import { sortByNumber } from 'utils/scores';
 
 import { hasCountryIncome } from 'utils/countries';
 
@@ -171,11 +172,6 @@ export const getIncomeSearch = createSelector(
     searchValues(INCOME_GROUPS.values.map(s => s.key), search.getAll('income')),
 );
 
-const getHasChartSettingFilters = createSelector(
-  getUNRegionSearch,
-  getIncomeSearch,
-  (unregion, income) => unregion || income,
-);
 export const getSortSearch = createSelector(
   getRouterSearchParams,
   search =>
@@ -346,57 +342,111 @@ export const getCountriesFiltered = createSelector(
       )
       .filter(c => !income || hasCountryIncome(c, income)),
 );
-
-// single right, multiple countries, single year
+const addRank = (memo, s, index) => {
+  if (memo.length === 0) {
+    return [
+      {
+        ...s,
+        rank: 1,
+      },
+    ];
+  }
+  const previous = memo[memo.length - 1];
+  const rank = s.value === previous.value ? previous.rank : index + 1;
+  return [
+    ...memo,
+    {
+      ...s,
+      rank,
+    },
+  ];
+};
+// single right, multiple countries, all years
 export const getESRRightScores = createSelector(
   (state, metric) => metric,
   getESRScores,
   getCountriesFiltered,
-  getHasChartSettingFilters,
   getStandardSearch,
+  getBenchmarkSearch,
   getESRYear,
-  (metric, scores, countries, hasChartSettingFilters, standardSearch, year) => {
-    const standard = STANDARDS.find(as => as.key === standardSearch);
-    const group = PEOPLE_GROUPS[0];
+  (metric, scores, countries, standardSearch, benchmarkSearch, year) => {
+    // make sure we have a valid metric
     const right = !!metric && RIGHTS.find(d => d.key === metric);
+    if (!scores || !countries || !right) return false;
+
+    const standard = STANDARDS.find(as => as.key === standardSearch);
+    const benchmark = BENCHMARKS.find(b => b.key === benchmarkSearch);
+    const group = PEOPLE_GROUPS[0];
+    // make sure we have a valid country
     const countryCodes = countries ? countries.map(c => c.country_code) : [];
-    return (
-      scores &&
-      countries &&
-      right &&
-      scores.filter(
+    const metricScores = scores
+      .filter(
         s =>
           s.group === group.code &&
           s.standard === standard.code &&
           s.metric_code === right.code &&
-          quasiEquals(s.year, year) &&
           countryCodes.indexOf(s.country_code) > -1,
       )
-    );
+      .map(s => ({ ...s, value: parseFloat(s[benchmark.column], 10) }));
+    const prevScores = metricScores
+      .filter(s => quasiEquals(s.year, year - 1))
+      .sort((a, b) => sortByNumber(a.value, b.value))
+      .reduce(addRank, []);
+    const currentScores = metricScores
+      .filter(s => quasiEquals(s.year, year))
+      .sort((a, b) => sortByNumber(a.value, b.value))
+      .reduce(addRank, [])
+      .map(s => {
+        const prevScore = prevScores.find(
+          ps => s.country_code === ps.country_code,
+        );
+        return {
+          ...s,
+          prevRank: prevScore && prevScore.rank,
+        };
+      });
+    return currentScores;
   },
 );
 
-// single right, multiple countries, single year
+// single right, multiple countries, all years
 export const getCPRRightScores = createSelector(
   (state, metric) => metric,
   getCPRScores,
   getCountriesFiltered,
-  getHasChartSettingFilters,
   getCPRYear,
-  (metric, scores, countries, hasChartSettingFilters, year) => {
+  (metric, scores, countries, year) => {
+    // make sure we have a valid metric
     const right = !!metric && RIGHTS.find(d => d.key === metric);
+    if (!scores || !countries || !right) return false;
+
     const countryCodes = countries ? countries.map(c => c.country_code) : [];
-    return (
-      scores &&
-      countries &&
-      right &&
-      scores.filter(
+    const metricScores = scores
+      .filter(
         s =>
           s.metric_code === right.code &&
-          quasiEquals(s.year, year) &&
           countryCodes.indexOf(s.country_code) > -1,
       )
-    );
+      .map(s => ({ ...s, value: parseFloat(s[COLUMNS.CPR.MEAN], 10) }));
+
+    const prevScores = metricScores
+      .filter(s => quasiEquals(s.year, year - 1))
+      .sort((a, b) => sortByNumber(a.value, b.value))
+      .reduce(addRank, []);
+    const currentScores = metricScores
+      .filter(s => quasiEquals(s.year, year))
+      .sort((a, b) => sortByNumber(a.value, b.value))
+      .reduce(addRank, [])
+      .map(s => {
+        const prevScore = prevScores.find(
+          ps => s.country_code === ps.country_code,
+        );
+        return {
+          ...s,
+          prevRank: prevScore && prevScore.rank,
+        };
+      });
+    return currentScores;
   },
 );
 

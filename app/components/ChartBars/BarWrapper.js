@@ -16,109 +16,95 @@ import { formatScore } from 'utils/scores';
 import { isMinSize } from 'utils/responsive';
 
 import rootMessages from 'messages';
-import { chartLabelWidth, scoreAsideWidth } from './chart-utils';
+import { chartColumnWidth } from './chart-utils';
 import Active from './styled/Active';
 import BarButton from './BarButton';
 import BarLabel from './BarLabel';
 
 const BarWrap = styled(Box)``;
 // prettier-ignore
-const LabelWrap = styled(Box)`
+const LabelWrap = styled(Box)``;
+// prettier-ignore
+const ScoreWrap = styled(Box)`
   border-right: 1px solid;
   border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 `;
-// prettier-ignore
-const ScoreAsideWrap = styled(Box)``;
 
-export function BarWrapper({
-  score,
-  bullet,
-  labelColor,
-  hasBackground,
-  level,
-  scoreOnHover = true,
-  scoresAside = false,
-  isStatic = false,
-  intl,
-}) {
+export function BarWrapper({ score, bullet, maxValue, unit, stripes, intl }) {
   const [hover, setHover] = useState(false);
   return (
     <ResponsiveContext.Consumer>
       {size => (
         <BarButton
-          as={isStatic && 'div'}
-          onClick={() => !isStatic && score.onClick && score.onClick()}
-          onMouseEnter={() => isStatic || setHover(true)}
-          onMouseLeave={() => isStatic || setHover(false)}
+          onClick={() => score.onClick && score.onClick()}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
         >
           {(hover || score.active) && <Active color={`${score.color}Active`} />}
           <Box key={score.key} direction="row" align="center">
             <LabelWrap
-              width={chartLabelWidth(size)}
+              width={chartColumnWidth(size, 'rank')}
+              align="end"
+              flex={{ shrink: 0 }}
+              pad={{ right: 'small' }}
+            >
+              {score.rank && <BarLabel label={score.rank} />}
+            </LabelWrap>
+            <LabelWrap
+              width={chartColumnWidth(size, 'label')}
               align="start"
               flex={{ shrink: 0 }}
               pad={{ right: 'small' }}
             >
-              {score.label && (
-                <BarLabel
-                  label={score.label}
-                  color={
-                    hover || score.active ? `${score.color}Active` : labelColor
-                  }
-                  level={level}
-                >
-                  {score.label}
-                </BarLabel>
-              )}
+              {score.label && <BarLabel label={score.label} />}
+            </LabelWrap>
+            <ScoreWrap
+              width={chartColumnWidth(size, 'score')}
+              align="start"
+              flex={{ shrink: 0 }}
+              pad={{ left: 'small' }}
+            >
+              <Text
+                color={`${score.color}Dark`}
+                size={isMinSize(size, 'medium') ? 'small' : 'xxsmall'}
+                weight={600}
+              >
+                {score.value &&
+                  `${formatScore(score.value, 1, intl)}${score.unit || ''}`}
+                {!score.value &&
+                  intl.formatMessage(rootMessages.labels.abbrev.notAvailable)}
+              </Text>
+            </ScoreWrap>
+            <LabelWrap
+              width={chartColumnWidth(size, 'trend')}
+              align="center"
+              flex={{ shrink: 0 }}
+              pad={{ right: 'small' }}
+            >
+              {score.trend && <BarLabel label={score.trend} />}
             </LabelWrap>
             <BarWrap flex border="right">
               {!bullet && (
                 <Bar
-                  showScore={scoreOnHover && hover}
-                  showLabels={false}
-                  level={2}
-                  data={score}
-                  hasBackground={hasBackground}
-                  hoverEnabled={false}
-                  scoreAbove={scoreOnHover}
+                  showScore={hover}
                   active={hover || score.active}
+                  data={score}
+                  maxValue={maxValue}
+                  unit={unit}
+                  stripes={stripes}
                 />
               )}
               {bullet && (
                 <BarBullet
-                  color={score.color}
-                  level={2}
-                  hoverEnabled={false}
-                  showLabels={false}
                   data={score}
-                  bandOnHover={scoreOnHover && hover}
-                  showValueBar
-                  hasBackground={hasBackground}
-                  showScore={scoreOnHover && hover}
-                  scoreAbove={scoreOnHover}
+                  showScore={hover}
                   active={hover || score.active}
+                  maxValue={maxValue}
+                  unit={unit}
+                  stripes={stripes}
                 />
               )}
             </BarWrap>
-            {scoresAside && (
-              <ScoreAsideWrap
-                width={scoreAsideWidth(size)}
-                align="start"
-                flex={{ shrink: 0 }}
-                pad={{ left: 'small' }}
-              >
-                <Text
-                  color={`${score.color}Dark`}
-                  size={isMinSize(size, 'medium') ? 'small' : 'xxsmall'}
-                  weight={600}
-                >
-                  {score.value &&
-                    `${formatScore(score.value, 1, intl)}${score.unit || ''}`}
-                  {!score.value &&
-                    intl.formatMessage(rootMessages.labels.abbrev.notAvailable)}
-                </Text>
-              </ScoreAsideWrap>
-            )}
           </Box>
         </BarButton>
       )}
@@ -129,15 +115,10 @@ export function BarWrapper({
 BarWrapper.propTypes = {
   score: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   bullet: PropTypes.bool,
-  hasBackground: PropTypes.bool,
-  scoreOnHover: PropTypes.bool,
-  scoresAside: PropTypes.bool,
-  isStatic: PropTypes.bool,
-  labelColor: PropTypes.string,
-  level: PropTypes.number,
+  maxValue: PropTypes.number,
+  stripes: PropTypes.bool,
+  unit: PropTypes.string,
   intl: intlShape,
-  // standard: PropTypes.string,
-  // currentBenchmark: PropTypes.object,
 };
 
 export default injectIntl(BarWrapper);

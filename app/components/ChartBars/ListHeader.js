@@ -12,7 +12,7 @@ import styled from 'styled-components';
 
 import rootMessages from 'messages';
 // import messages from './messages';
-import { scoreAsideWidth, chartLabelWidth } from './chart-utils';
+import { chartColumnWidth } from './chart-utils';
 
 // prettier-ignore
 const StyledScoreText = styled(Text)`
@@ -28,18 +28,11 @@ const CountryWrap = styled(Box)`
   border-right: 1px solid;
   border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 `;
-const getScoreAsideWidth = (size, hasAside = false) => {
-  if (hasAside) {
-    return scoreAsideWidth(size);
-  }
-  return 0;
-};
 export function ListHeader({
   metric,
   benchmark,
   commonLabel,
   labelColor = 'dark',
-  hasAside = false,
   annotateMinMax = true,
 }) {
   return (
@@ -47,7 +40,7 @@ export function ListHeader({
       {size => (
         <Box direction="row" align="end" pad={{ bottom: 'xxsmall' }}>
           <CountryWrap
-            width={chartLabelWidth(size)}
+            width={chartColumnWidth(size, 'label')}
             noBorder
             align="start"
             flex={{ shrink: 0 }}
@@ -63,6 +56,7 @@ export function ListHeader({
               )}
             </StyledScoreText>
           </CountryWrap>
+          <Box width={chartColumnWidth(size, 'score')} flex={{ shrink: 0 }} />
           <BarWrap
             flex
             direction="row"
@@ -91,9 +85,6 @@ export function ListHeader({
               </Box>
             )}
           </BarWrap>
-          {hasAside && (
-            <Box width={getScoreAsideWidth(size, true)} flex={{ shrink: 0 }} />
-          )}
         </Box>
       )}
     </ResponsiveContext.Consumer>

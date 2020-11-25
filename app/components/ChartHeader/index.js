@@ -6,19 +6,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Heading, ResponsiveContext, Box, Text } from 'grommet';
+import { ResponsiveContext, Box } from 'grommet';
 import styled from 'styled-components';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-
-import ChartTools from 'containers/ChartTools';
 
 import ChartSettingFilters from 'components/ChartSettingFilters';
-import ChartSettingSort from 'components/ChartSettingSort';
 
 import { isMinSize, isMaxSize } from 'utils/responsive';
-
-// import rootMessages from 'messages';
-import messages from './messages';
 
 const Styled = styled.div`
   margin-top: 10px;
@@ -31,105 +24,13 @@ const Styled = styled.div`
     margin-top: ${({ top }) => (top ? 20 : 60)}px;
   }
 `;
-const Top = styled(Box)`
-  position: relative;
-`;
 
-const HeadingWrap = styled(Box)`
-  position: relative;
-`;
-
-const ChartToolWrapper = styled(Box)`
-  align-items: flex-end;
-`;
-
-// const TextWrap = styled.span`
-//   vertical-align: middle;
-// `;
-
-// const StyledShare = styled(p => <Share {...p} size="small" />)`
-//   vertical-align: middle;
-//   margin-left: 7px;
-//   stroke: currentColor;
-// `;
-
-// const DownloadButton = styled(ButtonNavPrimary)`
-//   padding: 8px 2px;
-//   font-size: 0.8em;
-//   @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
-//     padding: 8px 2px;
-//     font-size: 1em;
-//   }
-// `;
-
-export function ChartHeader({
-  title,
-  chartId,
-  filter,
-  sort,
-  messageValues,
-  tools,
-  intl,
-  includeChartName,
-  hasWhiteBG,
-  top,
-  hasSubHeading,
-  standard,
-}) {
-  const chartName =
-    title || intl.formatMessage(messages[chartId], messageValues);
+export function ChartHeader({ filter, hasWhiteBG, top }) {
   return (
     <ResponsiveContext.Consumer>
       {size => (
         <Styled top={top}>
-          <Top direction="row" align="baseline" justify="between">
-            <HeadingWrap>
-              <Heading
-                level={isMaxSize(size, 'sm') ? 5 : 2}
-                responsive={false}
-                margin={{ vertical: 'xsmall' }}
-              >
-                {chartName}
-              </Heading>
-              {((hasSubHeading && messages[`${chartId}-sub`]) ||
-                (hasSubHeading &&
-                  messages[`assessment-standard-${standard}-sub`])) && (
-                <Text size={isMinSize(size, 'medium') ? 'xsmall' : 'xxsmall'}>
-                  {messages[`${chartId}-sub`] ? (
-                    <FormattedMessage
-                      {...messages[`${chartId}-sub`]}
-                      values={messageValues}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      {...messages[`assessment-standard-${standard}-sub`]}
-                      values={messageValues}
-                    />
-                  )}
-                </Text>
-              )}
-            </HeadingWrap>
-            {tools && (
-              <ChartToolWrapper flex={{ shrink: 0 }}>
-                <ChartTools
-                  hasWhiteBG={hasWhiteBG}
-                  howToReadConfig={
-                    tools.howToReadConfig && {
-                      chartName: includeChartName && chartName,
-                      ...tools.howToReadConfig,
-                    }
-                  }
-                  settingsConfig={
-                    tools.settingsConfig && {
-                      chartName: includeChartName && chartName,
-                      ...tools.settingsConfig,
-                    }
-                  }
-                />
-              </ChartToolWrapper>
-            )}
-          </Top>
-          {(filter || sort) && (
+          {filter && (
             <Box
               direction={isMaxSize(size, 'sm') ? 'column' : 'row'}
               justify="between"
@@ -139,16 +40,6 @@ export function ChartHeader({
                 top: isMinSize(size, 'medium') ? 'small' : '0',
               }}
             >
-              {sort && isMaxSize(size, 'sm') && (
-                <ChartSettingSort
-                  sort={sort.sort}
-                  options={sort.options}
-                  order={sort.order}
-                  onSortSelect={sort.onSortSelect}
-                  onOrderToggle={sort.onOrderToggle}
-                  hasWhiteBG={hasWhiteBG}
-                />
-              )}
               {filter && (
                 <ChartSettingFilters
                   unRegionFilterValue={filter.unRegionFilterValue}
@@ -156,16 +47,6 @@ export function ChartHeader({
                   onAddFilter={filter.onAddFilter}
                   incomeFilterValue={filter.incomeFilterValue}
                   filterValues={filter.filterValues}
-                  hasWhiteBG={hasWhiteBG}
-                />
-              )}
-              {sort && isMinSize(size, 'medium') && (
-                <ChartSettingSort
-                  sort={sort.sort}
-                  options={sort.options}
-                  order={sort.order}
-                  onSortSelect={sort.onSortSelect}
-                  onOrderToggle={sort.onOrderToggle}
                   hasWhiteBG={hasWhiteBG}
                 />
               )}
@@ -181,21 +62,9 @@ export function ChartHeader({
 // standard={standard}
 
 ChartHeader.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
-  chartId: PropTypes.string,
-  title: PropTypes.string,
   filter: PropTypes.object,
-  sort: PropTypes.object,
-  messageValues: PropTypes.object,
-  tools: PropTypes.object,
-  includeChartName: PropTypes.bool,
   hasWhiteBG: PropTypes.bool,
   top: PropTypes.bool,
-  hasSubHeading: PropTypes.bool,
-  standard: PropTypes.string,
-  intl: intlShape.isRequired,
-  countryCode: PropTypes.string,
-  locale: PropTypes.string,
 };
 
-export default injectIntl(ChartHeader);
+export default ChartHeader;

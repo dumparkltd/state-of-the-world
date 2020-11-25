@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
 
-import { COLUMNS } from 'containers/App/constants';
 import rootMessages from 'messages';
 
 const StyledMarks = styled.span`
@@ -12,31 +11,20 @@ const StyledMarks = styled.span`
 `;
 
 export function CountryLabel({
-  intl,
   country,
+  name,
   showHILabel = true,
   showGovRespondentsLabel = true,
 }) {
   if (!country) return null;
-  let label = '';
-  if (rootMessages.countries[country[COLUMNS.COUNTRIES.CODE]]) {
-    label = intl.formatMessage(
-      rootMessages.countries[country[COLUMNS.COUNTRIES.CODE]],
-    );
-  } else {
-    console.log(
-      'Country code not in language files:',
-      country[COLUMNS.COUNTRIES.CODE],
-    );
-    label = country[COLUMNS.COUNTRIES.CODE];
-  }
+
   const hiLabel = showHILabel && isCountryHighIncome(country);
   const respondentsLabel =
     showGovRespondentsLabel && hasCountryGovRespondents(country);
 
   return (
     <span>
-      {label}
+      {name}
       <StyledMarks>
         {` `}
         {hiLabel && <FormattedMessage {...rootMessages.labels.hiCountry} />}
@@ -51,10 +39,10 @@ export function CountryLabel({
 }
 
 CountryLabel.propTypes = {
-  intl: intlShape.isRequired,
   showHILabel: PropTypes.bool,
   showGovRespondentsLabel: PropTypes.bool,
   country: PropTypes.object,
+  name: PropTypes.string,
 };
 
-export default injectIntl(CountryLabel);
+export default CountryLabel;

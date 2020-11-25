@@ -17,7 +17,7 @@ const Styled = styled.span`
     padding: 2px 0 2px 0;
     min-height: 20px;
     line-height: 19px;
-    font-size: ${({ level }) => (level > 1 ? '14px' : '16px')};
+    font-size: 14px;
   }
   @media print {
     font-size: 15px;
@@ -25,19 +25,12 @@ const Styled = styled.span`
   }
 `;
 
-function BarLabel({ label, allowWordBreak, color, level }) {
-  return (
-    <Styled allowWordBreak={allowWordBreak} color={color} level={level}>
-      {label}
-    </Styled>
-  );
+function BarLabel({ label }) {
+  return <Styled allowWordBreak>{label}</Styled>;
 }
 
 BarLabel.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  color: PropTypes.string,
-  allowWordBreak: PropTypes.bool,
-  level: PropTypes.number,
 };
 
 export default BarLabel;
