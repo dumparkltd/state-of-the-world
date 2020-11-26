@@ -118,7 +118,7 @@ const getRegionData = (region, scores, metricType, benchmarkKey, intl) => {
 };
 
 const colors = {
-  all: 'black',
+  world: 'black',
   AG: 'red',
   APG: 'blue',
   EEG: 'green',
@@ -150,6 +150,7 @@ function ChartRegionMetricTrend({
   ];
   const isESR = metric.type === 'esr';
   const tickValuesY = isESR ? [0, 20, 40, 60, 80, 100] : [0, 2, 4, 6, 8, 10];
+
   return (
     <ResponsiveContext.Consumer>
       {size => (
