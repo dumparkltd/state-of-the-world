@@ -13,15 +13,12 @@ import quasiEquals from 'utils/quasi-equals';
 import getMetricDetails from 'utils/metric-details';
 import { sortByNumber } from 'utils/scores';
 
-import { hasCountryIncome } from 'utils/countries';
-
 import { initialState } from './reducer';
 import {
   STANDARDS,
   BENCHMARKS,
   UN_REGIONS,
   COUNTRY_SORTS,
-  INCOME_GROUPS,
   RIGHTS,
   PEOPLE_GROUPS,
   COLUMNS,
@@ -153,23 +150,12 @@ export const getYearCPRSearch = createSelector(
       : false,
 );
 
-const searchValues = (validValues, search) => {
-  const validSearchValues = search.filter(s => validValues.indexOf(s) > -1);
-  return validSearchValues.length > 0 && validSearchValues;
-};
-
 export const getUNRegionSearch = createSelector(
   getRouterSearchParams,
   search =>
     search.has('unregion') &&
-    searchValues(UN_REGIONS.values, search.getAll('unregion')),
-);
-
-export const getIncomeSearch = createSelector(
-  getRouterSearchParams,
-  search =>
-    search.has('income') &&
-    searchValues(INCOME_GROUPS.values.map(s => s.key), search.getAll('income')),
+    UN_REGIONS.options.map(o => o.key).indexOf(search.get('unregion')) > -1 &&
+    search.get('unregion'),
 );
 
 export const getSortSearch = createSelector(
@@ -333,14 +319,11 @@ export const getStandardSearch = createSelector(
 export const getCountriesFiltered = createSelector(
   getCountries,
   getUNRegionSearch,
-  getIncomeSearch,
-  (countries, unregion, income) =>
+  (countries, unregion) =>
     countries &&
-    countries
-      .filter(
-        c => !unregion || unregion.indexOf(c[COLUMNS.COUNTRIES.UN_REGION]) > -1,
-      )
-      .filter(c => !income || hasCountryIncome(c, income)),
+    countries.filter(
+      c => !unregion || unregion.indexOf(c[COLUMNS.COUNTRIES.UN_REGION]) > -1,
+    ),
 );
 const addRank = (memo, s, index) => {
   if (memo.length === 0) {
@@ -392,6 +375,7 @@ export const getESRRightScores = createSelector(
       .filter(s => quasiEquals(s.year, year - 1))
       .sort((a, b) => sortByNumber(a.value, b.value))
       .reduce(addRank, []);
+    console.log(metric, 'previous countries', prevScores.length);
     const currentScores = metricScores
       .filter(s => quasiEquals(s.year, year))
       .sort((a, b) => sortByNumber(a.value, b.value))
@@ -405,6 +389,7 @@ export const getESRRightScores = createSelector(
           prevRank: prevScore && prevScore.rank,
         };
       });
+    console.log(metric, 'current countries', currentScores.length);
     return currentScores;
   },
 );
@@ -433,6 +418,7 @@ export const getCPRRightScores = createSelector(
       .filter(s => quasiEquals(s.year, year - 1))
       .sort((a, b) => sortByNumber(a.value, b.value))
       .reduce(addRank, []);
+    console.log(metric, 'previous countries', prevScores.length);
     const currentScores = metricScores
       .filter(s => quasiEquals(s.year, year))
       .sort((a, b) => sortByNumber(a.value, b.value))
@@ -446,6 +432,7 @@ export const getCPRRightScores = createSelector(
           prevRank: prevScore && prevScore.rank,
         };
       });
+    console.log(metric, 'current countries', currentScores.length);
     return currentScores;
   },
 );
@@ -873,7 +860,7 @@ const calculateRegionAverage = (regionCode, countries, scores, columns) => {
   const regionCountryCodes = countries
     .filter(
       c =>
-        regionCode === 'all' || c[COLUMNS.COUNTRIES.UN_REGION] === regionCode,
+        regionCode === 'world' || c[COLUMNS.COUNTRIES.UN_REGION] === regionCode,
     )
     .map(c => c[COLUMNS.COUNTRIES.CODE]);
   const scoresByYear = groupBy(
@@ -907,11 +894,11 @@ export const getESRScoresForUNRegions = createSelector(
         s[COLUMNS.ESR.METRIC] === metric.code &&
         countryCodes.indexOf(s.country_code) > -1,
       );
-      const regionScores = UN_REGIONS.values.reduce(
-        (m, regionCode) => ({
+      const regionScores = UN_REGIONS.options.reduce(
+        (m, region) => ({
           ...m,
-          [regionCode]: calculateRegionAverage(
-            regionCode,
+          [region.key]: calculateRegionAverage(
+            region.key,
             countries,
             scoresFiltered,
             BENCHMARKS,
@@ -919,17 +906,8 @@ export const getESRScoresForUNRegions = createSelector(
         }),
         {},
       );
-      const globalScores = calculateRegionAverage(
-        'all',
-        countries,
-        scoresFiltered,
-        BENCHMARKS,
-      );
       // console.log(regionScores)
-      return {
-        all: globalScores,
-        ...regionScores,
-      };
+      return regionScores;
     }
     return null;
   },
@@ -948,11 +926,11 @@ export const getCPRScoresForUNRegions = createSelector(
         countryCodes.indexOf(s.country_code) > -1,
       );
       const columns = [{ key: 'mean', column: COLUMNS.CPR.MEAN }];
-      const regionScores = UN_REGIONS.values.reduce(
-        (m, regionCode) => ({
+      const regionScores = UN_REGIONS.options.reduce(
+        (m, region) => ({
           ...m,
-          [regionCode]: calculateRegionAverage(
-            regionCode,
+          [region.key]: calculateRegionAverage(
+            region.key,
             countries,
             scoresFiltered,
             columns,
@@ -960,17 +938,8 @@ export const getCPRScoresForUNRegions = createSelector(
         }),
         {},
       );
-      const globalScores = calculateRegionAverage(
-        'all',
-        countries,
-        scoresFiltered,
-        columns,
-      );
       // console.log(regionScores)
-      return {
-        all: globalScores,
-        ...regionScores,
-      };
+      return regionScores;
     }
     return null;
   },

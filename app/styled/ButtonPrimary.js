@@ -4,7 +4,7 @@ import Button from './Button';
 // prettier-ignore
 export default styled(Button)`
   color: ${({ theme }) => theme.global.colors.white};
-  background-color: ${({ theme }) => theme.global.colors.dark};
+  background-color: ${({ theme, active }) => theme.global.colors[active ? 'dark' : 'dark-4']};
   &:hover {
     color: ${({ theme }) => theme.global.colors.white};
     background-color:

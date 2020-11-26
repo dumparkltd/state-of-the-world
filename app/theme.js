@@ -42,10 +42,10 @@ export const SIZES = {
   },
   charts: {
     // small, sm, medium, large, xlarge, xxlarge
+    rank: [35, 35, 35, 35, 35, 35],
     label: [90, 100, 120, 120, 140, 180],
-    score: [30, 60, 60, 40, 60, 80],
-    trend: [30, 60, 60, 40, 60, 80],
-    rank: [30, 60, 60, 40, 60, 80],
+    score: [30, 50, 60, 40, 60, 40],
+    trend: [30, 50, 60, 40, 60, 40],
   },
 };
 

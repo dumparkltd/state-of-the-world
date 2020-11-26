@@ -22,14 +22,6 @@ import { utcFormat as timeFormat } from 'd3-time-format';
 import { formatScore } from 'utils/scores';
 import { isMaxSize, isMinSize } from 'utils/responsive';
 
-// import Source from 'components/Source';
-// import { scoreAsideWidth } from 'components/ChartBars/chart-utils';
-
-// import { BENCHMARKS } from 'containers/App/constants';
-//
-// import SettingsMultiToggle from 'containers/LayerSettings/SettingsMultiToggle';
-//
-// import ButtonToggleSetting from 'styled/ButtonToggleSetting';
 import WrapPlot from 'styled/WrapPlot';
 
 import rootMessages from 'messages';
@@ -176,11 +168,9 @@ function ChartRegionMetricTrend({
                 />
                 <div>
                   <Text size="xsmall">
-                    {region !== 'all' &&
-                      `${intl.formatMessage(
-                        rootMessages.un_regions[region],
-                      )} (${region})`}
-                    {region === 'all' && `World`}
+                    {`${intl.formatMessage(
+                      rootMessages.un_regions[region],
+                    )} (${region})`}
                   </Text>
                 </div>
               </Box>
@@ -237,7 +227,7 @@ function ChartRegionMetricTrend({
                     size={2.5}
                     style={{
                       stroke: getRegionColor(region),
-                      strokeWidth: region === 'all' ? 2 : 1,
+                      strokeWidth: region === 'world' ? 2 : 1,
                     }}
                     fill={getRegionColor(region)}
                     onNearestX={(point, { index }) =>
@@ -260,9 +250,11 @@ function ChartRegionMetricTrend({
                       </div>
                       {highlight.point.label.scores.map(s => (
                         <Box direction="row" key={s.region}>
-                          <div>{`${s.region === 'all' ? 'World' : s.region}: ${
-                            s.score
-                          } (${s.count})`}</div>
+                          <div>
+                            {`${s.region === 'world' ? 'World' : s.region}: ${
+                              s.score
+                            } (${s.count})`}
+                          </div>
                         </Box>
                       ))}
                     </PlotHintTighter>

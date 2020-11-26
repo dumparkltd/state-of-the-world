@@ -16,7 +16,7 @@ export const hasCountryAttribute = (country, values, column) => {
 
 export const hasCountryIncome = (country, incomeKeys) => {
   const incomeValues = incomeKeys.reduce((memo, incomeKey) => {
-    const group = INCOME_GROUPS.values.find(i => i.key === incomeKey);
+    const group = INCOME_GROUPS.options.find(i => i.key === incomeKey);
     return group ? memo.concat(group.value) : memo;
   }, []);
   const countryIncome = country[COLUMNS.COUNTRIES.HIGH_INCOME].toString();

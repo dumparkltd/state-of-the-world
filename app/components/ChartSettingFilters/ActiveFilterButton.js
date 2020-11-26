@@ -18,10 +18,10 @@ const StyledButton = styled(ButtonPrimary)`
 `;
 const StyledText = styled.span``;
 
-const ActiveFilterButton = ({ label, onRemove }) => (
+const ActiveFilterButton = ({ label, onClick }) => (
   <ResponsiveContext.Consumer>
     {size => (
-      <StyledButton onClick={() => onRemove()} title={label}>
+      <StyledButton onClick={onClick} title={label}>
         <Box direction="row" align="center" gap="xsmall">
           <StyledText>
             {truncateText(label, isMaxSize(size, 'sm') ? 6 : 10)}
@@ -38,7 +38,7 @@ const ActiveFilterButton = ({ label, onRemove }) => (
 
 ActiveFilterButton.propTypes = {
   label: PropTypes.string,
-  onRemove: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default ActiveFilterButton;

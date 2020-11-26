@@ -41,11 +41,6 @@ export default defineMessages({
       id: `${scope}.hints.noSortData`,
       defaultMessage: 'Sorting information missing',
     },
-    settings: {
-      id: `${scope}.hints.settings`,
-      defaultMessage:
-        "To change the performance benchmark or assessment standard, please click on 'Switch View' above",
-    },
   },
   labels: {
     score: {
@@ -525,9 +520,35 @@ export default defineMessages({
       id: `${scope}.un_regions.WEOG`,
       defaultMessage: 'Western European & Others Group',
     },
-    none: {
-      id: `${scope}.un_regions.NONE`,
-      defaultMessage: 'No UN regional Group',
+    world: {
+      id: `${scope}.un_regions.world`,
+      defaultMessage: 'World',
+    },
+  },
+  un_regions_short: {
+    AG: {
+      id: `${scope}.un_regions_short.AG`,
+      defaultMessage: 'Africa',
+    },
+    APG: {
+      id: `${scope}.un_regions_short.APG`,
+      defaultMessage: 'Asia-Pacific',
+    },
+    EEG: {
+      id: `${scope}.un_regions_short.EEG`,
+      defaultMessage: 'Eastern Europe',
+    },
+    GRULAC: {
+      id: `${scope}.un_regions_short.GRULAC`,
+      defaultMessage: 'Latin America & Caribbean',
+    },
+    WEOG: {
+      id: `${scope}.un_regions_short.WEOG`,
+      defaultMessage: 'Western Europe & Others',
+    },
+    world: {
+      id: `${scope}.un_regions_short.world`,
+      defaultMessage: 'World',
     },
   },
   income: {

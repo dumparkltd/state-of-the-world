@@ -26,9 +26,9 @@ const BarWrap = styled(Box)``;
 const LabelWrap = styled(Box)``;
 // prettier-ignore
 const ScoreWrap = styled(Box)`
-  border-right: 1px solid;
-  border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 `;
+// border-right: 1px solid;
+// border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 
 export function BarWrapper({ score, bullet, maxValue, unit, stripes, intl }) {
   const [hover, setHover] = useState(false);

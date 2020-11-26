@@ -340,7 +340,7 @@ export function mapDispatchToProps(dispatch) {
         navigate(
           {
             pathname: `/${PATHS.COUNTRIES}`,
-            search: key === 'all' ? '' : `?${key}=${value}`,
+            search: `?${key}=${value}`,
           },
           {
             replace: false,

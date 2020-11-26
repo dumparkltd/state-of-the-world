@@ -6,9 +6,7 @@ import styled from 'styled-components';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentContainer from 'styled/ContentContainer';
 import Aside from 'components/Aside';
-import { Box, Text, ResponsiveContext } from 'grommet';
-
-import { isMinSize } from 'utils/responsive';
+import { Box, Text } from 'grommet';
 
 import rootMessages from 'messages';
 import messages from './messages';
@@ -31,66 +29,59 @@ const StyledBox = styled(Box)`
     hasAside ? theme.global.edgeSize.xlarge : 0};
 `;
 
-function CountryNotes({ intl, hasAside, settingHint, notes }) {
+function CountryNotes({ intl, hasAside, notes }) {
   if (!notes) return null;
   const anyNotes = Object.keys(notes).some(key => notes[key]);
   if (!anyNotes) return null;
   return (
-    <ResponsiveContext.Consumer>
-      {size => (
-        <Styled hasAside={hasAside}>
-          <ContentContainer direction="column">
-            <ContentMaxWidth hasAside={hasAside}>
-              <Box direction="row" fill="horizontal">
-                <StyledBox
-                  pad={{ bottom: 'xsmall', top: 'xsmall' }}
-                  align="start"
-                  fill="horizontal"
-                  hasAside={hasAside}
-                  background="white"
-                >
-                  {notes.hiCountries && (
-                    <Text size="xxsmall" color="dark" textAlign="start">
-                      <FormattedMessage
-                        {...messages.hiNote}
-                        values={{
-                          hiLabel: intl.formatMessage(
-                            rootMessages.labels.hiCountry,
-                          ),
-                        }}
-                      />
-                      {settingHint && isMinSize(size, 'medium') && (
-                        <FormattedMessage {...rootMessages.hints.settings} />
-                      )}
-                    </Text>
-                  )}
-                  {notes.govRespondents && (
-                    <Text size="xxsmall" color="dark" textAlign="start">
-                      <FormattedMessage
-                        {...messages.govResponseNote}
-                        values={{
-                          label: intl.formatMessage(
+    <Styled hasAside={hasAside}>
+      <ContentContainer direction="column">
+        <ContentMaxWidth hasAside={hasAside}>
+          <Box direction="row" fill="horizontal">
+            <StyledBox
+              pad={{ bottom: 'xsmall', top: 'xsmall' }}
+              align="start"
+              fill="horizontal"
+              hasAside={hasAside}
+              background="white"
+            >
+              {notes.hiCountries && (
+                <Text size="xxsmall" color="dark" textAlign="start">
+                  <FormattedMessage
+                    {...messages.hiNote}
+                    values={{
+                      hiLabel: intl.formatMessage(
+                        rootMessages.labels.hiCountry,
+                      ),
+                    }}
+                  />
+                </Text>
+              )}
+              {notes.govRespondents && (
+                <Text size="xxsmall" color="dark" textAlign="start">
+                  <FormattedMessage
+                    {...messages.govResponseNote}
+                    values={{
+                      label: intl.formatMessage(
+                        rootMessages.labels.govResponseCountry,
+                      ),
+                      labelSuperscript: (
+                        <sup>
+                          {intl.formatMessage(
                             rootMessages.labels.govResponseCountry,
-                          ),
-                          labelSuperscript: (
-                            <sup>
-                              {intl.formatMessage(
-                                rootMessages.labels.govResponseCountry,
-                              )}
-                            </sup>
-                          ),
-                        }}
-                      />
-                    </Text>
-                  )}
-                </StyledBox>
-                {hasAside && <Aside />}
-              </Box>
-            </ContentMaxWidth>
-          </ContentContainer>
-        </Styled>
-      )}
-    </ResponsiveContext.Consumer>
+                          )}
+                        </sup>
+                      ),
+                    }}
+                  />
+                </Text>
+              )}
+            </StyledBox>
+            {hasAside && <Aside />}
+          </Box>
+        </ContentMaxWidth>
+      </ContentContainer>
+    </Styled>
   );
 }
 

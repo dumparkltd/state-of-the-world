@@ -189,7 +189,7 @@ export function* selectCountrySaga({ code, tab, atRisk }) {
   const country = yield select(getCountry, code);
   const group =
     country &&
-    INCOME_GROUPS.values.find(g =>
+    INCOME_GROUPS.options.find(g =>
       quasiEquals(country.high_income_country, g.value),
     );
   const countryDefaultStandard =

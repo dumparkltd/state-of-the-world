@@ -221,12 +221,33 @@ export const COUNTRY_SORTS = {
 };
 
 export const UN_REGIONS = {
-  values: ['AG', 'APG', 'EEG', 'GRULAC', 'WEOG'],
+  options: [
+    {
+      key: 'world',
+      aggregate: true,
+      default: true,
+    },
+    {
+      key: 'AG',
+    },
+    {
+      key: 'APG',
+    },
+    {
+      key: 'EEG',
+    },
+    {
+      key: 'GRULAC',
+    },
+    {
+      key: 'WEOG',
+    },
+  ],
 };
 
 // column: 'high_income_country',
 export const INCOME_GROUPS = {
-  values: [
+  options: [
     {
       key: 'hi',
       value: '1',

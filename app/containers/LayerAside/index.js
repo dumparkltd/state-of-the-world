@@ -1,6 +1,6 @@
 /**
  *
- * LayerSettings
+ * LayerAside
  *
  */
 
@@ -17,7 +17,6 @@ import { getAsideLayer } from 'containers/App/selectors';
 import { setAsideLayer } from 'containers/App/actions';
 import AboutMetricContainer from 'containers/AboutMetricContainer';
 import AboutCountryContainer from 'containers/AboutCountryContainer';
-import LayerSettings from 'containers/LayerSettings';
 import LayerHowToRead from 'containers/LayerHowToRead';
 
 import ButtonIcon from 'styled/ButtonIcon';
@@ -83,7 +82,6 @@ export function LayerAside({ onClose, theme, layer }) {
               </ButtonIcon>
             </ButtonWrap>
             {layer.type === 'htr' && <LayerHowToRead layer={layer} />}
-            {layer.type === 'settings' && <LayerSettings layer={layer} />}
             {layer.type === 'aboutMetric' && (
               <AboutMetricContainer
                 metricCode={layer.code}

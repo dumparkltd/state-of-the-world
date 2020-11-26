@@ -41,7 +41,7 @@ import CountryLabel from 'components/CountryLabel';
 import Hint from 'styled/Hint';
 
 import { sortScores } from 'utils/scores';
-import { getFilterOptionValues, areAnyFiltersSet } from 'utils/filters';
+import { getFilterOptionValues } from 'utils/filters';
 import { isMinSize } from 'utils/responsive';
 import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
 
@@ -78,17 +78,17 @@ const prepareData = ({
       );
       name = country[COLUMNS.COUNTRIES.CODE];
     }
-    let trend = '';
+    let trend = '*';
 
     if (s.rank && s.prevRank) {
       if (s.rank < s.prevRank) {
-        trend = `+ (${s.prevRank})`;
+        trend = `+`;
       }
       if (s.rank > s.prevRank) {
-        trend = `- (${s.prevRank})`;
+        trend = `-`;
       }
       if (s.rank === s.prevRank) {
-        trend = `<> (${s.prevRank})`;
+        trend = `=`;
       }
     }
     return {
@@ -149,17 +149,9 @@ export function ChartContainerMetric({
       countries.find(c => c.country_code === s.country_code),
     )
     : [];
-
-  const filterValues = getFilterOptionValues(
-    countriesForScores,
-    COUNTRY_FILTERS.SINGLE_METRIC,
-    // check if any filters are already set -
-    // if not we can just return all specified options
-    areAnyFiltersSet(COUNTRY_FILTERS.SINGLE_METRIC, {
-      unRegionFilterValue,
-    }),
-  );
-
+  // mark countries with symbol?
+  const showHILabel = metric.type === 'esr';
+  const showGovRespondentsLabel = metric.type === 'cpr';
   // extract value, name and more
   const data =
     scores &&
@@ -189,10 +181,6 @@ export function ChartContainerMetric({
   const hasGovRespondentsCountries = countriesForScores.some(c =>
     hasCountryGovRespondents(c),
   );
-  // mark countries with symbol?
-  const showHILabel =
-    metric.type === 'esr' && metric.metricType !== 'indicators';
-  const showGovRespondentsLabel = metric.type === 'cpr';
 
   return (
     <ResponsiveContext.Consumer>
@@ -203,8 +191,11 @@ export function ChartContainerMetric({
               unRegionFilterValue,
               onRemoveFilter,
               onAddFilter,
-              filterValues,
+              filterValues: getFilterOptionValues(
+                COUNTRY_FILTERS.SINGLE_METRIC,
+              ),
             }}
+            settings={{ standard: metric.type === 'esr' }}
           />
           {!dataReady && <LoadingIndicator />}
           {!hasResults && dataReady && (
@@ -225,7 +216,8 @@ export function ChartContainerMetric({
                 sort: currentSort,
                 order: currentSortOrder,
                 onSortSelect,
-                onOrderToggle: onOrderChange,
+                onOrderToggle: () =>
+                  onOrderChange(currentSortOrder === 'asc' ? 'desc' : 'asc'),
               }}
             />
           )}
@@ -244,12 +236,8 @@ export function ChartContainerMetric({
     </ResponsiveContext.Consumer>
   );
 }
-// metric={metric}
-// currentBenchmark={currentBenchmark}
-// standard={standard}
 
 ChartContainerMetric.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
   onLoadData: PropTypes.func.isRequired,
   metric: PropTypes.object.isRequired,
   standard: PropTypes.string,
@@ -259,7 +247,7 @@ ChartContainerMetric.propTypes = {
   countries: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onAddFilter: PropTypes.func,
   onRemoveFilter: PropTypes.func,
-  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   intl: intlShape.isRequired,
   sort: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   sortOrder: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -288,7 +276,7 @@ export function mapDispatchToProps(dispatch) {
   return {
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),
-    onRemoveFilter: (key, value) =>
+    onRemoveFilter: ({ key, value }) =>
       dispatch(
         navigate(
           {},
@@ -308,13 +296,13 @@ export function mapDispatchToProps(dispatch) {
           },
         ),
       ),
-    onAddFilter: (key, value) =>
+    onAddFilter: ({ key, value }) =>
       dispatch(
         navigate(
           { search: `?${key}=${value}` },
           {
             replace: false,
-            multiple: true,
+            multiple: false,
             trackEvent: {
               category: 'Data',
               action: 'Country filter (Metric)',
@@ -323,30 +311,31 @@ export function mapDispatchToProps(dispatch) {
           },
         ),
       ),
-    onSortSelect: value =>
+    onSortSelect: (value, dir) =>
       dispatch(
         navigate(
-          { search: `?sort=${value}` },
+          { search: dir ? `?sort=${value}&dir=${dir}` : `?sort=${value}` },
           {
             replace: false,
             trackEvent: {
               category: 'Data',
               action: 'Sort countries (Metric)',
               value,
+              dir,
             },
           },
         ),
       ),
-    onOrderChange: value =>
+    onOrderChange: dir =>
       dispatch(
         navigate(
-          { search: `?dir=${value}` },
+          { search: `?dir=${dir}` },
           {
             replace: false,
             trackEvent: {
               category: 'Data',
               action: 'Country sort order (Metric)',
-              value,
+              value: dir,
             },
           },
         ),

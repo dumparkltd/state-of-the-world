@@ -1,56 +1,98 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'grommet';
+import { injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
+import { Box } from 'grommet';
 
-import DropOption from 'styled/DropOption';
-import Hint from 'styled/Hint';
+import ButtonPrimary from 'styled/ButtonPrimary';
+
+import rootMessages from 'messages';
+// import messages from './messages';
+
+const StyledButton = styled(ButtonPrimary)`
+  display: inline-block;
+  margin-bottom: ${({ theme }) => theme.global.edgeSize.xxsmall};
+  margin-right: ${({ theme }) => theme.global.edgeSize.xxsmall};
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    margin-right: ${({ theme }) => theme.global.edgeSize.xsmall};
+    font-size: ${({ theme }) => theme.text.small.size};
+    line-height: ${({ theme }) => theme.text.small.height};
+    padding: 4px 12px;
+  }
+`;
+const StyledText = styled.span``;
 
 const Styled = styled.div`
   padding-bottom: 16px;
 `;
 
-// prettier-ignore
-const GroupLabel = styled(Hint)`
-  display: block;
-  padding-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 2px;
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium }) {
-    padding-left: 16px;
-    padding-top: 15px;
-    padding-bottom: 3px;
-  }
-`;
-
-const FilterOptions = ({ optionGroups, onSelect }) => (
-  <Styled>
-    {optionGroups &&
-      optionGroups.map((group, index, list) => (
-        <div key={group.group}>
-          <GroupLabel>
-            <Text size="small" color="secondary">
-              {group.label}
-            </Text>
-          </GroupLabel>
-          {group.options &&
-            group.options.map(option => (
-              <DropOption
-                key={option.value}
-                onClick={() => onSelect(option)}
-                noBorderLast={index === list.length - 1}
-              >
-                {option.label}
-              </DropOption>
-            ))}
-        </div>
-      ))}
-  </Styled>
-);
+export function FilterOptions({
+  unRegionFilterValue,
+  onRemoveFilter,
+  onAddFilter,
+  filterValues,
+  intl,
+}) {
+  const options =
+    filterValues.unregion &&
+    filterValues.unregion.map(option => {
+      const active = unRegionFilterValue
+        ? unRegionFilterValue === option.key
+        : !!option.default;
+      return {
+        key: 'unregion',
+        value: option.key,
+        active,
+        label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
+        onClick: () => {
+          // default
+          if (option.default) {
+            if (!active) {
+              onRemoveFilter({
+                key: 'unregion',
+              });
+            }
+          }
+          // standard
+          else if (active) {
+            onRemoveFilter({
+              key: 'unregion',
+              value: option.key,
+            });
+          } else {
+            onAddFilter({
+              key: 'unregion',
+              value: option.key,
+            });
+          }
+        },
+      };
+    });
+  return (
+    <Styled>
+      <Box direction="row">
+        {options &&
+          options.map(option => (
+            <StyledButton
+              key={option.value}
+              title={option.label}
+              active={option.active}
+              onClick={option.onClick}
+            >
+              <StyledText>{option.label}</StyledText>
+            </StyledButton>
+          ))}
+      </Box>
+    </Styled>
+  );
+}
 
 FilterOptions.propTypes = {
-  onSelect: PropTypes.func,
-  optionGroups: PropTypes.array,
+  intl: intlShape.isRequired,
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  onRemoveFilter: PropTypes.func,
+  onAddFilter: PropTypes.func,
+  filterValues: PropTypes.object,
 };
 
-export default FilterOptions;
+export default injectIntl(FilterOptions);

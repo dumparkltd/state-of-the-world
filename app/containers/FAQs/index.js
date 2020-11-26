@@ -10,7 +10,7 @@ import { Down, Up } from 'grommet-icons';
 import FormattedMarkdown from 'components/FormattedMarkdown';
 
 import { navigate } from 'containers/App/actions';
-import InfoStandard from 'containers/LayerSettings/InfoStandard';
+import InfoStandard from 'containers/Settings/InfoStandard';
 
 import { lowerCase } from 'utils/string';
 

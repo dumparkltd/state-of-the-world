@@ -10,6 +10,7 @@ import { ResponsiveContext, Box } from 'grommet';
 import styled from 'styled-components';
 
 import ChartSettingFilters from 'components/ChartSettingFilters';
+import Settings from 'containers/Settings';
 
 import { isMinSize, isMaxSize } from 'utils/responsive';
 
@@ -25,7 +26,7 @@ const Styled = styled.div`
   }
 `;
 
-export function ChartHeader({ filter, hasWhiteBG, top }) {
+export function ChartHeader({ filter, top, settings }) {
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -40,30 +41,24 @@ export function ChartHeader({ filter, hasWhiteBG, top }) {
                 top: isMinSize(size, 'medium') ? 'small' : '0',
               }}
             >
-              {filter && (
-                <ChartSettingFilters
-                  unRegionFilterValue={filter.unRegionFilterValue}
-                  onRemoveFilter={filter.onRemoveFilter}
-                  onAddFilter={filter.onAddFilter}
-                  incomeFilterValue={filter.incomeFilterValue}
-                  filterValues={filter.filterValues}
-                  hasWhiteBG={hasWhiteBG}
-                />
-              )}
+              <ChartSettingFilters
+                unRegionFilterValue={filter.unRegionFilterValue}
+                onRemoveFilter={filter.onRemoveFilter}
+                onAddFilter={filter.onAddFilter}
+                filterValues={filter.filterValues}
+              />
             </Box>
           )}
+          {settings && settings.standard && <Settings showStandard />}
         </Styled>
       )}
     </ResponsiveContext.Consumer>
   );
 }
-// metric={metric}
-// currentBenchmark={currentBenchmark}
-// standard={standard}
 
 ChartHeader.propTypes = {
   filter: PropTypes.object,
-  hasWhiteBG: PropTypes.bool,
+  settings: PropTypes.object,
   top: PropTypes.bool,
 };
 
