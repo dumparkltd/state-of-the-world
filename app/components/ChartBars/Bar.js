@@ -6,7 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import Wrapper from './styled/BarWrap';
 import Score from './styled/Score';
@@ -28,25 +28,8 @@ const BarValue = styled.div`
   left: 0;
   top: -1px;
   height: 16px;
-  background-color: ${props =>
-    props.stripes ? 'transparent' : props.theme.global.colors[props.color]};
+  background-color: ${props => props.theme.global.colors[props.color]};
   opacity: ${props => props.active ? 0.8 : 1};
-  ${props =>
-    props.stripes &&
-    css`
-      background-image: linear-gradient(
-        135deg,
-        ${props.theme.global.colors[props.color]} 30%,
-        ${props.theme.global.colors[`${props.color}Trans`]} 30%,
-        ${props.theme.global.colors[`${props.color}Trans`]} 50%,
-        ${props.theme.global.colors[props.color]} 50%,
-        ${props.theme.global.colors[props.color]} 80%,
-        ${props.theme.global.colors[`${props.color}Trans`]} 80%,
-        ${props.theme.global.colors[`${props.color}Trans`]} 100%
-      );
-      background-size: 5px 5px;
-      background-repeat: repeat;
-    `}
 `;
 
 function Bar({
