@@ -126,23 +126,22 @@ function ChartRegionMetricTrend({
   const regionScores = scores.regions;
   const countryScores = scores.countries;
 
+  // {mode === 'regions' && (
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
       {size => (
         <WrapPlot mode={mode}>
-          {mode === 'regions' && (
-            <ScoreSheet
-              height={isMinSize(size, 'medium') ? 240 : 200}
-              margin={{ bottom: 30, top: 10 }}
-              regionScores={regionScores}
-              countryScores={countryScores}
-              year={highlightYear || maxYear}
-              highlightCountry={highlightCountry}
-              column={column}
-              metric={metric}
-            />
-          )}
+          <ScoreSheet
+            height={isMinSize(size, 'medium') ? 240 : 200}
+            margin={{ bottom: 30, top: 10 }}
+            regionScores={regionScores}
+            countryScores={countryScores}
+            year={highlightYear || maxYear}
+            highlightCountry={highlightCountry}
+            column={column}
+            metric={metric}
+          />
           <FlexibleWidthXYPlot
             height={isMinSize(size, 'medium') ? 240 : 200}
             xType="time"

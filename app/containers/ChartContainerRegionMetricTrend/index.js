@@ -74,12 +74,10 @@ export function ChartContainerRegionMetricTrend({
           </Text>
         </div>
       )}
-      {mode !== 'home' && (
-        <ChartHeader
-          filters={{ unregion: 'all' }}
-          settings={{ standard: metric.type === 'esr' }}
-        />
-      )}
+      <ChartHeader
+        filters={mode !== 'home' && { unregion: 'all' }}
+        settings={{ standard: metric.type === 'esr' }}
+      />
       <ChartRegionMetricTrend
         color={getColour(metric)}
         colorCode={theme.global.colors[getColour(metric)]}

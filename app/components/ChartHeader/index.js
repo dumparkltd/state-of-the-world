@@ -23,9 +23,9 @@ const Styled = styled.div`
   }
 `;
 
-export function ChartHeader({ filters, top, settings }) {
+export function ChartHeader({ filters, settings }) {
   return (
-    <Styled top={top}>
+    <Styled top>
       {filters && <ChartSettingFilters filters={filters} />}
       {settings && settings.standard && <Settings showStandard />}
     </Styled>
@@ -35,7 +35,7 @@ export function ChartHeader({ filters, top, settings }) {
 ChartHeader.propTypes = {
   filters: PropTypes.object,
   settings: PropTypes.object,
-  top: PropTypes.bool,
+  // top: PropTypes.bool,
 };
 
 export default ChartHeader;

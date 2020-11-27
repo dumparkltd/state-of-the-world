@@ -10,7 +10,7 @@ import { intlShape, injectIntl } from 'react-intl';
 import styled from 'styled-components';
 import { formatScore } from 'utils/scores';
 
-// import rootMessages from 'messages';?
+import rootMessages from 'messages';
 
 const Styled = styled.div`
   display: block;
@@ -43,6 +43,15 @@ function ScoreSheet({
     countryScores[highlightCountry] &&
     countryScores[highlightCountry][column] &&
     countryScores[highlightCountry][column][year];
+  /* eslint-disable no-console */
+  if (hiCountry && !rootMessages.countries[highlightCountry]) {
+    console.log('Country code not in language files:', highlightCountry);
+  }
+  /* eslint-enable no-console */
+  const countryTitle =
+    highlightCountry && rootMessages.countries[highlightCountry]
+      ? intl.formatMessage(rootMessages.countries[highlightCountry])
+      : highlightCountry;
 
   return (
     <Styled height={height} margin={margin}>
@@ -57,6 +66,7 @@ function ScoreSheet({
               const yearScore = rScores[year];
               return {
                 value: yearScore ? yearScore.average : null,
+                count: yearScore ? yearScore.count : null,
                 code: regionCode,
               };
             })
@@ -70,14 +80,14 @@ function ScoreSheet({
                   <div key={region.code}>
                     {`${region.code}: ${formatScore(region.value, 1, intl)}${
                       metric.type === 'esr' ? ' %' : ''
-                    }`}
+                    } (${region.count})`}
                   </div>
                 ),
             )}
       </div>
       {hiCountry && (
         <div>
-          {`${highlightCountry}: ${formatScore(hiCountry.score, 1, intl)}${
+          {`${countryTitle}: ${formatScore(hiCountry.score, 1, intl)}${
             metric.type === 'esr' ? ' %' : ''
           }`}
         </div>
