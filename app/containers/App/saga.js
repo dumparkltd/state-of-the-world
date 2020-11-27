@@ -10,8 +10,6 @@ import 'url-search-params-polyfill';
 import quasiEquals from 'utils/quasi-equals';
 import { disableAnalytics } from 'utils/analytics';
 
-import { DEFAULT_LOCALE } from 'i18n';
-
 // import dataRequest from 'utils/data-request';
 import {
   getLocale,
@@ -34,7 +32,6 @@ import {
   dataLoadingError,
   contentLoaded,
   contentLoadingError,
-  loadContentIfNeeded,
   cookieConsentChecked,
   checkCookieConsent,
   setGAinitialised,
@@ -151,16 +148,6 @@ export function* loadContentSaga({ key, contentType = 'page', locale }) {
             yield put(contentRequested(key, false));
             throw new Error(response.statusText);
           }
-        } else if (
-          quasiEquals(response.status, 404) &&
-          contentType === 'atrisk' &&
-          requestLocale !== DEFAULT_LOCALE
-        ) {
-          yield put(contentRequested(key, false));
-          yield put(loadContentIfNeeded(key, 'atrisk', DEFAULT_LOCALE));
-        } else {
-          yield put(contentRequested(key, false));
-          throw new Error(response.statusText);
         }
       } catch (err) {
         // throw error
@@ -184,7 +171,7 @@ function* loadContentErrorHandler(err, { key }) {
   yield put(contentLoadingError(err, key));
 }
 
-export function* selectCountrySaga({ code, tab, atRisk }) {
+export function* selectCountrySaga({ code, tab }) {
   // figure out country group and default standard
   const country = yield select(getCountry, code);
   const group =
@@ -205,9 +192,6 @@ export function* selectCountrySaga({ code, tab, atRisk }) {
   }
   if (tab) {
     yield searchParams.set('tab', tab);
-  }
-  if (atRisk) {
-    yield searchParams.set('atRisk', atRisk);
   }
 
   // navigate to country and default standard
@@ -266,7 +250,6 @@ export function* selectMetricSaga({ code }) {
   const requestLocale = yield select(getLocale);
   const currentLocation = yield select(getRouterLocation);
   const currentSearchParams = new URLSearchParams(currentLocation.search);
-  currentSearchParams.delete('tab');
   const newSearch = currentSearchParams.toString();
   const search = newSearch.length > 0 ? `?${newSearch}` : '';
   yield put(
