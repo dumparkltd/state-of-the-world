@@ -26,6 +26,7 @@ function ChartBars({
   sort,
   allowWordBreak = true,
   annotateMinMax = true,
+  color,
 }) {
   const scoresAside = true;
   if (!data) return null;
@@ -57,6 +58,7 @@ function ChartBars({
                 maxValue={maxValue}
                 unit={unit}
                 stripes={stripes}
+                color={color}
               />
             ))}
           </WrapInnerChart>
@@ -80,6 +82,7 @@ ChartBars.propTypes = {
   maxValue: PropTypes.number,
   stripes: PropTypes.bool,
   unit: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default injectIntl(ChartBars);

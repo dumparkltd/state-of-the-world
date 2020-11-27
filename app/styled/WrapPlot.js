@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
+// prettier-ignore
 export default styled.div`
+  position: relative;
   width: 100%;
-  max-width: ${({ metricType }) => (metricType === 'esr' ? 'none' : '300px')};
   @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
-    padding-right: 50px;
-    padding-left: 50px;
-    max-width: ${({ metricType }) => (metricType === 'esr' ? 'none' : '500px')};
+    padding-right: ${({ mode }) => {
+    if (mode === 'regions') return '200px';
+    return '50px';
+  }};
+    padding-left: 10px;
+    width: 100%;
   }
 `;

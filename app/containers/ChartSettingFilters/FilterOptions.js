@@ -31,42 +31,72 @@ export function FilterOptions({
   onRemoveFilter,
   onAddFilter,
   filterValues,
+  filters,
   intl,
 }) {
   const options =
     filterValues.unregion &&
     filterValues.unregion.map(option => {
-      const active = unRegionFilterValue
-        ? unRegionFilterValue === option.key
-        : !!option.default;
-      return {
-        key: 'unregion',
-        value: option.key,
-        active,
-        label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
-        onClick: () => {
-          // default
-          if (option.default) {
-            if (!active) {
+      let regionOption;
+      if (filters.unregion === 'all') {
+        const active =
+          !unRegionFilterValue || unRegionFilterValue === option.key;
+        regionOption = {
+          key: 'unregion',
+          value: option.key,
+          color: active ? option.key : 'dark-4',
+          active,
+          label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
+          onClick: () => {
+            // standard
+            if (unRegionFilterValue === option.key) {
               onRemoveFilter({
                 key: 'unregion',
+                value: option.key,
+              });
+            } else {
+              onAddFilter({
+                key: 'unregion',
+                value: option.key,
               });
             }
-          }
-          // standard
-          else if (active) {
-            onRemoveFilter({
-              key: 'unregion',
-              value: option.key,
-            });
-          } else {
-            onAddFilter({
-              key: 'unregion',
-              value: option.key,
-            });
-          }
-        },
-      };
+          },
+        };
+      } else if (filters.unregion === 'single') {
+        const active = unRegionFilterValue
+          ? unRegionFilterValue === option.key
+          : !!option.default;
+        regionOption = {
+          key: 'unregion',
+          value: option.key,
+          color: active ? option.key : 'dark-4',
+          active,
+          label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
+          onClick: () => {
+            // default
+            if (option.default) {
+              if (!active) {
+                onRemoveFilter({
+                  key: 'unregion',
+                });
+              }
+            }
+            // standard
+            else if (active) {
+              onRemoveFilter({
+                key: 'unregion',
+                value: option.key,
+              });
+            } else {
+              onAddFilter({
+                key: 'unregion',
+                value: option.key,
+              });
+            }
+          },
+        };
+      }
+      return regionOption;
     });
   return (
     <Styled>
@@ -75,6 +105,7 @@ export function FilterOptions({
           options.map(option => (
             <StyledButton
               key={option.value}
+              color={option.color}
               title={option.label}
               active={option.active}
               onClick={option.onClick}
@@ -93,6 +124,7 @@ FilterOptions.propTypes = {
   onRemoveFilter: PropTypes.func,
   onAddFilter: PropTypes.func,
   filterValues: PropTypes.object,
+  filters: PropTypes.object,
 };
 
 export default injectIntl(FilterOptions);

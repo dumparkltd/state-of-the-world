@@ -235,6 +235,12 @@ const theme = {
       buttonSecondaryOnWhite: '#ededf5',
       buttonSecondaryHover: '#c8c6e0',
       buttonSecondaryOnWhiteHover: '#deddec',
+      world: '#0077B3', // blue
+      AG: '#D67200', // orange
+      APG: '#0F914B', // green
+      EEG: '#9B1040', // marrone
+      GRULAC: '#D00379', // pink
+      WEOG: '#5E2498', // purple
     },
     // margins & paddings
     edgeSize,

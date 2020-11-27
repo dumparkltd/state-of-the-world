@@ -30,7 +30,15 @@ const ScoreWrap = styled(Box)`
 // border-right: 1px solid;
 // border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 
-export function BarWrapper({ score, bullet, maxValue, unit, stripes, intl }) {
+export function BarWrapper({
+  score,
+  bullet,
+  maxValue,
+  unit,
+  stripes,
+  intl,
+  color,
+}) {
   const [hover, setHover] = useState(false);
   return (
     <ResponsiveContext.Consumer>
@@ -87,18 +95,18 @@ export function BarWrapper({ score, bullet, maxValue, unit, stripes, intl }) {
               {!bullet && (
                 <Bar
                   showScore={hover}
-                  active={hover || score.active}
                   data={score}
                   maxValue={maxValue}
                   unit={unit}
                   stripes={stripes}
+                  color={color}
                 />
               )}
               {bullet && (
                 <BarBullet
+                  color={color}
                   data={score}
                   showScore={hover}
-                  active={hover || score.active}
                   maxValue={maxValue}
                   unit={unit}
                   stripes={stripes}
@@ -111,6 +119,8 @@ export function BarWrapper({ score, bullet, maxValue, unit, stripes, intl }) {
     </ResponsiveContext.Consumer>
   );
 }
+// active={hover || score.active}
+// active={hover || score.active}
 
 BarWrapper.propTypes = {
   score: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
@@ -118,6 +128,7 @@ BarWrapper.propTypes = {
   maxValue: PropTypes.number,
   stripes: PropTypes.bool,
   unit: PropTypes.string,
+  color: PropTypes.string,
   intl: intlShape,
 };
 

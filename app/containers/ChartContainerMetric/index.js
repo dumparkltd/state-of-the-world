@@ -6,10 +6,10 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { compose } from 'redux';
 import { Box, ResponsiveContext } from 'grommet';
 
 import {
@@ -24,12 +24,7 @@ import {
   getDependenciesReady,
 } from 'containers/App/selectors';
 import { loadDataIfNeeded, navigate } from 'containers/App/actions';
-import {
-  BENCHMARKS,
-  COLUMNS,
-  COUNTRY_SORTS,
-  COUNTRY_FILTERS,
-} from 'containers/App/constants';
+import { BENCHMARKS, COLUMNS, COUNTRY_SORTS } from 'containers/App/constants';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import ChartBars from 'components/ChartBars';
@@ -41,7 +36,6 @@ import CountryLabel from 'components/CountryLabel';
 import Hint from 'styled/Hint';
 
 import { sortScores } from 'utils/scores';
-import { getFilterOptionValues } from 'utils/filters';
 import { isMinSize } from 'utils/responsive';
 import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
 
@@ -120,9 +114,6 @@ export function ChartContainerMetric({
   scores,
   benchmark,
   standard,
-  unRegionFilterValue,
-  onRemoveFilter,
-  onAddFilter,
   sort,
   sortOrder,
   intl,
@@ -132,6 +123,7 @@ export function ChartContainerMetric({
   dataReady,
   onCountryClick,
   activeCode,
+  unRegionFilterValue,
 }) {
   useEffect(() => {
     // kick off loading of data
@@ -187,14 +179,7 @@ export function ChartContainerMetric({
       {size => (
         <Box margin={{ bottom: 'xlarge' }}>
           <ChartHeader
-            filter={{
-              unRegionFilterValue,
-              onRemoveFilter,
-              onAddFilter,
-              filterValues: getFilterOptionValues(
-                COUNTRY_FILTERS.SINGLE_METRIC,
-              ),
-            }}
+            filters={{ unregion: 'single' }}
             settings={{ standard: metric.type === 'esr' }}
           />
           {!dataReady && <LoadingIndicator />}
@@ -211,6 +196,7 @@ export function ChartContainerMetric({
               bullet={metric.type === 'cpr'}
               maxValue={metric.type === 'esr' ? 100 : 10}
               unit={metric.type === 'esr' ? '%' : null}
+              color={unRegionFilterValue}
               stripes={metric.type === 'esr' && standard === 'hi'}
               sort={{
                 sort: currentSort,
@@ -245,9 +231,6 @@ ChartContainerMetric.propTypes = {
   activeCode: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   scores: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   countries: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  onAddFilter: PropTypes.func,
-  onRemoveFilter: PropTypes.func,
-  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   intl: intlShape.isRequired,
   sort: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   sortOrder: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -255,6 +238,7 @@ ChartContainerMetric.propTypes = {
   onOrderChange: PropTypes.func,
   dataReady: PropTypes.bool,
   showHILabel: PropTypes.bool,
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
 };
 
@@ -276,41 +260,6 @@ export function mapDispatchToProps(dispatch) {
   return {
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),
-    onRemoveFilter: ({ key, value }) =>
-      dispatch(
-        navigate(
-          {},
-          {
-            replace: false,
-            deleteParams: [
-              {
-                key,
-                value,
-              },
-            ],
-            trackEvent: {
-              category: 'Data',
-              action: 'Remove country filter (Metric)',
-              value: key,
-            },
-          },
-        ),
-      ),
-    onAddFilter: ({ key, value }) =>
-      dispatch(
-        navigate(
-          { search: `?${key}=${value}` },
-          {
-            replace: false,
-            multiple: false,
-            trackEvent: {
-              category: 'Data',
-              action: 'Country filter (Metric)',
-              value: `${key}/${value}`,
-            },
-          },
-        ),
-      ),
     onSortSelect: (value, dir) =>
       dispatch(
         navigate(

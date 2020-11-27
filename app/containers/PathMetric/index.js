@@ -22,6 +22,8 @@ import {
 } from 'containers/App/selectors';
 import { RIGHTS } from 'containers/App/constants';
 import ChartContainerMetric from 'containers/ChartContainerMetric';
+import ChartContainerRegionMetricTrend from 'containers/ChartContainerRegionMetricTrend';
+
 import TabContainer from 'containers/TabContainer';
 import AboutMetricContainer from 'containers/AboutMetricContainer';
 
@@ -52,26 +54,18 @@ export function PathMetric({
   const metricTitle = intl.formatMessage(
     rootMessages[metric.metricType][metric.key],
   );
-  let metricTitleShort;
-  let dimensionCode = metricCode;
-
   let imageSrc;
 
   if (metric.metricType === 'rights') {
-    metricTitleShort = intl.formatMessage(
-      rootMessages[`${metric.metricType}-xshort`][metric.key],
-    );
     const right = RIGHTS.find(r => r.key === metricCode);
     imageSrc = right.icon;
-    dimensionCode = metric.type;
   }
   const onCountryClick = code => {
-    if (asideLayer && asideLayer.key === code) {
+    if (!code || (asideLayer && asideLayer.key === code)) {
       onSetAsideLayer(false);
     } else {
       onSetAsideLayer({
         type: 'aboutCountry',
-        background: `${dimensionCode}Active`,
         key: code,
         code,
       });
@@ -83,7 +77,7 @@ export function PathMetric({
         <ContentWrap>
           <Helmet>
             <title>{metricTitle}</title>
-            <meta name="description" content="Description of metric" />
+            <meta name="description" content={metricTitle} />
           </Helmet>
           <div style={{ position: 'relative' }}>
             {isMinSize(size, 'large') && <AsideBackground />}
@@ -121,9 +115,26 @@ export function PathMetric({
             size={size}
             tabs={[
               {
-                key: 'ChartContainerMetric',
-                title: metricTitle,
-                titleMobile: metricTitleShort,
+                key: 'regions',
+                title: intl.formatMessage(rootMessages.tabs.regions),
+                titleMobile: intl.formatMessage(
+                  rootMessages.tabs.mobile.ranking,
+                ),
+                content: props => (
+                  <ChartContainerRegionMetricTrend
+                    {...props}
+                    metricCode={metricCode}
+                    onCountryClick={onCountryClick}
+                    mode="regions"
+                  />
+                ),
+              },
+              {
+                key: 'ranking',
+                title: intl.formatMessage(rootMessages.tabs.ranking),
+                titleMobile: intl.formatMessage(
+                  rootMessages.tabs.mobile.ranking,
+                ),
                 content: props => (
                   <ChartContainerMetric
                     {...props}

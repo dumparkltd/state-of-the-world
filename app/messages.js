@@ -141,6 +141,14 @@ export default defineMessages({
       id: `${scope}.tabs.about`,
       defaultMessage: 'About',
     },
+    ranking: {
+      id: `${scope}.tabs.ranking`,
+      defaultMessage: 'Country ranking',
+    },
+    regions: {
+      id: `${scope}.tabs.regions`,
+      defaultMessage: 'Regions over time',
+    },
     mobile: {
       snapshot: {
         id: `${scope}.tabs.mobile.snapshot`,
@@ -149,6 +157,14 @@ export default defineMessages({
       about: {
         id: `${scope}.tabs.mobile.about`,
         defaultMessage: 'About',
+      },
+      ranking: {
+        id: `${scope}.tabs.ranking`,
+        defaultMessage: 'Ranking',
+      },
+      regions: {
+        id: `${scope}.tabs.regions`,
+        defaultMessage: 'Over time',
       },
     },
   },

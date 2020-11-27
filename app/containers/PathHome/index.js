@@ -39,21 +39,13 @@ export function PathHome({ onLoadData, nav, locale }) {
   return (
     <ContentWrap>
       <ContentMaxWidth column>
-        <h1>CPR</h1>
-        {cpr.map(right => (
-          <ChartContainerRegionMetricTrend
-            key={right.key}
-            metricCode={right.key}
-          />
-        ))}
-      </ContentMaxWidth>
-      <ContentMaxWidth column>
         <h1>ESR - low & middle income standard</h1>
         {esr.map(right => (
           <ChartContainerRegionMetricTrend
             key={right.key}
             metricCode={right.key}
             standard="core"
+            mode="home"
           />
         ))}
       </ContentMaxWidth>
@@ -64,6 +56,17 @@ export function PathHome({ onLoadData, nav, locale }) {
             key={right.key}
             metricCode={right.key}
             standard="hi"
+            mode="home"
+          />
+        ))}
+      </ContentMaxWidth>
+      <ContentMaxWidth column>
+        <h1>CPR</h1>
+        {cpr.map(right => (
+          <ChartContainerRegionMetricTrend
+            key={right.key}
+            metricCode={right.key}
+            mode="home"
           />
         ))}
       </ContentMaxWidth>

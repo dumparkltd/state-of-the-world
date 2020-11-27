@@ -197,7 +197,6 @@ export function* selectCountrySaga({ code, tab, atRisk }) {
 
   // get URL search params
   const searchParams = yield select(getRouterSearchParams);
-  searchParams.delete('tab');
 
   // change to default standard if not already
   const currentStandard = yield select(getStandardSearch);
@@ -289,7 +288,7 @@ export function* navigateSaga({ location, args }) {
       needsLocale: true,
       replace: true,
       deleteParams: false,
-      keepTab: false,
+      keepTab: true,
       trackEvent: false,
       multiple: false,
     },

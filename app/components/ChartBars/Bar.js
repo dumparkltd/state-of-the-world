@@ -52,12 +52,12 @@ const BarValue = styled.div`
 function Bar({
   data,
   showScore = false,
-  active,
   maxValue,
   stripes = false,
   unit,
+  color = 'world',
 }) {
-  const { color = 'esr', value, title } = data;
+  const { value, title } = data;
   const hasValue = !!value || value === 0;
   // prettier-ignore
   return (
@@ -66,7 +66,7 @@ function Bar({
         <BarReference>
           {hasValue && (
             <BarValue
-              color={active ? `${color}Active` : color}
+              color={color || 'world'}
               style={{ width: `${(value / maxValue) * 100}%` }}
               stripes={stripes}
             />
@@ -76,7 +76,6 @@ function Bar({
           <Score
             score={value}
             left={(value / maxValue) * 100}
-            color={color}
             unit={unit}
             title={title}
           />
@@ -89,10 +88,10 @@ function Bar({
 Bar.propTypes = {
   data: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   showScore: PropTypes.bool,
-  active: PropTypes.bool,
   maxValue: PropTypes.number,
   stripes: PropTypes.bool,
   unit: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default Bar;

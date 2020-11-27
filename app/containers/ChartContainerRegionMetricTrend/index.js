@@ -12,7 +12,6 @@ import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { Text } from 'grommet';
-// import { BENCHMARKS, COLUMNS } from 'containers/App/constants';
 import {
   getBenchmarkSearch,
   getESRScoresForUNRegions,
@@ -21,10 +20,12 @@ import {
   getMaxYearCPR,
   getMinYearESR,
   getMinYearCPR,
+  getUNRegionSearch,
 } from 'containers/App/selectors';
 import { loadDataIfNeeded } from 'containers/App/actions';
 
 import ChartRegionMetricTrend from 'components/ChartRegionMetricTrend';
+import ChartHeader from 'components/ChartHeader';
 
 import getMetricDetails from 'utils/metric-details';
 
@@ -52,6 +53,9 @@ export function ChartContainerRegionMetricTrend({
   minYearESR,
   minYearCPR,
   theme,
+  mode,
+  unRegionFilterValue,
+  onCountryClick,
 }) {
   useEffect(() => {
     onLoadData();
@@ -63,11 +67,19 @@ export function ChartContainerRegionMetricTrend({
   if (!scores) return null;
   return (
     <div>
-      <div>
-        <Text weight={700}>
-          <FormattedMessage {...rootMessages.rights[metric.key]} />
-        </Text>
-      </div>
+      {mode === 'home' && (
+        <div>
+          <Text weight={700}>
+            <FormattedMessage {...rootMessages.rights[metric.key]} />
+          </Text>
+        </div>
+      )}
+      {mode !== 'home' && (
+        <ChartHeader
+          filters={{ unregion: 'all' }}
+          settings={{ standard: metric.type === 'esr' }}
+        />
+      )}
       <ChartRegionMetricTrend
         color={getColour(metric)}
         colorCode={theme.global.colors[getColour(metric)]}
@@ -80,6 +92,9 @@ export function ChartContainerRegionMetricTrend({
         hasBenchmarkOption={isESR}
         benchmark={benchmark}
         metric={metric}
+        mode={mode}
+        unRegionFilterValue={unRegionFilterValue}
+        onCountryClick={onCountryClick}
       />
     </div>
   );
@@ -95,6 +110,9 @@ ChartContainerRegionMetricTrend.propTypes = {
   metricCode: PropTypes.string.isRequired,
   scores: PropTypes.object,
   theme: PropTypes.object,
+  mode: PropTypes.string, // temp
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  onCountryClick: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -103,10 +121,11 @@ const mapStateToProps = createStructuredSelector({
   minYearESR: state => getMinYearESR(state),
   minYearCPR: state => getMinYearCPR(state),
   benchmark: state => getBenchmarkSearch(state),
-  scores: (state, { metricCode, standard }) => {
+  unRegionFilterValue: state => getUNRegionSearch(state),
+  scores: (state, { metricCode }) => {
     const metric = getMetricDetails(metricCode);
     if (metric.type === 'esr') {
-      return getESRScoresForUNRegions(state, { metricCode, standard });
+      return getESRScoresForUNRegions(state, { metricCode });
     }
     return getCPRScoresForUNRegions(state, { metricCode });
   },
