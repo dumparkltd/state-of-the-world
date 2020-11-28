@@ -6,10 +6,9 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import { intlShape, injectIntl } from 'react-intl';
-import { withTheme } from 'styled-components';
-import { ResponsiveContext } from 'grommet';
-// import { Box, Text, ResponsiveContext } from 'grommet';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import styled, { withTheme } from 'styled-components';
+import { ResponsiveContext, Text, Box } from 'grommet';
 import {
   FlexibleWidthXYPlot,
   XAxis,
@@ -21,12 +20,27 @@ import {
   // Hint,
 } from 'react-vis';
 import { utcFormat as timeFormat } from 'd3-time-format';
-import { isMaxSize, isMinSize } from 'utils/responsive';
 
-import WrapPlot from 'styled/WrapPlot';
+import { isMaxSize, isMinSize } from 'utils/responsive';
+import { formatScoreMax } from 'utils/scores';
+
+import Card from 'styled/Card';
+import ButtonPlain from 'styled/ButtonPlain';
+
+import rootMessages from 'messages';
+
 import ScoreSheet from './ScoreSheet';
 
-// import rootMessages from 'messages';?
+const ButtonTitle = styled(ButtonPlain)`
+  color: ${({ color, theme }) => theme.global.colors[color]};
+  &:hover {
+    color: ${({ color, theme }) => theme.global.colors[color]};
+    text-decoration: underline;
+  }
+`;
+const CardHeader = styled.div`
+  margin-bottom: 10px;
+`;
 
 // const PlotHint = styled.div`
 //   color: ${({ color, theme }) => theme.global.colors[color]};
@@ -68,6 +82,7 @@ const getRegionYearData = (year, regionColumnScores) =>
       syear: year,
       x: new Date(`${year}`).getTime(),
       y: parseFloat(regionColumnScores[year].average),
+      count: parseFloat(regionColumnScores[year].count),
     })]
     : [];
 const getRegionData = regionColumnScores =>
@@ -97,6 +112,32 @@ const sortRegions = (regionA, regionB, priorityRegion) => {
   return 1;
 };
 
+const getRegionYearScore = (year, scores, type, intl) => {
+  const data = getRegionYearData(year, scores);
+  if (data.length > 0) {
+    return formatScoreMax(
+      data[0].y,
+      type === 'esr' ? 100 : 10,
+      1,
+      false,
+      // type !== 'esr',
+      intl,
+    );
+  }
+  return 'N/A';
+};
+const getRegionYearCount = (year, scores) => {
+  const data = getRegionYearData(year, scores);
+  return data.length > 0 ? data[0].count : 0;
+};
+
+const getTickValuesY = (type, mode) => {
+  if (mode === 'detail') {
+    return type === 'esr' ? [0, 20, 40, 60, 80, 100] : [0, 2, 4, 6, 8, 10];
+  }
+  return type === 'esr' ? [0, 50, 100] : [0, 5, 10];
+};
+
 function ChartMetricRegionTrend({
   scores,
   maxYear,
@@ -109,7 +150,8 @@ function ChartMetricRegionTrend({
   unRegionFilterValue,
   onCountryClick,
   onSetRegionFilter,
-  width,
+  onSelectMetric,
+  intl,
 }) {
   const [highlightYear, setYear] = useState(false);
   const [highlightCountry, setCountry] = useState(false);
@@ -123,28 +165,74 @@ function ChartMetricRegionTrend({
     { x: new Date(minYear).getTime() - 15000000000, y: 0 },
     { x: new Date(maxYear).getTime() + 15000000000, y: maxValue },
   ];
-  const isESR = metric.type === 'esr';
-  const tickValuesY = isESR ? [0, 20, 40, 60, 80, 100] : [0, 2, 4, 6, 8, 10];
+  const tickValuesY = getTickValuesY(metric.type, mode);
   const regionScores = scores.regions;
   const countryScores = scores.countries;
-
+  const year = highlightYear || maxYear;
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
       {size => {
-        let h = mode === 'detail' ? 200 : 180;
+        let h = mode === 'detail' ? 200 : 130;
         if (isMinSize(size, 'medium')) {
-          h = mode === 'detail' ? 240 : 200;
+          h = mode === 'detail' ? 280 : 140;
         }
         return (
-          <WrapPlot mode={mode} width={width}>
+          <Card mode={mode}>
+            {mode === 'multi' && unRegionFilterValue && (
+              <CardHeader>
+                <Box fill direction="row" justify="between" gap="small" align="center">
+                  <Box>
+                    <ButtonTitle color={unRegionFilterValue} onClick={() => onSelectMetric()}>
+                      <Text weight={600} color={unRegionFilterValue}>
+                        <FormattedMessage {...rootMessages['rights-short'][metric.key]} />
+                      </Text>
+                    </ButtonTitle>
+                  </Box>
+                  <Box flex={{ shrink: 0 }}>
+                    <Box direction="row" gap="xsmall" justify="between">
+                      <Text size="small">
+                        <FormattedMessage {...rootMessages.labels.regionScore} />
+                      </Text>
+                      <Text
+                        size="small"
+                        weight={600}
+                        color={unRegionFilterValue}
+                      >
+                        {
+                          getRegionYearScore(
+                            year,
+                            regionScores[unRegionFilterValue][column],
+                            metric.type,
+                            intl,
+                          )
+                        }
+                      </Text>
+                    </Box>
+                    <Box direction="row" gap="xsmall" justify="between">
+                      <Text size="small">
+                        <FormattedMessage {...rootMessages.labels.countryNo} />
+                      </Text>
+                      <Text size="small" color={unRegionFilterValue}>
+                        {
+                          getRegionYearCount(
+                            year,
+                            regionScores[unRegionFilterValue][column],
+                          )
+                        }
+                      </Text>
+                    </Box>
+                  </Box>
+                </Box>
+              </CardHeader>
+            )}
             {mode === 'detail' && (
               <ScoreSheet
                 height={h}
                 margin={{ bottom: 30, top: 10 }}
                 regionScores={regionScores}
                 countryScores={countryScores}
-                year={highlightYear || maxYear}
+                year={year}
                 highlightCountry={highlightCountry}
                 column={column}
                 metric={metric}
@@ -154,7 +242,7 @@ function ChartMetricRegionTrend({
               height={h}
               xType="time"
               margin={{
-                bottom: 30,
+                bottom: 20,
                 top: 10,
                 right: 10,
                 left: 30,
@@ -284,7 +372,7 @@ function ChartMetricRegionTrend({
                       <MarkSeries
                         key={region}
                         data={getRegionYearData(
-                          highlightYear || maxYear,
+                          year,
                           regionScores[region][column],
                         )}
                         stroke={color}
@@ -315,7 +403,7 @@ function ChartMetricRegionTrend({
                     <MarkSeries
                       key={country}
                       data={getCountryYearData(
-                        highlightYear || maxYear,
+                        year,
                         countryScores[country][column],
                       )}
                       stroke={theme.global.colors[unRegionFilterValue]}
@@ -345,7 +433,7 @@ function ChartMetricRegionTrend({
                     <MarkSeries
                       key={region}
                       data={getRegionYearData(
-                        highlightYear || maxYear,
+                        year,
                         regionScores[region][column],
                       )}
                       stroke={theme.global.colors[highlightRegion]}
@@ -354,7 +442,7 @@ function ChartMetricRegionTrend({
                     />
                   ))}
             </FlexibleWidthXYPlot>
-          </WrapPlot>
+          </Card>
         );
       }}
     </ResponsiveContext.Consumer>
@@ -394,14 +482,13 @@ ChartMetricRegionTrend.propTypes = {
   maxYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   minYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   maxValue: PropTypes.number,
-  width: PropTypes.string,
   mode: PropTypes.string,
   benchmark: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  // intl: intlShape.isRequired,
+  intl: intlShape.isRequired,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
+  onSelectMetric: PropTypes.func,
 };
 
-// export default withTheme(injectIntl(ChartMetricRegionTrend));
-export default withTheme(ChartMetricRegionTrend);
+export default withTheme(injectIntl(ChartMetricRegionTrend));

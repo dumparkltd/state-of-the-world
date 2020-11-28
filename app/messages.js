@@ -83,23 +83,17 @@ export default defineMessages({
       id: `${scope}.labels.metrics`,
       defaultMessage: 'Metrics',
     },
-    grades: {
-      poor: {
-        id: `${scope}.labels.grades.poor`,
-        defaultMessage: 'Very Bad',
-      },
-      bad: {
-        id: `${scope}.labels.grades.bad`,
-        defaultMessage: 'Bad',
-      },
-      fair: {
-        id: `${scope}.labels.grades.fair`,
-        defaultMessage: 'Fair',
-      },
-      good: {
-        id: `${scope}.labels.grades.good`,
-        defaultMessage: 'Good',
-      },
+    regionScore: {
+      id: `${scope}.labels.regionScore`,
+      defaultMessage: 'Average score',
+    },
+    countryScore: {
+      id: `${scope}.labels.countryScore`,
+      defaultMessage: 'Score',
+    },
+    countryNo: {
+      id: `${scope}.labels.countryNo`,
+      defaultMessage: 'No of countries',
     },
     chartTools: {
       howToRead: {

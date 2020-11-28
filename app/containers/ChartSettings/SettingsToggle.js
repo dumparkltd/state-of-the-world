@@ -23,8 +23,8 @@ function SettingsToggle({
   return (
     <Box direction="column" flex={{ shrink: 0 }} responsive={false}>
       <Box direction="row" align="center">
-        <Box pad={{ vertical: 'small' }} direction="row">
-          <Text size="large" style={{ fontWeight: 600 }}>
+        <Box pad={{ bottom: 'xsmall' }} direction="row">
+          <Text>
             {name || (
               <FormattedMessage
                 {...rootMessages.settings[setting].name}

@@ -25,10 +25,7 @@ import SettingsToggle from './SettingsToggle';
 
 export function ChartSettings({ standard, onSetStandard, showStandard, intl }) {
   return (
-    <Box
-      direction="column"
-      pad={{ left: 'medium', bottom: 'medium', top: 'small' }}
-    >
+    <Box direction="column">
       {showStandard && (
         <SettingsToggle
           setting="standard"

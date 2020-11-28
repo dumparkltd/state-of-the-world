@@ -9,12 +9,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { FormattedMessage } from 'react-intl';
+// import { useInjectSaga } from 'utils/injectSaga';
+// import saga from 'containers/App/saga';
 
 import { getLocale } from 'containers/App/selectors';
 import { navigate } from 'containers/App/actions';
-
-// import saga from 'containers/App/saga';
-// import { useInjectSaga } from 'utils/injectSaga';
 
 // import SectionIntro from 'components/Sections/SectionIntro';
 import SectionFooter from 'components/SectionFooter';
@@ -23,6 +23,8 @@ import ChartContainerRightsMulti from 'containers/ChartContainerRightsMulti';
 // styles
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentWrap from 'styled/ContentWrap';
+
+import rootMessages from 'messages';
 
 // const DEPENDENCIES = ['countries'];
 
@@ -37,11 +39,15 @@ export function PathHome({ nav, locale }) {
   return (
     <ContentWrap>
       <ContentMaxWidth column>
-        <h1>ESR</h1>
+        <h1>
+          <FormattedMessage {...rootMessages['rights-types'].esr} />
+        </h1>
         <ChartContainerRightsMulti type="esr" />
       </ContentMaxWidth>
       <ContentMaxWidth column>
-        <h1>CPR</h1>
+        <h1>
+          <FormattedMessage {...rootMessages['rights-types'].cpr} />
+        </h1>
         <ChartContainerRightsMulti type="cpr" />
       </ContentMaxWidth>
       <SectionFooter locale={locale} nav={nav} />

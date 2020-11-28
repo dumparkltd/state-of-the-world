@@ -14,14 +14,14 @@ import ChartSettings from 'containers/ChartSettings';
 const Styled = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    margin-top: ${({ top }) => (top ? 20 : 30)}px;
-    margin-bottom: 20px;
-  }
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
-    margin-top: ${({ top }) => (top ? 20 : 60)}px;
-  }
 `;
+// @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+//   margin-top: ${({ top }) => (top ? 20 : 30)}px;
+//   margin-bottom: 20px;
+// }
+// @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+//   margin-top: ${({ top }) => (top ? 20 : 60)}px;
+// }
 
 export function ChartHeader({ filters, settings }) {
   return (

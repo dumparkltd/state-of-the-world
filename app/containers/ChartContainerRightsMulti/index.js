@@ -25,10 +25,15 @@ import {
   getCPRScoresForUNRegions,
   getUNRegionSearch,
 } from 'containers/App/selectors';
-import { loadDataIfNeeded, navigate } from 'containers/App/actions';
+import {
+  loadDataIfNeeded,
+  navigate,
+  selectMetric,
+} from 'containers/App/actions';
 
 import ChartMetricRegionTrend from 'components/ChartMetricRegionTrend';
 import ChartHeader from 'components/ChartHeader';
+import WrapPlot from 'styled/WrapPlot';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize, isMaxSize } from 'utils/responsive';
@@ -59,6 +64,7 @@ export function ChartContainerRightsMulti({
   minYear,
   unRegionFilterValue,
   onSetRegionFilter,
+  onSelectMetric,
   theme,
 }) {
   const ref = useRef(null);
@@ -101,27 +107,30 @@ export function ChartContainerRightsMulti({
                 direction="row"
                 wrap
                 overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
-                pad={isMaxSize(size, 'medium') ? '40px 0 0' : '20px 0 0'}
                 align="start"
               >
                 {rightsScores.map(right => (
-                  <ChartMetricRegionTrend
+                  <WrapPlot
                     key={right.key}
-                    scores={right.scores}
-                    maxYear={maxYear}
-                    minYear={minYear}
-                    maxValue={isESR ? 100 : 11}
-                    benchmark={benchmark}
-                    metric={getMetricDetails(right.key)}
-                    mode="multi"
-                    unRegionFilterValue={unRegionFilterValue || 'world'}
-                    onSetRegionFilter={onSetRegionFilter}
                     width={getCardWidth(
                       gridWidth || 200,
                       getCardNumber(size),
                       theme,
                     )}
-                  />
+                  >
+                    <ChartMetricRegionTrend
+                      scores={right.scores}
+                      maxYear={maxYear}
+                      minYear={minYear}
+                      maxValue={isESR ? 100 : 11}
+                      benchmark={benchmark}
+                      metric={getMetricDetails(right.key)}
+                      mode="multi"
+                      onSelectMetric={() => onSelectMetric(right.key)}
+                      unRegionFilterValue={unRegionFilterValue || 'world'}
+                      onSetRegionFilter={onSetRegionFilter}
+                    />
+                  </WrapPlot>
                 ))}
               </Box>
             )}
@@ -139,6 +148,7 @@ ChartContainerRightsMulti.propTypes = {
   benchmark: PropTypes.string,
   onLoadData: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
+  onSelectMetric: PropTypes.func,
   rightsScores: PropTypes.array,
   theme: PropTypes.object,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -163,6 +173,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onSelectMetric: metric => dispatch(selectMetric(metric)),
     // prettier-ignore
     onSetRegionFilter: region =>
       dispatch(
