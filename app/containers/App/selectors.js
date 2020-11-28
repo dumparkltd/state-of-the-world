@@ -908,6 +908,93 @@ export const getESRScoresForUNRegions = createSelector(
   (state, { metricCode }) => metricCode,
   (state, { standard }) => standard,
   getESRScores,
+  getCountries,
+  getCountryCodes,
+  getStandardSearch,
+  (
+    metricCode,
+    standardKey,
+    scores,
+    countries,
+    countryCodes,
+    standardSearch,
+  ) => {
+    const metric = getMetricDetails(metricCode);
+    const standard = STANDARDS.find(
+      s => s.key === (standardKey || standardSearch),
+    );
+    const regions = UN_REGIONS.options;
+    const group = PEOPLE_GROUPS.find(g => g.key === 'all');
+    if (metric && group && countries && scores) {
+      // prettier-ignore
+      const countryScores = scores.filter(s =>
+        s[COLUMNS.ESR.GROUP] === group.code &&
+        s[COLUMNS.ESR.STANDARD] === standard.code &&
+        s[COLUMNS.ESR.METRIC] === metric.code &&
+        countryCodes.indexOf(s.country_code) > -1,
+      );
+      const regionScores = regions.reduce(
+        (m, region) => ({
+          ...m,
+          [region.key]: calculateRegionAverage(
+            region.key,
+            countries,
+            countryScores,
+            BENCHMARKS,
+          ),
+        }),
+        {},
+      );
+      // console.log(regionScores)
+      return {
+        regions: regionScores,
+        countries: false,
+      };
+    }
+    return null;
+  },
+);
+export const getCPRScoresForUNRegions = createSelector(
+  (state, { metricCode }) => metricCode,
+  getCPRScores,
+  getCountries,
+  getCountryCodes,
+  (metricCode, scores, countries, countryCodes) => {
+    const metric = getMetricDetails(metricCode);
+    const regions = UN_REGIONS.options;
+    if (metric && countries && scores) {
+      // prettier-ignore
+      const countryScores = scores.filter(s =>
+        s[COLUMNS.CPR.METRIC] === metric.code &&
+        countryCodes.indexOf(s.country_code) > -1,
+      );
+      const columns = [{ key: 'mean', column: COLUMNS.CPR.MEAN }];
+      const regionScores = regions.reduce(
+        (m, region) => ({
+          ...m,
+          [region.key]: calculateRegionAverage(
+            region.key,
+            countries,
+            countryScores,
+            columns,
+          ),
+        }),
+        {},
+      );
+      // console.log(regionScores)
+      return {
+        regions: regionScores,
+        countries: false,
+      };
+    }
+    return null;
+  },
+);
+
+export const getESRScoresForUNRegionsCountries = createSelector(
+  (state, { metricCode }) => metricCode,
+  (state, { standard }) => standard,
+  getESRScores,
   getCountriesFiltered,
   getCountryCodesFiltered,
   getStandardSearch,
@@ -970,7 +1057,7 @@ export const getESRScoresForUNRegions = createSelector(
     return null;
   },
 );
-export const getCPRScoresForUNRegions = createSelector(
+export const getCPRScoresForUNRegionsCountries = createSelector(
   (state, { metricCode }) => metricCode,
   getCPRScores,
   getCountriesFiltered,

@@ -14,8 +14,8 @@ import { FormattedMessage } from 'react-intl';
 import { Text } from 'grommet';
 import {
   getBenchmarkSearch,
-  getESRScoresForUNRegions,
-  getCPRScoresForUNRegions,
+  getESRScoresForUNRegionsCountries,
+  getCPRScoresForUNRegionsCountries,
   getMaxYearESR,
   getMaxYearCPR,
   getMinYearESR,
@@ -31,16 +31,6 @@ import getMetricDetails from 'utils/metric-details';
 
 import rootMessages from 'messages';
 
-const getColour = metric => {
-  if (metric.metricType === 'dimensions') {
-    return metric.key;
-  }
-  if (metric.metricType === 'rights') {
-    return metric.dimension;
-  }
-  return 'esr';
-};
-
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
 
 export function ChartContainerMetricRegion({
@@ -52,8 +42,6 @@ export function ChartContainerMetricRegion({
   maxYearCPR,
   minYearESR,
   minYearCPR,
-  theme,
-  mode,
   unRegionFilterValue,
   onCountryClick,
 }) {
@@ -67,30 +55,23 @@ export function ChartContainerMetricRegion({
   if (!scores) return null;
   return (
     <div>
-      {mode === 'home' && (
-        <div>
-          <Text weight={700}>
-            <FormattedMessage {...rootMessages.rights[metric.key]} />
-          </Text>
-        </div>
-      )}
+      <div>
+        <Text weight={700}>
+          <FormattedMessage {...rootMessages.rights[metric.key]} />
+        </Text>
+      </div>
       <ChartHeader
-        filters={mode !== 'home' && { unregion: 'all' }}
+        filters={{ unregion: 'all' }}
         settings={{ standard: metric.type === 'esr' }}
       />
       <ChartMetricRegionTrend
-        color={getColour(metric)}
-        colorCode={theme.global.colors[getColour(metric)]}
-        colorHint={`${getColour(metric)}Dark`}
         scores={scores}
-        percentage={isESR}
-        maxValue={isESR ? 100 : 11}
         maxYear={isESR ? maxYearESR : maxYearCPR}
         minYear={isESR ? minYearESR : minYearCPR}
-        hasBenchmarkOption={isESR}
+        maxValue={isESR ? 100 : 11}
         benchmark={benchmark}
         metric={metric}
-        mode={mode}
+        mode="detail"
         unRegionFilterValue={unRegionFilterValue}
         onCountryClick={onCountryClick}
       />
@@ -108,7 +89,6 @@ ChartContainerMetricRegion.propTypes = {
   metricCode: PropTypes.string.isRequired,
   scores: PropTypes.object,
   theme: PropTypes.object,
-  mode: PropTypes.string, // temp
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
 };
@@ -123,9 +103,9 @@ const mapStateToProps = createStructuredSelector({
   scores: (state, { metricCode }) => {
     const metric = getMetricDetails(metricCode);
     if (metric.type === 'esr') {
-      return getESRScoresForUNRegions(state, { metricCode });
+      return getESRScoresForUNRegionsCountries(state, { metricCode });
     }
-    return getCPRScoresForUNRegions(state, { metricCode });
+    return getCPRScoresForUNRegionsCountries(state, { metricCode });
   },
 });
 

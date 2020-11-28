@@ -4,59 +4,45 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import { getLocale } from 'containers/App/selectors';
-import { loadDataIfNeeded, navigate } from 'containers/App/actions';
-import { RIGHTS } from 'containers/App/constants';
+import { navigate } from 'containers/App/actions';
 
-import saga from 'containers/App/saga';
-import { useInjectSaga } from 'utils/injectSaga';
+// import saga from 'containers/App/saga';
+// import { useInjectSaga } from 'utils/injectSaga';
 
 // import SectionIntro from 'components/Sections/SectionIntro';
 import SectionFooter from 'components/SectionFooter';
-import ChartContainerMetricRegion from 'containers/ChartContainerMetricRegion';
+import ChartContainerRightsMulti from 'containers/ChartContainerRightsMulti';
 
 // styles
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentWrap from 'styled/ContentWrap';
 
-const DEPENDENCIES = ['countries', 'esrScores', 'cprScores'];
+// const DEPENDENCIES = ['countries'];
 
-export function PathHome({ onLoadData, nav, locale }) {
-  useInjectSaga({ key: 'app', saga });
-  useEffect(() => {
-    // kick off loading of data
-    onLoadData();
-  }, []);
-  const cpr = RIGHTS.filter(right => right.type === 'cpr');
-  const esr = RIGHTS.filter(right => right.type === 'esr');
+export function PathHome({ nav, locale }) {
+  // useInjectSaga({ key: 'app', saga });
+  // useEffect(() => {
+  //   // kick off loading of data
+  //   onLoadData();
+  // }, []);
+
   // <SectionIntro />
   return (
     <ContentWrap>
       <ContentMaxWidth column>
         <h1>ESR</h1>
-        {esr.map(right => (
-          <ChartContainerMetricRegion
-            key={right.key}
-            metricCode={right.key}
-            mode="home"
-          />
-        ))}
+        <ChartContainerRightsMulti type="esr" />
       </ContentMaxWidth>
       <ContentMaxWidth column>
         <h1>CPR</h1>
-        {cpr.map(right => (
-          <ChartContainerMetricRegion
-            key={right.key}
-            metricCode={right.key}
-            mode="home"
-          />
-        ))}
+        <ChartContainerRightsMulti type="cpr" />
       </ContentMaxWidth>
       <SectionFooter locale={locale} nav={nav} />
     </ContentWrap>
@@ -65,7 +51,7 @@ export function PathHome({ onLoadData, nav, locale }) {
 
 PathHome.propTypes = {
   nav: PropTypes.func.isRequired,
-  onLoadData: PropTypes.func.isRequired,
+  // onLoadData: PropTypes.func.isRequired,
   locale: PropTypes.string,
 };
 
@@ -75,9 +61,9 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onLoadData: () => {
-      DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key)));
-    },
+    // onLoadData: () => {
+    //   DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key)));
+    // },
     // navigate to location
     nav: location => {
       dispatch(
