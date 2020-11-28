@@ -24,7 +24,7 @@ import {
 } from 'containers/App/selectors';
 import { loadDataIfNeeded } from 'containers/App/actions';
 
-import ChartMetricRegionTrend from 'components/ChartMetricRegionTrend';
+import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
 
 import getMetricDetails from 'utils/metric-details';
@@ -64,7 +64,7 @@ export function ChartContainerMetricRegion({
         filters={{ unregion: 'all' }}
         settings={{ standard: metric.type === 'esr' }}
       />
-      <ChartMetricRegionTrend
+      <ChartMetricTrend
         scores={scores}
         maxYear={isESR ? maxYearESR : maxYearCPR}
         minYear={isESR ? minYearESR : minYearCPR}

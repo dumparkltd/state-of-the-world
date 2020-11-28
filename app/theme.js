@@ -25,7 +25,7 @@ export const SIZES = {
     },
   },
   top: {
-    height: 350,
+    height: 200,
   },
   aside: {
     // small, sm, medium, large, xlarge, xxlarge

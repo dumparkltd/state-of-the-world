@@ -31,7 +31,7 @@ import {
   selectMetric,
 } from 'containers/App/actions';
 
-import ChartMetricRegionTrend from 'components/ChartMetricRegionTrend';
+import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
 import WrapPlot from 'styled/WrapPlot';
 
@@ -118,7 +118,7 @@ export function ChartContainerRightsMulti({
                       theme,
                     )}
                   >
-                    <ChartMetricRegionTrend
+                    <ChartMetricTrend
                       scores={right.scores}
                       maxYear={maxYear}
                       minYear={minYear}

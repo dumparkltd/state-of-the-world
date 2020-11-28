@@ -440,43 +440,11 @@ export const getCPRRightScores = createSelector(
   },
 );
 
-// single metric, single country, multipleYears
-
-export const getCPRScoresForCountry = createSelector(
-  (state, { countryCode }) => countryCode,
-  (state, { metric }) => metric,
-  getCPRScores,
-  (countryCode, metric, scores) =>
-    scores &&
-    scores.filter(
-      s => s.country_code === countryCode && s.metric_code === metric.code,
-    ),
-);
-
 export const getHasCountryCPR = createSelector(
   (state, countryCode) => countryCode,
   getCPRScores,
   (countryCode, scores) =>
     scores && !!scores.find(s => s.country_code === countryCode),
-);
-
-export const getESRScoresForCountry = createSelector(
-  (state, { countryCode }) => countryCode,
-  (state, { metric }) => metric,
-  getESRScores,
-  getStandardSearch,
-  (countryCode, metric, scores, standardSearch) => {
-    const standard = STANDARDS.find(as => as.key === standardSearch);
-    return (
-      scores &&
-      scores.filter(
-        s =>
-          s.country_code === countryCode &&
-          s.metric_code === metric.code &&
-          s.standard === standard.code,
-      )
-    );
-  },
 );
 
 export const getESRScoreForCountry = createSelector(
@@ -1104,6 +1072,51 @@ export const getCPRScoresForUNRegionsCountries = createSelector(
             {},
           ),
       };
+    }
+    return null;
+  },
+);
+
+// const region = UN_REGIONS.options.filter(
+//   r => r.key === country[COLUMNS.COUNTRIES.UN_REGION],
+// );
+export const getESRScoresForCountry = createSelector(
+  (state, { countryCode }) => countryCode,
+  (state, { metricCode }) => metricCode,
+  getESRScores,
+  getStandardSearch,
+  (countryCode, metricCode, scores, standardSearch) => {
+    const metric = getMetricDetails(metricCode);
+    const standard = STANDARDS.find(as => as.key === standardSearch);
+    const group = PEOPLE_GROUPS.find(g => g.key === 'all');
+    if (metric && group && scores) {
+      const countryScores = scores.filter(
+        s =>
+          s[COLUMNS.ESR.GROUP] === group.code &&
+          s[COLUMNS.ESR.STANDARD] === standard.code &&
+          s[COLUMNS.ESR.METRIC] === metric.code &&
+          s.country_code === countryCode,
+      );
+      return getCountryScores(countryCode, countryScores, BENCHMARKS);
+    }
+    return null;
+  },
+);
+
+export const getCPRScoresForCountry = createSelector(
+  (state, { countryCode }) => countryCode,
+  (state, { metricCode }) => metricCode,
+  getCPRScores,
+  (countryCode, metricCode, scores) => {
+    const metric = getMetricDetails(metricCode);
+    if (metric && scores) {
+      const countryScores = scores.filter(
+        s =>
+          s[COLUMNS.ESR.METRIC] === metric.code &&
+          s.country_code === countryCode,
+      );
+      const columns = [{ key: 'mean', column: COLUMNS.CPR.MEAN }];
+      return getCountryScores(countryCode, countryScores, columns);
     }
     return null;
   },

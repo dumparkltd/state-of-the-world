@@ -264,9 +264,9 @@ export function PathCountry({
                   <ChartContainerCountry
                     {...props}
                     countryCode={countryCode}
-                    onMetricClick={onMetricClick}
+                    onSelectMetric={onMetricClick}
                     messageValues={messageValues}
-                    activeCode={activeCode}
+                    activeMetricCode={activeCode}
                   />
                 ),
               },

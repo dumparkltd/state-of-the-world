@@ -1,6 +1,6 @@
 /**
  *
- * ChartMetricRegionTrend
+ * ChartMetricTrend
  *
  */
 
@@ -39,7 +39,7 @@ const ButtonTitle = styled(ButtonPlain)`
   }
 `;
 const CardHeader = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 
 // const PlotHint = styled.div`
@@ -138,7 +138,7 @@ const getTickValuesY = (type, mode) => {
   return type === 'esr' ? [0, 50, 100] : [0, 5, 10];
 };
 
-function ChartMetricRegionTrend({
+function ChartMetricTrend({
   scores,
   maxYear,
   minYear,
@@ -166,8 +166,9 @@ function ChartMetricRegionTrend({
     { x: new Date(maxYear).getTime() + 15000000000, y: maxValue },
   ];
   const tickValuesY = getTickValuesY(metric.type, mode);
+  const countryScores = mode === 'multi-country' && scores;
   const regionScores = scores.regions;
-  const countryScores = scores.countries;
+  const countriesScores = scores.countries;
   const year = highlightYear || maxYear;
   // prettier-ignore
   return (
@@ -231,7 +232,7 @@ function ChartMetricRegionTrend({
                 height={h}
                 margin={{ bottom: 30, top: 10 }}
                 regionScores={regionScores}
-                countryScores={countryScores}
+                countriesScores={countriesScores}
                 year={year}
                 highlightCountry={highlightCountry}
                 column={column}
@@ -298,12 +299,35 @@ function ChartMetricRegionTrend({
                 tickValues={tickValuesY}
                 tickPadding={2}
               />
-              {countryScores &&
-                Object.keys(countryScores).map(country => (
+              {countryScores && (
+                <LineSeries
+                  data={getCountryData(countryScores[column])}
+                  style={{
+                    stroke: theme.global.colors[unRegionFilterValue],
+                    strokeWidth: 3,
+                  }}
+                  onNearestX={point => {
+                    setYear(point.syear)
+                  }}
+                />
+              )}
+              {countryScores && (
+                <MarkSeries
+                  data={getCountryYearData(
+                    year,
+                    countryScores[column],
+                  )}
+                  stroke={theme.global.colors[unRegionFilterValue]}
+                  fill={theme.global.colors[unRegionFilterValue]}
+                  size={3}
+                />
+              )}
+              {countriesScores &&
+                Object.keys(countriesScores).map(country => (
                   <LineSeries
                     key={country}
                     data={getCountryData(
-                      countryScores[country][column],
+                      countriesScores[country][column],
                     )}
                     style={{
                       stroke: 'lightgrey',
@@ -381,14 +405,14 @@ function ChartMetricRegionTrend({
                       />
                     );
                   })}
-              {countryScores && highlightCountry && unRegionFilterValue &&
-                Object.keys(countryScores)
+              {countriesScores && highlightCountry && unRegionFilterValue &&
+                Object.keys(countriesScores)
                   .filter(c => c === highlightCountry)
                   .map(country => (
                     <LineSeries
                       key={country}
                       data={getCountryData(
-                        countryScores[country][column],
+                        countriesScores[country][column],
                       )}
                       style={{
                         stroke: theme.global.colors[unRegionFilterValue],
@@ -396,15 +420,15 @@ function ChartMetricRegionTrend({
                       }}
                     />
                   ))}
-              {countryScores && highlightCountry && unRegionFilterValue &&
-                Object.keys(countryScores)
+              {countriesScores && highlightCountry && unRegionFilterValue &&
+                Object.keys(countriesScores)
                   .filter(c => c === highlightCountry)
                   .map(country => (
                     <MarkSeries
                       key={country}
                       data={getCountryYearData(
                         year,
-                        countryScores[country][column],
+                        countriesScores[country][column],
                       )}
                       stroke={theme.global.colors[unRegionFilterValue]}
                       fill={theme.global.colors[unRegionFilterValue]}
@@ -475,7 +499,7 @@ function ChartMetricRegionTrend({
 //     </PlotHintTighter>
 //   </Hint>
 // )}
-ChartMetricRegionTrend.propTypes = {
+ChartMetricTrend.propTypes = {
   theme: PropTypes.object,
   scores: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
@@ -491,4 +515,4 @@ ChartMetricRegionTrend.propTypes = {
   onSelectMetric: PropTypes.func,
 };
 
-export default withTheme(injectIntl(ChartMetricRegionTrend));
+export default withTheme(injectIntl(ChartMetricTrend));
