@@ -3,15 +3,15 @@ export const SIZES = {
   // containerMaxWidth / 2 + edgesize.xxlarge
   imageHomeMaxWidth: 700,
   header: {
-    height: 100,
+    height: 80,
+    heightTop: 40,
+    heightBottom: 40,
     padTop: 0,
     padRight: 0,
     padBottom: 0,
     padTopBottom: 10,
     brandWidth: 380,
     logoWidth: 200,
-    heightTop: 50,
-    heightBottom: 50,
     small: {
       height: 80,
       heightTop: 50,

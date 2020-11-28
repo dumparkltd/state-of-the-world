@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import styled from 'styled-components';
-import { DropButton, Box, ResponsiveContext } from 'grommet';
+import { DropButton, Box } from 'grommet';
 import { FormDown, FormUp } from 'grommet-icons';
 import DropOption from 'styled/DropOption';
 
@@ -68,29 +68,25 @@ export function LocaleToggle({ locale, onLocaleToggle, light }) {
   const [open, setOpen] = useState(false);
   return (
     <Styled>
-      <ResponsiveContext.Consumer>
-        {() => (
-          <StyledDropButton
-            plain
-            reverse
-            light={light}
-            gap="xxsmall"
-            active={open}
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            dropProps={{ align: { top: 'bottom', right: 'right' } }}
-            icon={open ? <FormUp /> : <FormDown />}
-            label={LANGUAGES.short[locale]}
-            dropContent={
-              <DropContent
-                active={locale}
-                options={appLocales}
-                onSelect={onLocaleToggle}
-              />
-            }
+      <StyledDropButton
+        plain
+        reverse
+        light={light}
+        gap="xxsmall"
+        active={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        dropProps={{ align: { top: 'bottom', right: 'right' } }}
+        icon={open ? <FormUp /> : <FormDown />}
+        label={LANGUAGES.short[locale]}
+        dropContent={
+          <DropContent
+            active={locale}
+            options={appLocales}
+            onSelect={onLocaleToggle}
           />
-        )}
-      </ResponsiveContext.Consumer>
+        }
+      />
     </Styled>
   );
 }
