@@ -1,6 +1,6 @@
 /**
  *
- * ChartRegionMetricTrend
+ * ChartMetricRegionTrend
  *
  */
 

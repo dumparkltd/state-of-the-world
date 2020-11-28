@@ -1,6 +1,6 @@
 /**
  *
- * ChartRegionMetricTrend
+ * ChartMetricRegionTrend
  *
  */
 
@@ -98,7 +98,7 @@ const getCountryData = countryColumnScores =>
     [],
   );
 
-function ChartRegionMetricTrend({
+function ChartMetricRegionTrend({
   scores,
   maxYear,
   minYear,
@@ -293,7 +293,7 @@ function ChartRegionMetricTrend({
 //     </PlotHintTighter>
 //   </Hint>
 // )}
-ChartRegionMetricTrend.propTypes = {
+ChartMetricRegionTrend.propTypes = {
   theme: PropTypes.object,
   scores: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
@@ -307,5 +307,5 @@ ChartRegionMetricTrend.propTypes = {
   onCountryClick: PropTypes.func,
 };
 
-// export default withTheme(injectIntl(ChartRegionMetricTrend));
-export default withTheme(ChartRegionMetricTrend);
+// export default withTheme(injectIntl(ChartMetricRegionTrend));
+export default withTheme(ChartMetricRegionTrend);

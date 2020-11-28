@@ -1,6 +1,6 @@
 /**
  *
- * ChartContainerRegionMetricTrend
+ * ChartContainerMetricRegion
  *
  */
 
@@ -24,7 +24,7 @@ import {
 } from 'containers/App/selectors';
 import { loadDataIfNeeded } from 'containers/App/actions';
 
-import ChartRegionMetricTrend from 'components/ChartRegionMetricTrend';
+import ChartMetricRegionTrend from 'components/ChartMetricRegionTrend';
 import ChartHeader from 'components/ChartHeader';
 
 import getMetricDetails from 'utils/metric-details';
@@ -43,7 +43,7 @@ const getColour = metric => {
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
 
-export function ChartContainerRegionMetricTrend({
+export function ChartContainerMetricRegion({
   metricCode,
   scores,
   onLoadData,
@@ -78,7 +78,7 @@ export function ChartContainerRegionMetricTrend({
         filters={mode !== 'home' && { unregion: 'all' }}
         settings={{ standard: metric.type === 'esr' }}
       />
-      <ChartRegionMetricTrend
+      <ChartMetricRegionTrend
         color={getColour(metric)}
         colorCode={theme.global.colors[getColour(metric)]}
         colorHint={`${getColour(metric)}Dark`}
@@ -98,7 +98,7 @@ export function ChartContainerRegionMetricTrend({
   );
 }
 
-ChartContainerRegionMetricTrend.propTypes = {
+ChartContainerMetricRegion.propTypes = {
   maxYearESR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   maxYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   minYearESR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -140,4 +140,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withTheme(ChartContainerRegionMetricTrend));
+export default compose(withConnect)(withTheme(ChartContainerMetricRegion));

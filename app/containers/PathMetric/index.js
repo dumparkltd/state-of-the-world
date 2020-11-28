@@ -22,7 +22,7 @@ import {
 } from 'containers/App/selectors';
 import { RIGHTS } from 'containers/App/constants';
 import ChartContainerMetric from 'containers/ChartContainerMetric';
-import ChartContainerRegionMetricTrend from 'containers/ChartContainerRegionMetricTrend';
+import ChartContainerMetricRegion from 'containers/ChartContainerMetricRegion';
 
 import TabContainer from 'containers/TabContainer';
 import AboutMetricContainer from 'containers/AboutMetricContainer';
@@ -121,7 +121,7 @@ export function PathMetric({
                   rootMessages.tabs.mobile.ranking,
                 ),
                 content: props => (
-                  <ChartContainerRegionMetricTrend
+                  <ChartContainerMetricRegion
                     {...props}
                     metricCode={metricCode}
                     onCountryClick={onCountryClick}

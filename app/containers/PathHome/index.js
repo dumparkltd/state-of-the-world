@@ -19,7 +19,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 
 // import SectionIntro from 'components/Sections/SectionIntro';
 import SectionFooter from 'components/SectionFooter';
-import ChartContainerRegionMetricTrend from 'containers/ChartContainerRegionMetricTrend';
+import ChartContainerMetricRegion from 'containers/ChartContainerMetricRegion';
 
 // styles
 import ContentMaxWidth from 'styled/ContentMaxWidth';
@@ -41,7 +41,7 @@ export function PathHome({ onLoadData, nav, locale }) {
       <ContentMaxWidth column>
         <h1>ESR</h1>
         {esr.map(right => (
-          <ChartContainerRegionMetricTrend
+          <ChartContainerMetricRegion
             key={right.key}
             metricCode={right.key}
             mode="home"
@@ -51,7 +51,7 @@ export function PathHome({ onLoadData, nav, locale }) {
       <ContentMaxWidth column>
         <h1>CPR</h1>
         {cpr.map(right => (
-          <ChartContainerRegionMetricTrend
+          <ChartContainerMetricRegion
             key={right.key}
             metricCode={right.key}
             mode="home"
