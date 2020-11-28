@@ -50,7 +50,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import TabContainer from 'containers/TabContainer';
 import AboutCountryContainer from 'containers/AboutCountryContainer';
 
-import TabCountrySnapshot from 'components/TabCountrySnapshot';
+import ChartContainerCountry from 'containers/ChartContainerCountry';
 import AsideBackground from 'components/AsideBackground';
 import Aside from 'components/Aside';
 
@@ -258,10 +258,10 @@ export function PathCountry({
             size={size}
             tabs={[
               {
-                key: 'snapshot',
+                key: 'country',
                 title: intl.formatMessage(rootMessages.tabs.snapshot),
                 content: props => (
-                  <TabCountrySnapshot
+                  <ChartContainerCountry
                     {...props}
                     countryCode={countryCode}
                     onMetricClick={onMetricClick}
