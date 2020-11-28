@@ -1,6 +1,6 @@
 /**
  *
- * Settings
+ * ChartSettings
  *
  */
 
@@ -23,7 +23,7 @@ import SettingsToggle from './SettingsToggle';
 // import InfoStandard from './InfoStandard';
 // import InfoScale from './InfoScale';
 
-export function Settings({ standard, onSetStandard, showStandard, intl }) {
+export function ChartSettings({ standard, onSetStandard, showStandard, intl }) {
   return (
     <Box
       direction="column"
@@ -43,7 +43,7 @@ export function Settings({ standard, onSetStandard, showStandard, intl }) {
   );
 }
 
-Settings.propTypes = {
+ChartSettings.propTypes = {
   standard: PropTypes.string,
   onSetStandard: PropTypes.func,
   showStandard: PropTypes.bool,
@@ -65,4 +65,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(injectIntl(Settings));
+export default compose(withConnect)(injectIntl(ChartSettings));

@@ -6,7 +6,7 @@
 
 import { defineMessages } from 'react-intl';
 
-export const scope = 'hrmi.containers.ChartContainerCountrySnapshot';
+export const scope = 'hrmi.containers.ChartContainerCountry';
 
 export default defineMessages({
   title: {

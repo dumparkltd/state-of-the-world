@@ -1,6 +1,6 @@
 /**
  *
- * ChartContainerMetric
+ * ChartContainerMetricRanking
  *
  */
 
@@ -108,7 +108,7 @@ const prepareData = ({
 
 // const rankScores
 
-export function ChartContainerMetric({
+export function ChartContainerMetricRanking({
   onLoadData,
   metric,
   scores,
@@ -223,7 +223,7 @@ export function ChartContainerMetric({
   );
 }
 
-ChartContainerMetric.propTypes = {
+ChartContainerMetricRanking.propTypes = {
   onLoadData: PropTypes.func.isRequired,
   metric: PropTypes.object.isRequired,
   standard: PropTypes.string,
@@ -297,4 +297,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(injectIntl(ChartContainerMetric));
+export default compose(withConnect)(injectIntl(ChartContainerMetricRanking));

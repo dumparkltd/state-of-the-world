@@ -8,8 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import ChartSettingFilters from 'containers/ChartSettingFilters';
-import Settings from 'containers/Settings';
+import ChartFilters from 'containers/ChartFilters';
+import ChartSettings from 'containers/ChartSettings';
 
 const Styled = styled.div`
   margin-top: 10px;
@@ -26,8 +26,8 @@ const Styled = styled.div`
 export function ChartHeader({ filters, settings }) {
   return (
     <Styled top>
-      {filters && <ChartSettingFilters filters={filters} />}
-      {settings && settings.standard && <Settings showStandard />}
+      {filters && <ChartFilters filters={filters} />}
+      {settings && settings.standard && <ChartSettings showStandard />}
     </Styled>
   );
 }

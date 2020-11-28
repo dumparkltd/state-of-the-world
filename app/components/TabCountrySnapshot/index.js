@@ -7,6 +7,6 @@
 // import React from 'react';
 // import PropTypes from 'prop-types';
 
-import ChartContainerCountrySnapshot from 'containers/ChartContainerCountrySnapshot';
+import ChartContainerCountry from 'containers/ChartContainerCountry';
 
-export default ChartContainerCountrySnapshot;
+export default ChartContainerCountry;

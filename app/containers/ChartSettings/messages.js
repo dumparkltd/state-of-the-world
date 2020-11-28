@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
-export const scope = 'hrmi.containers.Settings';
+export const scope = 'hrmi.containers.ChartSettings';
 
 export default defineMessages({
   intro: {

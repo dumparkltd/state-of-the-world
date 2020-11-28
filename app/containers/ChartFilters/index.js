@@ -27,7 +27,7 @@ const FilterWrap = styled.div``;
 //   }}
 // >
 
-export function ChartSettingFilters({
+export function ChartFilters({
   unRegionFilterValue,
   onRemoveFilter,
   onAddFilter,
@@ -61,7 +61,7 @@ export function ChartSettingFilters({
   );
 }
 
-ChartSettingFilters.propTypes = {
+ChartFilters.propTypes = {
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onRemoveFilter: PropTypes.func,
   onAddFilter: PropTypes.func,
@@ -116,4 +116,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(ChartSettingFilters);
+export default compose(withConnect)(ChartFilters);

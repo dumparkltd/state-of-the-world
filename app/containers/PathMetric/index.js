@@ -21,7 +21,7 @@ import {
   getAsideLayerActiveCode,
 } from 'containers/App/selectors';
 import { RIGHTS } from 'containers/App/constants';
-import ChartContainerMetric from 'containers/ChartContainerMetric';
+import ChartContainerMetricRanking from 'containers/ChartContainerMetricRanking';
 import ChartContainerMetricRegion from 'containers/ChartContainerMetricRegion';
 
 import TabContainer from 'containers/TabContainer';
@@ -136,7 +136,7 @@ export function PathMetric({
                   rootMessages.tabs.mobile.ranking,
                 ),
                 content: props => (
-                  <ChartContainerMetric
+                  <ChartContainerMetricRanking
                     {...props}
                     metric={metric}
                     onCountryClick={onCountryClick}

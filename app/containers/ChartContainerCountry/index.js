@@ -1,6 +1,6 @@
 /**
  *
- * ChartContainerCountrySnapshot
+ * ChartContainerCountry
  *
  */
 
@@ -35,7 +35,7 @@ const DEPENDENCIES = [
   'esrScores',
 ];
 
-export function ChartContainerCountrySnapshot({ onLoadData, dataReady }) {
+export function ChartContainerCountry({ onLoadData, dataReady }) {
   useEffect(() => {
     onLoadData();
   }, []);
@@ -44,7 +44,7 @@ export function ChartContainerCountrySnapshot({ onLoadData, dataReady }) {
   return null;
 }
 
-ChartContainerCountrySnapshot.propTypes = {
+ChartContainerCountry.propTypes = {
   onLoadData: PropTypes.func.isRequired,
   dataReady: PropTypes.bool,
 };
@@ -72,4 +72,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(ChartContainerCountrySnapshot);
+export default compose(withConnect)(ChartContainerCountry);
