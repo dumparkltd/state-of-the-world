@@ -23,7 +23,9 @@ import {
   getMinYearESR,
   getMinYearCPR,
   getESRScoresForCountry,
+  getESRScoresForCountryUNRegion,
   getCPRScoresForCountry,
+  getCPRScoresForCountryUNRegion,
   getBenchmarkSearch,
 } from 'containers/App/selectors';
 import { loadDataIfNeeded } from 'containers/App/actions';
@@ -67,6 +69,7 @@ export function ChartContainerCountry({
   // activeMetricCode,
   // messageValues,
   scores,
+  regionScores,
   benchmark,
   maxYearESR,
   minYearESR,
@@ -79,11 +82,11 @@ export function ChartContainerCountry({
   const [gridWidth, setGridWidth] = useState(null);
 
   const handleResize = () =>
-    setGridWidth(ref.current ? ref.current.offsetWidth : 0);
+    setGridWidth(ref.current ? ref.current.offsetWidth : false);
 
   useLayoutEffect(() => {
     handleResize();
-  }, []);
+  }, [dataReady]);
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
@@ -120,30 +123,39 @@ export function ChartContainerCountry({
                 >
                   {scores
                     .filter(r => r.type === 'esr')
-                    .map(right => (
-                      <WrapPlot
-                        key={right.key}
-                        width={getCardWidth(
-                          gridWidth || 200,
-                          getCardNumber(size),
-                          theme,
-                        )}
-                      >
-                        <ChartMetricTrend
-                          scores={right.scores}
-                          maxYear={maxYearESR}
-                          minYear={minYearESR}
-                          maxValue={100}
-                          benchmark={benchmark}
-                          metric={getMetricDetails(right.key)}
-                          mode="multi-country"
-                          onSelectMetric={() => onSelectMetric(right.key)}
-                          unRegionFilterValue={
-                            country[COLUMNS.COUNTRIES.UN_REGION]
-                          }
-                        />
-                      </WrapPlot>
-                    ))}
+                    .map(right => {
+                      const regionRight = regionScores.find(
+                        r => r.key === right.key,
+                      );
+                      return (
+                        <WrapPlot
+                          key={right.key}
+                          width={getCardWidth(
+                            gridWidth || 200,
+                            getCardNumber(size),
+                            theme,
+                          )}
+                        >
+                          <ChartMetricTrend
+                            scores={{
+                              country: right.scores,
+                              regions: regionRight.scores,
+                            }}
+                            regionScores={regionScores}
+                            maxYear={maxYearESR}
+                            minYear={minYearESR}
+                            maxValue={100}
+                            benchmark={benchmark}
+                            metric={getMetricDetails(right.key)}
+                            mode="multi-country"
+                            onSelectMetric={() => onSelectMetric(right.key)}
+                            unRegionFilterValue={
+                              country[COLUMNS.COUNTRIES.UN_REGION]
+                            }
+                          />
+                        </WrapPlot>
+                      );
+                    })}
                 </Box>
               )}
             </CardWrapper>
@@ -166,30 +178,38 @@ export function ChartContainerCountry({
                 >
                   {scores
                     .filter(r => r.type === 'cpr')
-                    .map(right => (
-                      <WrapPlot
-                        key={right.key}
-                        width={getCardWidth(
-                          gridWidth || 200,
-                          getCardNumber(size),
-                          theme,
-                        )}
-                      >
-                        <ChartMetricTrend
-                          scores={right.scores}
-                          maxYear={maxYearCPR}
-                          minYear={minYearCPR}
-                          maxValue={10}
-                          benchmark={benchmark}
-                          metric={getMetricDetails(right.key)}
-                          mode="multi-country"
-                          onSelectMetric={() => onSelectMetric(right.key)}
-                          unRegionFilterValue={
-                            country[COLUMNS.COUNTRIES.UN_REGION]
-                          }
-                        />
-                      </WrapPlot>
-                    ))}
+                    .map(right => {
+                      const regionRight = regionScores.find(
+                        r => r.key === right.key,
+                      );
+                      return (
+                        <WrapPlot
+                          key={right.key}
+                          width={getCardWidth(
+                            gridWidth || 200,
+                            getCardNumber(size),
+                            theme,
+                          )}
+                        >
+                          <ChartMetricTrend
+                            scores={{
+                              country: right.scores,
+                              regions: regionRight.scores,
+                            }}
+                            maxYear={maxYearCPR}
+                            minYear={minYearCPR}
+                            maxValue={10}
+                            benchmark={benchmark}
+                            metric={getMetricDetails(right.key)}
+                            mode="multi-country"
+                            onSelectMetric={() => onSelectMetric(right.key)}
+                            unRegionFilterValue={
+                              country[COLUMNS.COUNTRIES.UN_REGION]
+                            }
+                          />
+                        </WrapPlot>
+                      );
+                    })}
                 </Box>
               )}
             </CardWrapper>
@@ -207,6 +227,7 @@ ChartContainerCountry.propTypes = {
   maxYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   minYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   scores: PropTypes.array,
+  regionScores: PropTypes.array,
   dataReady: PropTypes.bool,
   benchmark: PropTypes.string,
   country: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
@@ -228,6 +249,21 @@ const mapStateToProps = createStructuredSelector({
             metricCode: right.key,
           })
           : getCPRScoresForCountry(state, {
+            countryCode,
+            metricCode: right.key,
+          }),
+    })),
+  // prettier-ignore
+  regionScores: (state, { countryCode }) =>
+    RIGHTS.map(right => ({
+      ...right,
+      scores:
+        right.type === 'esr'
+          ? getESRScoresForCountryUNRegion(state, {
+            countryCode,
+            metricCode: right.key,
+          })
+          : getCPRScoresForCountryUNRegion(state, {
             countryCode,
             metricCode: right.key,
           }),

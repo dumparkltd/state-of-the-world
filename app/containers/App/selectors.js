@@ -1115,8 +1115,87 @@ export const getCPRScoresForCountry = createSelector(
           s[COLUMNS.ESR.METRIC] === metric.code &&
           s.country_code === countryCode,
       );
-      const columns = [{ key: 'mean', column: COLUMNS.CPR.MEAN }];
+      const columns = [
+        { key: COLUMNS.CPR.MEAN, column: COLUMNS.CPR.MEAN },
+        { key: COLUMNS.CPR.LO, column: COLUMNS.CPR.LO },
+        { key: COLUMNS.CPR.HI, column: COLUMNS.CPR.HI },
+      ];
       return getCountryScores(countryCode, countryScores, columns);
+    }
+    return null;
+  },
+);
+export const getESRScoresForCountryUNRegion = createSelector(
+  (state, { metricCode }) => metricCode,
+  (state, { countryCode }) => countryCode,
+  getCountries,
+  getCountryCodes,
+  getESRScores,
+  getStandardSearch,
+  (
+    metricCode,
+    countryCode,
+    countries,
+    countryCodes,
+    scores,
+    standardSearch,
+  ) => {
+    const metric = getMetricDetails(metricCode);
+    const standard = STANDARDS.find(s => s.key === standardSearch);
+    const group = PEOPLE_GROUPS.find(g => g.key === 'all');
+    const country =
+      countries && countries.find(c => c.country_code === countryCode);
+    if (metric && group && country && countries && scores) {
+      const region = UN_REGIONS.options.find(
+        r => r.key === country[COLUMNS.COUNTRIES.UN_REGION],
+      );
+      const countryScores = scores.filter(
+        s =>
+          s[COLUMNS.ESR.GROUP] === group.code &&
+          s[COLUMNS.ESR.STANDARD] === standard.code &&
+          s[COLUMNS.ESR.METRIC] === metric.code &&
+          countryCodes.indexOf(s.country_code) > -1,
+      );
+      return {
+        [region.key]: calculateRegionAverage(
+          region.key,
+          countries,
+          countryScores,
+          BENCHMARKS,
+        ),
+      };
+    }
+    return null;
+  },
+);
+export const getCPRScoresForCountryUNRegion = createSelector(
+  (state, { metricCode }) => metricCode,
+  (state, { countryCode }) => countryCode,
+  getCountries,
+  getCountryCodes,
+  getCPRScores,
+  (metricCode, countryCode, countries, countryCodes, scores) => {
+    const metric = getMetricDetails(metricCode);
+    const country =
+      countries && countries.find(c => c.country_code === countryCode);
+    if (metric && scores && country) {
+      const region = UN_REGIONS.options.find(
+        r => r.key === country[COLUMNS.COUNTRIES.UN_REGION],
+      );
+      const countryScores = scores.filter(
+        s =>
+          s[COLUMNS.CPR.METRIC] === metric.code &&
+          countryCodes.indexOf(s.country_code) > -1,
+      );
+      const columns = [{ key: 'mean', column: COLUMNS.CPR.MEAN }];
+      return {
+        [region.key]: calculateRegionAverage(
+          region.key,
+          countries,
+          countryScores,
+          columns,
+        ),
+      };
     }
     return null;
   },

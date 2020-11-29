@@ -30,7 +30,7 @@ function ScoreSheet({
   height,
   margin,
   regionScores,
-  countryScores,
+  countriesScores,
   year,
   highlightCountry,
   column,
@@ -39,10 +39,10 @@ function ScoreSheet({
 }) {
   const hiCountry =
     highlightCountry &&
-    countryScores &&
-    countryScores[highlightCountry] &&
-    countryScores[highlightCountry][column] &&
-    countryScores[highlightCountry][column][year];
+    countriesScores &&
+    countriesScores[highlightCountry] &&
+    countriesScores[highlightCountry][column] &&
+    countriesScores[highlightCountry][column][year];
   /* eslint-disable no-console */
   if (hiCountry && !rootMessages.countries[highlightCountry]) {
     console.log('Country code not in language files:', highlightCountry);
@@ -52,7 +52,6 @@ function ScoreSheet({
     highlightCountry && rootMessages.countries[highlightCountry]
       ? intl.formatMessage(rootMessages.countries[highlightCountry])
       : highlightCountry;
-
   return (
     <Styled height={height} margin={margin}>
       <div>
@@ -100,7 +99,7 @@ ScoreSheet.propTypes = {
   height: PropTypes.number,
   margin: PropTypes.object,
   regionScores: PropTypes.object,
-  countryScores: PropTypes.object,
+  countriesScores: PropTypes.object,
   year: PropTypes.string,
   highlightCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   column: PropTypes.string,

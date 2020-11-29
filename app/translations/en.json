@@ -17,6 +17,7 @@
   "hrmi.labels.countries": "Country",
   "hrmi.labels.metrics": "Rights",
   "hrmi.labels.regionScore": "Average score",
+  "hrmi.labels.regionRefScore": "UN group average",
   "hrmi.labels.countryScore": "Score",
   "hrmi.labels.countryNo": "No of countries",
   "hrmi.labels.grades.poor": "Very Bad",
