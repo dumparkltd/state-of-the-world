@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -12,7 +12,6 @@ import { createStructuredSelector } from 'reselect';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
 import { Heading, Box, Text } from 'grommet';
-import { Up, Down } from 'grommet-icons';
 
 import { selectCountry } from 'containers/App/actions';
 
@@ -28,8 +27,6 @@ import Tooltip from 'components/Tooltip';
 import { COLUMNS } from 'containers/App/constants';
 
 import FAQs from 'containers/FAQs';
-import ButtonText from 'styled/ButtonText';
-import ButtonAccordian from 'styled/ButtonAccordian';
 import ButtonHero from 'styled/ButtonHero';
 
 import { roundScore } from 'utils/scores';
@@ -38,18 +35,8 @@ import { getTerritoryStatus } from 'utils/narrative';
 import rootMessages from 'messages';
 import messages from './messages';
 
-const Button = styled(ButtonText)`
-  font-weight: 400;
-`;
-
 const Label = styled(Text)`
   font-weight: 600;
-`;
-
-const MoreWrap = styled.div`
-  text-align: left;
-  margin-top: 10px;
-  justify-content: space-between;
 `;
 
 const ContainerBox = styled(Box)`
@@ -92,12 +79,6 @@ const HeadingBox = styled(Box)`
   }
 `;
 
-const RemoveFromPDFWrapper = styled.div`
-  @media print {
-    display: none;
-  }
-`;
-
 const prepPopulationValue = (value, intl, year) => {
   if (parseInt(value, 10) > 1000000) {
     return {
@@ -113,14 +94,7 @@ const prepPopulationValue = (value, intl, year) => {
   };
 };
 
-const renderCategory = (label, onClick, cat, value) =>
-  onClick ? (
-    <Button onClick={() => onClick(cat, value)}>
-      <Text>{label}</Text>
-    </Button>
-  ) : (
-    <Text>{label}</Text>
-  );
+const renderCategory = label => <Text>{label}</Text>;
 
 function AboutCountryContainer({
   intl,
@@ -128,18 +102,15 @@ function AboutCountryContainer({
   currentGDP,
   pppGDP,
   population,
-  onCategoryClick,
   onCountryClick,
   showFAQs,
   showTitle,
   countryCode,
   showCountryLink,
-  collapsible = true,
   inverse,
   inAside,
   countriesGrammar,
 }) {
-  const [more, setMore] = useState(false);
   if (!country) return null;
   const incomeCode =
     country[COLUMNS.COUNTRIES.HIGH_INCOME] === '1' ? 'hi' : 'lmi';
@@ -262,59 +233,32 @@ function AboutCountryContainer({
           </RowBox>
         </DetailBox>
       )}
-      {(!collapsible || more) && (
-        <>
-          {country[COLUMNS.COUNTRIES.UN_REGION] !== '' && (
-            <Box direction="row" margin={{ bottom: 'xsmall' }}>
-              <Box width="50%">
-                <Label>
-                  <FormattedMessage {...messages.un_region} />
-                </Label>
-              </Box>
-              <Box width="50%">
-                {renderCategory(
-                  intl.formatMessage(
-                    rootMessages.un_regions[
-                      country[COLUMNS.COUNTRIES.UN_REGION]
-                    ],
-                  ),
-                  onCategoryClick,
-                  'unregion',
-                  country[COLUMNS.COUNTRIES.UN_REGION],
-                )}
-              </Box>
-            </Box>
-          )}
-          <Box direction="row" margin={{ bottom: 'xsmall' }}>
-            <Box width="50%">
-              <Label>
-                <FormattedMessage {...messages.income} />
-              </Label>
-            </Box>
-            <Box width="50%">
-              {renderCategory(
-                intl.formatMessage(rootMessages.income[incomeCode]),
-                onCategoryClick,
-                'income',
-                incomeCode,
-              )}
-            </Box>
+      {country[COLUMNS.COUNTRIES.UN_REGION] !== '' && (
+        <Box direction="row" margin={{ bottom: 'xsmall' }}>
+          <Box width="50%">
+            <Label>
+              <FormattedMessage {...messages.un_region} />
+            </Label>
           </Box>
-        </>
+          <Box width="50%">
+            {renderCategory(
+              intl.formatMessage(
+                rootMessages.un_regions[country[COLUMNS.COUNTRIES.UN_REGION]],
+              ),
+            )}
+          </Box>
+        </Box>
       )}
-      {collapsible && (
-        <RemoveFromPDFWrapper>
-          <MoreWrap>
-            <ButtonAccordian
-              onClick={() => setMore(!more)}
-              icon={more ? <Up size="small" /> : <Down size="small" />}
-              color={inverse ? 'white' : 'dark'}
-              size="small"
-              label={<FormattedMessage {...messages[more ? 'less' : 'more']} />}
-            />
-          </MoreWrap>
-        </RemoveFromPDFWrapper>
-      )}
+      <Box direction="row" margin={{ bottom: 'xsmall' }}>
+        <Box width="50%">
+          <Label>
+            <FormattedMessage {...messages.income} />
+          </Label>
+        </Box>
+        <Box width="50%">
+          {renderCategory(intl.formatMessage(rootMessages.income[incomeCode]))}
+        </Box>
+      </Box>
       {showFAQs && <FAQs questions={showFAQs} />}
       {showCountryLink && (
         <div>

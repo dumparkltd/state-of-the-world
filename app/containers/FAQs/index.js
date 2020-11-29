@@ -14,8 +14,6 @@ import InfoStandard from 'containers/ChartSettings/InfoStandard';
 
 import { lowerCase } from 'utils/string';
 
-import rootMessages from 'messages';
-import aboutMessages from 'components/AboutMetric/messages';
 import MethodologyLink from './MethodologyLink';
 import messages from './messages';
 
@@ -25,9 +23,6 @@ const OL = styled.ol`
 `;
 const LI = styled.li`
   margin-bottom: 8px;
-`;
-const StyledText = styled(Text)`
-  font-size: 14px;
 `;
 
 const renderAnswer = (question, intl, msgValues, navMethodology) => {
@@ -122,24 +117,12 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
   );
 };
 
-function FAQs({ questions, intl, metric, navMethodology, metrics }) {
+function FAQs({ questions, intl, metric, navMethodology }) {
   const [actives, setActive] = useState([]);
   const msgValues = {
     metric,
     metricLower: lowerCase(metric),
   };
-
-  let metricType;
-  let hasAbout;
-  const aboutIndex = 0;
-
-  // for metric pages
-  if (metrics) {
-    /* eslint-disable prefer-destructuring */
-    metricType = metrics.metricType;
-    /* eslint-enable prefer-destructuring */
-    hasAbout = rootMessages[`${metricType}-about`];
-  }
 
   return (
     <Box pad={{ vertical: 'large' }}>
@@ -151,43 +134,6 @@ function FAQs({ questions, intl, metric, navMethodology, metrics }) {
         activeIndex={actives}
         onActive={newActive => setActive(newActive)}
       >
-        {/* for metric pages */}
-        {hasAbout && (
-          <AccordionPanel
-            header={
-              <Box
-                direction="row"
-                gap="xsmall"
-                align="center"
-                justify="between"
-              >
-                <Box>
-                  <Heading
-                    responsive={false}
-                    level={6}
-                    margin={{ vertical: 'xsmall' }}
-                    style={{ fontWeight: 400 }}
-                  >
-                    <FormattedMessage {...aboutMessages.title[metricType]} />
-                  </Heading>
-                </Box>
-                <Box margin={{ left: 'auto' }}>
-                  {!actives.includes(aboutIndex) && <Down size="small" />}
-                  {actives.includes(aboutIndex) && <Up size="small" />}
-                </Box>
-              </Box>
-            }
-          >
-            <Box pad={{ vertical: 'small', horizontal: 'xsmall' }} border="top">
-              <StyledText>
-                <FormattedMessage
-                  {...rootMessages[`${metricType}-about`][metrics.key]}
-                />
-              </StyledText>
-            </Box>
-          </AccordionPanel>
-        )}
-
         {/* for all pages */}
         {questions.map((q, index) => (
           <AccordionPanel
@@ -227,7 +173,6 @@ function FAQs({ questions, intl, metric, navMethodology, metrics }) {
 FAQs.propTypes = {
   questions: PropTypes.array,
   metric: PropTypes.string,
-  metrics: PropTypes.object,
   onSelectMetric: PropTypes.func,
   showSources: PropTypes.bool,
   dateRange: PropTypes.object,

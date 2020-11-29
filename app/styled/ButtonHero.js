@@ -5,15 +5,15 @@ import Button from './Button';
 
 // prettier-ignore
 export default styled(Button)`
-  color: ${({ theme, secondary }) => (secondary ? 'white' : theme.global.colors.dark)};
-  background-color: ${({ secondary }) => (secondary ? 'transparent': 'white')};
+  color: white;
+  background-color: ${({ theme }) => theme.global.colors.dark};
   border-radius: 5px;
   margin: 20px 0;
   font-size: ${({ theme }) => theme.text.small.size};
   padding: 10px 20px;
   &:hover {
-    color: ${({ theme, secondary }) => (secondary ? 'white' : theme.global.colors.dark)};
-    background-color: ${({ theme, secondary }) => (secondary ? theme.global.colors.dark : 'rgba(255,255,255,0.9)')};
+    color: white;
+    background-color: ${({ theme }) => theme.global.colors.buttonPrimaryHover};
 }
 &:active {
   border-radius: 5px;

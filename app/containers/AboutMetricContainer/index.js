@@ -4,49 +4,43 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
-import { Box, Heading, Text } from 'grommet';
+import { Box, Heading } from 'grommet';
 
 import { FAQS } from 'containers/App/constants';
-import { loadDataIfNeeded, selectMetric } from 'containers/App/actions';
+import { selectMetric } from 'containers/App/actions';
 import FAQs from 'containers/FAQs';
+import ButtonHero from 'styled/ButtonHero';
 
 import AboutMetric from 'components/AboutMetric';
+import { lowerCase } from 'utils/string';
 
 import getMetricDetails from 'utils/metric-details';
 
 import rootMessages from 'messages';
-
-const DEPENDENCIES_INDICATORS = ['esrIndicators'];
+import messages from './messages';
 
 export function AboutMetricContainer({
   metricCode,
-  onLoadData,
   onSelectMetric,
   intl,
   showFAQs,
   showSources,
-  countryScoreMsg,
-  inverse,
   dateRange,
   countryCode,
+  showMetricLink,
 }) {
-  useEffect(() => {
-    // kick off loading of data
-    onLoadData(metric);
-  }, [metric]);
-
   const metric = getMetricDetails(metricCode);
   const { metricType } = metric;
 
   let questions = [];
-  if (metricType === 'rights' && metric.type === 'cpr') {
-    questions = FAQS.CPR_RIGHT;
+  if (metricType === 'rights') {
+    questions = metric.type === 'cpr' ? FAQS.CPR_RIGHT : FAQS.ESR_RIGHT;
   }
   return (
     <Box
@@ -56,11 +50,6 @@ export function AboutMetricContainer({
       <Heading responsive={false} level={3}>
         <FormattedMessage {...rootMessages[metricType][metric.key]} />
       </Heading>
-      {countryScoreMsg && (
-        <div>
-          <Text color={inverse ? 'white' : 'dark'}>{countryScoreMsg}</Text>
-        </div>
-      )}
       <AboutMetric
         metric={metric}
         onSelectMetric={onSelectMetric}
@@ -68,6 +57,18 @@ export function AboutMetricContainer({
         dateRange={dateRange}
         countryCode={countryCode}
       />
+      {showMetricLink && (
+        <ButtonHero onClick={() => onSelectMetric(metricCode)}>
+          <FormattedMessage
+            {...messages.metricLink}
+            values={{
+              metric: lowerCase(
+                intl.formatMessage(rootMessages[metric.metricType][metricCode]),
+              ),
+            }}
+          />
+        </ButtonHero>
+      )}
       {showFAQs && (
         <FAQs
           questions={questions}
@@ -88,7 +89,6 @@ export function AboutMetricContainer({
 AboutMetricContainer.propTypes = {
   metricCode: PropTypes.string,
   onSelectMetric: PropTypes.func,
-  onLoadData: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   showTitle: PropTypes.bool,
   showMetricLink: PropTypes.bool,
@@ -104,14 +104,6 @@ AboutMetricContainer.propTypes = {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onLoadData: metric => {
-      if (metric.metricType === 'indicators') {
-        return DEPENDENCIES_INDICATORS.forEach(key =>
-          dispatch(loadDataIfNeeded(key)),
-        );
-      }
-      return false;
-    },
     onSelectMetric: metric => dispatch(selectMetric(metric)),
   };
 }
