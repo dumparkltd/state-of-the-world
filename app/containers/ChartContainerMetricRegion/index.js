@@ -21,6 +21,7 @@ import {
   getMinYearESR,
   getMinYearCPR,
   getUNRegionSearch,
+  getUNRegionTotals,
 } from 'containers/App/selectors';
 import { loadDataIfNeeded } from 'containers/App/actions';
 
@@ -44,6 +45,7 @@ export function ChartContainerMetricRegion({
   minYearCPR,
   unRegionFilterValue,
   onCountryClick,
+  unRegionTotals,
 }) {
   useEffect(() => {
     onLoadData();
@@ -74,6 +76,7 @@ export function ChartContainerMetricRegion({
         mode="detail"
         unRegionFilterValue={unRegionFilterValue}
         onCountryClick={onCountryClick}
+        unRegionTotals={unRegionTotals}
       />
     </div>
   );
@@ -91,6 +94,7 @@ ChartContainerMetricRegion.propTypes = {
   theme: PropTypes.object,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
+  unRegionTotals: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -107,6 +111,7 @@ const mapStateToProps = createStructuredSelector({
     }
     return getCPRScoresForUNRegionsCountries(state, { metricCode });
   },
+  unRegionTotals: state => getUNRegionTotals(state),
 });
 
 export function mapDispatchToProps(dispatch) {

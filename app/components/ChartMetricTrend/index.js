@@ -41,6 +41,7 @@ import Card from 'styled/Card';
 import rootMessages from 'messages';
 
 import CardHeader from './CardHeader';
+import CardFooter from './CardFooter';
 import ScoreSheet from './ScoreSheet';
 
 const PlotHint = styled.div`
@@ -76,11 +77,12 @@ function ChartMetricTrend({
   onSetRegionFilter,
   onSelectMetric,
   intl,
+  unRegionTotals,
 }) {
   const [highlightYear, setYear] = useState(false);
   const [highlightCountry, setCountry] = useState(false);
   const [highlightRegion, setRegion] = useState(false);
-  if (!maxYear) return null;
+  if (!maxYear || !scores) return null;
   const column = metric.type === 'cpr' ? COLUMNS.CPR.MEAN : benchmark;
 
   // dummy data to force the area plot from 0
@@ -106,6 +108,7 @@ function ChartMetricTrend({
     regionScores &&
     getRegionYearData(minYear, regionScores[unRegionFilterValue][column]);
 
+  console.log(scores);
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
@@ -432,6 +435,16 @@ function ChartMetricTrend({
                     />
                   ))}
             </FlexibleWidthXYPlot>
+            {(mode === 'multi' || mode === 'detail') && (
+              <CardFooter
+                regionScores={regionScores}
+                year={year}
+                column={column}
+                unRegionFilterValue={unRegionFilterValue}
+                regionTotals={unRegionTotals}
+                isESR={metric.type === 'esr'}
+              />
+            )}
           </Card>
         );
       }}
@@ -441,6 +454,7 @@ function ChartMetricTrend({
 ChartMetricTrend.propTypes = {
   theme: PropTypes.object,
   scores: PropTypes.object,
+  unRegionTotals: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   maxYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   minYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

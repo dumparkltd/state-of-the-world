@@ -10,7 +10,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
 import { Text, Box } from 'grommet';
 
-import { getRegionYearScore, getRegionYearCount } from 'utils/charts';
+import { getRegionYearScore } from 'utils/charts';
 
 import rootMessages from 'messages';
 import ButtonPlain from 'styled/ButtonPlain';
@@ -37,6 +37,7 @@ function CardHeader({
   mode,
   intl,
 }) {
+  // console.log(metric, regionScores, regionTotals, unRegionFilterValue)
   return (
     <Styled>
       <Box fill direction="row" justify="between" gap="small" align="center">
@@ -62,17 +63,6 @@ function CardHeader({
                   regionScores[unRegionFilterValue][column],
                   metric.type,
                   intl,
-                )}
-              </Text>
-            </Box>
-            <Box direction="row" gap="xsmall" justify="between">
-              <Text size="small">
-                <FormattedMessage {...rootMessages.labels.countryNo} />
-              </Text>
-              <Text size="small" color={unRegionFilterValue}>
-                {getRegionYearCount(
-                  year,
-                  regionScores[unRegionFilterValue][column],
                 )}
               </Text>
             </Box>

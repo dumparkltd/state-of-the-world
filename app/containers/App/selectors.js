@@ -808,6 +808,31 @@ export const getCountryCodes = createSelector(
   getCountries,
   countries => countries && countries.map(c => c[COLUMNS.COUNTRIES.CODE]),
 );
+
+export const getUNRegionTotals = createSelector(
+  getCountries,
+  countries => {
+    if (!countries) return null;
+    const regions = UN_REGIONS.options;
+    return regions
+      .filter(({ key }) => key !== 'world')
+      .reduce(
+        (memo, { key }) => {
+          const regionCountries = countries.filter(
+            c => c[COLUMNS.COUNTRIES.UN_REGION] === key,
+          );
+          return {
+            ...memo,
+            [key]: regionCountries.length,
+          };
+        },
+        {
+          world: countries.length,
+        },
+      );
+  },
+);
+
 export const getCountryCodesFiltered = createSelector(
   getCountriesFiltered,
   countries => countries && countries.map(c => c[COLUMNS.COUNTRIES.CODE]),

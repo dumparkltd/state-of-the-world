@@ -24,6 +24,7 @@ import {
   getESRScoresForUNRegions,
   getCPRScoresForUNRegions,
   getUNRegionSearch,
+  getUNRegionTotals,
 } from 'containers/App/selectors';
 import {
   loadDataIfNeeded,
@@ -66,6 +67,7 @@ export function ChartContainerRightsMulti({
   onSetRegionFilter,
   onSelectMetric,
   theme,
+  unRegionTotals,
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
@@ -129,6 +131,7 @@ export function ChartContainerRightsMulti({
                       onSelectMetric={() => onSelectMetric(right.key)}
                       unRegionFilterValue={unRegionFilterValue || 'world'}
                       onSetRegionFilter={onSetRegionFilter}
+                      unRegionTotals={unRegionTotals}
                     />
                   </WrapPlot>
                 ))}
@@ -152,6 +155,7 @@ ChartContainerRightsMulti.propTypes = {
   rightsScores: PropTypes.array,
   theme: PropTypes.object,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  unRegionTotals: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -169,6 +173,7 @@ const mapStateToProps = createStructuredSelector({
           ? getESRScoresForUNRegions(state, { metricCode: right.key })
           : getCPRScoresForUNRegions(state, { metricCode: right.key }),
     })),
+  unRegionTotals: state => getUNRegionTotals(state),
 });
 
 export function mapDispatchToProps(dispatch) {

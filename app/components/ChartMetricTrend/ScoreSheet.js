@@ -98,8 +98,8 @@ function ScoreSheet({
 ScoreSheet.propTypes = {
   height: PropTypes.number,
   margin: PropTypes.object,
-  regionScores: PropTypes.object,
-  countriesScores: PropTypes.object,
+  regionScores: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  countriesScores: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   year: PropTypes.string,
   highlightCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   column: PropTypes.string,
