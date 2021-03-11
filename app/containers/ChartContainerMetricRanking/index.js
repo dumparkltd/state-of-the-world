@@ -180,7 +180,11 @@ export function ChartContainerMetricRanking({
         <Box margin={{ bottom: 'xlarge' }}>
           <ChartHeader
             filters={{ unregion: 'single' }}
-            settings={{ standard: metric.type === 'esr' }}
+            settings={{
+              standard: metric.type === 'esr',
+            }}
+            year
+            metricType={metric.type}
           />
           {!dataReady && <LoadingIndicator />}
           {!hasResults && dataReady && (
@@ -240,6 +244,10 @@ ChartContainerMetricRanking.propTypes = {
   showHILabel: PropTypes.bool,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
+  yesr: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  ycpr: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  yesrRange: PropTypes.object,
+  ycprRange: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

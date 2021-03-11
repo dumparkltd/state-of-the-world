@@ -9,15 +9,19 @@ import { defineMessages } from 'react-intl';
 export const scope = 'hrmi.components.ChartMetricTrend';
 
 export default defineMessages({
+  noteRatioLink: {
+    id: `${scope}.noteRatioLink`,
+    defaultMessage: '{count} out of {total} countries',
+  },
   noteAssessmentRatioWorld: {
     id: `${scope}.noteAssessmentRatioWorld`,
     defaultMessage:
-      'Note: for {year} the global average is only based on an assessment of {count} out of {total} countries and may thus not be representative',
+      'Note: for {year} the global average is only based on an assessment of {link} and may thus not be representative',
   },
   noteAssessmentRatioRegion: {
     id: `${scope}.noteAssessmentRatioRegion`,
     defaultMessage:
-      'Note: for {year} the regional average is only based on an assessment of {count} out of {total} countries in that region and may thus not be representative',
+      'Note: for {year} the regional average is only based on an assessment of {link} in that region and may thus not be representative',
   },
   noteAssessmentNoneWorld: {
     id: `${scope}.noteAssessmentNoneWorld`,

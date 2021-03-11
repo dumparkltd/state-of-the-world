@@ -108,7 +108,6 @@ function ChartMetricTrend({
     regionScores &&
     getRegionYearData(minYear, regionScores[unRegionFilterValue][column]);
 
-  console.log(scores);
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
@@ -124,7 +123,12 @@ function ChartMetricTrend({
           parseInt(maxYear, 10),
         );
         return (
-          <Card mode={mode}>
+          <Card
+            mode={mode}
+            onMouseLeave={() => {
+              setYear(false);
+            }}
+          >
             {(mode === 'multi' || mode === 'multi-country') &&
               unRegionFilterValue && (
               <CardHeader
@@ -161,7 +165,7 @@ function ChartMetricTrend({
               onMouseLeave={() => {
                 setCountry(false);
                 setRegion(false);
-                setYear(false);
+                // setYear(false);
               }}
               onClick={() => {
                 if (mode === 'detail' && highlightCountry) {
@@ -443,6 +447,8 @@ function ChartMetricTrend({
                 unRegionFilterValue={unRegionFilterValue}
                 regionTotals={unRegionTotals}
                 isESR={metric.type === 'esr'}
+                metric={metric}
+                onSelectMetric={onSelectMetric}
               />
             )}
           </Card>

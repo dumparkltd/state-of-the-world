@@ -25,7 +25,7 @@ import SettingsToggle from './SettingsToggle';
 
 export function ChartSettings({ standard, onSetStandard, showStandard, intl }) {
   return (
-    <Box direction="column">
+    <Box direction="row">
       {showStandard && (
         <SettingsToggle
           setting="standard"

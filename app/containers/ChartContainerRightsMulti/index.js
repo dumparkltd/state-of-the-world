@@ -128,7 +128,9 @@ export function ChartContainerRightsMulti({
                       benchmark={benchmark}
                       metric={getMetricDetails(right.key)}
                       mode="multi"
-                      onSelectMetric={() => onSelectMetric(right.key)}
+                      onSelectMetric={(tab, year) =>
+                        onSelectMetric(right.key, tab, year)
+                      }
                       unRegionFilterValue={unRegionFilterValue || 'world'}
                       onSetRegionFilter={onSetRegionFilter}
                       unRegionTotals={unRegionTotals}
@@ -178,7 +180,8 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onSelectMetric: metric => dispatch(selectMetric(metric)),
+    onSelectMetric: (metric, tab, year) =>
+      dispatch(selectMetric(metric, tab, year)),
     // prettier-ignore
     onSetRegionFilter: region =>
       dispatch(

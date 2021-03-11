@@ -274,6 +274,16 @@ export const getMinYearCPR = createSelector(
   getCPRScores,
   scores => calcMinYear(scores),
 );
+export const getESRYearRange = createSelector(
+  getMinYearESR,
+  getMaxYearESR,
+  (min, max) => ({ min, max }),
+);
+export const getCPRYearRange = createSelector(
+  getMinYearCPR,
+  getMaxYearCPR,
+  (min, max) => ({ min, max }),
+);
 export const getESRYear = createSelector(
   getYearESRSearch,
   getMaxYearESR,
@@ -321,12 +331,9 @@ export const getCountriesFiltered = createSelector(
   getUNRegionSearch,
   (countries, unregion) =>
     countries &&
-    countries.filter(
-      c =>
-        !unregion ||
-        unregion === 'world' ||
-        unregion.indexOf(c[COLUMNS.COUNTRIES.UN_REGION]) > -1,
-    ),
+    (!unregion || unregion === 'world'
+      ? countries
+      : countries.filter(c => unregion === c[COLUMNS.COUNTRIES.UN_REGION])),
 );
 const addRank = (memo, s, index) => {
   if (memo.length === 0) {
@@ -378,8 +385,7 @@ export const getESRRightScores = createSelector(
       .filter(s => quasiEquals(s.year, year - 1))
       .sort((a, b) => sortByNumber(a.value, b.value))
       .reduce(addRank, []);
-    console.log(metric, 'previous countries', prevScores.length);
-    const currentScores = metricScores
+    return metricScores
       .filter(s => quasiEquals(s.year, year))
       .sort((a, b) => sortByNumber(a.value, b.value))
       .reduce(addRank, [])
@@ -392,8 +398,6 @@ export const getESRRightScores = createSelector(
           prevRank: prevScore && prevScore.rank,
         };
       });
-    console.log(metric, 'current countries', currentScores.length);
-    return currentScores;
   },
 );
 
@@ -421,8 +425,7 @@ export const getCPRRightScores = createSelector(
       .filter(s => quasiEquals(s.year, year - 1))
       .sort((a, b) => sortByNumber(a.value, b.value))
       .reduce(addRank, []);
-    console.log(metric, 'previous countries', prevScores.length);
-    const currentScores = metricScores
+    return metricScores
       .filter(s => quasiEquals(s.year, year))
       .sort((a, b) => sortByNumber(a.value, b.value))
       .reduce(addRank, [])
@@ -435,8 +438,6 @@ export const getCPRRightScores = createSelector(
           prevRank: prevScore && prevScore.rank,
         };
       });
-    console.log(metric, 'current countries', currentScores.length);
-    return currentScores;
   },
 );
 

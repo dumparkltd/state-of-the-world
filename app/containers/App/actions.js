@@ -153,10 +153,12 @@ export function selectCountry(code, tab, atRisk) {
     atRisk,
   };
 }
-export function selectMetric(code) {
+export function selectMetric(code, tab, year) {
   return {
     type: SELECT_METRIC,
     code,
+    tab,
+    year,
   };
 }
 export function setStandard(value) {

@@ -12,6 +12,8 @@ import { Text } from 'grommet';
 
 import { getRegionYearCount } from 'utils/charts';
 
+import ButtonText from 'styled/ButtonText';
+
 import Hint from 'styled/Hint';
 
 import messages from './messages';
@@ -26,11 +28,9 @@ function CardFooter({
   column,
   regionTotals,
   isESR,
+  onSelectMetric,
 }) {
   if (!regionScores) return null;
-  console.log(unRegionFilterValue);
-  console.log(regionTotals);
-  console.log(regionScores);
   const total = regionTotals[unRegionFilterValue];
 
   const count =
@@ -40,8 +40,17 @@ function CardFooter({
   if (unRegionFilterValue && count === total) return null;
   const values = {
     year: <strong>{year}</strong>,
-    count: <strong>{count}</strong>,
-    total: <strong>{total}</strong>,
+    link: (
+      <ButtonText onClick={() => onSelectMetric('ranking', year)}>
+        <FormattedMessage
+          {...messages.noteRatioLink}
+          values={{
+            count,
+            total,
+          }}
+        />
+      </ButtonText>
+    ),
   };
   return (
     <Styled>
@@ -75,19 +84,19 @@ function CardFooter({
               {unRegionFilterValue === 'world' && (
                 <FormattedMessage
                   {...messages.noteAssessmentNoneWorld}
-                  values={values}
+                  values={{ year }}
                 />
               )}
               {unRegionFilterValue !== 'world' && !isESR && (
                 <FormattedMessage
                   {...messages.noteAssessmentNoneRegion}
-                  values={values}
+                  values={{ year }}
                 />
               )}
               {unRegionFilterValue !== 'world' && isESR && (
                 <FormattedMessage
                   {...messages.noteAssessmentNoneRegionESR}
-                  values={values}
+                  values={{ year }}
                 />
               )}
             </Text>
@@ -105,6 +114,7 @@ CardFooter.propTypes = {
   regionTotals: PropTypes.object,
   year: PropTypes.string,
   isESR: PropTypes.bool,
+  onSelectMetric: PropTypes.func,
 };
 
 export default CardFooter;

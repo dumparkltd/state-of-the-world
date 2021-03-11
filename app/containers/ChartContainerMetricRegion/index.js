@@ -23,7 +23,7 @@ import {
   getUNRegionSearch,
   getUNRegionTotals,
 } from 'containers/App/selectors';
-import { loadDataIfNeeded } from 'containers/App/actions';
+import { loadDataIfNeeded, selectMetric } from 'containers/App/actions';
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
@@ -46,6 +46,7 @@ export function ChartContainerMetricRegion({
   unRegionFilterValue,
   onCountryClick,
   unRegionTotals,
+  onSelectMetric,
 }) {
   useEffect(() => {
     onLoadData();
@@ -77,6 +78,7 @@ export function ChartContainerMetricRegion({
         unRegionFilterValue={unRegionFilterValue}
         onCountryClick={onCountryClick}
         unRegionTotals={unRegionTotals}
+        onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
       />
     </div>
   );
@@ -95,6 +97,7 @@ ChartContainerMetricRegion.propTypes = {
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
   unRegionTotals: PropTypes.object,
+  onSelectMetric: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -116,6 +119,8 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onSelectMetric: (metric, tab, year) =>
+      dispatch(selectMetric(metric, tab, year)),
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),
   };

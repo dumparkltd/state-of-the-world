@@ -8,6 +8,7 @@ import 'whatwg-fetch';
 import 'url-search-params-polyfill';
 
 import quasiEquals from 'utils/quasi-equals';
+import getMetricDetails from 'utils/metric-details';
 import { disableAnalytics } from 'utils/analytics';
 
 // import dataRequest from 'utils/data-request';
@@ -246,11 +247,23 @@ export function* setTabSaga({ value }) {
   yield put(push(`${path}?${searchParams.toString()}`));
 }
 
-export function* selectMetricSaga({ code }) {
+export function* selectMetricSaga({ code, tab, year }) {
   const requestLocale = yield select(getLocale);
   const currentLocation = yield select(getRouterLocation);
-  const currentSearchParams = new URLSearchParams(currentLocation.search);
-  const newSearch = currentSearchParams.toString();
+  const newSearchParams = new URLSearchParams(currentLocation.search);
+  if (tab) {
+    newSearchParams.set('tab', tab);
+  }
+  if (year) {
+    const details = getMetricDetails(code);
+    if (details && details.type === 'esr') {
+      newSearchParams.set('yesr', year);
+    }
+    if (details && details.type === 'cpr') {
+      newSearchParams.set('ycpr', year);
+    }
+  }
+  const newSearch = newSearchParams.toString();
   const search = newSearch.length > 0 ? `?${newSearch}` : '';
   yield put(
     trackEvent({
