@@ -17,15 +17,6 @@ import FilterOptions from './FilterOptions';
 import FilterOptionsDrop from './FilterOptionsDrop';
 
 const FilterWrap = styled.div``;
-// <Box
-//   direction={isMaxSize(size, 'sm') ? 'column' : 'row'}
-//   justify="between"
-//   align={isMinSize(size, 'medium') ? 'center' : 'start'}
-//   margin={{
-//     bottom: isMinSize(size, 'medium') ? '0' : 'small',
-//     top: isMinSize(size, 'medium') ? 'small' : '0',
-//   }}
-// >
 
 export function ChartFilters({
   unRegionFilterValue,
@@ -33,7 +24,10 @@ export function ChartFilters({
   onAddFilter,
   filters,
 }) {
-  const filterValues = getFilterOptionValues(COUNTRY_FILTERS.SINGLE_METRIC);
+  const filterValues = getFilterOptionValues(
+    COUNTRY_FILTERS.SINGLE_METRIC,
+    filters,
+  );
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -44,7 +38,7 @@ export function ChartFilters({
               onRemoveFilter={onRemoveFilter}
               onAddFilter={onAddFilter}
               filterValues={filterValues}
-              filters={filters}
+              config={filters}
             />
           )}
           {isMaxSize(size, 'medium') && (
@@ -53,6 +47,7 @@ export function ChartFilters({
               onRemoveFilter={onRemoveFilter}
               onAddFilter={onAddFilter}
               filterValues={filterValues}
+              config={filters}
             />
           )}
         </FilterWrap>

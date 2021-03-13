@@ -189,6 +189,7 @@ const theme = {
       'dark-2': '#2C3F4B',
       'dark-3': '#757575', // AA
       'dark-4': '#8896A0', // AA large
+      'dark-5': '#BBBBBB', // AA large
       dark: '#262262', // empowerment',
       darker: '#110d50', // empowerment',
       secondary: '#757575',
@@ -241,6 +242,7 @@ const theme = {
       EEG: '#9B1040', // marrone
       GRULAC: '#D00379', // pink
       WEOG: '#5E2498', // purple
+      all: '#262262', // purple
     },
     // margins & paddings
     edgeSize,

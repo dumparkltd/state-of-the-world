@@ -1,5 +1,6 @@
 import { isMaxSize } from 'utils/responsive';
 import { formatScoreMax } from 'utils/scores';
+import { CRITICAL_VALUE } from 'containers/App/constants';
 
 export const getXTime = year => new Date(`${year}`).getTime();
 
@@ -33,11 +34,87 @@ export const getRegionYearData = (year, regionColumnScores) =>
       count: parseFloat(regionColumnScores[year].count),
     })]
     : [];
+// prettier-ignore
+export const getRegionYearDataHigh = (
+  year,
+  regionColumnScoresSD,
+  regionColumnScoresMean,
+  interval,
+) => {
+  if (regionColumnScoresSD[year] && regionColumnScoresMean[year]) {
+    const sd = parseFloat(regionColumnScoresSD[year].average)
+    const mean = parseFloat(regionColumnScoresMean[year].average)
+    const value = mean + sd * CRITICAL_VALUE[interval];
+    return [({
+      syear: year,
+      x: getXTime(year),
+      y: value,
+      count: parseFloat(regionColumnScoresSD[year].count),
+    })];
+  }
+  return [];
+}
+// prettier-ignore
+export const getRegionYearDataLow = (
+  year,
+  regionColumnScoresSD,
+  regionColumnScoresMean,
+  interval,
+) => {
+  if (regionColumnScoresSD[year] && regionColumnScoresMean[year]) {
+    const sd = parseFloat(regionColumnScoresSD[year].average)
+    const mean = parseFloat(regionColumnScoresMean[year].average)
+    const value = mean - sd * CRITICAL_VALUE[interval];
+    return [({
+      syear: year,
+      x: getXTime(year),
+      y: value,
+      count: parseFloat(regionColumnScoresSD[year].count),
+    })];
+  }
+  return [];
+}
+
 export const getRegionData = regionColumnScores =>
   Object.keys(regionColumnScores).reduce(
     (memo, year) => [...memo, ...getRegionYearData(year, regionColumnScores)],
     [],
   );
+export const getRegionDataHigh = (
+  regionColumnScoresSD,
+  regionColumnScoresMean,
+  interval,
+) =>
+  Object.keys(regionColumnScoresSD).reduce(
+    (memo, year) => [
+      ...memo,
+      ...getRegionYearDataHigh(
+        year,
+        regionColumnScoresSD,
+        regionColumnScoresMean,
+        interval,
+      ),
+    ],
+    [],
+  );
+export const getRegionDataLow = (
+  regionColumnScoresSD,
+  regionColumnScoresMean,
+  interval,
+) =>
+  Object.keys(regionColumnScoresSD).reduce(
+    (memo, year) => [
+      ...memo,
+      ...getRegionYearDataLow(
+        year,
+        regionColumnScoresSD,
+        regionColumnScoresMean,
+        interval,
+      ),
+    ],
+    [],
+  );
+
 // prettier-ignore
 export const getCountryYearData = (year, countryColumnScores) =>
   countryColumnScores[year]

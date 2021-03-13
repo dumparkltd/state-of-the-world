@@ -538,6 +538,14 @@ export default defineMessages({
       id: `${scope}.un_regions.world`,
       defaultMessage: 'World',
     },
+    all: {
+      id: `${scope}.un_regions.all`,
+      defaultMessage: 'All regions',
+    },
+    none: {
+      id: `${scope}.un_regions.none`,
+      defaultMessage: 'Without UN region',
+    },
   },
   un_regions_short: {
     AG: {
@@ -563,6 +571,14 @@ export default defineMessages({
     world: {
       id: `${scope}.un_regions_short.world`,
       defaultMessage: 'World',
+    },
+    all: {
+      id: `${scope}.un_regions_short.all`,
+      defaultMessage: 'All',
+    },
+    none: {
+      id: `${scope}.un_regions.none`,
+      defaultMessage: 'Without region',
     },
   },
   income: {

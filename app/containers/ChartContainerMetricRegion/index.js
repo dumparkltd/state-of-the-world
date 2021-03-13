@@ -68,17 +68,17 @@ export function ChartContainerMetricRegion({
         settings={{ standard: metric.type === 'esr' }}
       />
       <ChartMetricTrend
+        mode="detail-region"
         scores={scores}
         maxYear={isESR ? maxYearESR : maxYearCPR}
         minYear={isESR ? minYearESR : minYearCPR}
         maxValue={isESR ? 100 : 11}
         benchmark={benchmark}
         metric={metric}
-        mode="detail"
-        unRegionFilterValue={unRegionFilterValue}
+        onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
+        unRegionFilterValue={unRegionFilterValue || 'world'}
         onCountryClick={onCountryClick}
         unRegionTotals={unRegionTotals}
-        onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
       />
     </div>
   );

@@ -51,7 +51,7 @@ function CardHeader({
             </Text>
           </ButtonTitle>
         </Box>
-        {mode === 'multi' && (
+        {mode === 'multi-region' && (
           <Box flex={{ shrink: 0 }}>
             <Box direction="row" gap="xsmall" justify="between">
               <Text size="small">

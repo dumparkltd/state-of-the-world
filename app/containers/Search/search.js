@@ -28,7 +28,7 @@ export const prepCountries = (countries, search, intl) =>
       const code = country[COLUMNS.COUNTRIES.CODE];
       return {
         code,
-        group: country[COLUMNS.COUNTRIES.UN_REGION],
+        group: country[COLUMNS.COUNTRIES.UN_REGION] || 'none',
         label: rootMessages.countries[code]
           ? intl.formatMessage(rootMessages.countries[code])
           : code,

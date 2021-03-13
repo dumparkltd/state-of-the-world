@@ -51,11 +51,16 @@ export const ASIDE_LAYER = 'hrmi/App/ASIDE_LAYER';
 export const HIGHLIGHT_COUNTRY = 'hrmi/App/HIGHLIGHT_COUNTRY';
 export const SHOW_WELCOME = 'hrmi/App/SHOW_WELCOME';
 
+export const CRITICAL_VALUE = {
+  80: 1.282,
+};
+
 export const COLUMNS = {
   CPR: {
     MEAN: 'mean',
     LO: 'lobound_10',
     HI: 'upbound_90',
+    SD: 'sd',
     METRIC: 'metric_code',
   },
   ESR: {
@@ -220,6 +225,9 @@ export const COUNTRY_SORTS = {
 
 export const UN_REGIONS = {
   options: [
+    {
+      key: 'all',
+    },
     {
       key: 'world',
       aggregate: true,

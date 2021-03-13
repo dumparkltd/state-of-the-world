@@ -121,13 +121,13 @@ export function ChartContainerRightsMulti({
                     )}
                   >
                     <ChartMetricTrend
+                      mode="multi-region"
                       scores={right.scores}
                       maxYear={maxYear}
                       minYear={minYear}
                       maxValue={isESR ? 100 : 11}
                       benchmark={benchmark}
                       metric={getMetricDetails(right.key)}
-                      mode="multi"
                       onSelectMetric={(tab, year) =>
                         onSelectMetric(right.key, tab, year)
                       }

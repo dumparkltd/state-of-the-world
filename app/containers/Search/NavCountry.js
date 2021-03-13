@@ -68,6 +68,8 @@ export function NavCountry({
   const groupKeys = Object.keys(grouped).sort((a, b) => {
     const aLabel = intl.formatMessage(rootMessages.un_regions[a]);
     const bLabel = intl.formatMessage(rootMessages.un_regions[b]);
+    if (a === 'none') return 1;
+    if (b === 'none') return -1;
     return aLabel < bLabel ? -1 : 1;
   });
 

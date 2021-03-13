@@ -35,6 +35,7 @@ function CardFooter({
 
   const count =
     unRegionFilterValue &&
+    unRegionFilterValue !== 'all' &&
     getRegionYearCount(year, regionScores[unRegionFilterValue][column]);
 
   if (unRegionFilterValue && count === total) return null;
@@ -54,7 +55,7 @@ function CardFooter({
   };
   return (
     <Styled>
-      {!unRegionFilterValue && (
+      {(!unRegionFilterValue || unRegionFilterValue === 'all') && (
         <Hint>
           <Text size="xxsmall">
             <FormattedMessage {...messages.noteAssessmentMultiple} />
@@ -108,7 +109,7 @@ function CardFooter({
 }
 
 CardFooter.propTypes = {
-  unRegionFilterValue: PropTypes.string,
+  unRegionFilterValue: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   column: PropTypes.string,
   regionScores: PropTypes.object,
   regionTotals: PropTypes.object,

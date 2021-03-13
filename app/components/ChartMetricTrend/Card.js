@@ -9,9 +9,6 @@ export default styled.div`
   padding: 10px;
   padding-top: 10px;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
-    padding-right: ${({ mode }) => {
-    if (mode === 'detail') return '200px';
-    return '10px';
-  }};
+    padding-right: ${({ padRight }) => (padRight ? 200 : 10)}px;
   }
 `;
