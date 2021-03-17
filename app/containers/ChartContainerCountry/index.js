@@ -144,7 +144,6 @@ export function ChartContainerCountry({
                             regionScores={regionScores}
                             maxYear={maxYearESR}
                             minYear={minYearESR}
-                            maxValue={100}
                             benchmark={benchmark}
                             metric={getMetricDetails(right.key)}
                             mode="multi-country"
@@ -198,7 +197,8 @@ export function ChartContainerCountry({
                             }}
                             maxYear={maxYearCPR}
                             minYear={minYearCPR}
-                            maxValue={10}
+                            maxValue={12}
+                            minValue={-1}
                             benchmark={benchmark}
                             metric={getMetricDetails(right.key)}
                             mode="multi-country"

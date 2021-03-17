@@ -14,28 +14,121 @@ import rootMessages from 'messages';
 
 const Styled = styled.div`
   display: block;
-  height: ${({ height, margin }) => {
-    if (margin) {
-      return height - (margin.top || 0) - (margin.bottom || 0);
-    }
-    return height;
-  }}px;
+  height: ${({ height }) => height}px;
   position: absolute;
   right: 0;
   top: ${({ margin }) => margin.top || 0}px;
   width: 200px;
 `;
 const CountryLabel = styled(Box)`
+  position: absolute;
+  left: 0;
+  top: ${({ offsetY }) => offsetY}px;
   font-weight: bold;
   color: ${({ regionCode, theme }) => theme.global.colors[regionCode]};
+  transform: translateY(-50%);
+  margin-top: -1px;
 `;
 // color: ${({ region }) => }
 const RegionLabel = styled(Box)`
+  position: absolute;
+  left: 0;
+  top: ${({ offsetY }) => offsetY}px;
   font-weight: bold;
   font-weight: ${({ inactive }) => (inactive ? 'normal' : 'bold')};
   color: ${({ regionCode, inactive, theme }) =>
     inactive ? 'grey' : theme.global.colors[regionCode]};
+  transform: translateY(-50%);
+  margin-top: -1px;
 `;
+// background: yellow;
+// border: 1px solid;
+
+const prepRegions = (
+  regionScores,
+  column,
+  year,
+  height,
+  maxLabelHeight,
+  range,
+  minValue,
+  maxYear,
+) =>
+  regionScores &&
+  Object.keys(regionScores)
+    .map(regionCode => {
+      const rScores = regionScores[regionCode][column];
+      const yearScore = rScores[year];
+      const maxYearScore = rScores[maxYear];
+      return {
+        value: yearScore ? yearScore.average : null,
+        valueMaxYear: maxYearScore ? maxYearScore.average : null,
+        count: yearScore ? yearScore.count : null,
+        code: regionCode,
+      };
+    })
+    .sort((a, b) => {
+      if (!a || !b) return 1;
+      return a.valueMaxYear > b.valueMaxYear ? -1 : 1;
+    })
+    .reduce((memo, region) => {
+      const { valueMaxYear } = region;
+      const minOffset =
+        memo.length > 0 ? memo[memo.length - 1].offset + maxLabelHeight : 0;
+      const offset = Math.max(
+        minOffset,
+        (1 - (valueMaxYear - minValue) / range) * height,
+      );
+      // console.log(valueMaxYear, minOffset, offset, valueMaxYear / maxValue)
+      return [
+        ...memo,
+        {
+          ...region,
+          offset,
+        },
+      ];
+    }, []);
+const prepHiCountry = (
+  regions,
+  countriesScores,
+  highlightCountry,
+  column,
+  year,
+  height,
+  maxLabelHeight,
+  range,
+  minValue,
+  maxYear,
+) => {
+  const scores =
+    highlightCountry &&
+    countriesScores &&
+    countriesScores[highlightCountry] &&
+    countriesScores[highlightCountry][column];
+  const value = scores && scores[year] && scores[year].score;
+  let valueMaxYear;
+  let offset;
+  if (scores) {
+    valueMaxYear = scores[maxYear]
+      ? scores[maxYear].score
+      : scores[Object.keys(scores)[Object.keys(scores).length - 1]].score;
+    offset = (1 - (valueMaxYear - minValue) / range) * height;
+    const regionOffset = regions && regions[0].offset;
+    if (Math.abs(offset - regionOffset) < maxLabelHeight) {
+      if (offset < regionOffset) {
+        offset = regionOffset - maxLabelHeight;
+      } else {
+        offset = regionOffset + maxLabelHeight;
+      }
+    }
+  }
+
+  return {
+    value,
+    offset,
+  };
+};
+
 function ScoreSheet({
   height,
   margin,
@@ -47,13 +140,41 @@ function ScoreSheet({
   column,
   intl,
   metric,
+  maxValue,
+  minValue,
+  maxYear,
 }) {
+  // const maxValue = metric.type === 'esr' ? 100 : 10;
+  const styledHeight = margin
+    ? height - (margin.top || 0) - (margin.bottom || 0)
+    : height;
+
+  const regions =
+    regionScores &&
+    prepRegions(
+      regionScores,
+      column,
+      year,
+      styledHeight,
+      15,
+      maxValue - minValue,
+      minValue,
+      maxYear,
+    );
   const hiCountry =
     highlightCountry &&
-    countriesScores &&
-    countriesScores[highlightCountry] &&
-    countriesScores[highlightCountry][column] &&
-    countriesScores[highlightCountry][column][year];
+    prepHiCountry(
+      regions,
+      countriesScores,
+      highlightCountry,
+      column,
+      year,
+      styledHeight,
+      15,
+      maxValue - minValue,
+      minValue,
+      maxYear,
+    );
   /* eslint-disable no-console */
   if (hiCountry && !rootMessages.countries[highlightCountry]) {
     console.log('Country code not in language files:', highlightCountry);
@@ -63,55 +184,34 @@ function ScoreSheet({
     highlightCountry && rootMessages.countries[highlightCountry]
       ? intl.formatMessage(rootMessages.countries[highlightCountry])
       : highlightCountry;
-
   return (
-    <Styled height={height} margin={margin}>
-      <div>
-        <strong>{year}</strong>
-      </div>
-      <div>
-        {regionScores &&
-          Object.keys(regionScores)
-            .map(regionCode => {
-              const rScores = regionScores[regionCode][column];
-              const yearScore = rScores[year];
-              return {
-                value: yearScore ? yearScore.average : null,
-                count: yearScore ? yearScore.count : null,
-                code: regionCode,
-              };
-            })
-            .sort((a, b) => {
-              if (!a || !b) return 1;
-              return a.value > b.value ? -1 : 1;
-            })
-            .map(
-              region =>
-                region.value && (
-                  <RegionLabel
-                    key={region.code}
-                    direction="row"
-                    gap="xsmall"
-                    inactive={
-                      highlightRegion && region.code !== highlightRegion
-                    }
-                    regionCode={region.code}
-                    align="center"
-                  >
-                    <Text size="xsmall">
-                      {`${formatScore(region.value, 1, intl)}${
-                        metric.type === 'esr' ? '%' : ''
-                      }`}
-                    </Text>
-                    <Text size="xxsmall">
-                      <FormattedMessage
-                        {...rootMessages.un_regions[region.code]}
-                      />
-                    </Text>
-                  </RegionLabel>
-                ),
-            )}
-      </div>
+    <Styled height={styledHeight} margin={margin}>
+      {regions &&
+        regions.map(
+          region =>
+            region.value && (
+              <RegionLabel
+                key={region.code}
+                direction="row"
+                gap="xsmall"
+                inactive={highlightRegion && region.code !== highlightRegion}
+                regionCode={region.code}
+                align="center"
+                offsetY={region.offset}
+              >
+                <Text size="xsmall">
+                  {`${formatScore(region.value, 1, intl)}${
+                    metric.type === 'esr' ? '%' : ''
+                  }`}
+                </Text>
+                <Text size="xxsmall">
+                  <FormattedMessage
+                    {...rootMessages.un_regions_short[region.code]}
+                  />
+                </Text>
+              </RegionLabel>
+            ),
+        )}
       {hiCountry && (
         <CountryLabel
           direction="row"
@@ -122,11 +222,14 @@ function ScoreSheet({
             Object.keys(regionScores) &&
             Object.keys(regionScores)[0]
           }
+          offsetY={hiCountry.offset}
         >
           <Text size="xsmall">
-            {`${formatScore(hiCountry.score, 1, intl)}${
-              metric.type === 'esr' ? '%' : ''
-            }`}
+            {hiCountry.value &&
+              `${formatScore(hiCountry.value, 1, intl)}${
+                metric.type === 'esr' ? '%' : ''
+              }`}
+            {!hiCountry.value && 'N/A'}
           </Text>
           <Text size="xxsmall">{countryTitle}</Text>
         </CountryLabel>
@@ -144,6 +247,9 @@ ScoreSheet.propTypes = {
   highlightCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   highlightRegion: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   column: PropTypes.string,
+  maxValue: PropTypes.number,
+  minValue: PropTypes.number,
+  maxYear: PropTypes.string,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   intl: intlShape.isRequired,
 };

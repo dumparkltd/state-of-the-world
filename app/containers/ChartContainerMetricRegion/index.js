@@ -81,7 +81,8 @@ export function ChartContainerMetricRegion({
         scores={scores}
         maxYear={isESR ? maxYearESR : maxYearCPR}
         minYear={isESR ? minYearESR : minYearCPR}
-        maxValue={isESR ? 100 : 11}
+        maxValue={isESR ? 100 : 12}
+        minValue={isESR ? 0 : -1}
         benchmark={benchmark}
         metric={metric}
         onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}

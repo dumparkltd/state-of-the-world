@@ -29,7 +29,8 @@ function ChartMetricTrend({
   scores,
   maxYear,
   minYear,
-  maxValue,
+  maxValue = 100,
+  minValue = 0,
   benchmark,
   metric,
   mode,
@@ -49,8 +50,8 @@ function ChartMetricTrend({
   // dummy data to force the area plot from 0
   // with some horizontal padding, hard-coded
   const dataForceYRange = [
-    { x: getXTime(minYear) - 15000000000, y: 0 },
-    { x: getXTime(maxYear) + 15000000000, y: maxValue },
+    { x: getXTime(minYear), y: minValue },
+    { x: getXTime(maxYear), y: maxValue },
   ];
   const tickValuesY = getTickValuesY(metric.type, mode);
   const regionScores = scores.regions;
@@ -91,8 +92,8 @@ function ChartMetricTrend({
             )}
             {mode === 'detail-region' && (
               <ScoreSheet
-                margin={{ bottom: 30, top: 10 }}
-                height={h}
+                margin={{ bottom: 30, top: 20 }}
+                height={h + 20}
                 highlightCountry={highlightCountry}
                 highlightRegion={highlightRegion}
                 countriesScores={countriesScores}
@@ -100,6 +101,9 @@ function ChartMetricTrend({
                 year={year}
                 column={column}
                 metric={metric}
+                maxValue={maxValue}
+                minValue={minValue}
+                maxYear={maxYear}
               />
             )}
             {mode === 'detail-region' && (
@@ -182,6 +186,7 @@ ChartMetricTrend.propTypes = {
   maxYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   minYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   maxValue: PropTypes.number,
+  minValue: PropTypes.number,
   mode: PropTypes.string,
   benchmark: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

@@ -158,6 +158,7 @@ function PlotDetailRegion({
       <XAxis
         tickFormat={timeFormat('%Y')}
         style={{
+          line: { strokeWidth: 0 },
           ticks: { strokeWidth: 1 },
         }}
         tickValues={tickValuesX}
@@ -166,6 +167,7 @@ function PlotDetailRegion({
       <YAxis
         tickFormat={value => (metric.type === 'esr' ? `${value}%` : value)}
         style={{
+          line: { strokeWidth: 0 },
           ticks: { strokeWidth: 1 },
         }}
         tickSize={3}

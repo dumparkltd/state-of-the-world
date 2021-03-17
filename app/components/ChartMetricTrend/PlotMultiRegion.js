@@ -135,6 +135,7 @@ function PlotMultiRegion({
       <XAxis
         tickFormat={timeFormat('%Y')}
         style={{
+          line: { strokeWidth: 0 },
           ticks: { strokeWidth: 1 },
         }}
         tickValues={tickValuesX}
@@ -145,6 +146,7 @@ function PlotMultiRegion({
           metric.type === 'esr' ? `${value}%` : value
         }
         style={{
+          line: { strokeWidth: 0 },
           ticks: { strokeWidth: 1 },
         }}
         tickSize={3}
@@ -235,7 +237,7 @@ function PlotMultiRegion({
         >
           <PlotHintHighlight>
             <FormattedMessage
-              {...rootMessages.un_regions[highlightRegion]}
+              {...rootMessages.un_regions_short[highlightRegion]}
             />
           </PlotHintHighlight>
         </Hint>

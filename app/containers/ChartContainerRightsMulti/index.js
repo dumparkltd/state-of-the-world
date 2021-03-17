@@ -126,7 +126,8 @@ export function ChartContainerRightsMulti({
                       scores={right.scores}
                       maxYear={maxYear}
                       minYear={minYear}
-                      maxValue={isESR ? 100 : 11}
+                      maxValue={isESR ? 100 : 12}
+                      minValue={isESR ? 0 : -1}
                       benchmark={benchmark}
                       metric={getMetricDetails(right.key)}
                       onSelectMetric={(tab, year) =>
