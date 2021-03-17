@@ -37,6 +37,7 @@ function ChartMetricTrend({
   onCountryClick,
   onSetRegionFilter,
   onSelectMetric,
+  onSelectPage,
   unRegionTotals,
 }) {
   const [highlightYear, setYear] = useState(false);
@@ -93,6 +94,7 @@ function ChartMetricTrend({
                 margin={{ bottom: 30, top: 10 }}
                 height={h}
                 highlightCountry={highlightCountry}
+                highlightRegion={highlightRegion}
                 countriesScores={countriesScores}
                 regionScores={regionScores}
                 year={year}
@@ -111,6 +113,7 @@ function ChartMetricTrend({
                 column={column}
                 metric={metric}
                 unRegionFilterValue={unRegionFilterValue}
+                onSetRegionFilter={onSetRegionFilter}
                 onCountryClick={onCountryClick}
                 setYear={setYear}
                 setCountry={setCountry}
@@ -151,21 +154,21 @@ function ChartMetricTrend({
                 tickValuesX={tickValuesX}
                 tickValuesY={tickValuesY}
                 dataForceYRange={dataForceYRange}
-                minYear={minYear}
               />
             )}
-            {(mode === 'multi-region' || mode === 'detail-region') && (
-              <CardFooter
-                regionScores={regionScores}
-                year={year}
-                column={column}
-                unRegionFilterValue={unRegionFilterValue}
-                regionTotals={unRegionTotals}
-                isESR={metric.type === 'esr'}
-                metric={metric}
-                onSelectMetric={onSelectMetric}
-              />
-            )}
+            <CardFooter
+              mode={mode}
+              regionScores={regionScores}
+              countryScores={scores.country}
+              year={year}
+              column={column}
+              unRegionFilterValue={unRegionFilterValue}
+              regionTotals={unRegionTotals}
+              isESR={metric.type === 'esr'}
+              metric={metric}
+              onSelectMetric={onSelectMetric}
+              onSelectPage={onSelectPage}
+            />
           </Card>
         );
       }}
@@ -185,6 +188,7 @@ ChartMetricTrend.propTypes = {
   onCountryClick: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
   onSelectMetric: PropTypes.func,
+  onSelectPage: PropTypes.func,
 };
 
 export default ChartMetricTrend;

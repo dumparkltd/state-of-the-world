@@ -52,6 +52,7 @@ function PlotDetailRegion({
   tickValuesX,
   tickValuesY,
   dataForceYRange,
+  onSetRegionFilter,
 }) {
   return (
     <FlexibleWidthXYPlot
@@ -64,7 +65,7 @@ function PlotDetailRegion({
         left: 30,
       }}
       style={{
-        cursor: highlightRegion ? 'pointer' : 'default',
+        cursor: highlightRegion || highlightCountry ? 'pointer' : 'default',
       }}
       onMouseLeave={() => {
         setRegion(false);
@@ -76,6 +77,9 @@ function PlotDetailRegion({
         }
         if (!highlightCountry) {
           onCountryClick();
+        }
+        if (highlightRegion) {
+          onSetRegionFilter(highlightRegion);
         }
       }}
     >
@@ -189,15 +193,14 @@ function PlotDetailRegion({
       {/* all region lines */}
       {regionScores &&
         Object.keys(regionScores)
-          .sort((a, b) =>
-            sortRegions(a, b, unRegionFilterValue, highlightRegion),
-          )
+          .sort((a, b) => sortRegions(a, b, highlightRegion))
           .map(region => {
             const color =
               !highlightRegion || highlightRegion === region
                 ? theme.global.colors[region]
                 : theme.global.colors['dark-4'];
-            let strokeWidth = 2.5;
+            let strokeWidth =
+              !highlightRegion || highlightRegion === region ? 2.5 : 1.5;
             if (metric.type === 'cpr') {
               strokeWidth = 1.5;
             }
@@ -218,24 +221,26 @@ function PlotDetailRegion({
               />
             );
           })}
-      {/* all region markers */}
+      {/* all region markers except highlighted (could altern. sort) */}
       {regionScores &&
-        Object.keys(regionScores).map(region => {
-          const color =
-            !highlightRegion || highlightRegion === region
-              ? theme.global.colors[region]
-              : theme.global.colors['dark-4'];
-          const msize = 4;
-          return (
-            <MarkSeries
-              key={region}
-              data={getRegionYearData(year, regionScores[region][column])}
-              stroke={color}
-              fill={color}
-              size={msize}
-            />
-          );
-        })}
+        Object.keys(regionScores)
+          .sort((a, b) => sortRegions(a, b, highlightRegion))
+          .map(region => {
+            const color =
+              !highlightRegion || highlightRegion === region
+                ? theme.global.colors[region]
+                : theme.global.colors['dark-4'];
+            const msize = 4;
+            return (
+              <MarkSeries
+                key={region}
+                data={getRegionYearData(year, regionScores[region][column])}
+                stroke={color}
+                fill={color}
+                size={msize}
+              />
+            );
+          })}
       {/* highlighted country line */}
       {countriesScores &&
         highlightCountry &&
@@ -275,6 +280,7 @@ PlotDetailRegion.propTypes = {
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
+  onSetRegionFilter: PropTypes.func,
   setYear: PropTypes.func,
   highlightRegion: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   highlightCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

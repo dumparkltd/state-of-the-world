@@ -51,7 +51,6 @@ const CardWrapper = styled(Box)`
 const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
 const getCardWidth = (width, number, theme) => {
   const edge = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
-  // console.log(width, number, width / number - edge * 2)
   return `${width / number - edge * 2}px`;
 };
 
@@ -99,6 +98,7 @@ export function ChartContainerCountry({
   }, []);
 
   if (!dataReady) return <LoadingIndicator />;
+
   return (
     <div ref={ref}>
       <ResponsiveContext.Consumer>

@@ -6,7 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 
 import styled, { withTheme } from 'styled-components';
 import {
@@ -26,13 +26,10 @@ import {
   getCountryYearData,
   sortRegions,
   getRegionData,
-  getRegionYearData,
 } from 'utils/charts';
 import { formatScoreMax } from 'utils/scores';
 
 import { COLUMNS } from 'containers/App/constants';
-
-import rootMessages from 'messages';
 
 const PlotHint = styled.div`
   color: ${({ color, theme }) => (color ? theme.global.colors[color] : 'grey')};
@@ -40,14 +37,6 @@ const PlotHint = styled.div`
   margin-bottom: 5px;
   width: auto;
   font-weight: 600;
-`;
-const PlotHintRegion = styled.div`
-  color: grey;
-  margin-bottom: 2px;
-  width: 100px;
-  font-size: 10px;
-  line-height: 12px;
-  text-align: left;
 `;
 
 // const isEven = n => n % 2 === 0;
@@ -68,7 +57,6 @@ function PlotMultiCountry({
   tickValuesX,
   tickValuesY,
   dataForceYRange,
-  minYear,
 }) {
   let countryYearData;
   if (countryScores && countryScores[column]) {
@@ -77,9 +65,6 @@ function PlotMultiCountry({
         ? getCountryYearData(year, countryScores[column])
         : getCountryData(countryScores[column]);
   }
-  const regionMinYearData =
-    regionScores &&
-    getRegionYearData(minYear, regionScores[unRegionFilterValue][column]);
   // prettier-ignore
   return (
     <FlexibleWidthXYPlot
@@ -162,19 +147,6 @@ function PlotMultiCountry({
               />
             );
           })}
-      {regionMinYearData &&
-        regionMinYearData.length > 0 && (
-        <Hint
-          value={regionMinYearData[0]}
-          align={{ vertical: 'top', horizontal: 'right' }}
-        >
-          <PlotHintRegion>
-            <FormattedMessage
-              {...rootMessages.labels.regionRefScore}
-            />
-          </PlotHintRegion>
-        </Hint>
-      )}
       {countryScores && (
         <LineSeries
           data={getCountryData(countryScores[column])}
@@ -222,17 +194,14 @@ PlotMultiCountry.propTypes = {
   theme: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  onSetRegionFilter: PropTypes.func,
   setYear: PropTypes.func,
   highlightRegion: PropTypes.string,
-  setRegion: PropTypes.func,
   tickValuesX: PropTypes.array,
   tickValuesY: PropTypes.array,
   dataForceYRange: PropTypes.array,
   regionScores: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   countryScores: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   year: PropTypes.string,
-  minYear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   column: PropTypes.string,
   height: PropTypes.number,
   intl: intlShape.isRequired,

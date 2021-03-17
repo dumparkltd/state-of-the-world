@@ -11,35 +11,49 @@ export const scope = 'hrmi.components.ChartMetricTrend';
 export default defineMessages({
   noteRatioLink: {
     id: `${scope}.noteRatioLink`,
-    defaultMessage: '{count} out of {total} countries',
+    defaultMessage: '{count} of {total} countries',
   },
-  noteAssessmentRatioWorld: {
-    id: `${scope}.noteAssessmentRatioWorld`,
-    defaultMessage:
-      'Note: for {year} the global average is only based on an assessment of {link} and may thus not be representative',
-  },
-  noteAssessmentRatioRegion: {
-    id: `${scope}.noteAssessmentRatioRegion`,
-    defaultMessage:
-      'Note: for {year} the regional average is only based on an assessment of {link} in that region and may thus not be representative',
+  noteAssessmentRatio: {
+    id: `${scope}.noteAssessmentRatio`,
+    defaultMessage: 'Based on {link} only and may thus not be representative. ',
   },
   noteAssessmentNoneWorld: {
     id: `${scope}.noteAssessmentNoneWorld`,
-    defaultMessage: 'Note: for {year} no countries were assessed',
+    defaultMessage: 'No countries were assessed in {year}',
   },
   noteAssessmentNoneRegion: {
     id: `${scope}.noteAssessmentNoneRegion`,
     defaultMessage:
-      'Note: for {year} no countries were assessed in that region',
+      'No countries were assessed in {year} for the selected UN group',
   },
   noteAssessmentNoneRegionESR: {
     id: `${scope}.noteAssessmentNoneRegionESR`,
     defaultMessage:
-      'Note: for {year} no countries were assessed in that region and for selected assessment standard',
+      'No countries assessed for selected UN group and assessment standard',
   },
   noteAssessmentMultiple: {
     id: `${scope}.noteAssessmentMultiple`,
     defaultMessage:
-      'Note: regional averages may not be representative due to missing country data',
+      'UN group averages may not be representative due to missing country data',
+  },
+  noteCredibleIntervalRegions: {
+    id: `${scope}.noteCredibleIntervalRegions`,
+    defaultMessage: 'Mean score with 80% credible interval ({link}) ',
+  },
+  noteCredibleIntervalLinkRegions: {
+    id: `${scope}.noteCredibleIntervalLinkRegions`,
+    defaultMessage: 'click here for details',
+  },
+  noteCredibleIntervalCountry: {
+    id: `${scope}.noteCredibleIntervalCountry`,
+    defaultMessage: '80% credible interval ({link}) ',
+  },
+  noteCredibleIntervalLinkCountry: {
+    id: `${scope}.noteCredibleIntervalLinkCountry`,
+    defaultMessage: 'details',
+  },
+  noteUNRegionAverage: {
+    id: `${scope}.noteRegionEverage`,
+    defaultMessage: '{group} average',
   },
 });

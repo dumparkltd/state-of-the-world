@@ -6,7 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { FormattedMessage } from 'react-intl';
 import { withTheme } from 'styled-components';
 import {
   FlexibleWidthXYPlot,
@@ -16,6 +16,7 @@ import {
   AreaSeries,
   HorizontalGridLines,
   MarkSeries,
+  Hint,
 } from 'react-vis';
 import { utcFormat as timeFormat } from 'd3-time-format';
 
@@ -28,6 +29,9 @@ import {
   getRegionDataLow,
   getRegionDataHigh,
 } from 'utils/charts';
+
+import rootMessages from 'messages';
+import PlotHintHighlight from './PlotHintHighlight';
 
 // const isEven = n => n % 2 === 0;
 // const isOdd = n => Math.abs(n % 2) === 1;
@@ -48,6 +52,17 @@ function PlotMultiRegion({
   tickValuesY,
   dataForceYRange,
 }) {
+  let highlightRegionHint;
+  if (
+    highlightRegion &&
+    regionScores &&
+    regionScores[highlightRegion] &&
+    regionScores[highlightRegion][column]
+  ) {
+    const regionColumnScores = regionScores[highlightRegion][column];
+    const years = Object.keys(regionColumnScores);
+    highlightRegionHint = getRegionYearData(years[0], regionColumnScores);
+  }
   // console.log(metric, regionScores)
   // prettier-ignore
   return (
@@ -212,6 +227,19 @@ function PlotMultiRegion({
               }}
             />
           ))}
+      {highlightRegionHint &&
+        highlightRegionHint.length > 0 && (
+        <Hint
+          value={highlightRegionHint[0]}
+          align={{ vertical: 'bottom', horizontal: 'right' }}
+        >
+          <PlotHintHighlight>
+            <FormattedMessage
+              {...rootMessages.un_regions[highlightRegion]}
+            />
+          </PlotHintHighlight>
+        </Hint>
+      )}
     </FlexibleWidthXYPlot>
   );
 }
@@ -239,7 +267,7 @@ PlotMultiRegion.propTypes = {
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onSetRegionFilter: PropTypes.func,
   setYear: PropTypes.func,
-  highlightRegion: PropTypes.string,
+  highlightRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   setRegion: PropTypes.func,
   tickValuesX: PropTypes.array,
   tickValuesY: PropTypes.array,

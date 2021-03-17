@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import styled, { withTheme } from 'styled-components';
 import { Box, ResponsiveContext } from 'grommet';
 
-import { RIGHTS } from 'containers/App/constants';
+import { RIGHTS, PATHS } from 'containers/App/constants';
 
 import {
   getMaxYearESR,
@@ -68,6 +68,7 @@ export function ChartContainerRightsMulti({
   onSelectMetric,
   theme,
   unRegionTotals,
+  onSelectPage,
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
@@ -131,6 +132,7 @@ export function ChartContainerRightsMulti({
                       onSelectMetric={(tab, year) =>
                         onSelectMetric(right.key, tab, year)
                       }
+                      onSelectPage={onSelectPage}
                       unRegionFilterValue={unRegionFilterValue || 'world'}
                       onSetRegionFilter={onSetRegionFilter}
                       unRegionTotals={unRegionTotals}
@@ -154,6 +156,7 @@ ChartContainerRightsMulti.propTypes = {
   onLoadData: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
   onSelectMetric: PropTypes.func,
+  onSelectPage: PropTypes.func,
   rightsScores: PropTypes.array,
   theme: PropTypes.object,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -180,6 +183,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onSelectPage: key => dispatch(navigate(`${PATHS.PAGE}/${key}`)),
     onSelectMetric: (metric, tab, year) =>
       dispatch(selectMetric(metric, tab, year)),
     // prettier-ignore

@@ -12,6 +12,9 @@ import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { Text } from 'grommet';
+
+import { PATHS } from 'containers/App/constants';
+
 import {
   getBenchmarkSearch,
   getESRScoresForUNRegionsCountries,
@@ -23,7 +26,11 @@ import {
   getUNRegionSearch,
   getUNRegionTotals,
 } from 'containers/App/selectors';
-import { loadDataIfNeeded, selectMetric } from 'containers/App/actions';
+import {
+  loadDataIfNeeded,
+  selectMetric,
+  navigate,
+} from 'containers/App/actions';
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
@@ -47,6 +54,8 @@ export function ChartContainerMetricRegion({
   onCountryClick,
   unRegionTotals,
   onSelectMetric,
+  onSelectPage,
+  onSetRegionFilter,
 }) {
   useEffect(() => {
     onLoadData();
@@ -78,7 +87,9 @@ export function ChartContainerMetricRegion({
         onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
         unRegionFilterValue={unRegionFilterValue || 'world'}
         onCountryClick={onCountryClick}
+        onSetRegionFilter={onSetRegionFilter}
         unRegionTotals={unRegionTotals}
+        onSelectPage={onSelectPage}
       />
     </div>
   );
@@ -98,6 +109,8 @@ ChartContainerMetricRegion.propTypes = {
   onCountryClick: PropTypes.func,
   unRegionTotals: PropTypes.object,
   onSelectMetric: PropTypes.func,
+  onSelectPage: PropTypes.func,
+  onSetRegionFilter: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -119,8 +132,22 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onSelectPage: key => dispatch(navigate(`${PATHS.PAGE}/${key}`)),
     onSelectMetric: (metric, tab, year) =>
       dispatch(selectMetric(metric, tab, year)),
+    // prettier-ignore
+    onSetRegionFilter: region =>
+      dispatch(navigate(
+        { search: `?unregion=${region}` },
+        {
+          replace: false,
+          trackEvent: {
+            category: 'Data',
+            action: 'Region filter (Home)',
+            value: `region/${region}`,
+          },
+        },
+      )),
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),
   };
