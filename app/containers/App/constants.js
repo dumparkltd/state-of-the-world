@@ -55,6 +55,11 @@ export const CRITICAL_VALUE = {
   80: 1.282,
 };
 
+export const TREND_THRESHOLDS = {
+  ESR: 0, // %
+  CPR: 0.5, // 0-10 point scale
+};
+
 export const COLUMNS = {
   CPR: {
     MEAN: 'mean',

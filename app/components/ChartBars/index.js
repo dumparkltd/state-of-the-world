@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl } from 'react-intl'; // not used now?
 import styled from 'styled-components';
 import { Box, ResponsiveContext } from 'grommet';
-import { injectIntl } from 'react-intl'; // not used now?
 
 import BarWrapper from './BarWrapper';
 import ListHeader from './ListHeader';

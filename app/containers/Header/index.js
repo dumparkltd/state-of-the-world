@@ -233,7 +233,7 @@ export function Header({
 
   const onHome = () => {
     setShowMenu(false);
-    nav({ pathname: '', search: '' });
+    nav('');
   };
 
   return (

@@ -15,13 +15,13 @@ import { formatScore } from 'utils/scores';
 import ButtonPlain from 'styled/ButtonPlain';
 import rootMessages from 'messages';
 
-const Styled = styled.div`
-  display: block;
-  height: ${({ height }) => height}px;
-  position: absolute;
-  right: 0;
-  top: ${({ margin }) => margin.top || 0}px;
+const Styled = styled(p => <Box flex={{ shrink: false }} {...p} />)`
   width: 200px;
+  padding-top: ${({ margin }) => margin.top || 0}px;
+  padding-bottom: ${({ margin }) => margin.bottom || 0}px;
+`;
+const Inner = styled(p => <Box fill {...p} />)`
+  position: relative;
 `;
 const CountryLabel = styled(Box)`
   position: absolute;
@@ -202,73 +202,79 @@ function ScoreSheet({
       ? intl.formatMessage(rootMessages.countries[highlightCountry])
       : highlightCountry;
   return (
-    <Styled height={styledHeight} margin={margin}>
-      {regions &&
-        regions.map(
-          region =>
-            region.value && (
-              <RegionButton
-                key={region.code}
-                offsetY={region.offset}
-                onClick={() =>
-                  unRegionFilterValue === 'all' &&
-                  onSetRegionFilter(region.code)
-                }
-                onMouseOver={() =>
-                  unRegionFilterValue === 'all' && setRegion(region.code)
-                }
-                onFocus={() =>
-                  unRegionFilterValue === 'all' && setRegion(region.code)
-                }
-                onMouseOut={() =>
-                  unRegionFilterValue === 'all' && setRegion(false)
-                }
-                onBlur={() => unRegionFilterValue === 'all' && setRegion(false)}
-                disabled={unRegionFilterValue === 'world'}
-              >
-                <RegionLabel
-                  direction="row"
-                  gap="xsmall"
-                  inactive={highlightRegion && region.code !== highlightRegion}
-                  regionCode={region.code}
-                  align="center"
+    <Styled margin={margin}>
+      <Inner>
+        {regions &&
+          regions.map(
+            region =>
+              region.value && (
+                <RegionButton
+                  key={region.code}
+                  offsetY={region.offset}
+                  onClick={() =>
+                    unRegionFilterValue === 'all' &&
+                    onSetRegionFilter(region.code)
+                  }
+                  onMouseOver={() =>
+                    unRegionFilterValue === 'all' && setRegion(region.code)
+                  }
+                  onFocus={() =>
+                    unRegionFilterValue === 'all' && setRegion(region.code)
+                  }
+                  onMouseOut={() =>
+                    unRegionFilterValue === 'all' && setRegion(false)
+                  }
+                  onBlur={() =>
+                    unRegionFilterValue === 'all' && setRegion(false)
+                  }
+                  disabled={unRegionFilterValue === 'world'}
                 >
-                  <Text size="xsmall">
-                    {`${formatScore(region.value, 1, intl)}${
-                      metric.type === 'esr' ? '%' : ''
-                    }`}
-                  </Text>
-                  <Text size="xxsmall">
-                    <FormattedMessage
-                      {...rootMessages.un_regions_short[region.code]}
-                    />
-                  </Text>
-                </RegionLabel>
-              </RegionButton>
-            ),
+                  <RegionLabel
+                    direction="row"
+                    gap="xsmall"
+                    inactive={
+                      highlightRegion && region.code !== highlightRegion
+                    }
+                    regionCode={region.code}
+                    align="center"
+                  >
+                    <Text size="xsmall">
+                      {`${formatScore(region.value, 1, intl)}${
+                        metric.type === 'esr' ? '%' : ''
+                      }`}
+                    </Text>
+                    <Text size="xxsmall">
+                      <FormattedMessage
+                        {...rootMessages.un_regions_short[region.code]}
+                      />
+                    </Text>
+                  </RegionLabel>
+                </RegionButton>
+              ),
+          )}
+        {hiCountry && (
+          <CountryLabel
+            direction="row"
+            gap="xsmall"
+            align="center"
+            regionCode={
+              regionScores &&
+              Object.keys(regionScores) &&
+              Object.keys(regionScores)[0]
+            }
+            offsetY={hiCountry.offset}
+          >
+            <Text size="xsmall">
+              {hiCountry.value &&
+                `${formatScore(hiCountry.value, 1, intl)}${
+                  metric.type === 'esr' ? '%' : ''
+                }`}
+              {!hiCountry.value && 'N/A'}
+            </Text>
+            <Text size="xxsmall">{countryTitle}</Text>
+          </CountryLabel>
         )}
-      {hiCountry && (
-        <CountryLabel
-          direction="row"
-          gap="xsmall"
-          align="center"
-          regionCode={
-            regionScores &&
-            Object.keys(regionScores) &&
-            Object.keys(regionScores)[0]
-          }
-          offsetY={hiCountry.offset}
-        >
-          <Text size="xsmall">
-            {hiCountry.value &&
-              `${formatScore(hiCountry.value, 1, intl)}${
-                metric.type === 'esr' ? '%' : ''
-              }`}
-            {!hiCountry.value && 'N/A'}
-          </Text>
-          <Text size="xxsmall">{countryTitle}</Text>
-        </CountryLabel>
-      )}
+      </Inner>
     </Styled>
   );
 }

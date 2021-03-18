@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import styled, { withTheme } from 'styled-components';
-import { Box, ResponsiveContext } from 'grommet';
+import { Box, ResponsiveContext, Text } from 'grommet';
 
 import { RIGHTS, PATHS } from 'containers/App/constants';
 
@@ -34,12 +34,14 @@ import {
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
+
+import ButtonText from 'styled/ButtonText';
 import WrapPlot from 'styled/WrapPlot';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize, isMaxSize } from 'utils/responsive';
 // import { CARD_WIDTH } from 'theme';
-// import rootMessages from 'messages';
+import rootMessages from 'messages';
 
 // prettier-ignore
 const CardWrapper = styled(Box)`
@@ -142,6 +144,22 @@ export function ChartContainerRightsMulti({
               </Box>
             )}
           </CardWrapper>
+          {type === 'esr' && (
+            <Text size="xxsmall" color="dark">
+              <FormattedMessage
+                {...rootMessages.charts.noteRegionalBiasESR}
+                values={{
+                  link: (
+                    <ButtonText onClick={() => onSelectPage('methodology')}>
+                      <FormattedMessage
+                        {...rootMessages.charts.noteRegionalBiasESRLink}
+                      />
+                    </ButtonText>
+                  ),
+                }}
+              />
+            </Text>
+          )}
         </div>
       )}
     </ResponsiveContext.Consumer>

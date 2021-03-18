@@ -24,7 +24,7 @@ const ColumnText = styled(Text)`
   }
 `;
 
-const ColumnSort = styled(p => <Button reverse plain {...p} />)``;
+const ColumnSort = styled(p => <Button reverse plain gap="xxsmall" {...p} />)``;
 
 const BarWrap = styled(Box)``;
 // prettier-ignore
@@ -33,7 +33,8 @@ const ColumnWrap = styled(Box)`
 // border-right: 1px solid;
 // border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 
-const renderSortIcon = dir => (dir === 'asc' ? <Ascend /> : <Descend />);
+const renderSortIcon = dir =>
+  dir === 'asc' ? <Ascend size="small" /> : <Descend size="small" />;
 
 export function ListHeader({
   metric,
@@ -114,7 +115,11 @@ export function ListHeader({
           <ColumnWrap
             width={chartColumnWidth(size, 'trend')}
             flex={{ shrink: 0 }}
-          />
+          >
+            <ColumnText size="small" style={{ fontWeight: 300 }}>
+              <FormattedMessage {...rootMessages.labels.trend} />
+            </ColumnText>
+          </ColumnWrap>
           <BarWrap
             flex
             direction="row"

@@ -38,11 +38,11 @@ export default defineMessages({
   },
   noteCredibleIntervalRegions: {
     id: `${scope}.noteCredibleIntervalRegions`,
-    defaultMessage: 'Mean score with 80% credible interval ({link}) ',
+    defaultMessage: 'Average score with 80% credible interval ({link}) ',
   },
   noteCredibleIntervalLinkRegions: {
     id: `${scope}.noteCredibleIntervalLinkRegions`,
-    defaultMessage: 'click here for details',
+    defaultMessage: 'click for details',
   },
   noteCredibleIntervalCountry: {
     id: `${scope}.noteCredibleIntervalCountry`,

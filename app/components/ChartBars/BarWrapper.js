@@ -5,9 +5,10 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, ResponsiveContext, Text } from 'grommet';
-import styled from 'styled-components';
 import { injectIntl, intlShape } from 'react-intl';
+import styled from 'styled-components';
+import { Box, ResponsiveContext, Text } from 'grommet';
+import { Ascending, Descending } from 'grommet-icons';
 
 import Bar from 'components/ChartBars/Bar';
 import BarBullet from 'components/ChartBars/BarBullet';
@@ -89,7 +90,8 @@ export function BarWrapper({
               flex={{ shrink: 0 }}
               pad={{ right: 'small' }}
             >
-              {score.trend && <BarLabel label={score.trend} />}
+              {score.trend && score.trend === 'up' && <Ascending />}
+              {score.trend && score.trend !== 'up' && <Descending />}
             </LabelWrap>
             <BarWrap flex border="right">
               {!bullet && (

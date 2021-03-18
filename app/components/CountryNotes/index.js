@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-
+import { Box, Text } from 'grommet';
 import styled from 'styled-components';
+
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentContainer from 'styled/ContentContainer';
 import Aside from 'components/Aside';
-import { Box, Text } from 'grommet';
 
+import { TREND_THRESHOLDS } from 'containers/App/constants';
 import rootMessages from 'messages';
 import messages from './messages';
 
@@ -19,12 +20,12 @@ const Styled = styled.div`
   z-index: 9;
   background: ${({ hasAside }) => (hasAside ? 'transparent' : 'white')};
   box-shadow: ${({ hasAside }) =>
-    hasAside ? 'none' : '0px -10px 5px 5px rgba(255,255,255,1)'};
+    hasAside ? 'none' : '0px -10px 10px 1px rgb(255 255 255)'};
 `;
 const StyledBox = styled(Box)`
   background: ${({ hasAside }) => (!hasAside ? 'transparent' : 'white')};
   box-shadow: ${({ hasAside }) =>
-    !hasAside ? 'none' : '-5px -10px 5px -5px rgba(255, 255, 255, 1)'};
+    !hasAside ? 'none' : '0px -10px 10px 1px rgb(255 255 255)'};
   padding-right: ${({ hasAside, theme }) =>
     hasAside ? theme.global.edgeSize.xlarge : 0};
 `;
@@ -45,13 +46,35 @@ function CountryNotes({ intl, hasAside, notes }) {
               hasAside={hasAside}
               background="white"
             >
+              {notes.trendESR && (
+                <Text size="xxsmall" color="dark" textAlign="start">
+                  <FormattedMessage
+                    {...messages.trendESRNote}
+                    values={{
+                      threshold: TREND_THRESHOLDS.ESR,
+                    }}
+                  />
+                </Text>
+              )}
+              {notes.trendCPR && (
+                <Text size="xxsmall" color="dark" textAlign="start">
+                  <FormattedMessage
+                    {...messages.trendCPRNote}
+                    values={{
+                      threshold: TREND_THRESHOLDS.CPR,
+                    }}
+                  />
+                </Text>
+              )}
               {notes.hiCountries && (
                 <Text size="xxsmall" color="dark" textAlign="start">
                   <FormattedMessage
                     {...messages.hiNote}
                     values={{
-                      hiLabel: intl.formatMessage(
-                        rootMessages.labels.hiCountry,
+                      hiLabel: (
+                        <sup>
+                          {intl.formatMessage(rootMessages.labels.hiCountry)}
+                        </sup>
                       ),
                     }}
                   />
@@ -65,7 +88,7 @@ function CountryNotes({ intl, hasAside, notes }) {
                       label: intl.formatMessage(
                         rootMessages.labels.govResponseCountry,
                       ),
-                      labelSuperscript: (
+                      govRespLabel: (
                         <sup>
                           {intl.formatMessage(
                             rootMessages.labels.govResponseCountry,

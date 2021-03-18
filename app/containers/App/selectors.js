@@ -376,8 +376,7 @@ export const getESRRightScores = createSelector(
       .map(s => ({ ...s, value: parseFloat(s[benchmark.column], 10) }));
     const prevScores = metricScores
       .filter(s => quasiEquals(s.year, year - 1))
-      .sort((a, b) => sortByNumber(a.value, b.value))
-      .reduce(addRank, []);
+      .sort((a, b) => sortByNumber(a.value, b.value));
     return metricScores
       .filter(s => quasiEquals(s.year, year))
       .sort((a, b) => sortByNumber(a.value, b.value))
@@ -388,7 +387,7 @@ export const getESRRightScores = createSelector(
         );
         return {
           ...s,
-          prevRank: prevScore && prevScore.rank,
+          prevValue: prevScore && prevScore.value,
         };
       });
   },
@@ -416,8 +415,7 @@ export const getCPRRightScores = createSelector(
 
     const prevScores = metricScores
       .filter(s => quasiEquals(s.year, year - 1))
-      .sort((a, b) => sortByNumber(a.value, b.value))
-      .reduce(addRank, []);
+      .sort((a, b) => sortByNumber(a.value, b.value));
     return metricScores
       .filter(s => quasiEquals(s.year, year))
       .sort((a, b) => sortByNumber(a.value, b.value))
@@ -428,7 +426,7 @@ export const getCPRRightScores = createSelector(
         );
         return {
           ...s,
-          prevRank: prevScore && prevScore.rank,
+          prevValue: prevScore && prevScore.value,
         };
       });
   },

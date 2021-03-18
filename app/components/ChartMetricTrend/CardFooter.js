@@ -73,6 +73,8 @@ function CardFooter({
   mode,
 }) {
   const notes = {
+    regionBias:
+      isESR && mode === 'detail-region' && unRegionFilterValue === 'all',
     regionAvg: mode === 'multi-region' || mode === 'detail-region',
     regionInterval:
       (mode === 'multi-region' || mode === 'detail-region') &&
@@ -150,6 +152,24 @@ function CardFooter({
   }
   return (
     <Styled>
+      {notes.regionBias && (
+        <Hint>
+          <Text size="xxsmall">
+            <FormattedMessage
+              {...rootMessages.charts.noteRegionalBiasESR}
+              values={{
+                link: (
+                  <ButtonText onClick={() => onSelectPage('methodology')}>
+                    <FormattedMessage
+                      {...rootMessages.charts.noteRegionalBiasESRLink}
+                    />
+                  </ButtonText>
+                ),
+              }}
+            />
+          </Text>
+        </Hint>
+      )}
       {notes.regionAvg && (
         <>
           {(!unRegionFilterValue || unRegionFilterValue === 'all') && (

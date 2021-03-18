@@ -47,6 +47,10 @@ export default defineMessages({
       id: `${scope}.labels.score`,
       defaultMessage: 'Score',
     },
+    trend: {
+      id: `${scope}.labels.trend`,
+      defaultMessage: 'Trend *',
+    },
     hiCountry: {
       id: `${scope}.labels.hiCountry`,
       defaultMessage: 'HI',
@@ -182,6 +186,15 @@ export default defineMessages({
         id: `${scope}.charts.incompleteData.changeStandard`,
         defaultMessage: 'changeStandard',
       },
+    },
+    noteRegionalBiasESR: {
+      id: `${scope}.charts.noteRegionalBiasESR`,
+      defaultMessage:
+        'Note that country scores are based on the most recent indicator data available, possibly introducing a regional bias ({link})',
+    },
+    noteRegionalBiasESRLink: {
+      id: `${scope}.charts.noteRegionalBiasESR`,
+      defaultMessage: 'click here for details',
     },
   },
   settings: {

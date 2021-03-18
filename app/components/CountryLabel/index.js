@@ -27,10 +27,18 @@ export function CountryLabel({
       {name}
       <StyledMarks>
         {` `}
-        {hiLabel && <FormattedMessage {...rootMessages.labels.hiCountry} />}
+        {hiLabel && (
+          <sup>
+            <small>
+              <FormattedMessage {...rootMessages.labels.hiCountry} />
+            </small>
+          </sup>
+        )}
         {respondentsLabel && (
           <sup>
-            <FormattedMessage {...rootMessages.labels.govResponseCountry} />
+            <small>
+              <FormattedMessage {...rootMessages.labels.govResponseCountry} />
+            </small>
           </sup>
         )}
       </StyledMarks>

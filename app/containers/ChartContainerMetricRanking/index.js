@@ -24,7 +24,12 @@ import {
   getDependenciesReady,
 } from 'containers/App/selectors';
 import { loadDataIfNeeded, navigate } from 'containers/App/actions';
-import { BENCHMARKS, COLUMNS, COUNTRY_SORTS } from 'containers/App/constants';
+import {
+  BENCHMARKS,
+  COLUMNS,
+  COUNTRY_SORTS,
+  TREND_THRESHOLDS,
+} from 'containers/App/constants';
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import ChartBars from 'components/ChartBars';
@@ -72,23 +77,22 @@ const prepareData = ({
       );
       name = country[COLUMNS.COUNTRIES.CODE];
     }
-    let trend = '*';
+    let trend;
 
-    if (s.rank && s.prevRank) {
-      if (s.rank < s.prevRank) {
-        trend = `+`;
+    if (s.value && s.prevValue) {
+      const threshold =
+        metric.type === 'cpr' ? TREND_THRESHOLDS.CPR : TREND_THRESHOLDS.ESR;
+      if (s.value > s.prevValue + threshold) {
+        trend = 'up';
       }
-      if (s.rank > s.prevRank) {
-        trend = `-`;
-      }
-      if (s.rank === s.prevRank) {
-        trend = `=`;
+      if (s.value < s.prevValue - threshold) {
+        trend = 'down';
       }
     }
     return {
       value: s.value,
       rank: s.rank,
-      prevRank: s.prevRank,
+      // prevRank: s.prevRank,
       trend,
       key: s.country_code,
       name,
@@ -219,6 +223,8 @@ export function ChartContainerMetricRanking({
               govRespondents:
                 showGovRespondentsLabel && hasGovRespondentsCountries,
               hiCountries: showHILabel && hasHICountries,
+              trendCPR: metric.type === 'cpr',
+              trendESR: metric.type === 'esr',
             }}
           />
         </Box>

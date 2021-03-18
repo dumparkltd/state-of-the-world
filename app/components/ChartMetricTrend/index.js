@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { ResponsiveContext } from 'grommet';
+import { ResponsiveContext, Box } from 'grommet';
 
 import { isMinSize } from 'utils/responsive';
 import { getXTime, getTickValuesY, getTickValuesX } from 'utils/charts';
@@ -91,44 +91,46 @@ function ChartMetricTrend({
               />
             )}
             {mode === 'detail-region' && (
-              <ScoreSheet
-                margin={{ bottom: 30, top: 20 }}
-                height={h + 20}
-                highlightCountry={highlightCountry}
-                highlightRegion={highlightRegion}
-                countriesScores={countriesScores}
-                regionScores={regionScores}
-                year={year}
-                column={column}
-                metric={metric}
-                maxValue={maxValue}
-                minValue={minValue}
-                maxYear={maxYear}
-                unRegionFilterValue={unRegionFilterValue}
-                onSetRegionFilter={onSetRegionFilter}
-                setRegion={setRegion}
-              />
-            )}
-            {mode === 'detail-region' && (
-              <PlotDetailRegion
-                height={h}
-                highlightCountry={highlightCountry}
-                highlightRegion={highlightRegion}
-                countriesScores={countriesScores}
-                regionScores={regionScores}
-                year={year}
-                column={column}
-                metric={metric}
-                unRegionFilterValue={unRegionFilterValue}
-                onSetRegionFilter={onSetRegionFilter}
-                onCountryClick={onCountryClick}
-                setYear={setYear}
-                setCountry={setCountry}
-                setRegion={setRegion}
-                tickValuesX={tickValuesX}
-                tickValuesY={tickValuesY}
-                dataForceYRange={dataForceYRange}
-              />
+              <Box direction="row">
+                <Box fill="horizontal">
+                  <PlotDetailRegion
+                    height={h}
+                    highlightCountry={highlightCountry}
+                    highlightRegion={highlightRegion}
+                    countriesScores={countriesScores}
+                    regionScores={regionScores}
+                    year={year}
+                    column={column}
+                    metric={metric}
+                    unRegionFilterValue={unRegionFilterValue}
+                    onSetRegionFilter={onSetRegionFilter}
+                    onCountryClick={onCountryClick}
+                    setYear={setYear}
+                    setCountry={setCountry}
+                    setRegion={setRegion}
+                    tickValuesX={tickValuesX}
+                    tickValuesY={tickValuesY}
+                    dataForceYRange={dataForceYRange}
+                  />
+                </Box>
+                <ScoreSheet
+                  height={h}
+                  margin={{ bottom: 20, top: 10 }}
+                  highlightCountry={highlightCountry}
+                  highlightRegion={highlightRegion}
+                  countriesScores={countriesScores}
+                  regionScores={regionScores}
+                  year={year}
+                  column={column}
+                  metric={metric}
+                  maxValue={maxValue}
+                  minValue={minValue}
+                  maxYear={maxYear}
+                  unRegionFilterValue={unRegionFilterValue}
+                  onSetRegionFilter={onSetRegionFilter}
+                  setRegion={setRegion}
+                />
+              </Box>
             )}
             {mode === 'multi-region' && (
               <PlotMultiRegion
