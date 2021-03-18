@@ -231,7 +231,7 @@ function CardFooter({
                 values={{
                   group: (
                     <FormattedMessage
-                      {...rootMessages.un_regions[unRegionFilterValue]}
+                      {...rootMessages.un_regions_short[unRegionFilterValue]}
                     />
                   ),
                 }}

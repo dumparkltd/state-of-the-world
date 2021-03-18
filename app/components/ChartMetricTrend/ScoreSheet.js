@@ -8,8 +8,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import styled from 'styled-components';
-import { formatScore } from 'utils/scores';
 import { Box, Text } from 'grommet';
+
+import { formatScore } from 'utils/scores';
+
+import ButtonPlain from 'styled/ButtonPlain';
 import rootMessages from 'messages';
 
 const Styled = styled.div`
@@ -30,6 +33,15 @@ const CountryLabel = styled(Box)`
   margin-top: -1px;
 `;
 // color: ${({ region }) => }
+const RegionButton = styled(p => <ButtonPlain {...p} />)`
+  position: absolute;
+  left: 0;
+  top: ${({ offsetY }) => offsetY}px;
+  transform: translateY(-50%);
+  margin-top: -1px;
+  display: block;
+  width: 100%;
+`;
 const RegionLabel = styled(Box)`
   position: absolute;
   left: 0;
@@ -129,6 +141,8 @@ const prepHiCountry = (
   };
 };
 
+const LABEL_RESERVED_HEIGHT = 12;
+
 function ScoreSheet({
   height,
   margin,
@@ -143,6 +157,9 @@ function ScoreSheet({
   maxValue,
   minValue,
   maxYear,
+  onSetRegionFilter,
+  unRegionFilterValue,
+  setRegion,
 }) {
   // const maxValue = metric.type === 'esr' ? 100 : 10;
   const styledHeight = margin
@@ -156,7 +173,7 @@ function ScoreSheet({
       column,
       year,
       styledHeight,
-      15,
+      LABEL_RESERVED_HEIGHT,
       maxValue - minValue,
       minValue,
       maxYear,
@@ -170,7 +187,7 @@ function ScoreSheet({
       column,
       year,
       styledHeight,
-      15,
+      LABEL_RESERVED_HEIGHT,
       maxValue - minValue,
       minValue,
       maxYear,
@@ -190,26 +207,44 @@ function ScoreSheet({
         regions.map(
           region =>
             region.value && (
-              <RegionLabel
+              <RegionButton
                 key={region.code}
-                direction="row"
-                gap="xsmall"
-                inactive={highlightRegion && region.code !== highlightRegion}
-                regionCode={region.code}
-                align="center"
                 offsetY={region.offset}
+                onClick={() =>
+                  unRegionFilterValue === 'all' &&
+                  onSetRegionFilter(region.code)
+                }
+                onMouseOver={() =>
+                  unRegionFilterValue === 'all' && setRegion(region.code)
+                }
+                onFocus={() =>
+                  unRegionFilterValue === 'all' && setRegion(region.code)
+                }
+                onMouseOut={() =>
+                  unRegionFilterValue === 'all' && setRegion(false)
+                }
+                onBlur={() => unRegionFilterValue === 'all' && setRegion(false)}
+                disabled={unRegionFilterValue === 'world'}
               >
-                <Text size="xsmall">
-                  {`${formatScore(region.value, 1, intl)}${
-                    metric.type === 'esr' ? '%' : ''
-                  }`}
-                </Text>
-                <Text size="xxsmall">
-                  <FormattedMessage
-                    {...rootMessages.un_regions_short[region.code]}
-                  />
-                </Text>
-              </RegionLabel>
+                <RegionLabel
+                  direction="row"
+                  gap="xsmall"
+                  inactive={highlightRegion && region.code !== highlightRegion}
+                  regionCode={region.code}
+                  align="center"
+                >
+                  <Text size="xsmall">
+                    {`${formatScore(region.value, 1, intl)}${
+                      metric.type === 'esr' ? '%' : ''
+                    }`}
+                  </Text>
+                  <Text size="xxsmall">
+                    <FormattedMessage
+                      {...rootMessages.un_regions_short[region.code]}
+                    />
+                  </Text>
+                </RegionLabel>
+              </RegionButton>
             ),
         )}
       {hiCountry && (
@@ -250,7 +285,10 @@ ScoreSheet.propTypes = {
   maxValue: PropTypes.number,
   minValue: PropTypes.number,
   maxYear: PropTypes.string,
+  unRegionFilterValue: PropTypes.string,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  onSetRegionFilter: PropTypes.func,
+  setRegion: PropTypes.func,
   intl: intlShape.isRequired,
 };
 

@@ -104,6 +104,9 @@ function ChartMetricTrend({
                 maxValue={maxValue}
                 minValue={minValue}
                 maxYear={maxYear}
+                unRegionFilterValue={unRegionFilterValue}
+                onSetRegionFilter={onSetRegionFilter}
+                setRegion={setRegion}
               />
             )}
             {mode === 'detail-region' && (

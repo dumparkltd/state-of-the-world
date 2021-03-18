@@ -28,7 +28,6 @@ const Styled = styled.div`
 
 export function FilterOptions({
   unRegionFilterValue,
-  onRemoveFilter,
   onAddFilter,
   filterValues,
   intl,
@@ -40,7 +39,7 @@ export function FilterOptions({
       let active;
       if (config.unregion === 'all') {
         active = unRegionFilterValue
-          ? unRegionFilterValue === option.key
+          ? unRegionFilterValue === option.key || unRegionFilterValue === 'all'
           : !!option.default;
       } else {
         active =
@@ -54,28 +53,12 @@ export function FilterOptions({
         color: active ? option.key : 'dark-4',
         active,
         label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
-        onClick: () => {
-          // default
-          if (option.default) {
-            if (!active) {
-              onRemoveFilter({
-                key: 'unregion',
-              });
-            }
-          }
-          // standard
-          else if (active) {
-            onRemoveFilter({
-              key: 'unregion',
-              value: option.key,
-            });
-          } else {
-            onAddFilter({
-              key: 'unregion',
-              value: option.key,
-            });
-          }
-        },
+        disabled: unRegionFilterValue === option.key,
+        onClick: () =>
+          onAddFilter({
+            key: 'unregion',
+            value: option.key,
+          }),
       };
       // }
       return regionOption;
@@ -91,6 +74,7 @@ export function FilterOptions({
               title={option.label}
               active={option.active}
               onClick={option.onClick}
+              disabled={option.disabled}
             >
               <StyledText>{option.label}</StyledText>
             </StyledButton>
@@ -103,7 +87,6 @@ export function FilterOptions({
 FilterOptions.propTypes = {
   intl: intlShape.isRequired,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  onRemoveFilter: PropTypes.func,
   onAddFilter: PropTypes.func,
   filterValues: PropTypes.object,
   config: PropTypes.object,
