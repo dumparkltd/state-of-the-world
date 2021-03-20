@@ -44,7 +44,7 @@ import { isMinSize, isMaxSize } from 'utils/responsive';
 import rootMessages from 'messages';
 
 // prettier-ignore
-const CardWrapper = styled(Box)`
+const MultiCardWrapper = styled(Box)`
   max-width: calc(100% + ${({ theme }) => {
     const value = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
     return value * 2;
@@ -100,7 +100,7 @@ export function ChartContainerRightsMulti({
             filters={{ unregion: 'single' }}
             settings={{ standard: type === 'esr' }}
           />
-          <CardWrapper
+          <MultiCardWrapper
             pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
             align="start"
             responsive={false}
@@ -143,7 +143,7 @@ export function ChartContainerRightsMulti({
                 ))}
               </Box>
             )}
-          </CardWrapper>
+          </MultiCardWrapper>
           {type === 'esr' && (
             <Text size="xxsmall" color="dark">
               <FormattedMessage

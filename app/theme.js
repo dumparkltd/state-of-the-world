@@ -3,9 +3,9 @@ export const SIZES = {
   // containerMaxWidth / 2 + edgesize.xxlarge
   imageHomeMaxWidth: 700,
   header: {
-    height: 80,
-    heightTop: 40,
-    heightBottom: 40,
+    height: 72,
+    heightTop: 36,
+    heightBottom: 36,
     padTop: 0,
     padRight: 0,
     padBottom: 0,
@@ -13,9 +13,9 @@ export const SIZES = {
     brandWidth: 380,
     logoWidth: 200,
     small: {
-      height: 80,
-      heightTop: 50,
-      heightBottom: 30,
+      height: 72,
+      heightTop: 46,
+      heightBottom: 26,
       padTop: 9,
       padRight: 14,
       padBottom: 0,
@@ -195,7 +195,7 @@ const theme = {
       secondary: '#757575',
       disabled: '#8896A0',
       hint: '#393393',
-      brand: '#3A5161',
+      brand: '#0077B3',
       highlight: '#FDB933',
       highlight2: '#DB7E00', // AA large
       highlight3: '#AD6500', // AA
