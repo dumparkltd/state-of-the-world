@@ -11,9 +11,10 @@ import styled from 'styled-components';
 import { Text, Box } from 'grommet';
 
 import { getRegionYearScore } from 'utils/charts';
-
-import rootMessages from 'messages';
+import Tooltip from 'components/Tooltip';
 import ButtonPlain from 'styled/ButtonPlain';
+import rootMessages from 'messages';
+import messages from './messages';
 
 const Styled = styled.div`
   margin-bottom: 5px;
@@ -40,24 +41,21 @@ function CardHeader({
   // console.log(metric, regionScores, regionTotals, unRegionFilterValue)
   return (
     <Styled>
-      <Box fill direction="row" justify="between" gap="small" align="center">
+      <Box fill direction="row" justify="between" gap="small" align="start">
         <Box>
           <ButtonTitle
             color={unRegionFilterValue}
             onClick={() => onSelectMetric()}
           >
-            <Text weight={600} color={unRegionFilterValue}>
+            <Text size="large" weight={600} color={unRegionFilterValue}>
               <FormattedMessage {...rootMessages['rights-short'][metric.key]} />
             </Text>
           </ButtonTitle>
         </Box>
         {mode === 'multi-region' && (
           <Box flex={{ shrink: 0 }}>
-            <Box direction="row" gap="xsmall" justify="between">
-              <Text size="small">
-                <FormattedMessage {...rootMessages.labels.regionScore} />
-              </Text>
-              <Text size="small" weight={600} color={unRegionFilterValue}>
+            <Box align="end" gap="xxsmall">
+              <Text size="large" weight={700} color={unRegionFilterValue}>
                 {getRegionYearScore(
                   year,
                   regionScores[unRegionFilterValue][column],
@@ -65,6 +63,47 @@ function CardHeader({
                   intl,
                 )}
               </Text>
+              <Box direction="row" gap="xxsmall">
+                <Text size="xxsmall">
+                  {unRegionFilterValue === 'world' && (
+                    <FormattedMessage
+                      {...rootMessages.labels.worldScore}
+                      values={{ year }}
+                    />
+                  )}
+                  {unRegionFilterValue !== 'world' && (
+                    <FormattedMessage
+                      {...rootMessages.labels.regionScore}
+                      values={{ year }}
+                    />
+                  )}
+                </Text>
+                <Tooltip
+                  large
+                  margin={{}}
+                  iconSize="small"
+                  component={
+                    <Box gap="small">
+                      <Text size="xsmall">
+                        {metric.type === 'esr' && (
+                          <FormattedMessage {...messages.infoESRintro} />
+                        )}
+                        {metric.type === 'cpr' && (
+                          <FormattedMessage {...messages.infoCPRintro} />
+                        )}
+                      </Text>
+                      <Text size="xsmall">
+                        {metric.type === 'esr' && (
+                          <FormattedMessage {...messages.infoESRadditional} />
+                        )}
+                        {metric.type === 'cpr' && (
+                          <FormattedMessage {...messages.infoCPRadditional} />
+                        )}
+                      </Text>
+                    </Box>
+                  }
+                />
+              </Box>
             </Box>
           </Box>
         )}

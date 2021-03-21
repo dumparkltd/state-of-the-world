@@ -7,13 +7,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
 import { Box, Text, Paragraph } from 'grommet';
 
-import { getLocale } from 'containers/App/selectors';
 import { navigate } from 'containers/App/actions';
 
 // import SectionIntro from 'components/Sections/SectionIntro';
@@ -35,13 +33,13 @@ const SectionIntro = styled(p => <Paragraph textAlign="center" {...p} />)``;
 const SectionIntroText = styled(p => <Text size="medium" {...p} />)``;
 // const DEPENDENCIES = ['countries'];
 
-export function PathHome({ nav, locale }) {
+export function PathHome({ nav, intl }) {
   // useInjectSaga({ key: 'app', saga });
   // useEffect(() => {
   //   // kick off loading of data
   //   onLoadData();
   // }, []);
-
+  const { locale } = intl;
   // <SectionIntro />
   return (
     <ContentWrap>
@@ -57,7 +55,23 @@ export function PathHome({ nav, locale }) {
           </Title>
           <Paragraph textAlign="center">
             <Intro>
-              <FormattedMessage {...messages.intro} />
+              <FormattedMessage
+                {...messages.intro}
+                values={{
+                  linkRightsTracker: (
+                    <a
+                      target="_blank"
+                      href={intl.formatMessage(
+                        rootMessages.sources.urlRightsTracker,
+                      )}
+                    >
+                      <FormattedMessage
+                        {...rootMessages.sources.anchorRightsTracker}
+                      />
+                    </a>
+                  ),
+                }}
+              />
             </Intro>
           </Paragraph>
         </ContentMaxWidth>
@@ -69,7 +83,19 @@ export function PathHome({ nav, locale }) {
           </SectionTitle>
           <SectionIntro>
             <SectionIntroText>
-              <FormattedMessage {...messages.introESR} />
+              <FormattedMessage
+                {...messages.introESR}
+                values={{
+                  linkSERF: (
+                    <a
+                      target="_blank"
+                      href={intl.formatMessage(rootMessages.sources.urlSERF)}
+                    >
+                      <FormattedMessage {...rootMessages.sources.anchorSERF} />
+                    </a>
+                  ),
+                }}
+              />
             </SectionIntroText>
           </SectionIntro>
         </Box>
@@ -96,12 +122,8 @@ export function PathHome({ nav, locale }) {
 PathHome.propTypes = {
   nav: PropTypes.func.isRequired,
   // onLoadData: PropTypes.func.isRequired,
-  locale: PropTypes.string,
+  intl: intlShape,
 };
-
-const mapStateToProps = createStructuredSelector({
-  locale: state => getLocale(state),
-});
 
 export function mapDispatchToProps(dispatch) {
   return {
@@ -125,8 +147,8 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const withConnect = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(PathHome);
+export default compose(withConnect)(injectIntl(PathHome));

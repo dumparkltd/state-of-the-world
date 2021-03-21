@@ -28,21 +28,23 @@ const Styled = styled.div`
 export function ChartHeader({ filters, settings, year, metricType }) {
   return (
     <Styled top>
-      {filters && <ChartFilters filters={filters} />}
       {(settings || (year && metricType)) && (
         <Box direction="row" justify="between">
-          {settings && settings.standard && <ChartSettings showStandard />}
-          {(!settings || !settings.standard) && <Box />}
+          {settings &&
+            settings.map(s => <ChartSettings key={s.attribute} config={s} />)}
+          {(!settings || settings.length === 0) && <Box />}
           {year && metricType && <ChartYearSelect metricType={metricType} />}
         </Box>
       )}
+      {filters &&
+        filters.map(f => <ChartFilters key={f.attribute} config={f} />)}
     </Styled>
   );
 }
 
 ChartHeader.propTypes = {
-  filters: PropTypes.object,
-  settings: PropTypes.object,
+  filters: PropTypes.array,
+  settings: PropTypes.array,
   year: PropTypes.bool,
   metricType: PropTypes.string,
   // top: PropTypes.bool,

@@ -16,12 +16,12 @@ export default defineMessages({
   intro: {
     id: `${scope}.intro`,
     defaultMessage:
-      'Explore how the world is doing for 5 Economic and Social Rights and 7 Civial and Political Rights according to the annual assessment of the Human Rights Measurement Initiative (HRMI)',
+      'Explore how the world is doing for 5 Economic and Social Rights and 7 Civial and Political Rights according to the annual assessment of the Human Rights Measurement Initiative (HRMI, {linkRightsTracker})',
   },
   introESR: {
     id: `${scope}.introESR`,
     defaultMessage:
-      'Country scores for the 5 Economic and Social Rights are based on the SERF index (serfindex.org) that calculates country scores for two assessment standards using and aggregating a variety of national statistics. Note that data availability may differ for different UN regional groups and rights.',
+      'Country scores for the 5 Economic and Social Rights are based on the SERF index {linkSERF} that calculates country scores for two assessment standards using and aggregating a variety of national statistics. Note that data availability may differ for different UN regional groups and rights.',
   },
   introCPR: {
     id: `${scope}.introCPR`,

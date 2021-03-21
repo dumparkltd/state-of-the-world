@@ -32,6 +32,7 @@ import { loadDataIfNeeded } from 'containers/App/actions';
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
+import Source from 'components/Source';
 import WrapPlot from 'styled/WrapPlot';
 
 import getMetricDetails from 'utils/metric-details';
@@ -41,7 +42,7 @@ import rootMessages from 'messages';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 // prettier-ignore
-const CardWrapper = styled(Box)`
+const MultiCardWrapper = styled(Box)`
   max-width: calc(100% + ${({ theme }) => {
     const value = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
     return value * 2;
@@ -107,8 +108,8 @@ export function ChartContainerCountry({
             <h1>
               <FormattedMessage {...rootMessages['rights-types'].esr} />
             </h1>
-            <ChartHeader settings={{ standard: true }} />
-            <CardWrapper
+            <ChartHeader settings={[{ attribute: 'standard' }]} />
+            <MultiCardWrapper
               pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
               align="start"
               responsive={false}
@@ -157,11 +158,12 @@ export function ChartContainerCountry({
                     })}
                 </Box>
               )}
-            </CardWrapper>
+              <Source type="esr" />
+            </MultiCardWrapper>
             <h1>
               <FormattedMessage {...rootMessages['rights-types'].cpr} />
             </h1>
-            <CardWrapper
+            <MultiCardWrapper
               pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
               align="start"
               responsive={false}
@@ -212,7 +214,8 @@ export function ChartContainerCountry({
                     })}
                 </Box>
               )}
-            </CardWrapper>
+              <Source type="cpr" />
+            </MultiCardWrapper>
           </div>
         )}
       </ResponsiveContext.Consumer>

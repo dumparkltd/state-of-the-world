@@ -34,6 +34,7 @@ import {
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
+import Source from 'components/Source';
 
 import getMetricDetails from 'utils/metric-details';
 
@@ -73,8 +74,20 @@ export function ChartContainerMetricRegion({
         </Text>
       </div>
       <ChartHeader
-        filters={{ unregion: 'all' }}
-        settings={{ standard: metric.type === 'esr' }}
+        filters={[
+          {
+            attribute: 'unregion',
+            type: 'filter',
+            all: true,
+          },
+        ]}
+        settings={
+          metric.type === 'esr' && [
+            {
+              attribute: 'standard',
+            },
+          ]
+        }
       />
       <ChartMetricTrend
         mode="detail-region"
@@ -92,6 +105,7 @@ export function ChartContainerMetricRegion({
         unRegionTotals={unRegionTotals}
         onSelectPage={onSelectPage}
       />
+      <Source type={metric.type} />
     </div>
   );
 }

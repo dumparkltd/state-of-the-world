@@ -61,9 +61,9 @@ function ChartMetricTrend({
   return (
     <ResponsiveContext.Consumer>
       {size => {
-        let h = mode === 'detail-region' ? 200 : 130;
+        let h = mode === 'detail-region' ? 200 : 120;
         if (isMinSize(size, 'medium')) {
-          h = mode === 'detail-region' ? 280 : 140;
+          h = mode === 'detail-region' ? 280 : 120;
         }
         const tickValuesX = getTickValuesX(
           size,
@@ -133,21 +133,23 @@ function ChartMetricTrend({
               </Box>
             )}
             {mode === 'multi-region' && (
-              <PlotMultiRegion
-                height={h}
-                highlightRegion={highlightRegion}
-                regionScores={regionScores}
-                year={year}
-                column={column}
-                metric={metric}
-                unRegionFilterValue={unRegionFilterValue}
-                onSetRegionFilter={onSetRegionFilter}
-                setYear={setYear}
-                setRegion={setRegion}
-                tickValuesX={tickValuesX}
-                tickValuesY={tickValuesY}
-                dataForceYRange={dataForceYRange}
-              />
+              <Box pad={{ horizontal: 'ml', vertical: 'small' }}>
+                <PlotMultiRegion
+                  height={h}
+                  highlightRegion={highlightRegion}
+                  regionScores={regionScores}
+                  year={year}
+                  column={column}
+                  metric={metric}
+                  unRegionFilterValue={unRegionFilterValue}
+                  onSetRegionFilter={onSetRegionFilter}
+                  setYear={setYear}
+                  setRegion={setRegion}
+                  tickValuesX={tickValuesX}
+                  tickValuesY={tickValuesY}
+                  dataForceYRange={dataForceYRange}
+                />
+              </Box>
             )}
             {mode === 'multi-country' && (
               <PlotMultiCountry

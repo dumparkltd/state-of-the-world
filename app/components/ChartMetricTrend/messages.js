@@ -56,4 +56,22 @@ export default defineMessages({
     id: `${scope}.noteRegionEverage`,
     defaultMessage: '{group} average',
   },
+  infoESRintro: {
+    id: `${scope}.infoESRintro`,
+    defaultMessage: 'Average of all available country scores.',
+  },
+  infoESRadditional: {
+    id: `${scope}.infoESRadditional`,
+    defaultMessage:
+      "Using HRMI's 'Global Best' benchmark where the maximum possible score (100%) is based on the best outcome achieved by any country regardless of available income",
+  },
+  infoCPRintro: {
+    id: `${scope}.infoCPRintro`,
+    defaultMessage: 'Average of all available country scores.',
+  },
+  infoCPRadditional: {
+    id: `${scope}.infoCPRadditional`,
+    defaultMessage:
+      'Individual country scores are the median values of all expert responses for that country. The 80% credible intervals are based on the expert survey standard deviations.',
+  },
 });

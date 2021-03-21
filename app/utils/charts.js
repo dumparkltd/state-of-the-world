@@ -143,7 +143,7 @@ export const getRegionYearScore = (year, scores, type, intl) => {
     return formatScoreMax(
       data[0].y,
       type === 'esr' ? 100 : 10,
-      1,
+      type === 'esr' ? 0 : 1,
       false,
       // type !== 'esr',
       intl,

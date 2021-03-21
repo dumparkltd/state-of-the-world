@@ -41,4 +41,17 @@ export default defineMessages({
     id: `${scope}.assessedFilterOptionGroup`,
     defaultMessage: 'Assessment',
   },
+  unregionFilterAll: {
+    id: `${scope}.unregionFilterAll`,
+    defaultMessage:
+      "Filter countries by UN Group or select 'All' to compare UN Group averages",
+  },
+  unregionFilter: {
+    id: `${scope}.unregionFilter`,
+    defaultMessage: 'Filter countries by UN Group',
+  },
+  unregionHighlight: {
+    id: `${scope}.unregionHighlight`,
+    defaultMessage: 'Select UN Group',
+  },
 });

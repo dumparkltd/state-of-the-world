@@ -183,10 +183,19 @@ export function ChartContainerMetricRanking({
       {size => (
         <Box margin={{ bottom: 'xlarge' }}>
           <ChartHeader
-            filters={{ unregion: 'single' }}
-            settings={{
-              standard: metric.type === 'esr',
-            }}
+            filters={[
+              {
+                attribute: 'unregion',
+                type: 'filter',
+              },
+            ]}
+            settings={
+              metric.type === 'esr' && [
+                {
+                  attribute: 'standard',
+                },
+              ]
+            }
             year
             metricType={metric.type}
           />
@@ -215,7 +224,7 @@ export function ChartContainerMetricRanking({
               }}
             />
           )}
-          {hasResults && <Source />}
+          <Source type={metric.type} />
           <CountryNotes
             hasAside={isMinSize(size, 'large')}
             settingHint

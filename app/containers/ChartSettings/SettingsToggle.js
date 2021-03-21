@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 // import styled, { css } from 'styled-components';
 import { Box, Text } from 'grommet';
 
-// import Tooltip from 'components/Tooltip';
+import Tooltip from 'components/Tooltip';
 import ButtonToggleSetting from 'styled/ButtonToggleSetting';
 
 import rootMessages from 'messages';
@@ -24,7 +24,7 @@ function SettingsToggle({
     <Box direction="column" flex={{ shrink: 0 }} responsive={false}>
       <Box direction="row" align="center">
         <Box pad={{ bottom: 'xsmall' }} direction="row">
-          <Text>
+          <Text size="small">
             {name || (
               <FormattedMessage
                 {...rootMessages.settings[setting].name}
@@ -32,6 +32,46 @@ function SettingsToggle({
               />
             )}
           </Text>
+          {setting === 'standard' && (
+            <Tooltip
+              large
+              component={
+                <Box gap="small">
+                  <Box>
+                    <Text size="xsmall">
+                      <FormattedMessage
+                        {...rootMessages.settings.standard.intro}
+                      />
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text weight="bold" size="xsmall">
+                      <FormattedMessage
+                        {...rootMessages.settings.standard.core}
+                      />
+                    </Text>
+                    <Text size="xsmall">
+                      <FormattedMessage
+                        {...rootMessages.settings.standard.coreInfo}
+                      />
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text weight="bold" size="xsmall">
+                      <FormattedMessage
+                        {...rootMessages.settings.standard.hi}
+                      />
+                    </Text>
+                    <Text size="xsmall">
+                      <FormattedMessage
+                        {...rootMessages.settings.standard.hiInfo}
+                      />
+                    </Text>
+                  </Box>
+                </Box>
+              }
+            />
+          )}
         </Box>
       </Box>
       <Box direction="row" align="center" margin={{ bottom: 'small' }}>

@@ -22,11 +22,11 @@ export function ChartFilters({
   unRegionFilterValue,
   onRemoveFilter,
   onAddFilter,
-  filters,
+  config,
 }) {
   const filterValues = getFilterOptionValues(
     COUNTRY_FILTERS.SINGLE_METRIC,
-    filters,
+    config,
   );
   return (
     <ResponsiveContext.Consumer>
@@ -38,7 +38,7 @@ export function ChartFilters({
               onRemoveFilter={onRemoveFilter}
               onAddFilter={onAddFilter}
               filterValues={filterValues}
-              config={filters}
+              config={config}
             />
           )}
           {isMaxSize(size, 'medium') && (
@@ -47,7 +47,7 @@ export function ChartFilters({
               onRemoveFilter={onRemoveFilter}
               onAddFilter={onAddFilter}
               filterValues={filterValues}
-              config={filters}
+              config={config}
             />
           )}
         </FilterWrap>
@@ -60,7 +60,7 @@ ChartFilters.propTypes = {
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onRemoveFilter: PropTypes.func,
   onAddFilter: PropTypes.func,
-  filters: PropTypes.object,
+  config: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

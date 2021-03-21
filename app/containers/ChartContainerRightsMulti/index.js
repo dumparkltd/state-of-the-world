@@ -34,6 +34,7 @@ import {
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
+import Source from 'components/Source';
 
 import ButtonText from 'styled/ButtonText';
 import WrapPlot from 'styled/WrapPlot';
@@ -97,8 +98,19 @@ export function ChartContainerRightsMulti({
       {size => (
         <div>
           <ChartHeader
-            filters={{ unregion: 'single' }}
-            settings={{ standard: type === 'esr' }}
+            filters={[
+              {
+                attribute: 'unregion',
+                type: 'highlight',
+              },
+            ]}
+            settings={
+              type === 'esr' && [
+                {
+                  attribute: 'standard',
+                },
+              ]
+            }
           />
           <MultiCardWrapper
             pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
@@ -160,6 +172,7 @@ export function ChartContainerRightsMulti({
               />
             </Text>
           )}
+          <Source type={type} />
         </div>
       )}
     </ResponsiveContext.Consumer>

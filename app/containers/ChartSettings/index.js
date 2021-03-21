@@ -23,10 +23,10 @@ import SettingsToggle from './SettingsToggle';
 // import InfoStandard from './InfoStandard';
 // import InfoScale from './InfoScale';
 
-export function ChartSettings({ standard, onSetStandard, showStandard, intl }) {
+export function ChartSettings({ config, standard, onSetStandard, intl }) {
   return (
     <Box direction="row">
-      {showStandard && (
+      {config.attribute === 'standard' && (
         <SettingsToggle
           setting="standard"
           active={standard}
@@ -43,7 +43,7 @@ export function ChartSettings({ standard, onSetStandard, showStandard, intl }) {
 ChartSettings.propTypes = {
   standard: PropTypes.string,
   onSetStandard: PropTypes.func,
-  showStandard: PropTypes.bool,
+  config: PropTypes.object,
   intl: intlShape.isRequired,
 };
 

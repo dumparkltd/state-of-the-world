@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
-import { Box } from 'grommet';
+import { Box, Text } from 'grommet';
 
 import ButtonPrimary from 'styled/ButtonPrimary';
 
 import rootMessages from 'messages';
-// import messages from './messages';
+import messages from './messages';
 
 const StyledButton = styled(ButtonPrimary)`
   display: inline-block;
@@ -33,38 +33,57 @@ export function FilterOptions({
   intl,
   config,
 }) {
-  const options =
-    filterValues.unregion &&
-    filterValues.unregion.map(option => {
-      let active;
-      if (config.unregion === 'all') {
-        active = unRegionFilterValue
-          ? unRegionFilterValue === option.key || unRegionFilterValue === 'all'
-          : !!option.default;
-      } else {
-        active =
-          unRegionFilterValue && unRegionFilterValue !== 'all'
-            ? unRegionFilterValue === option.key
+  let options;
+  if (config.attribute === 'unregion') {
+    options =
+      filterValues.unregion &&
+      filterValues.unregion.map(option => {
+        let active;
+        if (config.all) {
+          active = unRegionFilterValue
+            ? unRegionFilterValue === option.key ||
+              unRegionFilterValue === 'all'
             : !!option.default;
-      }
-      const regionOption = {
-        key: 'unregion',
-        value: option.key,
-        color: active ? option.key : 'dark-4',
-        active,
-        label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
-        disabled: unRegionFilterValue === option.key,
-        onClick: () =>
-          onAddFilter({
-            key: 'unregion',
-            value: option.key,
-          }),
-      };
-      // }
-      return regionOption;
-    });
+        } else {
+          active =
+            unRegionFilterValue && unRegionFilterValue !== 'all'
+              ? unRegionFilterValue === option.key
+              : !!option.default;
+        }
+        const regionOption = {
+          key: 'unregion',
+          value: option.key,
+          color: active ? option.key : 'dark-4',
+          active,
+          label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
+          disabled: unRegionFilterValue === option.key,
+          onClick: () =>
+            onAddFilter({
+              key: 'unregion',
+              value: option.key,
+            }),
+        };
+        // }
+        return regionOption;
+      });
+  }
   return (
     <Styled>
+      {config.attribute === 'unregion' && (
+        <Box pad={{ bottom: 'xsmall' }} direction="row">
+          <Text size="small">
+            {config.type === 'filter' && config.all && (
+              <FormattedMessage {...messages.unregionFilterAll} />
+            )}
+            {config.type === 'filter' && !config.all && (
+              <FormattedMessage {...messages.unregionFilter} />
+            )}
+            {config.type === 'highlight' && (
+              <FormattedMessage {...messages.unregionHighlight} />
+            )}
+          </Text>
+        </Box>
+      )}
       <Box direction="row">
         {options &&
           options.map(option => (

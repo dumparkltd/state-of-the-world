@@ -31,6 +31,24 @@ export default defineMessages({
       defaultMessage: 'HRMI Rights Tracker - Measuring what matters',
     },
   },
+  sources: {
+    urlRightsTracker: {
+      id: `${scope}.sources.urlRightsTracker`,
+      defaultMessage: 'https://rightstracker.org',
+    },
+    anchorRightsTracker: {
+      id: `${scope}.sources.urlRightsTracker`,
+      defaultMessage: 'rightstracker.org',
+    },
+    urlSERF: {
+      id: `${scope}.sources.urlSERF`,
+      defaultMessage: 'http://serfindex.org ',
+    },
+    anchorSERF: {
+      id: `${scope}.sources.anchorSERF`,
+      defaultMessage: 'serfindex.org ',
+    },
+  },
   hints: {
     noResults: {
       id: `${scope}.hints.noResults`,
@@ -89,7 +107,11 @@ export default defineMessages({
     },
     regionScore: {
       id: `${scope}.labels.regionScore`,
-      defaultMessage: 'Average score',
+      defaultMessage: 'Group average',
+    },
+    worldScore: {
+      id: `${scope}.labels.worldScore`,
+      defaultMessage: 'Global average',
     },
     regionRefScore: {
       id: `${scope}.labels.regionRefScore`,

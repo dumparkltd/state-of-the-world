@@ -9,8 +9,12 @@ import { defineMessages } from 'react-intl';
 export const scope = 'hrmi.components.Source';
 
 export default defineMessages({
-  source: {
-    id: `${scope}.source`,
-    defaultMessage: 'Source: HRMI 2020 rightstracker.org',
+  sourceESR: {
+    id: `${scope}.sourceESR`,
+    defaultMessage: 'Sources: HRMI 2020 {linkRightsTracker} & {linkSERF}',
+  },
+  sourceCPR: {
+    id: `${scope}.sourceESR`,
+    defaultMessage: 'Source: HRMI 2020 {linkRightsTracker}',
   },
 });

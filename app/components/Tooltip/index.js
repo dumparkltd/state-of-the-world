@@ -32,7 +32,7 @@ const StyledDrop = styled(Drop)`
 
 function Tooltip({
   text = 'I am a tooltip',
-  iconSize = 'large',
+  iconSize = 'medium',
   component,
   maxWidth,
   icon,
