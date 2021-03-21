@@ -178,6 +178,9 @@ export function ChartContainerMetricRanking({
     hasCountryGovRespondents(c),
   );
 
+  const regionFilter =
+    unRegionFilterValue === 'all' ? 'world' : unRegionFilterValue;
+
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -213,7 +216,7 @@ export function ChartContainerMetricRanking({
               bullet={metric.type === 'cpr'}
               maxValue={metric.type === 'esr' ? 100 : 10}
               unit={metric.type === 'esr' ? '%' : null}
-              color={unRegionFilterValue}
+              color={regionFilter}
               stripes={metric.type === 'esr' && standard === 'hi'}
               sort={{
                 sort: currentSort,
