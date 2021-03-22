@@ -27,7 +27,6 @@ import ChartContainerMetricRegion from 'containers/ChartContainerMetricRegion';
 import TabContainer from 'containers/TabContainer';
 import AboutMetricContainer from 'containers/AboutMetricContainer';
 
-import AsideBackground from 'components/AsideBackground';
 import Aside from 'components/Aside';
 
 import ContentWrap from 'styled/ContentWrap';
@@ -35,6 +34,7 @@ import MainColumn from 'styled/MainColumn';
 import ContentContainer from 'styled/ContentContainer';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import PageTitle from 'styled/PageTitle';
+import PageTop from 'styled/PageTop';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize } from 'utils/responsive';
@@ -79,8 +79,7 @@ export function PathMetric({
             <title>{metricTitle}</title>
             <meta name="description" content={metricTitle} />
           </Helmet>
-          <div style={{ position: 'relative' }}>
-            {isMinSize(size, 'large') && <AsideBackground />}
+          <PageTop>
             <ContentContainer direction="column" header>
               <ContentMaxWidth
                 header
@@ -110,7 +109,7 @@ export function PathMetric({
                 )}
               </ContentMaxWidth>
             </ContentContainer>
-          </div>
+          </PageTop>
           <TabContainer
             size={size}
             tabs={[

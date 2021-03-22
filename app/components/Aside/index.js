@@ -27,8 +27,7 @@ function Aside({ content, image, active, children, ...other }) {
           direction="column"
           flex={{ shrink: 0 }}
           fill="vertical"
-          image={image}
-          {...other}
+          image={image}{...other}
         >
           {content
             ? content.content({ active })

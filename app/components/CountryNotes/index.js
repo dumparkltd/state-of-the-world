@@ -18,14 +18,14 @@ const Styled = styled.div`
   left: 0;
   right: 0;
   z-index: 9;
-  background: ${({ hasAside }) => (hasAside ? 'transparent' : 'white')};
+  background: ${({ hasAside }) => (hasAside ? 'transparent' : '#F8F8F8')};
   box-shadow: ${({ hasAside }) =>
-    hasAside ? 'none' : '0px -10px 10px 1px rgb(255 255 255)'};
+    hasAside ? 'none' : '0px -10px 10px 1px #F8F8F8'};
 `;
 const StyledBox = styled(Box)`
-  background: ${({ hasAside }) => (!hasAside ? 'transparent' : 'white')};
+  background: ${({ hasAside }) => (!hasAside ? 'transparent' : '#F8F8F8')};
   box-shadow: ${({ hasAside }) =>
-    !hasAside ? 'none' : '0px -10px 10px 1px rgb(255 255 255)'};
+    !hasAside ? 'none' : '0px -10px 10px 1px #F8F8F8'};
   padding-right: ${({ hasAside, theme }) =>
     hasAside ? theme.global.edgeSize.xlarge : 0};
 `;

@@ -51,12 +51,12 @@ import TabContainer from 'containers/TabContainer';
 import AboutCountryContainer from 'containers/AboutCountryContainer';
 
 import ChartContainerCountry from 'containers/ChartContainerCountry';
-import AsideBackground from 'components/AsideBackground';
 import Aside from 'components/Aside';
 
 import ContentWrap from 'styled/ContentWrap';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import PageTitle from 'styled/PageTitle';
+import PageTop from 'styled/PageTop';
 import ContentContainer from 'styled/ContentContainer';
 import MainColumn from 'styled/MainColumn';
 import ButtonText from 'styled/ButtonText';
@@ -226,8 +226,7 @@ export function PathCountry({
             <title>{countryTitle}</title>
             <meta name="description" content="Description of Country page" />
           </Helmet>
-          <div style={{ position: 'relative' }}>
-            {isMinSize(size, 'large') && <AsideBackground />}
+          <PageTop>
             <ContentContainer direction="column" header>
               <ContentMaxWidth
                 header
@@ -253,7 +252,7 @@ export function PathCountry({
                 )}
               </ContentMaxWidth>
             </ContentContainer>
-          </div>
+          </PageTop>
           <TabContainer
             size={size}
             tabs={[

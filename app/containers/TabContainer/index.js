@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Box, Text } from 'grommet';
-import styled, { css, withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { getTabSearch } from 'containers/App/selectors';
 import { setTab, setAsideLayer } from 'containers/App/actions';
@@ -16,7 +16,7 @@ import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ButtonNavTab from 'styled/ButtonNavTab';
 import MainColumn from 'styled/MainColumn';
 
-import { isMinSize, isMaxSize, getHeaderHeight } from 'utils/responsive';
+import { isMinSize, isMaxSize } from 'utils/responsive';
 import isNumber from 'utils/is-number';
 
 // const Tab = styled.div``;
@@ -26,27 +26,12 @@ const Tabs = styled.div`
     display: none;
   }
 `;
-const Spacer = styled.div`
-  background: 'transparent';
-  height: ${({ height }) => height}px;
-`;
+// const Spacer = styled.div`
+//   background: 'transparent';
+//   height: ${({ height }) => height}px;
+// `;
 const Bar = styled.div`
-  background: ${({ theme }) => theme.global.colors.dark};
-`;
-const FixedBar = styled(Bar)`
-  background: ${({ theme }) => theme.global.colors.dark};
-  ${({ fixed, top }) =>
-    fixed &&
-    css`
-      display: block;
-      position: fixed;
-      top: ${top}px;
-      width: 100%;
-      left: 0;
-      right: 0;
-      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
-      z-index: 9;
-    `};
+  background: ${({ theme }) => theme.global.colors.world};
 `;
 
 const TabLinks = styled(Box)`
@@ -64,39 +49,39 @@ const SingleTabLabel = styled(Text)`
   color: white;
 `;
 
-function TabContainer({ tabs, tabKey, onTabClick, size, theme }) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const tabsRef = useRef();
-  const fixedRef = useRef();
-  const tabsRefOffset =
-    tabsRef &&
-    tabsRef.current &&
-    tabsRef.current.getBoundingClientRect &&
-    tabsRef.current.getBoundingClientRect().top;
-  const hh = getHeaderHeight(size, theme);
-  const fixedTop = scrollTop > hh && tabsRefOffset < hh;
+function TabContainer({ tabs, tabKey, onTabClick, size }) {
+  // const [scrollTop, setScrollTop] = useState(0);
+  // const tabsRef = useRef();
+  // const fixedRef = useRef();
+  // const tabsRefOffset =
+  //   tabsRef &&
+  //   tabsRef.current &&
+  //   tabsRef.current.getBoundingClientRect &&
+  //   tabsRef.current.getBoundingClientRect().top;
+  // const hh = getHeaderHeight(size, theme);
+  // const fixedTop = scrollTop > hh && tabsRefOffset < hh;
 
-  useEffect(() => {
-    function handleScroll() {
-      setScrollTop(window.pageYOffset);
-    }
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-  // make sure scroll to top on ctab change
-  useEffect(() => {
-    const tabsRefParentOffset =
-      tabsRef &&
-      tabsRef.current &&
-      tabsRef.current.offsetParent &&
-      tabsRef.current.offsetParent.offsetTop;
-    if (scrollTop > tabsRefParentOffset) {
-      window.scrollTo(0, tabsRefParentOffset - hh);
-    }
-    // }
-  }, [tabKey]);
+  // useEffect(() => {
+  //   function handleScroll() {
+  //     setScrollTop(window.pageYOffset);
+  //   }
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
+  // // make sure scroll to top on ctab change
+  // useEffect(() => {
+  //   const tabsRefParentOffset =
+  //     tabsRef &&
+  //     tabsRef.current &&
+  //     tabsRef.current.offsetParent &&
+  //     tabsRef.current.offsetParent.offsetTop;
+  //   if (scrollTop > tabsRefParentOffset) {
+  //     window.scrollTo(0, tabsRefParentOffset - hh);
+  //   }
+  //   // }
+  // }, [tabKey]);
   // prettier-ignore
   const tabsWithContent = tabs.filter(t => t.content && t.content());
   const hasAside = isMinSize(size, 'large');
@@ -117,11 +102,17 @@ function TabContainer({ tabs, tabKey, onTabClick, size, theme }) {
 
   return (
     <Box direction="column" style={{ position: 'relative' }}>
-      <Tabs justify="start" ref={tabsRef}>
-        <FixedBar fixed={fixedTop} ref={fixedRef} top={hh}>
-          <ContentMaxWidth hasAside>
-            <Box direction="row" fill="horizontal">
-              <TabLinks direction="row" flex align="center" wrap>
+      {mainTabs.length > 1 && (
+        <Tabs justify="start">
+          <Bar>
+            <ContentMaxWidth>
+              <TabLinks
+                fill="horizontal"
+                direction="row"
+                flex
+                align="center"
+                wrap
+              >
                 {mainTabs &&
                   mainTabs.length > 1 &&
                   mainTabs.map(tab => (
@@ -144,17 +135,14 @@ function TabContainer({ tabs, tabKey, onTabClick, size, theme }) {
                   </SingleTabLabel>
                 )}
               </TabLinks>
-            </Box>
-          </ContentMaxWidth>
-        </FixedBar>
-        {fixedTop && (
-          <Spacer height={fixedRef && fixedRef.current.offsetHeight} />
-        )}
-      </Tabs>
+            </ContentMaxWidth>
+          </Bar>
+        </Tabs>
+      )}
       <Box direction="column" style={{ position: 'relative' }}>
         {asideTab && <AsideBackground />}
         <ContentMaxWidth column hasAside={!!asideTab}>
-          <Box direction="row" fill="horizontal">
+          <Box direction="row" fill="horizontal" justify="between">
             <MainColumn hasAside={!!asideTab}>
               {activeTab.content({
                 activeTab: activeTab.key,
@@ -176,7 +164,6 @@ TabContainer.propTypes = {
   tabs: PropTypes.array,
   onTabClick: PropTypes.func,
   size: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired,
   tabKey: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
@@ -198,4 +185,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withTheme(TabContainer));
+export default compose(withConnect)(TabContainer);

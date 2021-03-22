@@ -14,7 +14,7 @@ import {
   getFloatingAsideWidth,
 } from 'utils/responsive';
 
-function AsideBackground({ theme, color }) {
+function AsideBackground({ theme }) {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
   );
@@ -37,7 +37,7 @@ function AsideBackground({ theme, color }) {
           justify="end"
         >
           <Box
-            background={color || 'light-1'}
+            background="white"
             fill="vertical"
             width={
               isMaxSize(size, 'medium')
@@ -52,7 +52,6 @@ function AsideBackground({ theme, color }) {
 }
 
 AsideBackground.propTypes = {
-  color: PropTypes.string,
   theme: PropTypes.object,
 };
 

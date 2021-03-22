@@ -72,7 +72,7 @@ export function LayerAside({ onClose, theme, layer }) {
             overflow="auto"
             style={{ position: 'relative' }}
             responsive={false}
-            background={layer.background || 'white'}
+            background="white"
             pad={{ right: 'medium' }}
           >
             <ButtonWrap>

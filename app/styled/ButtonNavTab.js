@@ -4,33 +4,40 @@ import ButtonPlain from './ButtonPlain';
 export default styled(ButtonPlain)`
   display: block;
   text-align: center;
-  color: ${({ theme }) => theme.global.colors.white};
-  margin: 0px 6px;
+  padding: 0px 6px;
   font-size: ${({ theme }) => theme.text.small.size};
+  font-weight: bold;
+  color: ${({ theme, active }) => theme.global.colors[active ? 'world' : 'white']};
+  background: ${({ theme, active }) => (active ? theme.global.colors['light-0'] : 'transparent')};
   border-top: 5px solid transparent;
-  border-bottom: 5px solid ${({ active }) => (active ? 'white' : 'transparent')};
+  border-bottom: 5px solid transparent;
+  cursor: ${({ active }) => (active ? 'default' : 'pointer')} !important;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    margin: 0px 10px;
+    padding: 0px 10px;
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
     font-size: ${({ theme }) => theme.text.medium.size};
     display: inline-block;
     height: 44px;
-    margin: 0px 20px;
+    padding: 0px 20px;
     width: auto;
   }
   &:hover {
-    color: ${({ theme }) => theme.global.colors.white};
-    border-bottom-color: white;
+    color: ${({ theme, active }) => theme.global.colors[active ? 'world' : 'white']};
+    background: ${({ theme, active }) => (active ? theme.global.colors['light-0'] : 'transparent')};
+    text-decoration: ${({ active }) => (active ? 'none' : 'underline')};
   }
   &:active {
-    color: ${({ theme }) => theme.global.colors.white};
+    color: ${({ theme, active }) => theme.global.colors[active ? 'world' : 'white']};
+    background: ${({ theme, active }) => (active ? theme.global.colors['light-0'] : 'transparent')};
   }
   &:visited {
-    color: ${({ theme }) => theme.global.colors.white};
+    color: ${({ theme, active }) => theme.global.colors[active ? 'world' : 'white']};
+    background: ${({ theme, active }) => (active ? theme.global.colors['light-0'] : 'transparent')};
   }
   &:focus {
-    color: ${({ theme }) => theme.global.colors.white};
+    color: ${({ theme, active }) => theme.global.colors[active ? 'world' : 'white']};
+    background: ${({ theme, active }) => (active ? theme.global.colors['light-0'] : 'transparent')};
     outline: none;
   }
 `;
