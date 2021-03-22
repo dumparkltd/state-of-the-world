@@ -122,7 +122,52 @@ export const COLUMNS = {
     GROUPS: 'group_codes',
     GOV_RESPONDENTS: 'gov_respondents',
   },
+  HRC_TERMS: {
+    ID: 'term_id',
+    START: 'term_start',
+    END: 'term_end',
+    CURRENT: 'current',
+  },
 };
+
+export const TREATIES = [
+  {
+    column: 'TREATY_CAT',
+    msg: 'cat',
+  },
+  {
+    column: 'TREATY_CED',
+    msg: 'ced',
+  },
+  {
+    column: 'TREATY_CEDAW',
+    msg: 'cedaw',
+  },
+  {
+    column: 'TREATY_CERD',
+    msg: 'cerd',
+  },
+  {
+    column: 'TREATY_CRC',
+    msg: 'crc',
+  },
+  {
+    column: 'TREATY_CRPD',
+    msg: 'crpd',
+  },
+  {
+    column: 'TREATY_ICCPR',
+    msg: 'iccpr',
+  },
+  {
+    column: 'TREATY_ICESCR',
+    msg: 'icescr',
+  },
+  {
+    column: 'TREATY_OPCAT',
+    msg: 'opcat',
+  },
+];
 
 export const LANGUAGES = {
   short: {
@@ -162,21 +207,6 @@ export const PATHS = {
 };
 export const IMAGE_PATH =
   '//app.dumpark.com/state-of-the-world-content/assets/uploads';
-
-export const XPATHS = {
-  home: {
-    en: '//www.universal-rights.org',
-    fr: '//www.universal-rights.org',
-    es: '//www.universal-rights.org',
-    pt: '//www.universal-rights.org',
-  },
-  yourhrc_country: {
-    en: '//yourhrc.org/country-detail/?country=',
-    fr: '//yourhrc.org/country-detail/?country=',
-    es: '//yourhrc.org/country-detail/?country=',
-    pt: '//yourhrc.org/country-detail/?country=',
-  },
-};
 
 export const FAQS = {
   COUNTRY_SNAPSHOT: ['scale', 'year', 'standards'],

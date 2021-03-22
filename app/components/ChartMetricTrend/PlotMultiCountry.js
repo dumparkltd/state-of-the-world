@@ -197,7 +197,7 @@ PlotMultiCountry.propTypes = {
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   setYear: PropTypes.func,
-  highlightRegion: PropTypes.string,
+  highlightRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   tickValuesX: PropTypes.array,
   tickValuesY: PropTypes.array,
   dataForceYRange: PropTypes.array,

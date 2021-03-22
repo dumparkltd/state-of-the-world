@@ -61,6 +61,10 @@ export const getCountries = createSelector(
   getData,
   data => data.countries,
 );
+export const getHRCTerms = createSelector(
+  getData,
+  data => data.hrcTerms,
+);
 export const getCountriesGrammar = createSelector(
   getData,
   data => data.countriesGrammar,

@@ -96,13 +96,7 @@ export function LayerAside({ onClose, theme, layer }) {
               />
             )}
             {layer.type === 'aboutCountry' && (
-              <AboutCountryContainer
-                countryCode={layer.code}
-                showTitle
-                showCountryLink
-                inverse
-                inAside
-              />
+              <AboutCountryContainer countryCode={layer.code} inAside />
             )}
           </Box>
         </Layer>

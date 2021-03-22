@@ -12,18 +12,18 @@ import { createStructuredSelector } from 'reselect';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled, { withTheme } from 'styled-components';
 import { Box, Button, ResponsiveContext, Image, Layer } from 'grommet';
-import { Menu, Close, Share } from 'grommet-icons';
+import { Menu, Close } from 'grommet-icons';
 
 import logo from 'images/sotw-logo.png';
 
-import { appLocales, DEFAULT_LOCALE } from 'i18n';
+import { appLocales } from 'i18n';
 import LocaleToggle from 'containers/LocaleToggle';
 import {
   getRouterMatch,
   getRouterRoute,
   getLocale,
 } from 'containers/App/selectors';
-import { PAGES, PATHS, XPATHS } from 'containers/App/constants';
+import { PAGES, PATHS } from 'containers/App/constants';
 
 import {
   navigate,
@@ -148,12 +148,12 @@ const SearchWrap = styled(Box)`
     height: ${({ theme }) => getHeaderHeightBottom('medium', theme)}px;
   }
 `;
-
-const StyledShare = styled(p => <Share {...p} size="small" />)`
-  vertical-align: middle;
-  margin-left: 7px;
-  stroke: currentColor;
-`;
+//
+// const StyledShare = styled(p => <Share {...p} size="small" />)`
+//   vertical-align: middle;
+//   margin-left: 7px;
+//   stroke: currentColor;
+// `;
 
 const TextWrap = styled.span`
   vertical-align: middle;
@@ -177,38 +177,23 @@ const BrandBox = styled(Box)`
   }
 `;
 
-const navButtonOnClick = ({ match, onClick, align, locale }) =>
+const navButtonOnClick = ({ match, onClick, align }) =>
   PAGES &&
   Object.values(PAGES)
     .filter(page => page.primary)
-    .map(page =>
-      page.key === 'download' ? (
-        <ButtonNavPrimary
-          as="a"
-          href={XPATHS.download[locale] || XPATHS.download[DEFAULT_LOCALE]}
-          target="_blank"
-          rel="noopener noreferrer"
-          key={page.key}
-        >
-          <TextWrap>
-            <FormattedMessage {...rootMessages.page[page.key]} />
-          </TextWrap>
-          <StyledShare />
-        </ButtonNavPrimary>
-      ) : (
-        <ButtonNavPrimary
-          key={page.key}
-          active={page.key === match}
-          disabled={page.key === match}
-          align={align}
-          onClick={() => onClick(page.key)}
-        >
-          <TextWrap>
-            <FormattedMessage {...rootMessages.page[page.key]} />
-          </TextWrap>
-        </ButtonNavPrimary>
-      ),
-    );
+    .map(page => (
+      <ButtonNavPrimary
+        key={page.key}
+        active={page.key === match}
+        disabled={page.key === match}
+        align={align}
+        onClick={() => onClick(page.key)}
+      >
+        <TextWrap>
+          <FormattedMessage {...rootMessages.page[page.key]} />
+        </TextWrap>
+      </ButtonNavPrimary>
+    ));
 
 const DEPENDENCIES = ['countries'];
 

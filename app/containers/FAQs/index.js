@@ -160,7 +160,7 @@ function FAQs({ questions, intl, metric, navMethodology }) {
               </Box>
             }
           >
-            <Box pad={{ vertical: 'small', horizontal: 'xsmall' }} border="top">
+            <Box pad={{ vertical: 'small' }} border="top">
               {renderAnswer(q, intl, msgValues, navMethodology)}
             </Box>
           </AccordionPanel>

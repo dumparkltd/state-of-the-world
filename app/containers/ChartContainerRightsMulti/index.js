@@ -93,6 +93,7 @@ export function ChartContainerRightsMulti({
 
   if (!rightsScores) return null;
   const isESR = type === 'esr';
+  // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -105,11 +106,13 @@ export function ChartContainerRightsMulti({
               },
             ]}
             settings={
-              type === 'esr' && [
-                {
-                  attribute: 'standard',
-                },
-              ]
+              type === 'esr'
+                ? [
+                  {
+                    attribute: 'standard',
+                  },
+                ]
+                : []
             }
           />
           <MultiCardWrapper
