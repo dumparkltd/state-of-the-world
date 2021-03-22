@@ -53,4 +53,8 @@ export default defineMessages({
       defaultMessage: 'Score not available for {countryWithArticle}',
     },
   },
+  supTitle: {
+    id: `${scope}.supTitle`,
+    defaultMessage: 'Country profile',
+  },
 });

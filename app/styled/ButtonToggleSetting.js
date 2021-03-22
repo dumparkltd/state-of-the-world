@@ -6,44 +6,37 @@ import ButtonPrimary from './ButtonPrimary';
 
 // prettier-ignore
 const StyledPrimary = styled(ButtonPrimary)`
-  border-radius: 3px !important;
-  padding: 3px 6px;
-  margin-right: ${({ theme }) => theme.global.edgeSize.xsmall};
-  background-color: ${({ theme, color }) => theme.global.colors[color || 'dark']};
-  &:last-child {
-    margin-right: 0;
-  }
+  border-radius: 0px !important;
+  padding: 0px 4px;
+  background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
+  color: ${({ theme }) => theme.global.colors.dark};
+  border: 1px solid ${({ theme }) => theme.global.colors['light-4']};
   &:hover {
-    background-color:
-    ${({ theme, multi }) => theme.global.colors[multi ? 'buttonSecondaryOnWhite' : 'buttonPrimaryHover']};
-    color:
-    ${({ theme, multi }) => theme.global.colors[multi ? 'dark' : 'white']};
+    background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
+    color: ${({ theme }) => theme.global.colors.dark};
 }
   &:active {
-    color: ${({ theme }) => theme.global.colors.white};
-    background-color: ${({ theme, color }) => theme.global.colors[color || 'dark']};
+    background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
+    color: ${({ theme }) => theme.global.colors.dark};
 }
   &:focus {
-    color: ${({ theme }) => theme.global.colors.white};
-    background-color: ${({ theme, color }) => theme.global.colors[color || 'dark']};
+    background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
+    color: ${({ theme }) => theme.global.colors.dark};
 }
   &:visited {
-    color: ${({ theme }) => theme.global.colors.white};
-    background-color: ${({ theme, color }) => theme.global.colors[color || 'dark']};
+    background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
+    color: ${({ theme }) => theme.global.colors.dark};
 }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    padding: 3px 10px;
+    padding: 0px 8px;
   }
 `;
 const StyledButton = styled(Button)`
-  border-radius: 3px !important;
-  padding: 3px 6px;
-  margin-right: ${({ theme }) => theme.global.edgeSize.xsmall};
-  &:last-child {
-    margin-right: 0;
-  }
+  border-radius: 0px !important;
+  border: 1px solid ${({ theme }) => theme.global.colors['light-4']};
+  padding: 0px 4px;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    padding: 3px 10px;
+    padding: 0px 8px;
   }
 `;
 

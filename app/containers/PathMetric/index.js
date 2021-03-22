@@ -8,11 +8,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
-import { ResponsiveContext } from 'grommet';
-import { withTheme } from 'styled-components';
+import { ResponsiveContext, Box, Text } from 'grommet';
+import styled, { withTheme } from 'styled-components';
 
 import { setAsideLayer } from 'containers/App/actions';
 import {
@@ -40,6 +40,11 @@ import getMetricDetails from 'utils/metric-details';
 import { isMinSize } from 'utils/responsive';
 
 import rootMessages from 'messages';
+
+const SupTitle = styled(p => <Text {...p} />)`
+  color: white;
+  font-weight: 600;
+`;
 
 export function PathMetric({
   match,
@@ -90,21 +95,29 @@ export function PathMetric({
                 }
                 hasAside={isMinSize(size, 'large')}
               >
-                <MainColumn hasAside={isMinSize(size, 'large')} header hasLinks>
+                <MainColumn
+                  hasAside={isMinSize(size, 'large')}
+                  header
+                  justify="center"
+                >
+                  <SupTitle>
+                    <FormattedMessage
+                      {...rootMessages['rights-types'][metric.type]}
+                    />
+                  </SupTitle>
                   <PageTitle>{metricTitle}</PageTitle>
                 </MainColumn>
                 {isMinSize(size, 'large') && (
                   <Aside image>
-                    <img
-                      src={imageSrc}
-                      alt={metricTitle}
-                      fit="cover"
-                      style={{
-                        overflow: 'hidden',
-                        objectFit: 'cover',
-                        maxWidth: '350px',
-                      }}
-                    />
+                    <Box align="center" justify="center" fill>
+                      <img
+                        src={imageSrc}
+                        alt={metricTitle}
+                        style={{
+                          maxWidth: '144px',
+                        }}
+                      />
+                    </Box>
                   </Aside>
                 )}
               </ContentMaxWidth>

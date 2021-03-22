@@ -51,7 +51,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   .hrmi-html a {
-    color: #262262;
+    color: #0077B3;
     text-decoration: underline;
     font-weight: 600;
     &:hover {
@@ -60,7 +60,7 @@ const GlobalStyle = createGlobalStyle`
   }
   .hrmi-html a.hero {
     color: #ffffff;
-    background-color: #262262;
+    background-color: #0077B3;
     padding: 5px 20px;
     margin: 20px 0;
     border-radius: 5px;

@@ -17,10 +17,6 @@ export default defineMessages({
     id: `${scope}.allSearch`,
     defaultMessage: 'Search country or metric',
   },
-  exampleSearch: {
-    id: `${scope}.exampleSearch`,
-    defaultMessage: 'e.g. try "Fiji" or "Housing"',
-  },
   countrySearch: {
     id: `${scope}.countrySearch`,
     defaultMessage: 'Search country',

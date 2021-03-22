@@ -178,7 +178,7 @@ function AboutCountryContainer({
 
   /* eslint-disable global-require */
   return (
-    <ContainerBox pad={{ left: 'medium' }} flex={{ shrink: 0 }}>
+    <ContainerBox pad={{ horizontal: 'medium' }} flex={{ shrink: 0 }}>
       <FlagBox>
         <FlagImg
           src={requestImageFile(`./${lowerCase(countryCode)}.svg`)}

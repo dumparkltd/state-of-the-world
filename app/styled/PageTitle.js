@@ -6,10 +6,9 @@ import styled from 'styled-components';
 const Styled = styled(Heading)`
   font-size: ${({ theme, level = 1 }) => theme.heading.level[level].small.size};
   line-height: ${({ theme, level = 1 }) => theme.heading.level[level].small.height};\
-  font-weight: 700;
+  font-weight: 600;
   color: white;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    font-weight: 400;
     font-size: ${({ theme, level = 1 }) => theme.heading.level[level].medium.size};
     line-height: ${({ theme, level = 1 }) => theme.heading.level[level].medium.height};
   }

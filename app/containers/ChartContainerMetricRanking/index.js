@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { Box, ResponsiveContext } from 'grommet';
+import { Box, ResponsiveContext, Heading } from 'grommet';
 
 import {
   getESRRightScores,
@@ -43,8 +43,10 @@ import Hint from 'styled/Hint';
 import { sortScores } from 'utils/scores';
 import { isMinSize } from 'utils/responsive';
 import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
+import { lowerCase } from 'utils/string';
 
 import rootMessages from 'messages';
+import messages from './messages';
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
 
@@ -185,6 +187,18 @@ export function ChartContainerMetricRanking({
     <ResponsiveContext.Consumer>
       {size => (
         <Box margin={{ bottom: 'xlarge' }}>
+          <Box margin={{ top: 'medium' }}>
+            <Heading level={1}>
+              <FormattedMessage
+                {...messages.title}
+                values={{
+                  metric: lowerCase(
+                    intl.formatMessage(rootMessages.rights[metric.key]),
+                  ),
+                }}
+              />
+            </Heading>
+          </Box>
           <ChartHeader
             filters={[
               {

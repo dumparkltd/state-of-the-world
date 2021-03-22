@@ -8,12 +8,10 @@ import { getAsideWidth } from 'utils/responsive';
 const Styled = styled(Box)`
   justify-content: center;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    padding-right: ${({ theme, image }) =>
-    image ? 0 : theme.global.edgeSize.medium};
+    padding-right: ${({ theme }) => theme.global.edgeSize.medium};
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
-    padding-right: ${({ theme, image }) =>
-    image ? 0 : theme.global.edgeSize.xlarge};
+    padding-right: ${({ theme }) => theme.global.edgeSize.xlarge};
   }
 `;
 
@@ -27,7 +25,8 @@ function Aside({ content, image, active, children, ...other }) {
           direction="column"
           flex={{ shrink: 0 }}
           fill="vertical"
-          image={image}{...other}
+          image={image}
+          {...other}
         >
           {content
             ? content.content({ active })

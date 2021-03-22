@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withTheme } from 'styled-components';
-import { FormattedMessage } from 'react-intl';
-import { Text } from 'grommet';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { Box, Heading } from 'grommet';
 
 import { PATHS } from 'containers/App/constants';
 
@@ -37,8 +37,10 @@ import ChartHeader from 'components/ChartHeader';
 import Source from 'components/Source';
 
 import getMetricDetails from 'utils/metric-details';
+import { lowerCase } from 'utils/string';
 
 import rootMessages from 'messages';
+import messages from './messages';
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
 
@@ -57,6 +59,7 @@ export function ChartContainerMetricRegion({
   onSelectMetric,
   onSelectPage,
   onSetRegionFilter,
+  intl,
 }) {
   useEffect(() => {
     onLoadData();
@@ -68,11 +71,18 @@ export function ChartContainerMetricRegion({
   if (!scores) return null;
   return (
     <div>
-      <div>
-        <Text weight={700}>
-          <FormattedMessage {...rootMessages.rights[metric.key]} />
-        </Text>
-      </div>
+      <Box margin={{ top: 'medium' }}>
+        <Heading level={1}>
+          <FormattedMessage
+            {...messages.title}
+            values={{
+              metric: lowerCase(
+                intl.formatMessage(rootMessages.rights[metric.key]),
+              ),
+            }}
+          />
+        </Heading>
+      </Box>
       <ChartHeader
         filters={[
           {
@@ -126,6 +136,7 @@ ChartContainerMetricRegion.propTypes = {
   onSelectMetric: PropTypes.func,
   onSelectPage: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
+  intl: intlShape,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -172,4 +183,6 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withTheme(ChartContainerMetricRegion));
+export default compose(withConnect)(
+  withTheme(injectIntl(ChartContainerMetricRegion)),
+);

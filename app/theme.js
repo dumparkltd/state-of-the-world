@@ -10,8 +10,8 @@ export const SIZES = {
     padRight: 0,
     padBottom: 0,
     padTopBottom: 10,
-    brandWidth: 380,
-    logoWidth: 200,
+    brandWidth: 230,
+    logoWidth: 72,
     small: {
       height: 72,
       heightTop: 46,
@@ -20,7 +20,7 @@ export const SIZES = {
       padRight: 14,
       padBottom: 0,
       padTopBottom: 0,
-      logoWidth: 120,
+      logoWidth: 46,
       brandWidth: 200,
     },
   },
@@ -172,11 +172,11 @@ const theme = {
       size: '16px',
     },
     colors: {
-      black: '#101D24',
+      black: '#000000',
       white: '#FFFFFF',
       text: {
         dark: '#FFFFFF', //  on dark background
-        light: '#262262', // on light background (empowerment)
+        light: '#000000', // on light background (empowerment)
       },
       border: { light: '#ceced2', dark: '#ffffff' },
       'light-0': '#F8F8F8', // <<< lightest      empowerment: '#262064', // AA large
@@ -190,12 +190,13 @@ const theme = {
       'dark-3': '#757575', // AA
       'dark-4': '#8896A0', // AA large
       'dark-5': '#BBBBBB', // AA large
-      dark: '#262262', // empowerment',
-      darker: '#110d50', // empowerment',
+      dark: '#555555', // empowerment',
+      darker: '#111111', // empowerment',
       secondary: '#757575',
       disabled: '#8896A0',
-      hint: '#393393',
+      hint: '#333333',
       brand: '#0077B3',
+      brandDark: '#0E6B9B',
       highlight: '#FDB933',
       highlight2: '#DB7E00', // AA large
       highlight3: '#AD6500', // AA
@@ -230,12 +231,12 @@ const theme = {
       graphicPurple: '#8D60BA',
       graphicYellow: '#FDC65B',
       buttonPrimary: '#7F59A6',
-      footer: '#423E86',
+      footer: '#0E6B9B',
       buttonPrimaryHover: '#626096',
-      buttonSecondary: '#deddec',
-      buttonSecondaryOnWhite: '#ededf5',
-      buttonSecondaryHover: '#c8c6e0',
-      buttonSecondaryOnWhiteHover: '#deddec',
+      buttonSecondary: '#ffffff',
+      buttonSecondaryOnWhite: '#ffffff',
+      buttonSecondaryHover: '#dddddd',
+      buttonSecondaryOnWhiteHover: '#dddddd',
       world: '#0077B3', // blue
       AG: '#D67200', // orange
       APG: '#0F914B', // green

@@ -71,7 +71,7 @@ export function FilterOptions({
     <Styled>
       {config.attribute === 'unregion' && (
         <Box pad={{ bottom: 'xsmall' }} direction="row">
-          <Text size="small">
+          <Text size="xsmall">
             {config.type === 'filter' && config.all && (
               <FormattedMessage {...messages.unregionFilterAll} />
             )}

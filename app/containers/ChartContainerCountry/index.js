@@ -11,7 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
 import styled, { withTheme } from 'styled-components';
-import { Box, ResponsiveContext } from 'grommet';
+import { Box, ResponsiveContext, Heading } from 'grommet';
 
 import { RIGHTS, COLUMNS } from 'containers/App/constants';
 
@@ -39,7 +39,10 @@ import getMetricDetails from 'utils/metric-details';
 import { isMinSize, isMaxSize } from 'utils/responsive';
 // import { CARD_WIDTH } from 'theme';
 import rootMessages from 'messages';
+
 import LoadingIndicator from 'components/LoadingIndicator';
+
+import messages from './messages';
 
 // prettier-ignore
 const MultiCardWrapper = styled(Box)`
@@ -66,8 +69,6 @@ export function ChartContainerCountry({
   dataReady,
   onLoadData,
   country,
-  // activeMetricCode,
-  // messageValues,
   scores,
   regionScores,
   benchmark,
@@ -77,6 +78,7 @@ export function ChartContainerCountry({
   minYearCPR,
   onSelectMetric,
   theme,
+  messageValues,
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
@@ -105,9 +107,14 @@ export function ChartContainerCountry({
       <ResponsiveContext.Consumer>
         {size => (
           <div>
-            <h1>
+            <Box margin={{ top: 'medium' }}>
+              <Heading level={1}>
+                <FormattedMessage {...messages.title} values={messageValues} />
+              </Heading>
+            </Box>
+            <h2>
               <FormattedMessage {...rootMessages['rights-types'].esr} />
-            </h1>
+            </h2>
             <ChartHeader settings={[{ attribute: 'standard' }]} />
             <MultiCardWrapper
               pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
@@ -160,9 +167,9 @@ export function ChartContainerCountry({
               )}
               <Source type="esr" />
             </MultiCardWrapper>
-            <h1>
+            <h2>
               <FormattedMessage {...rootMessages['rights-types'].cpr} />
-            </h1>
+            </h2>
             <MultiCardWrapper
               pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
               align="start"
@@ -235,6 +242,7 @@ ChartContainerCountry.propTypes = {
   benchmark: PropTypes.string,
   country: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   theme: PropTypes.object,
+  messageValues: PropTypes.object,
   onSelectMetric: PropTypes.func,
 };
 const mapStateToProps = createStructuredSelector({

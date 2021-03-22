@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-import { ResponsiveContext, Image as GImage } from 'grommet';
+import { ResponsiveContext, Image as GImage, Text } from 'grommet';
 import styled, { withTheme } from 'styled-components';
 
 import rootMessages from 'messages';
@@ -78,6 +78,10 @@ const StyledPageTitle = styled(PageTitle)`
     font-size: 40px;
     line-height: 43px;
   }
+`;
+const SupTitle = styled(p => <Text {...p} />)`
+  color: white;
+  font-weight: 600;
 `;
 
 const DEPENDENCIES = [
@@ -237,7 +241,14 @@ export function PathCountry({
                 }
                 hasAside={isMinSize(size, 'large')}
               >
-                <MainColumn hasAside={isMinSize(size, 'large')} header hasLinks>
+                <MainColumn
+                  hasAside={isMinSize(size, 'large')}
+                  header
+                  justify="center"
+                >
+                  <SupTitle>
+                    <FormattedMessage {...messages.supTitle} />
+                  </SupTitle>
                   <TitleWrapper>
                     <StyledPageTitle>{countryTitle}</StyledPageTitle>
                   </TitleWrapper>

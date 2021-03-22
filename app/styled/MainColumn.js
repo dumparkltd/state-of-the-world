@@ -10,26 +10,10 @@ const Styled = styled(Box)`
   padding-right: ${({ hasAside, theme }) =>
     hasAside ? theme.global.edgeSize.medium : 0};
   padding-bottom: ${props => (props.header ? '15px' : 0)};
-  padding-top: ${({ header, hasLinks }) => {
-    if (header && hasLinks) {
-      return '20px';
-    }
-    if (header && !hasLinks) {
-      return '30px';
-    }
-    return 0;
-  }};
+  padding-top: ${({ header }) => (header ? 20 : 0)}px;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     padding-bottom: ${props => (props.header ? '40px' : 0)};
-    padding-top: ${({ header, hasLinks }) => {
-    if (header && hasLinks) {
-      return '25px';
-    }
-    if (header && !hasLinks) {
-      return '45px';
-    }
-    return 0;
-  }};
+    padding-top: ${({ header }) => (header ? 25 : 0)}px;
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.xlarge}) {
     padding-right: ${({ hasAside, theme }) =>
@@ -38,7 +22,7 @@ const Styled = styled(Box)`
 `;
 
 function MainColumn(props) {
-  return <Styled direction="column" {...props} flex />;
+  return <Styled direction="column" flex {...props} />;
 }
 
 MainColumn.propTypes = {

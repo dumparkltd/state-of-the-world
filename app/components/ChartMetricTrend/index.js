@@ -6,13 +6,16 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import { ResponsiveContext, Box } from 'grommet';
+import { ResponsiveContext, Box, Text } from 'grommet';
 
 import { isMinSize } from 'utils/responsive';
 import { getXTime, getTickValuesY, getTickValuesX } from 'utils/charts';
 
 import { COLUMNS } from 'containers/App/constants';
+
+import rootMessages from 'messages';
 
 import Card from './Card';
 import CardHeader from './CardHeader';
@@ -78,6 +81,15 @@ function ChartMetricTrend({
               setYear(false);
             }}
           >
+            {mode === 'detail-region' && (
+              <Box margin={{ vertical: 'small' }}>
+                <Text size="large" weight={700}>
+                  <FormattedMessage
+                    {...rootMessages.rights[metric.key]}
+                  />
+                </Text>
+              </Box>
+            )}
             {(mode === 'multi-region' || mode === 'multi-country') &&
               unRegionFilterValue && (
               <CardHeader

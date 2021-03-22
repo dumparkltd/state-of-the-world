@@ -12,7 +12,7 @@ export default defineMessages({
   title: {
     id: `${scope}.title`,
     defaultMessage:
-      "{needsArticle, select, true {The } false { }}{country}'{isPlural, select, true {} false {s}} Human Rights Report",
+      'How well are Human Rights respected in {countryWithArticle}?',
   },
   exploreDetails: {
     id: `${scope}.exploreDetails`,

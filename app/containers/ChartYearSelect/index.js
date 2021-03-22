@@ -69,7 +69,7 @@ export function ChartYearSelect({
     >
       <Box direction="row" align="center">
         <Box pad={{ bottom: 'xsmall' }} direction="row">
-          <Text size="small">
+          <Text size="xsmall">
             <FormattedMessage {...messages.selectYear} />
           </Text>
         </Box>

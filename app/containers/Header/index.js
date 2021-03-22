@@ -31,8 +31,6 @@ import {
   setAsideLayer,
 } from 'containers/App/actions';
 
-import Search from 'containers/Search';
-
 import ButtonNavPrimary from 'styled/ButtonNavPrimary';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 
@@ -58,6 +56,13 @@ const Styled = styled.header`
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     height: ${({ theme }) => getHeaderHeight('medium', theme)}px;
   }
+`;
+
+const Title = styled.span`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.global.colors.world};
+  text-transform: uppercase;
 `;
 
 const NavBarTop = props => (
@@ -142,12 +147,6 @@ const ToggleMenu = styled(Button)`
   }
 `;
 
-const SearchWrap = styled(Box)`
-  height: ${({ theme }) => getHeaderHeightBottom('small', theme)}px;
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    height: ${({ theme }) => getHeaderHeightBottom('medium', theme)}px;
-  }
-`;
 //
 // const StyledShare = styled(p => <Share {...p} size="small" />)`
 //   vertical-align: middle;
@@ -161,13 +160,6 @@ const TextWrap = styled.span`
 
 const ElevationBox = styled(Box)`
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  @media print {
-    box-shadow: none;
-    padding-left: ${({ theme }) => theme.global.edgeSize.large};
-    padding-right: ${({ theme }) => theme.global.edgeSize.large};
-    padding-top: ${({ theme }) => theme.global.edgeSize.xsmall};
-    padding-bottom: ${({ theme }) => theme.global.edgeSize.ms};
-  }
 `;
 
 const BrandBox = styled(Box)`
@@ -239,9 +231,9 @@ export function Header({
                     justify="start"
                     gap="10px"
                     fill={false}
+                    align="center"
                   >
                     <LogoWrap
-                      justify="start"
                       width={`${
                         isMaxSize(size, 'sm')
                           ? theme.sizes.header.small.logoWidth
@@ -258,6 +250,9 @@ export function Header({
                         fit="contain"
                       />
                     </LogoWrap>
+                    <Title>
+                      <FormattedMessage {...rootMessages.app.title} />
+                    </Title>
                   </BrandInner>
                 </BrandButton>
                 {isMaxSize(size, 'sm') && appLocales.length > 1 && (
@@ -365,15 +360,6 @@ export function Header({
                         }}
                       />
                     </>
-                  )}
-                  {isMinSize(size, 'large') && (
-                    <SearchWrap justify="center">
-                      <Search
-                        expand={showSearch}
-                        onToggle={show => setShowSearch(show)}
-                        bordersize="none"
-                      />
-                    </SearchWrap>
                   )}
                 </NavBarBottom>
               </Box>

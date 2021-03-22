@@ -28,6 +28,8 @@ const Styled = styled.div`
 export function ChartHeader({ filters, settings, year, metricType }) {
   return (
     <Styled top>
+      {filters &&
+        filters.map(f => <ChartFilters key={f.attribute} config={f} />)}
       {(settings || (year && metricType)) && (
         <Box direction="row" justify="between">
           {settings &&
@@ -36,8 +38,6 @@ export function ChartHeader({ filters, settings, year, metricType }) {
           {year && metricType && <ChartYearSelect metricType={metricType} />}
         </Box>
       )}
-      {filters &&
-        filters.map(f => <ChartFilters key={f.attribute} config={f} />)}
     </Styled>
   );
 }
