@@ -21,6 +21,19 @@ import housing from 'images/metrics/housing.png';
 import participation from 'images/metrics/participation.png';
 import torture from 'images/metrics/torture.png';
 import work from 'images/metrics/work.png';
+import arrestInv from 'images/metrics/arrest_invert.png';
+import assemblyInv from 'images/metrics/assembly_invert.png';
+import deathPenaltyInv from 'images/metrics/death-penalty_invert.png';
+import disappearanceInv from 'images/metrics/disappearance_invert.png';
+import educationInv from 'images/metrics/education_invert.png';
+import expressionInv from 'images/metrics/expression_invert.png';
+import extrajudKillingInv from 'images/metrics/extrajud-killing_invert.png';
+import foodInv from 'images/metrics/food_invert.png';
+import healthInv from 'images/metrics/health_invert.png';
+import housingInv from 'images/metrics/housing_invert.png';
+import participationInv from 'images/metrics/participation_invert.png';
+import tortureInv from 'images/metrics/torture_invert.png';
+import workInv from 'images/metrics/work_invert.png';
 
 export const CHECK_COOKIECONSENT = 'hrmi/App/CHECK_COOKIECONSENT';
 export const COOKIECONSENT_CHECKED = 'hrmi/App/COOKIECONSENT_CHECKED';
@@ -402,6 +415,7 @@ export const RIGHTS = [
     type: 'esr',
     resource: 'esrScores',
     icon: education,
+    iconInv: educationInv,
   },
   {
     key: 'food',
@@ -409,6 +423,7 @@ export const RIGHTS = [
     type: 'esr',
     resource: 'esrScores',
     icon: food,
+    iconInv: foodInv,
   },
   {
     key: 'health',
@@ -416,6 +431,7 @@ export const RIGHTS = [
     type: 'esr',
     resource: 'esrScores',
     icon: health,
+    iconInv: healthInv,
   },
   {
     key: 'housing',
@@ -423,6 +439,7 @@ export const RIGHTS = [
     type: 'esr',
     resource: 'esrScores',
     icon: housing,
+    iconInv: housingInv,
   },
   {
     key: 'work',
@@ -430,6 +447,7 @@ export const RIGHTS = [
     type: 'esr',
     resource: 'esrScores',
     icon: work,
+    iconInv: workInv,
   },
   {
     key: 'arrest',
@@ -437,6 +455,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: arrest,
+    iconInv: arrestInv,
   },
   {
     key: 'disappearance',
@@ -444,6 +463,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: disappearance,
+    iconInv: disappearanceInv,
   },
   {
     key: 'death-penalty',
@@ -451,6 +471,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: deathPenalty,
+    iconInv: deathPenaltyInv,
   },
   {
     key: 'extrajud-killing',
@@ -458,6 +479,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: extrajudKilling,
+    iconInv: extrajudKillingInv,
   },
   {
     key: 'torture',
@@ -465,6 +487,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: torture,
+    iconInv: tortureInv,
   },
   {
     key: 'assembly',
@@ -472,6 +495,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: assembly,
+    iconInv: assemblyInv,
   },
   {
     key: 'expression',
@@ -479,6 +503,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: expression,
+    iconInv: expressionInv,
   },
   {
     key: 'participation',
@@ -486,6 +511,7 @@ export const RIGHTS = [
     type: 'cpr',
     resource: 'cprScores',
     icon: participation,
+    iconInv: participationInv,
   },
 ];
 

@@ -159,7 +159,7 @@ const theme = {
     active: {
       color: {
         dark: 'white',
-        light: '#262262',
+        light: '#0077B3',
       },
     },
     input: {
@@ -234,9 +234,9 @@ const theme = {
       graphicRed: '#EF4123',
       graphicPurple: '#8D60BA',
       graphicYellow: '#FDC65B',
-      buttonPrimary: '#7F59A6',
+      buttonPrimary: '#0077B3',
       footer: '#0E6B9B',
-      buttonPrimaryHover: '#626096',
+      buttonPrimaryHover: '#0E6B9B',
       buttonSecondary: '#ffffff',
       buttonSecondaryOnWhite: '#ffffff',
       buttonSecondaryHover: '#dddddd',

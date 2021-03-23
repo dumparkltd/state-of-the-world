@@ -63,7 +63,7 @@ const MeanRegion = styled.div`
 function CardFooter({
   regionScores,
   countryScores,
-  unRegionFilterValue,
+  currentRegion,
   year,
   column,
   regionTotals,
@@ -73,17 +73,16 @@ function CardFooter({
   mode,
 }) {
   const notes = {
-    regionBias:
-      isESR && mode === 'detail-region' && unRegionFilterValue === 'all',
+    regionBias: isESR && mode === 'detail-region' && currentRegion === 'all',
     regionAvg: mode === 'multi-region' || mode === 'detail-region',
     regionInterval:
       (mode === 'multi-region' || mode === 'detail-region') &&
-      unRegionFilterValue &&
+      currentRegion &&
       regionScores &&
-      regionScores[unRegionFilterValue] &&
-      regionScores[unRegionFilterValue][column] &&
-      Object.keys(regionScores[unRegionFilterValue][column]) &&
-      Object.keys(regionScores[unRegionFilterValue][column]).length > 0 &&
+      regionScores[currentRegion] &&
+      regionScores[currentRegion][column] &&
+      Object.keys(regionScores[currentRegion][column]) &&
+      Object.keys(regionScores[currentRegion][column]).length > 0 &&
       !isESR,
     countryInterval:
       mode === 'multi-country' &&
@@ -95,10 +94,10 @@ function CardFooter({
     countryRegionAvg:
       mode === 'multi-country' &&
       regionScores &&
-      regionScores[unRegionFilterValue] &&
-      regionScores[unRegionFilterValue][column] &&
-      Object.keys(regionScores[unRegionFilterValue][column]) &&
-      Object.keys(regionScores[unRegionFilterValue][column]).length > 0,
+      regionScores[currentRegion] &&
+      regionScores[currentRegion][column] &&
+      Object.keys(regionScores[currentRegion][column]) &&
+      Object.keys(regionScores[currentRegion][column]).length > 0,
   };
   // console.log(notes)
   let total;
@@ -106,11 +105,11 @@ function CardFooter({
   let valuesAvg;
   let valuesInterval;
   if (notes.regionAvg && regionScores && regionTotals) {
-    total = regionTotals[unRegionFilterValue];
+    total = regionTotals[currentRegion];
     count =
-      unRegionFilterValue &&
-      unRegionFilterValue !== 'all' &&
-      getRegionYearCount(year, regionScores[unRegionFilterValue][column]);
+      currentRegion &&
+      currentRegion !== 'all' &&
+      getRegionYearCount(year, regionScores[currentRegion][column]);
     // prettier-ignore
     valuesAvg = {
       year: <strong>{year}</strong>,
@@ -172,14 +171,14 @@ function CardFooter({
       )}
       {notes.regionAvg && (
         <>
-          {(!unRegionFilterValue || unRegionFilterValue === 'all') && (
+          {(!currentRegion || currentRegion === 'all') && (
             <Hint>
               <Text size="xxsmall">
                 <FormattedMessage {...messages.noteAssessmentMultiple} />
               </Text>
             </Hint>
           )}
-          {unRegionFilterValue && (
+          {currentRegion && (
             <Hint>
               {count > 0 && count < total && (
                 <Text size="xxsmall">
@@ -191,19 +190,19 @@ function CardFooter({
               )}
               {count === 0 && (
                 <Text size="xxsmall">
-                  {unRegionFilterValue === 'world' && (
+                  {currentRegion === 'world' && (
                     <FormattedMessage
                       {...messages.noteAssessmentNoneWorld}
                       values={{ year }}
                     />
                   )}
-                  {unRegionFilterValue !== 'world' && !isESR && (
+                  {currentRegion !== 'world' && !isESR && (
                     <FormattedMessage
                       {...messages.noteAssessmentNoneRegion}
                       values={{ year }}
                     />
                   )}
-                  {unRegionFilterValue !== 'world' && isESR && (
+                  {currentRegion !== 'world' && isESR && (
                     <FormattedMessage
                       {...messages.noteAssessmentNoneRegionESR}
                       values={{ year }}
@@ -218,8 +217,8 @@ function CardFooter({
       {(notes.regionInterval || notes.countryInterval) && (
         <Box direction="row" gap="xsmall" align="center">
           <RangeWrapper>
-            <Range region={unRegionFilterValue} />
-            <Mean region={unRegionFilterValue} />
+            <Range region={currentRegion} />
+            <Mean region={currentRegion} />
           </RangeWrapper>
           <Hint>
             <Text size="xxsmall">
@@ -251,7 +250,7 @@ function CardFooter({
                 values={{
                   group: (
                     <FormattedMessage
-                      {...rootMessages.un_regions_short[unRegionFilterValue]}
+                      {...rootMessages.un_regions_short[currentRegion]}
                     />
                   ),
                 }}
@@ -265,7 +264,7 @@ function CardFooter({
 }
 
 CardFooter.propTypes = {
-  unRegionFilterValue: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  currentRegion: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   column: PropTypes.string,
   countryScores: PropTypes.object,
   regionScores: PropTypes.object,

@@ -59,7 +59,7 @@ const ContainerBox = styled(Box)`
 `;
 
 const DetailSection = styled(p => (
-  <Box flex={{ shrink: 0 }} pad={{ vertical: 'medium' }} {...p} />
+  <Box flex={{ shrink: 0 }} pad={{ vertical: 'ms' }} {...p} />
 ))``;
 const DetailBox = styled(p => (
   <Box flex={{ shrink: 0 }} margin={{ bottom: 'xsmall' }} {...p} />
@@ -69,10 +69,13 @@ const FlagBox = styled(p => (
     flex={{ shrink: 0 }}
     Boxfill="horizontal"
     align="center"
-    margin={{ bottom: 'xsmall' }}
+    justify="center"
+    margin={{ bottom: 'ms' }}
     {...p}
   />
-))``;
+))`
+  min-height: 100px;
+`;
 
 const CountryTitle = styled(p => (
   <Heading level={3} responsive={false} {...p} />
@@ -87,6 +90,7 @@ const PanelTitle = styled(p => <Text size="xsmall" {...p} />)`
 `;
 
 const FlagImg = styled.img`
+  box-shadow: 0px 4px 8px rgb(0 0 0 / 10%);
   width: 120px;
 `;
 
@@ -94,7 +98,7 @@ const HeadingBox = styled(p => <Box flex={{ shrink: 0 }} {...p} />)``;
 
 const Range = styled.div`
   position: relative;
-  background: lightGrey;
+  background: ${({ theme }) => theme.global.colors['light-3']};
   width: 100%;
   height: 16px;
   display: block;
@@ -113,7 +117,7 @@ const Term = styled.div`
   }};
   height: 16px;
   display: block;
-  border-right: 1px solid lightGrey;
+  border-right: 1px solid ${({ theme }) => theme.global.colors['light-3']};
   &:hover {
     background: ${({ theme, isPrevious, isFuture }) => {
     if (isPrevious) return theme.global.colors.termsPastHover;

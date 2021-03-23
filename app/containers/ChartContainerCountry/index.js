@@ -156,9 +156,7 @@ export function ChartContainerCountry({
                             metric={getMetricDetails(right.key)}
                             mode="multi-country"
                             onSelectMetric={() => onSelectMetric(right.key)}
-                            unRegionFilterValue={
-                              country[COLUMNS.COUNTRIES.UN_REGION]
-                            }
+                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
                           />
                         </WrapPlot>
                       );
@@ -212,9 +210,7 @@ export function ChartContainerCountry({
                             metric={getMetricDetails(right.key)}
                             mode="multi-country"
                             onSelectMetric={() => onSelectMetric(right.key)}
-                            unRegionFilterValue={
-                              country[COLUMNS.COUNTRIES.UN_REGION]
-                            }
+                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
                           />
                         </WrapPlot>
                       );

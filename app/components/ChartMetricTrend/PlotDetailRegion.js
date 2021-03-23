@@ -44,7 +44,7 @@ function PlotDetailRegion({
   year,
   column,
   metric,
-  unRegionFilterValue,
+  currentRegion,
   onCountryClick,
   setYear,
   setCountry,
@@ -90,8 +90,7 @@ function PlotDetailRegion({
         !highlightCountry &&
         Object.keys(regionScores)
           .filter(
-            region =>
-              region === highlightRegion || region === unRegionFilterValue,
+            region => region === highlightRegion || region === currentRegion,
           )
           .map(region => [
             <AreaSeries
@@ -128,7 +127,7 @@ function PlotDetailRegion({
           .filter(country => country === highlightCountry)
           .map(country => {
             // TODO consider colour by region
-            const color = unRegionFilterValue;
+            const color = currentRegion;
             return [
               <AreaSeries
                 data={getCountryData(countriesScores[country][COLUMNS.CPR.HI])}
@@ -246,7 +245,7 @@ function PlotDetailRegion({
       {/* highlighted country line */}
       {countriesScores &&
         highlightCountry &&
-        unRegionFilterValue &&
+        currentRegion &&
         Object.keys(countriesScores)
           .filter(c => c === highlightCountry)
           .map(country => (
@@ -254,7 +253,7 @@ function PlotDetailRegion({
               key={country}
               data={getCountryData(countriesScores[country][column])}
               style={{
-                stroke: theme.global.colors[unRegionFilterValue],
+                stroke: theme.global.colors[currentRegion],
                 strokeWidth: 1,
               }}
             />
@@ -262,15 +261,15 @@ function PlotDetailRegion({
       {/* highlighted country marker */}
       {countriesScores &&
         highlightCountry &&
-        unRegionFilterValue &&
+        currentRegion &&
         Object.keys(countriesScores)
           .filter(c => c === highlightCountry)
           .map(country => (
             <MarkSeries
               key={country}
               data={getCountryYearData(year, countriesScores[country][column])}
-              stroke={theme.global.colors[unRegionFilterValue]}
-              fill={theme.global.colors[unRegionFilterValue]}
+              stroke={theme.global.colors[currentRegion]}
+              fill={theme.global.colors[currentRegion]}
               size={3}
             />
           ))}
@@ -280,7 +279,7 @@ function PlotDetailRegion({
 PlotDetailRegion.propTypes = {
   theme: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  currentRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
   setYear: PropTypes.func,

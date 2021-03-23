@@ -109,7 +109,7 @@ export function ChartContainerMetricRegion({
         benchmark={benchmark}
         metric={metric}
         onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
-        unRegionFilterValue={unRegionFilterValue || 'world'}
+        currentRegion={unRegionFilterValue || 'world'}
         onCountryClick={onCountryClick}
         onSetRegionFilter={onSetRegionFilter}
         unRegionTotals={unRegionTotals}

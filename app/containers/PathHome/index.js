@@ -53,8 +53,8 @@ const ACredit = styled.a`
 `;
 
 const SearchWrapper = styled.div`
-  width: 60%;
-  margin: 20px 0;
+  width: 70%;
+  margin: 20px auto;
 `;
 
 const Intro = styled(p => <Text size="large" {...p} />)``;
@@ -173,7 +173,12 @@ export function PathHome({ nav, intl }) {
           <SectionTitleSecondary>
             <FormattedMessage {...messages.credits_title} />
           </SectionTitleSecondary>
-          <Box direction="row" justify="center" gap="small">
+          <Box
+            direction="row"
+            justify="center"
+            gap="small"
+            margin={{ bottom: 'large' }}
+          >
             <Box>
               <LabelCredit>
                 <FormattedMessage {...messages.credit_main} />
@@ -189,6 +194,40 @@ export function PathHome({ nav, intl }) {
                 />
               </ACredit>
             </Box>
+            <Box>
+              <LabelCredit>
+                <FormattedMessage {...messages.credit_funding} />
+              </LabelCredit>
+              <Box direction="row">
+                <ACredit
+                  href={intl.formatMessage(messages.link_norway)}
+                  target="_blank"
+                  title={intl.formatMessage(messages.link_norway_title)}
+                >
+                  <img
+                    src={logoNorway}
+                    alt={intl.formatMessage(messages.link_norway_title)}
+                  />
+                </ACredit>
+                <ACredit
+                  href={intl.formatMessage(messages.link_denmark)}
+                  target="_blank"
+                  title={intl.formatMessage(messages.link_denmark_title)}
+                >
+                  <img
+                    src={logoDenmark}
+                    alt={intl.formatMessage(messages.link_denmark_title)}
+                  />
+                </ACredit>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            direction="row"
+            justify="center"
+            gap="small"
+            margin={{ bottom: 'medium' }}
+          >
             <Box>
               <LabelCredit>
                 <FormattedMessage {...messages.credit_data} />
@@ -230,35 +269,6 @@ export function PathHome({ nav, intl }) {
                   alt={intl.formatMessage(messages.link_dumpark_title)}
                 />
               </ACredit>
-            </Box>
-          </Box>
-          <Box direction="row" justify="center">
-            <Box>
-              <LabelCredit>
-                <FormattedMessage {...messages.credit_funding} />
-              </LabelCredit>
-              <Box direction="row">
-                <ACredit
-                  href={intl.formatMessage(messages.link_norway)}
-                  target="_blank"
-                  title={intl.formatMessage(messages.link_norway_title)}
-                >
-                  <img
-                    src={logoNorway}
-                    alt={intl.formatMessage(messages.link_norway_title)}
-                  />
-                </ACredit>
-                <ACredit
-                  href={intl.formatMessage(messages.link_denmark)}
-                  target="_blank"
-                  title={intl.formatMessage(messages.link_denmark_title)}
-                >
-                  <img
-                    src={logoDenmark}
-                    alt={intl.formatMessage(messages.link_denmark_title)}
-                  />
-                </ACredit>
-              </Box>
             </Box>
           </Box>
         </ContentMaxWidth>

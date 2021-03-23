@@ -44,7 +44,7 @@ function PlotMultiRegion({
   year,
   column,
   metric,
-  unRegionFilterValue,
+  currentRegion,
   onSetRegionFilter,
   setYear,
   setRegion,
@@ -99,7 +99,7 @@ function PlotMultiRegion({
           .filter(region =>
             highlightRegion
               ? region === highlightRegion
-              : region === unRegionFilterValue,
+              : region === currentRegion,
           )
           .map(region => [
             <AreaSeries
@@ -159,13 +159,13 @@ function PlotMultiRegion({
           .filter(
             region =>
               region !== highlightRegion ||
-              region === unRegionFilterValue,
+              region === currentRegion,
           )
-          .sort((a, b) => sortRegions(a, b, unRegionFilterValue))
+          .sort((a, b) => sortRegions(a, b, currentRegion))
           .map(region => {
             let color = theme.global.colors['dark-5'];
             let strokeWidth = 1;
-            if (region === unRegionFilterValue) {
+            if (region === currentRegion) {
               color = theme.global.colors[region];
               strokeWidth = 2.5;
             }
@@ -184,7 +184,7 @@ function PlotMultiRegion({
                   setYear(point.syear);
                 }}
                 onSeriesMouseOver={() => {
-                  if (region !== unRegionFilterValue) {
+                  if (region !== currentRegion) {
                     setRegion(region);
                   } else {
                     setRegion(false)
@@ -196,7 +196,7 @@ function PlotMultiRegion({
       {/* active region marker */}
       {regionScores &&
         Object.keys(regionScores)
-          .filter(region => region === unRegionFilterValue)
+          .filter(region => region === currentRegion)
           .map(region => {
             const color = theme.global.colors[region]
             const msize = 4;
@@ -216,7 +216,7 @@ function PlotMultiRegion({
       {/* highlighted region line only */}
       {regionScores &&
         highlightRegion &&
-        highlightRegion !== unRegionFilterValue &&
+        highlightRegion !== currentRegion &&
         Object.keys(regionScores)
           .filter(r => r === highlightRegion)
           .map(region => (
@@ -248,7 +248,7 @@ function PlotMultiRegion({
 // {/* highlighted region marker only */}
 // {regionScores &&
 //   highlightRegion &&
-//   highlightRegion !== unRegionFilterValue &&
+//   highlightRegion !== currentRegion &&
 //   Object.keys(regionScores)
 //     .filter(r => r === highlightRegion)
 //     .map(region => (
@@ -266,7 +266,7 @@ function PlotMultiRegion({
 PlotMultiRegion.propTypes = {
   theme: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  currentRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onSetRegionFilter: PropTypes.func,
   setYear: PropTypes.func,
   highlightRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

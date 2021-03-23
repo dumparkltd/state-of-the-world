@@ -12,8 +12,9 @@ import { Ascend, Descend } from 'grommet-icons';
 import styled from 'styled-components';
 
 import { COUNTRY_SORTS } from 'containers/App/constants';
+import Tooltip from 'components/Tooltip';
 import rootMessages from 'messages';
-// import messages from './messages';
+import messages from './messages';
 import { chartColumnWidth } from './chart-utils';
 
 // prettier-ignore
@@ -132,13 +133,44 @@ export function ListHeader({
                   0
                 </Text>
                 {metric && (
-                  <Text size="xsmall" weight={500} textAlign="center">
-                    <FormattedMessage
-                      {...rootMessages.labels.xAxis[
-                        metric.type === 'esr' ? benchmark : 'cpr'
-                      ]}
+                  <Box direction="row" gap="xsmall">
+                    <Text size="xsmall" weight={500} textAlign="center">
+                      <FormattedMessage
+                        {...rootMessages.labels.xAxis[
+                          metric.type === 'esr' ? benchmark : 'cpr'
+                        ]}
+                      />
+                    </Text>
+                    <Tooltip
+                      large
+                      margin={{}}
+                      iconSize="small"
+                      component={
+                        <Box gap="small">
+                          <Text size="xsmall">
+                            {metric.type === 'esr' && (
+                              <FormattedMessage {...messages.infoESRintro} />
+                            )}
+                            {metric.type === 'cpr' && (
+                              <FormattedMessage {...messages.infoCPRintro} />
+                            )}
+                          </Text>
+                          <Text size="xsmall">
+                            {metric.type === 'esr' && (
+                              <FormattedMessage
+                                {...messages.infoESRadditional}
+                              />
+                            )}
+                            {metric.type === 'cpr' && (
+                              <FormattedMessage
+                                {...messages.infoCPRadditional}
+                              />
+                            )}
+                          </Text>
+                        </Box>
+                      }
                     />
-                  </Text>
+                  </Box>
                 )}
                 <Text size="xsmall" style={{ transform: 'translateX(50%)' }}>
                   {metric.type === 'esr' || metric.metricType === 'indicators'

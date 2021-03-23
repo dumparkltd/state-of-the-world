@@ -6,7 +6,7 @@ import Button from './Button';
 // prettier-ignore
 export default styled(Button)`
   color: white;
-  background-color: ${({ theme }) => theme.global.colors.dark};
+  background-color: ${({ theme }) => theme.global.colors.brand};
   border-radius: 5px;
   margin: 20px 0;
   font-size: ${({ theme }) => theme.text.small.size};

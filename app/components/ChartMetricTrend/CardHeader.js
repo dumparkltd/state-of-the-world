@@ -19,6 +19,11 @@ import messages from './messages';
 const Styled = styled.div`
   margin-bottom: 5px;
 `;
+const MetricIcon = styled.img`
+  background: ${({ theme, color }) => theme.global.colors[color]};
+  height: 50px;
+  width: 50px;
+`;
 
 const ButtonTitle = styled(ButtonPlain)`
   color: ${({ color, theme }) => theme.global.colors[color]};
@@ -31,47 +36,49 @@ const ButtonTitle = styled(ButtonPlain)`
 function CardHeader({
   metric,
   regionScores,
-  unRegionFilterValue,
+  currentRegion,
   year,
   onSelectMetric,
   column,
   mode,
   intl,
 }) {
-  // console.log(metric, regionScores, regionTotals, unRegionFilterValue)
+  // console.log(metric, regionScores, regionTotals, currentRegion)
   return (
     <Styled>
       <Box fill direction="row" justify="between" gap="small" align="start">
         <Box>
-          <ButtonTitle
-            color={unRegionFilterValue}
-            onClick={() => onSelectMetric()}
-          >
-            <Text size="large" weight={600} color={unRegionFilterValue}>
-              <FormattedMessage {...rootMessages['rights-short'][metric.key]} />
-            </Text>
+          <ButtonTitle color={currentRegion} onClick={() => onSelectMetric()}>
+            <Box direction="row" gap="small" align="center">
+              <MetricIcon src={metric.iconInv} alt="" color={currentRegion} />
+              <Text size="large" weight={600} color={currentRegion}>
+                <FormattedMessage
+                  {...rootMessages['rights-short'][metric.key]}
+                />
+              </Text>
+            </Box>
           </ButtonTitle>
         </Box>
         {mode === 'multi-region' && (
           <Box flex={{ shrink: 0 }}>
             <Box align="end" gap="xxsmall">
-              <Text size="large" weight={700} color={unRegionFilterValue}>
+              <Text size="large" weight={700} color={currentRegion}>
                 {getRegionYearScore(
                   year,
-                  regionScores[unRegionFilterValue][column],
+                  regionScores[currentRegion][column],
                   metric.type,
                   intl,
                 )}
               </Text>
               <Box direction="row" gap="xxsmall">
                 <Text size="xxsmall">
-                  {unRegionFilterValue === 'world' && (
+                  {currentRegion === 'world' && (
                     <FormattedMessage
                       {...rootMessages.labels.worldScore}
                       values={{ year }}
                     />
                   )}
-                  {unRegionFilterValue !== 'world' && (
+                  {currentRegion !== 'world' && (
                     <FormattedMessage
                       {...rootMessages.labels.regionScore}
                       values={{ year }}
@@ -113,7 +120,7 @@ function CardHeader({
 }
 
 CardHeader.propTypes = {
-  unRegionFilterValue: PropTypes.string,
+  currentRegion: PropTypes.string,
   column: PropTypes.string,
   regionScores: PropTypes.object,
   year: PropTypes.string,

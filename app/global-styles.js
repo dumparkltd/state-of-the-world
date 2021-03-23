@@ -69,7 +69,7 @@ const GlobalStyle = createGlobalStyle`
     display: inline-block;
     &:hover {
       opacity: 0.8;
-      background-color: #626096;
+      background-color: #0E6B9B;
     }
   }
   .hrmi-html h3 {

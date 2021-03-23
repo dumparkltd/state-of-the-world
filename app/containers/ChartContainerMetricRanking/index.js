@@ -180,7 +180,7 @@ export function ChartContainerMetricRanking({
     hasCountryGovRespondents(c),
   );
 
-  const regionFilter =
+  const currentRegion =
     unRegionFilterValue === 'all' ? 'world' : unRegionFilterValue;
 
   return (
@@ -230,7 +230,7 @@ export function ChartContainerMetricRanking({
               bullet={metric.type === 'cpr'}
               maxValue={metric.type === 'esr' ? 100 : 10}
               unit={metric.type === 'esr' ? '%' : null}
-              color={regionFilter}
+              color={currentRegion}
               stripes={metric.type === 'esr' && standard === 'hi'}
               sort={{
                 sort: currentSort,

@@ -52,7 +52,7 @@ function PlotMultiCountry({
   year,
   column,
   metric,
-  unRegionFilterValue,
+  currentRegion,
   setYear,
   tickValuesX,
   tickValuesY,
@@ -82,7 +82,7 @@ function PlotMultiCountry({
         <AreaSeries
           data={getCountryData(countryScores[COLUMNS.CPR.HI])}
           style={{
-            fill: theme.global.colors[unRegionFilterValue],
+            fill: theme.global.colors[currentRegion],
             stroke: 'transparent',
             opacity: 0.1,
           }}
@@ -129,7 +129,7 @@ function PlotMultiCountry({
       {regionScores &&
         Object.keys(regionScores)
           .sort((a, b) =>
-            sortRegions(a, b, unRegionFilterValue, highlightRegion),
+            sortRegions(a, b, currentRegion, highlightRegion),
           )
           .map(region => {
             const color = 'grey';
@@ -153,7 +153,7 @@ function PlotMultiCountry({
         <LineSeries
           data={getCountryData(countryScores[column])}
           style={{
-            stroke: theme.global.colors[unRegionFilterValue],
+            stroke: theme.global.colors[currentRegion],
             strokeWidth: 1.5,
           }}
           onNearestX={point => {
@@ -164,8 +164,8 @@ function PlotMultiCountry({
       {countryYearData && (
         <MarkSeries
           data={countryYearData}
-          stroke={theme.global.colors[unRegionFilterValue]}
-          fill={theme.global.colors[unRegionFilterValue]}
+          stroke={theme.global.colors[currentRegion]}
+          fill={theme.global.colors[currentRegion]}
           size={3}
         />
       )}
@@ -178,7 +178,7 @@ function PlotMultiCountry({
             transform: 'translateX(50%)',
           }}
         >
-          <PlotHint color={unRegionFilterValue}>
+          <PlotHint color={currentRegion}>
             {formatScoreMax(
               countryYearData[0].y,
               metric.type === 'esr' ? 100 : 10,
@@ -195,7 +195,7 @@ function PlotMultiCountry({
 PlotMultiCountry.propTypes = {
   theme: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  currentRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   setYear: PropTypes.func,
   highlightRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   tickValuesX: PropTypes.array,

@@ -150,7 +150,7 @@ export function ChartContainerRightsMulti({
                         onSelectMetric(right.key, tab, year)
                       }
                       onSelectPage={onSelectPage}
-                      unRegionFilterValue={unRegionFilterValue || 'world'}
+                      currentRegion={(!unRegionFilterValue || unRegionFilterValue === 'all') ? 'world' : unRegionFilterValue}
                       onSetRegionFilter={onSetRegionFilter}
                       unRegionTotals={unRegionTotals}
                     />

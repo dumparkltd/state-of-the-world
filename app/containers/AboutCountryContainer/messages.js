@@ -92,7 +92,7 @@ export default defineMessages({
   },
   hrcMemberships: {
     id: `${scope}.hrcMemberships`,
-    defaultMessage: 'Human Rights Council (HRC) memberships',
+    defaultMessage: 'Human Rights Council (HRC)',
   },
   hrcMembershipCurrent: {
     id: `${scope}.hrcMembershipCurrent`,

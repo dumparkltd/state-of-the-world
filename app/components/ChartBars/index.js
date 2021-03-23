@@ -32,6 +32,17 @@ function ChartBars({
 }) {
   const scoresAside = true;
   if (!data) return null;
+  // <Box
+  // margin={{ bottom: 'small' }}
+  // direction="row"
+  // gap="small"
+  // align="center"
+  // >
+  // <MetricIcon src={metric.iconInv} alt="" color={color} />
+  // <Text size="large" weight={600}>
+  // <FormattedMessage {...rootMessages.rights[metric.key]} />
+  // </Text>
+  // </Box>
   return (
     <ResponsiveContext.Consumer>
       {() => (

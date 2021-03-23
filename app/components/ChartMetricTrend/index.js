@@ -37,7 +37,7 @@ function ChartMetricTrend({
   benchmark,
   metric,
   mode,
-  unRegionFilterValue,
+  currentRegion,
   onCountryClick,
   onSetRegionFilter,
   onSelectMetric,
@@ -91,14 +91,14 @@ function ChartMetricTrend({
               </Box>
             )}
             {(mode === 'multi-region' || mode === 'multi-country') &&
-              unRegionFilterValue && (
+              currentRegion && (
               <CardHeader
                 onSelectMetric={onSelectMetric}
                 regionScores={regionScores}
                 year={year}
                 column={column}
                 metric={metric}
-                unRegionFilterValue={unRegionFilterValue}
+                currentRegion={currentRegion === 'all' ? 'world' : currentRegion}
                 mode={mode}
               />
             )}
@@ -114,7 +114,7 @@ function ChartMetricTrend({
                     year={year}
                     column={column}
                     metric={metric}
-                    unRegionFilterValue={unRegionFilterValue}
+                    currentRegion={currentRegion}
                     onSetRegionFilter={onSetRegionFilter}
                     onCountryClick={onCountryClick}
                     setYear={setYear}
@@ -138,7 +138,7 @@ function ChartMetricTrend({
                   maxValue={maxValue}
                   minValue={minValue}
                   maxYear={maxYear}
-                  unRegionFilterValue={unRegionFilterValue}
+                  currentRegion={currentRegion}
                   onSetRegionFilter={onSetRegionFilter}
                   setRegion={setRegion}
                 />
@@ -153,7 +153,7 @@ function ChartMetricTrend({
                   year={year}
                   column={column}
                   metric={metric}
-                  unRegionFilterValue={unRegionFilterValue}
+                  currentRegion={currentRegion === 'all' ? 'world' : currentRegion}
                   onSetRegionFilter={onSetRegionFilter}
                   setYear={setYear}
                   setRegion={setRegion}
@@ -172,7 +172,7 @@ function ChartMetricTrend({
                 year={year}
                 column={column}
                 metric={metric}
-                unRegionFilterValue={unRegionFilterValue}
+                currentRegion={currentRegion}
                 setYear={setYear}
                 tickValuesX={tickValuesX}
                 tickValuesY={tickValuesY}
@@ -185,7 +185,7 @@ function ChartMetricTrend({
               countryScores={scores.country}
               year={year}
               column={column}
-              unRegionFilterValue={unRegionFilterValue}
+              currentRegion={currentRegion}
               regionTotals={unRegionTotals}
               isESR={metric.type === 'esr'}
               metric={metric}
@@ -208,7 +208,7 @@ ChartMetricTrend.propTypes = {
   minValue: PropTypes.number,
   mode: PropTypes.string,
   benchmark: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  currentRegion: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onCountryClick: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
   onSelectMetric: PropTypes.func,

@@ -7,15 +7,14 @@ import { injectIntl, intlShape } from 'react-intl';
 
 const Styled = styled.div`
   position: absolute;
-  top: auto;
-  bottom: 100%;
+  top: 0;
   font-weight: ${({ secondary }) => (secondary ? 400 : 700)};
   transform: ${({ align }) => {
-    if (align === 'left') return '';
-    if (align === 'right') return 'translateX(-100%)';
-    return 'translateX(-50%)';
+    if (align === 'left') return 'translateY(-33%)';
+    if (align === 'right') return 'translateX(-100%) translateY(-33%)';
+    return 'translateX(-50%) translateY(-33%)';
   }};
-  transform-origin: bottom left;
+  transform-origin: top left;
   margin-top: auto;
   margin-bottom: 2px;
   margin-left: 0;
@@ -36,12 +35,7 @@ function Score({
 }) {
   return (
     <Styled style={{ left: `${left}%` }} secondary={secondary} align={align}>
-      <Box
-        elevation="small"
-        pad={{ horizontal: 'xsmall', vertical: 'hair' }}
-        background="white"
-        round="xxsmall"
-      >
+      <Box pad={{ horizontal: 'xsmall', vertical: 'hair' }}>
         {title && (
           <Text
             color={`${color}Dark`}

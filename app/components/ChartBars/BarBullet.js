@@ -118,9 +118,6 @@ function BarBullet({ color, data, showScore, active, maxValue }) {
               align="left"
             />
           )}
-          {value && showScore && (
-            <Score score={value} left={(value / maxValue) * 100} />
-          )}
         </BarAnchor>
       </BarWrapper>
     </Wrapper>

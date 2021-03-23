@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Wrapper from './styled/BarWrap';
-import Score from './styled/Score';
+// import Score from './styled/Score';
 
 const BarWrapper = styled.div``;
 
@@ -34,13 +34,13 @@ const BarValue = styled.div`
 
 function Bar({
   data,
-  showScore = false,
+  // showScore = false,
   maxValue,
   stripes = false,
-  unit,
+  // unit,
   color = 'world',
 }) {
-  const { value, title } = data;
+  const { value } = data;
   const hasValue = !!value || value === 0;
   // prettier-ignore
   return (
@@ -55,25 +55,25 @@ function Bar({
             />
           )}
         </BarReference>
-        {showScore && hasValue && (
-          <Score
-            score={value}
-            left={(value / maxValue) * 100}
-            unit={unit}
-            title={title}
-          />
-        )}
       </BarWrapper>
     </Wrapper>
   );
 }
+// {showScore && hasValue && (
+//   <Score
+//   score={value}
+//   left={(value / maxValue) * 100}
+//   unit={unit}
+//   title={title}
+//   />
+// )}
 
 Bar.propTypes = {
   data: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  showScore: PropTypes.bool,
+  // showScore: PropTypes.bool,
   maxValue: PropTypes.number,
   stripes: PropTypes.bool,
-  unit: PropTypes.string,
+  // unit: PropTypes.string,
   color: PropTypes.string,
 };
 

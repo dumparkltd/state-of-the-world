@@ -158,7 +158,7 @@ function ScoreSheet({
   minValue,
   maxYear,
   onSetRegionFilter,
-  unRegionFilterValue,
+  currentRegion,
   setRegion,
 }) {
   // const maxValue = metric.type === 'esr' ? 100 : 10;
@@ -212,22 +212,17 @@ function ScoreSheet({
                   key={region.code}
                   offsetY={region.offset}
                   onClick={() =>
-                    unRegionFilterValue === 'all' &&
-                    onSetRegionFilter(region.code)
+                    currentRegion === 'all' && onSetRegionFilter(region.code)
                   }
                   onMouseOver={() =>
-                    unRegionFilterValue === 'all' && setRegion(region.code)
+                    currentRegion === 'all' && setRegion(region.code)
                   }
                   onFocus={() =>
-                    unRegionFilterValue === 'all' && setRegion(region.code)
+                    currentRegion === 'all' && setRegion(region.code)
                   }
-                  onMouseOut={() =>
-                    unRegionFilterValue === 'all' && setRegion(false)
-                  }
-                  onBlur={() =>
-                    unRegionFilterValue === 'all' && setRegion(false)
-                  }
-                  disabled={unRegionFilterValue === 'world'}
+                  onMouseOut={() => currentRegion === 'all' && setRegion(false)}
+                  onBlur={() => currentRegion === 'all' && setRegion(false)}
+                  disabled={currentRegion === 'world'}
                 >
                   <RegionLabel
                     direction="row"
@@ -291,7 +286,7 @@ ScoreSheet.propTypes = {
   maxValue: PropTypes.number,
   minValue: PropTypes.number,
   maxYear: PropTypes.string,
-  unRegionFilterValue: PropTypes.string,
+  currentRegion: PropTypes.string,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   onSetRegionFilter: PropTypes.func,
   setRegion: PropTypes.func,
