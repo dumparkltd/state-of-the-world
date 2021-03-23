@@ -126,7 +126,6 @@ export const COLUMNS = {
     ID: 'term_id',
     START: 'term_start',
     END: 'term_end',
-    CURRENT: 'current',
   },
 };
 

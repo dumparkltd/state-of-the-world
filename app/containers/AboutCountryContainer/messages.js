@@ -90,17 +90,25 @@ export default defineMessages({
     id: `${scope}.countryStatus`,
     defaultMessage: `${scope}.countryStatus`,
   },
+  hrcMemberships: {
+    id: `${scope}.hrcMemberships`,
+    defaultMessage: 'Human Rights Council (HRC) memberships',
+  },
   hrcMembershipCurrent: {
     id: `${scope}.hrcMembershipCurrent`,
-    defaultMessage: 'Current HRC membership',
-  },
-  hrcMembershipCurrentSince: {
-    id: `${scope}.hrcMembershipCurrentSince`,
-    defaultMessage: 'Since {date}',
+    defaultMessage: 'Current member',
   },
   hrcMembershipsPrevious: {
     id: `${scope}.hrcMembershipsPrevious`,
-    defaultMessage: 'Previous HRC memberships',
+    defaultMessage: 'Past member',
+  },
+  hrcMembershipsFuture: {
+    id: `${scope}.hrcMembershipsFuture`,
+    defaultMessage: 'Future',
+  },
+  hrcMembershipsNever: {
+    id: `${scope}.hrcMembershipsNever`,
+    defaultMessage: 'Has never been a member of the HRC',
   },
   hrcInvite: {
     id: `${scope}.hrcInvite`,

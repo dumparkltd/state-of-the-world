@@ -92,6 +92,91 @@ const FlagImg = styled.img`
 
 const HeadingBox = styled(p => <Box flex={{ shrink: 0 }} {...p} />)``;
 
+const Range = styled.div`
+  position: relative;
+  background: lightGrey;
+  width: 100%;
+  height: 16px;
+  display: block;
+  margin-bottom: 28px;
+  margin-top: 20px;
+`;
+// prettier-ignore
+const Term = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: ${({ theme, isPrevious, isFuture }) => {
+    if (isPrevious) return theme.global.colors.termsPast;
+    if (isFuture) return theme.global.colors.termsFuture;
+    return theme.global.colors.brand;
+  }};
+  height: 16px;
+  display: block;
+  border-right: 1px solid lightGrey;
+  &:hover {
+    background: ${({ theme, isPrevious, isFuture }) => {
+    if (isPrevious) return theme.global.colors.termsPastHover;
+    if (isFuture) return theme.global.colors.termsFutureHover;
+    return theme.global.colors.brandDark;
+  }};
+`;
+const Now = styled.div`
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  border-right: 2px solid black;
+  height: 22px;
+  width: 1px;
+  margin-left: -1px;
+  display: block;
+`;
+const NowDate = styled.div`
+  position: absolute;
+  bottom: 100%;
+  height: 20px;
+  margin-bottom: 5px;
+  display: block;
+  transform: translateX(-50%);
+`;
+const RangeStartDate = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  height: 20px;
+  display: block;
+`;
+const RangeEndDate = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  height: 20px;
+  display: block;
+`;
+const TermDate = styled.div`
+  position: absolute;
+  top: 100%;
+  height: 26px;
+  display: block;
+  transform: translateX(-50%);
+  width: 200px;
+  text-align: center;
+`;
+const RangeKey = styled(p => <Box direction="row" gap="small" {...p} />)``;
+const RangeKeyItem = styled(p => (
+  <Box direction="row" align="center" gap="xsmall" {...p} />
+))``;
+const RangeKeyColor = styled.div`
+  height: 10px;
+  width: 10px;
+  display: block;
+  background: ${({ theme, isPrevious, isFuture }) => {
+    if (isPrevious) return theme.global.colors.termsPast;
+    if (isFuture) return theme.global.colors.termsFuture;
+    return theme.global.colors.brand;
+  }};
+`;
+
 const prepPopulationValue = (value, intl, year) => {
   if (parseInt(value, 10) > 1000000) {
     return {
@@ -120,10 +205,31 @@ const getCountryHRCTerms = (country, hrcTerms) => {
   return countryTerms;
 };
 
-const getCurrentHRCTerm = countryTerms =>
-  countryTerms.find(t => qe(t[COLUMNS.HRC_TERMS.CURRENT], 1));
+const isCurrent = term => {
+  const now = new Date();
+  const start = new Date(term[COLUMNS.HRC_TERMS.START]);
+  const end = new Date(term[COLUMNS.HRC_TERMS.END]);
+  return now < end && now > start;
+};
+
+const isPrevious = term => {
+  const now = new Date();
+  const end = new Date(term[COLUMNS.HRC_TERMS.END]);
+  return end < now;
+};
+const isFuture = term => {
+  const now = new Date();
+  const start = new Date(term[COLUMNS.HRC_TERMS.START]);
+  return start > now;
+};
+
+const getCurrentHRCTerm = countryTerms => countryTerms.find(t => isCurrent(t));
 const getPreviousHRCTerms = countryTerms =>
-  countryTerms.filter(t => !qe(t[COLUMNS.HRC_TERMS.CURRENT], 1));
+  countryTerms.filter(t => isPrevious(t));
+const getFutureHRCTerms = countryTerms => countryTerms.filter(t => isFuture(t));
+
+const getTermLength = (date, refDate, range) =>
+  ((date.getTime() - refDate.getTime()) / range) * 100;
 
 const DEPENDENCIES = ['countries', 'auxIndicators', 'hrcTerms'];
 
@@ -143,6 +249,7 @@ function AboutCountryContainer({
 }) {
   const [actives, setActive] = useState(inAside ? [] : [0]);
   const [actives1, setActive1] = useState(inAside ? [] : [0]);
+  const [term, setTerm] = useState(false);
 
   useEffect(() => {
     onLoadData();
@@ -175,8 +282,16 @@ function AboutCountryContainer({
   const countryHRCTerms = getCountryHRCTerms(country, hrcTerms);
   const countryCurrentTerm = getCurrentHRCTerm(countryHRCTerms);
   const countryPreviousTerms = getPreviousHRCTerms(countryHRCTerms);
+  const countryFutureTerms = getFutureHRCTerms(countryHRCTerms);
+  const firstTerm = hrcTerms && hrcTerms[0];
+  const lastTerm = hrcTerms && hrcTerms[hrcTerms.length - 1];
+  const start = new Date(firstTerm[COLUMNS.HRC_TERMS.START]);
+  const end = new Date(lastTerm[COLUMNS.HRC_TERMS.END]);
+  const now = new Date();
+  const range = end.getTime() - start.getTime();
 
   /* eslint-disable global-require */
+  // prettier-ignore
   return (
     <ContainerBox pad={{ horizontal: 'medium' }} flex={{ shrink: 0 }}>
       <FlagBox>
@@ -339,44 +454,128 @@ function AboutCountryContainer({
             }
           >
             <Box pad={{ vertical: 'small' }} border="top">
-              {countryCurrentTerm && (
-                <DetailBox>
-                  <Box>
-                    <Label>
-                      <FormattedMessage {...messages.hrcMembershipCurrent} />
-                    </Label>
-                  </Box>
-                  <Box>
+              <DetailBox pad={{ bottom: 'small' }}>
+                <Box>
+                  <Label>
+                    <FormattedMessage {...messages.hrcMemberships} />
+                  </Label>
+                </Box>
+                <Box>
+                  {(!countryHRCTerms || countryHRCTerms.length === 0) && (
                     <Value>
-                      <FormattedMessage
-                        {...messages.hrcMembershipCurrentSince}
-                        values={{
-                          date: countryCurrentTerm[COLUMNS.HRC_TERMS.START],
-                        }}
-                      />
+                      <FormattedMessage {...messages.hrcMembershipsNever} />
                     </Value>
-                  </Box>
-                </DetailBox>
-              )}
-              {countryPreviousTerms && countryPreviousTerms.length > 0 && (
-                <DetailBox>
-                  <Box>
-                    <Label>
-                      <FormattedMessage {...messages.hrcMembershipsPrevious} />
-                    </Label>
-                  </Box>
-                  <Box>
-                    {countryPreviousTerms &&
-                      countryPreviousTerms.map(t => (
-                        <Value key={t[COLUMNS.HRC_TERMS.ID]}>
-                          {t[COLUMNS.HRC_TERMS.START]}
-                          {` - `}
-                          {t[COLUMNS.HRC_TERMS.END]}
-                        </Value>
-                      ))}
-                  </Box>
-                </DetailBox>
-              )}
+                  )}
+                  {countryHRCTerms && countryHRCTerms.length > 0 && (
+                    <>
+                      <Range>
+                        {countryHRCTerms.map(t => {
+                          const tStart = new Date(t[COLUMNS.HRC_TERMS.START]);
+                          const tEnd = new Date(t[COLUMNS.HRC_TERMS.END]);
+                          return (
+                            <Term
+                              key={t[COLUMNS.HRC_TERMS.ID]}
+                              isCurrent={isCurrent(t)}
+                              isFuture={isFuture(t)}
+                              isPrevious={isPrevious(t)}
+                              onMouseOver={() => setTerm(t)}
+                              onFocus={() => setTerm(t)}
+                              onMouseOut={() => setTerm(false)}
+                              onBlur={() => setTerm(false)}
+                              style={{
+                                left: `${getTermLength(tStart, start, range)}%`,
+                                width: `${getTermLength(tEnd, tStart, range)}%`,
+                              }}
+                            />
+                          );
+                        })}
+                        <Now
+                          style={{
+                            left: `${getTermLength(now, start, range)}%`,
+                          }}
+                        />
+                        <NowDate
+                          style={{
+                            left: `${getTermLength(now, start, range)}%`,
+                          }}
+                        >
+                          <Text size="xxsmall">Today</Text>
+                        </NowDate>
+                        {term && (
+                          <TermDate
+                            style={{
+                              left: `${getTermLength(
+                                new Date(term[COLUMNS.HRC_TERMS.START]),
+                                start,
+                                range,
+                              ) +
+                                getTermLength(
+                                  new Date(term[COLUMNS.HRC_TERMS.END]),
+                                  new Date(term[COLUMNS.HRC_TERMS.START]),
+                                  range,
+                                ) /
+                                  2}%`,
+                            }}
+                          >
+                            <Text size="xsmall">
+                              {new Date(
+                                term[COLUMNS.HRC_TERMS.START],
+                              ).getFullYear()}
+                              {` - `}
+                              {new Date(
+                                term[COLUMNS.HRC_TERMS.END],
+                              ).getFullYear()}
+                            </Text>
+                          </TermDate>
+                        )}
+                        {!term && (
+                          <RangeStartDate>
+                            <Text size="xsmall">{start.getFullYear()}</Text>
+                          </RangeStartDate>
+                        )}
+                        {!term && (
+                          <RangeEndDate>
+                            <Text size="xsmall">{end.getFullYear()}</Text>
+                          </RangeEndDate>
+                        )}
+                      </Range>
+                      <RangeKey>
+                        {countryPreviousTerms &&
+                          countryPreviousTerms.length > 0 && (
+                          <RangeKeyItem>
+                            <RangeKeyColor isPrevious />
+                            <Text size="xxsmall">
+                              <FormattedMessage
+                                {...messages.hrcMembershipsPrevious}
+                              />
+                            </Text>
+                          </RangeKeyItem>
+                        )}
+                        {countryCurrentTerm && (
+                          <RangeKeyItem>
+                            <RangeKeyColor isCurrent />
+                            <Text size="xxsmall">
+                              <FormattedMessage
+                                {...messages.hrcMembershipCurrent}
+                              />
+                            </Text>
+                          </RangeKeyItem>
+                        )}
+                        {countryFutureTerms && countryFutureTerms.length > 0 && (
+                          <RangeKeyItem>
+                            <RangeKeyColor isFuture />
+                            <Text size="xxsmall">
+                              <FormattedMessage
+                                {...messages.hrcMembershipsFuture}
+                              />
+                            </Text>
+                          </RangeKeyItem>
+                        )}
+                      </RangeKey>
+                    </>
+                  )}
+                </Box>
+              </DetailBox>
               <DetailBox>
                 <Box>
                   <Label>
@@ -469,23 +668,6 @@ function AboutCountryContainer({
                       {i < countryTreaties.length - 1 && `,`}
                     </Value>
                   ))}
-                </Box>
-              </DetailBox>
-              <DetailBox>
-                <Box>
-                  <Label>
-                    <FormattedMessage {...messages.has_npm} />
-                  </Label>
-                </Box>
-                <Box>
-                  <Value>
-                    {qe(country[COLUMNS.COUNTRIES.HAS_NPM], 1) && (
-                      <FormattedMessage {...messages.has_npm_true} />
-                    )}
-                    {!qe(country[COLUMNS.COUNTRIES.HAS_NPM], 1) && (
-                      <FormattedMessage {...messages.has_npm_false} />
-                    )}
-                  </Value>
                 </Box>
               </DetailBox>
               <DetailBox>

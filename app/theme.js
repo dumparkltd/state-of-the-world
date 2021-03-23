@@ -197,6 +197,10 @@ const theme = {
       hint: '#333333',
       brand: '#0077B3',
       brandDark: '#0E6B9B',
+      termsPast: '#66ADD1',
+      termsFuture: '#B3D6E8',
+      termsPastHover: '#6EA6C3',
+      termsFutureHover: '#B7D3E1',
       highlight: '#FDB933',
       highlight2: '#DB7E00', // AA large
       highlight3: '#AD6500', // AA
