@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl'; // not used now?
+import { FormattedMessage } from 'react-intl'; // not used now?
 import styled from 'styled-components';
-import { Box, ResponsiveContext } from 'grommet';
+import { Box, ResponsiveContext, Text } from 'grommet';
+
+import rootMessages from 'messages';
 
 import BarWrapper from './BarWrapper';
 import ListHeader from './ListHeader';
@@ -37,10 +39,19 @@ function ChartBars({
           pad={{
             top: 'ms',
             bottom: 'medium',
+            left: 'small',
+            right: 'medium',
           }}
           direction="column"
           fill="horizontal"
+          elevation="small"
+          background="white"
         >
+          <Box pad={{ left: 'small' }} margin={{ bottom: 'small' }}>
+            <Text size="large" weight={600}>
+              <FormattedMessage {...rootMessages.rights[metric.key]} />
+            </Text>
+          </Box>
           <ListHeader
             metric={metric}
             benchmark={currentBenchmark && currentBenchmark.key}
@@ -85,4 +96,4 @@ ChartBars.propTypes = {
   color: PropTypes.string,
 };
 
-export default injectIntl(ChartBars);
+export default ChartBars;
