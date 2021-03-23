@@ -15,7 +15,7 @@ import all from 'images/metrics/all.png';
 import logoNorway from 'images/logos/logo_NorwegianMinistryFA.png';
 import logoDenmark from 'images/logos/logo_PermanentMissionDenmark.png';
 import logoHRMI from 'images/logos/logo_HRMI.png';
-import logoSERF from 'images/logos/logo_SERF.png';
+import logoSERF from 'images/logos/logo_SERF_www.png';
 import logoURG from 'images/logos/logo_URG.png';
 import logoDumpark from 'images/logos/logo_dumpark.png';
 
@@ -84,7 +84,7 @@ export function PathHome({ nav, intl }) {
               src={all}
               alt=""
               style={{
-                maxWidth: '400px',
+                maxWidth: '700px',
               }}
             />
           </Box>
@@ -196,40 +196,6 @@ export function PathHome({ nav, intl }) {
             </Box>
             <Box>
               <LabelCredit>
-                <FormattedMessage {...messages.credit_funding} />
-              </LabelCredit>
-              <Box direction="row">
-                <ACredit
-                  href={intl.formatMessage(messages.link_norway)}
-                  target="_blank"
-                  title={intl.formatMessage(messages.link_norway_title)}
-                >
-                  <img
-                    src={logoNorway}
-                    alt={intl.formatMessage(messages.link_norway_title)}
-                  />
-                </ACredit>
-                <ACredit
-                  href={intl.formatMessage(messages.link_denmark)}
-                  target="_blank"
-                  title={intl.formatMessage(messages.link_denmark_title)}
-                >
-                  <img
-                    src={logoDenmark}
-                    alt={intl.formatMessage(messages.link_denmark_title)}
-                  />
-                </ACredit>
-              </Box>
-            </Box>
-          </Box>
-          <Box
-            direction="row"
-            justify="center"
-            gap="small"
-            margin={{ bottom: 'medium' }}
-          >
-            <Box>
-              <LabelCredit>
                 <FormattedMessage {...messages.credit_data} />
               </LabelCredit>
               <Box direction="row">
@@ -251,6 +217,40 @@ export function PathHome({ nav, intl }) {
                   <img
                     src={logoSERF}
                     alt={intl.formatMessage(messages.link_serf_title)}
+                  />
+                </ACredit>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            direction="row"
+            justify="center"
+            gap="small"
+            margin={{ bottom: 'medium' }}
+          >
+            <Box>
+              <LabelCredit>
+                <FormattedMessage {...messages.credit_funding} />
+              </LabelCredit>
+              <Box direction="row">
+                <ACredit
+                  href={intl.formatMessage(messages.link_norway)}
+                  target="_blank"
+                  title={intl.formatMessage(messages.link_norway_title)}
+                >
+                  <img
+                    src={logoNorway}
+                    alt={intl.formatMessage(messages.link_norway_title)}
+                  />
+                </ACredit>
+                <ACredit
+                  href={intl.formatMessage(messages.link_denmark)}
+                  target="_blank"
+                  title={intl.formatMessage(messages.link_denmark_title)}
+                >
+                  <img
+                    src={logoDenmark}
+                    alt={intl.formatMessage(messages.link_denmark_title)}
                   />
                 </ACredit>
               </Box>
