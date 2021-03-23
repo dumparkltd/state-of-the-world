@@ -129,8 +129,8 @@ export function ChartYearSelect({
 
 ChartYearSelect.propTypes = {
   onSelectYear: PropTypes.func,
-  yesr: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  ycpr: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  yesr: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  ycpr: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   yesrRange: PropTypes.object,
   ycprRange: PropTypes.object,
   metricType: PropTypes.string,

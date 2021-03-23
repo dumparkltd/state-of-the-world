@@ -109,12 +109,17 @@ export function PathMetric({
                 </MainColumn>
                 {isMinSize(size, 'large') && (
                   <Aside image>
-                    <Box align="center" justify="center" fill>
+                    <Box
+                      align="center"
+                      justify="center"
+                      fill
+                      margin={{ bottom: '-44px' }}
+                    >
                       <img
                         src={imageSrc}
                         alt={metricTitle}
                         style={{
-                          maxWidth: '144px',
+                          maxWidth: '200px',
                         }}
                       />
                     </Box>

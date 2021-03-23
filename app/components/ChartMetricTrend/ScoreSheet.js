@@ -15,10 +15,10 @@ import { formatScore } from 'utils/scores';
 import ButtonPlain from 'styled/ButtonPlain';
 import rootMessages from 'messages';
 
-const Styled = styled(p => <Box flex={{ shrink: false }} {...p} />)`
+const Styled = styled(p => <Box flex={{ shrink: 0 }} {...p} />)`
   width: 200px;
-  padding-top: ${({ margin }) => margin.top || 0}px;
-  padding-bottom: ${({ margin }) => margin.bottom || 0}px;
+  padding-top: ${({ padding }) => padding.top || 0}px;
+  padding-bottom: ${({ padding }) => padding.bottom || 0}px;
 `;
 const Inner = styled(p => <Box fill {...p} />)`
   position: relative;
@@ -202,7 +202,7 @@ function ScoreSheet({
       ? intl.formatMessage(rootMessages.countries[highlightCountry])
       : highlightCountry;
   return (
-    <Styled margin={margin}>
+    <Styled padding={margin}>
       <Inner>
         {regions &&
           regions.map(

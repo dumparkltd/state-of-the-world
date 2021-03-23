@@ -182,7 +182,7 @@ export function ChartContainerMetricRanking({
 
   const currentRegion =
     unRegionFilterValue === 'all' ? 'world' : unRegionFilterValue;
-
+  // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -207,11 +207,13 @@ export function ChartContainerMetricRanking({
               },
             ]}
             settings={
-              metric.type === 'esr' && [
-                {
-                  attribute: 'standard',
-                },
-              ]
+              metric.type === 'esr'
+                ? [
+                  {
+                    attribute: 'standard',
+                  },
+                ]
+                : []
             }
             year
             metricType={metric.type}

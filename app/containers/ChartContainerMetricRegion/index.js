@@ -69,6 +69,7 @@ export function ChartContainerMetricRegion({
   const isESR = metric.type === 'esr';
 
   if (!scores) return null;
+  // prettier-ignore
   return (
     <div>
       <Box margin={{ top: 'medium' }}>
@@ -92,11 +93,13 @@ export function ChartContainerMetricRegion({
           },
         ]}
         settings={
-          metric.type === 'esr' && [
-            {
-              attribute: 'standard',
-            },
-          ]
+          metric.type === 'esr'
+            ? [
+              {
+                attribute: 'standard',
+              },
+            ]
+            : []
         }
       />
       <ChartMetricTrend
