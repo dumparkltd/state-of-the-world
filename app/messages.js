@@ -189,7 +189,7 @@ export default defineMessages({
         'Note that country scores are based on the most recent indicator data available, possibly introducing a regional bias ({link})',
     },
     noteRegionalBiasESRLink: {
-      id: `${scope}.charts.noteRegionalBiasESR`,
+      id: `${scope}.charts.noteRegionalBiasESRLink`,
       defaultMessage: 'click here for details',
     },
   },
