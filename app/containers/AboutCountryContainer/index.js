@@ -503,7 +503,9 @@ function AboutCountryContainer({
                             left: `${getTermLength(now, start, range)}%`,
                           }}
                         >
-                          <Text size="xxsmall">Today</Text>
+                          <Text size="xxsmall">
+                            <FormattedMessage {...messages.today} />
+                          </Text>
                         </NowDate>
                         {term && (
                           <TermDate
@@ -600,34 +602,6 @@ function AboutCountryContainer({
               <DetailBox>
                 <Box>
                   <Label>
-                    <FormattedMessage {...messages.yourhrc_profile} />
-                  </Label>
-                </Box>
-                <Box>
-                  {country[COLUMNS.COUNTRIES.YOUR_HRC] && (
-                    <a
-                      href={intl.formatMessage(messages.yourhrc_profile_url, {
-                        code: country[COLUMNS.COUNTRIES.YOUR_HRC],
-                      })}
-                      target="_blank"
-                    >
-                      <Value>
-                        <FormattedMessage
-                          {...rootMessages.countries[countryCode]}
-                        />
-                      </Value>
-                    </a>
-                  )}
-                  {!country[COLUMNS.COUNTRIES.YOUR_HRC] && (
-                    <Value>
-                      <FormattedMessage {...messages.dataUnavailable} />
-                    </Value>
-                  )}
-                </Box>
-              </DetailBox>
-              <DetailBox>
-                <Box>
-                  <Label>
                     <FormattedMessage {...messages.upr_next} />
                   </Label>
                 </Box>
@@ -714,6 +688,41 @@ function AboutCountryContainer({
                     {country[COLUMNS.COUNTRIES.VISITS_COMPLETED] || 0}
                   </Value>
                 </Box>
+              </DetailBox>
+              <DetailBox>
+                <Box>
+                  <Label>
+                    <FormattedMessage {...messages.yourhrc_profile} />
+                  </Label>
+                </Box>
+                {country[COLUMNS.COUNTRIES.YOUR_HRC] && (
+                  <Box>
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.yourhrc_profile_note} />
+                    </Value>
+                  </Box>
+                )}
+                {country[COLUMNS.COUNTRIES.YOUR_HRC] && (
+                  <Box>
+                    <a
+                      href={intl.formatMessage(messages.yourhrc_profile_url, {
+                        code: country[COLUMNS.COUNTRIES.YOUR_HRC],
+                      })}
+                      target="_blank"
+                    >
+                      <Value>
+                        <FormattedMessage
+                          {...rootMessages.countries[countryCode]}
+                        />
+                      </Value>
+                    </a>
+                  </Box>
+                )}
+                {!country[COLUMNS.COUNTRIES.YOUR_HRC] && (
+                  <Value>
+                    <FormattedMessage {...messages.dataUnavailable} />
+                  </Value>
+                )}
               </DetailBox>
             </Box>
           </AccordionPanel>

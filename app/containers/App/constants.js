@@ -520,4 +520,4 @@ export const RIGHTS = [
 ];
 
 export const COOKIECONSENT_NAME = 'state-of-the-world-cookie-consent-status';
-export const GA_PROPERTY_ID = 'none';
+export const GA_PROPERTY_ID = 'XXX-TODO-XXX';

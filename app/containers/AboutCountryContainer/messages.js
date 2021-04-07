@@ -128,6 +128,10 @@ export default defineMessages({
     id: `${scope}.sectionIndices`,
     defaultMessage: 'Country scores for other indices',
   },
+  today: {
+    id: `${scope}.today`,
+    defaultMessage: 'Today',
+  },
   treaties: {
     id: `${scope}.treaties`,
     defaultMessage: 'Treaties ratified',
@@ -187,6 +191,10 @@ export default defineMessages({
   visits_planned: {
     id: `${scope}.visits_planned`,
     defaultMessage: 'Number of visits planned',
+  },
+  yourhrc_profile_note: {
+    id: `${scope}.yourhrc_profile_note`,
+    defaultMessage: 'yourHRC.org country profile',
   },
   yourhrc_profile: {
     id: `${scope}.yourhrc_profile`,
