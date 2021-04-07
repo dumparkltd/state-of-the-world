@@ -198,7 +198,7 @@ export const LANGUAGES = {
 
 // URLs for external resources loaded on request
 export const DATA_URL = '//app.dumpark.com/state-of-the-world-data/data';
-export const PAGES_URL = '//app.dumpark.com/state-of-the-world-content/v3_1/';
+export const PAGES_URL = '//app.dumpark.com/state-of-the-world-content/';
 
 export const PAGES = {
   about: {

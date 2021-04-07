@@ -19,6 +19,9 @@ import { getContentByKey, getCloseTargetPage } from 'containers/App/selectors';
 import Close from 'containers/Close';
 import HTMLWrapper from 'components/HTMLWrapper';
 import LoadingIndicator from 'components/LoadingIndicator';
+import SectionFooter from 'components/SectionFooter';
+import SectionCredits from 'components/SectionCredits';
+
 import ContentWrap from 'styled/ContentWrap';
 import ContentContainer from 'styled/ContentContainer';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
@@ -56,12 +59,16 @@ export function PathPage({ match, onLoadContent, content, closeTarget, intl }) {
         <ContentMaxWidth>
           <Close closeTarget={closeTarget} />
           <StyledContent>
-            <PageTitle level={1}>{pageTitle}</PageTitle>
+            <PageTitle level={1} dark>
+              {pageTitle}
+            </PageTitle>
             {content && <HTMLWrapper innerhtml={content.content} fullPage />}
             {!content && <LoadingIndicator />}
           </StyledContent>
         </ContentMaxWidth>
       </ContentContainer>
+      {content && <SectionCredits />}
+      {content && <SectionFooter />}
     </ContentWrap>
   );
 }

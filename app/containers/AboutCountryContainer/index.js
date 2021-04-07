@@ -829,7 +829,7 @@ AboutCountryContainer.propTypes = {
   currentGDP: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   pppGDP: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   population: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  hrcTerms: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  hrcTerms: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   intl: intlShape.isRequired,
 };
 

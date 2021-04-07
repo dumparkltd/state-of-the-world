@@ -37,7 +37,8 @@ const GlobalStyle = createGlobalStyle`
 
   /* component /components/HTMLWrapper */
   .hrmi-html p {
-    margin: 1em 0;
+    margin: 0.5em 0 1em 0;
+    line-height: 1.44;
   }
   .hrmi-html-full-page p {
     &:first-child {
@@ -53,7 +54,6 @@ const GlobalStyle = createGlobalStyle`
   .hrmi-html a {
     color: #0077B3;
     text-decoration: underline;
-    font-weight: 600;
     &:hover {
       opacity: 0.8;
     }
@@ -72,16 +72,23 @@ const GlobalStyle = createGlobalStyle`
       background-color: #0E6B9B;
     }
   }
+  .hrmi-html h2 {
+    font-size: 24px;
+    margin-top: 2em;
+    margin-bottom: 0.2em;
+  }
   .hrmi-html h3 {
     font-size: 20px;
+    margin-top: 2em;
+    margin-bottom: 0.2em;
   }
   .hrmi-html h4 {
-    font-size: 18px;
-    margin-top: 2em;
-    margin-bottom: 0.5em;
+    font-size: 16px;
+    margin-top: 1.5em;
+    margin-bottom: 0.2em;
   }
   .hrmi-html hr {
-    margin: 4em 0;
+    margin: 3em 0;
   }
 
   /* component /components/FormattedMarkdown */

@@ -21,8 +21,8 @@ const Styled = styled.div`
 `;
 const MetricIcon = styled.img`
   background: ${({ theme, color }) => theme.global.colors[color]};
-  height: 50px;
-  width: 50px;
+  height: 48px;
+  width: 48px;
 `;
 
 const ButtonTitle = styled(ButtonPlain)`
