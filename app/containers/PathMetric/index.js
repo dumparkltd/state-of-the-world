@@ -102,7 +102,7 @@ export function PathMetric({
                 >
                   <SupTitle>
                     <FormattedMessage
-                      {...rootMessages['rights-types'][metric.type]}
+                      {...rootMessages.rightsTypes[metric.type]}
                     />
                   </SupTitle>
                   <PageTitle>{metricTitle}</PageTitle>
@@ -135,7 +135,7 @@ export function PathMetric({
                 key: 'regions',
                 title: intl.formatMessage(rootMessages.tabs.regions),
                 titleMobile: intl.formatMessage(
-                  rootMessages.tabs.mobile.ranking,
+                  rootMessages.tabs.mobile.regions,
                 ),
                 content: props => (
                   <ChartContainerMetricRegion

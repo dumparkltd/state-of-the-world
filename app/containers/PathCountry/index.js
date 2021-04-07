@@ -40,8 +40,6 @@ import {
   PATHS,
   FAQS,
   IMAGE_PATH,
-  BENCHMARKS,
-  COLUMNS,
 } from 'containers/App/constants';
 
 import saga from 'containers/App/saga';
@@ -59,15 +57,9 @@ import PageTitle from 'styled/PageTitle';
 import PageTop from 'styled/PageTop';
 import ContentContainer from 'styled/ContentContainer';
 import MainColumn from 'styled/MainColumn';
-import ButtonText from 'styled/ButtonText';
-
-import getMetricDetails from 'utils/metric-details';
-// import quasiEquals from 'utils/quasi-equals';
-import { formatScore } from 'utils/scores';
 
 import { isMinSize } from 'utils/responsive';
 import { getMessageGrammar } from 'utils/narrative';
-import { lowerCase } from 'utils/string';
 
 import messages from './messages';
 
@@ -92,79 +84,13 @@ const DEPENDENCIES = [
   'auxIndicators',
 ];
 
-const getMetricScore = (metric, rights, benchmark) => {
-  const currentBenchmark = BENCHMARKS.find(s => s.key === benchmark);
-  let currentMetric;
-  if (rights) {
-    currentMetric = rights[metric.key];
-  }
-  if (currentMetric && currentMetric.score) {
-    if (metric.type === 'esr') {
-      return currentMetric.score[currentBenchmark.column];
-    }
-    return currentMetric.score[COLUMNS.CPR.MEAN];
-  }
-  return null;
-};
-
-const getScoreMsg = (code, benchmark, rights, intl, messageValues) => {
-  let countryScoreMsg;
-  const aboutMetricDetails = getMetricDetails(code);
-  const score = getMetricScore(aboutMetricDetails, rights, benchmark);
-  if (aboutMetricDetails.type === 'esr') {
-    // prettier-ignore
-    countryScoreMsg = score
-      ? intl.formatMessage(
-        messages.countryScoreExplainer.esr[benchmark],
-        ({
-          ...messageValues,
-          score: formatScore(score, 1, intl),
-          metric: lowerCase(intl.formatMessage(rootMessages[aboutMetricDetails.metricType][code])),
-        }),
-      )
-      : intl.formatMessage(
-        messages.countryScoreExplainer.noData,
-        messageValues,
-      );
-  }
-  if (aboutMetricDetails.type === 'cpr') {
-    // prettier-ignore
-    countryScoreMsg = score
-      ? <FormattedMessage
-        {...messages.countryScoreExplainer.cpr}
-        values={{
-          ...messageValues,
-          score: formatScore(score, 1, intl),
-          metric: lowerCase(intl.formatMessage(rootMessages[aboutMetricDetails.metricType][code])),
-          link: (
-            <ButtonText
-              as="a"
-              href={intl.formatMessage(messages.countryScoreExplainer.cprLink.url)}
-              target="_blank"
-              inverse
-            >
-              {intl.formatMessage(messages.countryScoreExplainer.cprLink.anchor)}
-            </ButtonText>
-          ),
-        }}
-      />
-      : intl.formatMessage(
-        messages.countryScoreExplainer.noData,
-        messageValues,
-      );
-  }
-  return countryScoreMsg;
-};
-
 export function PathCountry({
   intl,
   onLoadData,
   onCategoryClick,
   match,
-  rights,
   country,
   countryGrammar,
-  benchmark,
   theme,
   onSetAsideLayer,
   asideLayer,
@@ -200,25 +126,16 @@ export function PathCountry({
     ),
   };
 
-  const onMetricClick = (code, dimension, dateRange) => {
+  const onMetricClick = (code, dimension) => {
     if (asideLayer && asideLayer.key === code) {
       onSetAsideLayer(false);
     } else {
       onSetAsideLayer({
         type: 'aboutMetric',
-        background: `${dimension || code}Active`,
         showSources: dimension === 'esr' || code === 'esr',
         key: code,
         code,
         countryCode,
-        dateRange,
-        countryScoreMsg: getScoreMsg(
-          code,
-          benchmark,
-          rights,
-          intl,
-          messageValues,
-        ),
       });
     }
   };

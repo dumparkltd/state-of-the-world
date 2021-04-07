@@ -9,10 +9,6 @@ import { defineMessages } from 'react-intl';
 export const scope = 'hrmi.containers.Search';
 
 export default defineMessages({
-  search: {
-    id: `${scope}.search`,
-    defaultMessage: 'Search',
-  },
   allSearch: {
     id: `${scope}.allSearch`,
     defaultMessage: 'Search country or metric',
@@ -28,5 +24,9 @@ export default defineMessages({
   noResults: {
     id: `${scope}.noResults`,
     defaultMessage: 'We are sorry! Your search did not return any results.',
+  },
+  search: {
+    id: `${scope}.search`,
+    defaultMessage: 'Search',
   },
 });

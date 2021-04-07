@@ -17,7 +17,6 @@ import { getAsideLayer } from 'containers/App/selectors';
 import { setAsideLayer } from 'containers/App/actions';
 import AboutMetricContainer from 'containers/AboutMetricContainer';
 import AboutCountryContainer from 'containers/AboutCountryContainer';
-import LayerHowToRead from 'containers/LayerHowToRead';
 
 import ButtonIcon from 'styled/ButtonIcon';
 
@@ -80,19 +79,16 @@ export function LayerAside({ onClose, theme, layer }) {
                 <CloseIcon size="xlarge" color="dark" />
               </ButtonIcon>
             </ButtonWrap>
-            {layer.type === 'htr' && <LayerHowToRead layer={layer} />}
             {layer.type === 'aboutMetric' && (
               <AboutMetricContainer
                 metricCode={layer.code}
                 countryCode={layer.countryCode}
-                dateRange={layer.dateRange}
                 showTitle
                 showMetricLink
                 showAboutMetric
                 showSources={layer.showSources}
                 countryScoreMsg={layer.countryScoreMsg}
                 inverse
-                inAside
               />
             )}
             {layer.type === 'aboutCountry' && (

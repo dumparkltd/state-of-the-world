@@ -14,14 +14,17 @@ export default defineMessages({
     id: `${scope}.title`,
     defaultMessage: 'Country details',
   },
-  population: {
-    id: `${scope}.population`,
-    defaultMessage: 'Population',
+  countryLink: {
+    id: `${scope}.countryLink`,
+    defaultMessage: `${scope}.countryLink`,
   },
-  populationValue: {
-    id: `${scope}.populationValue`,
-    defaultMessage:
-      '{value}{abbrev, select, millions {m} thousands {k} other {}} ({year})',
+  countryStatus: {
+    id: `${scope}.countryStatus`,
+    defaultMessage: `${scope}.countryStatus`,
+  },
+  dataUnavailable: {
+    id: `${scope}.dataUnavailable`,
+    defaultMessage: 'N/A',
   },
   gdp: {
     id: `${scope}.gdp`,
@@ -48,47 +51,17 @@ export default defineMessages({
     id: `${scope}.gdpTooltipPPP`,
     defaultMessage: 'About PPP dollars',
   },
-  groups: {
-    single: {
-      id: `${scope}.groups.single`,
-      defaultMessage: 'group',
-    },
-    plural: {
-      id: `${scope}.groups.plural`,
-      defaultMessage: 'groups',
-    },
+  has_npm: {
+    id: `${scope}.has_npm`,
+    defaultMessage: 'Has National Preventative Mechanism?',
   },
-  un_region: {
-    id: `${scope}.un_region`,
-    defaultMessage: 'UN Regional Group',
+  has_npm_true: {
+    id: `${scope}.has_npm_true`,
+    defaultMessage: 'Yes',
   },
-  region: {
-    id: `${scope}.region`,
-    defaultMessage: 'Region',
-  },
-  subregion: {
-    id: `${scope}.subregion`,
-    defaultMessage: 'Subregion',
-  },
-  income: {
-    id: `${scope}.income`,
-    defaultMessage: 'Income group',
-  },
-  more: {
-    id: `${scope}.more`,
-    defaultMessage: 'Show country categories',
-  },
-  less: {
-    id: `${scope}.less`,
-    defaultMessage: 'Hide country categories',
-  },
-  countryLink: {
-    id: `${scope}.countryLink`,
-    defaultMessage: `${scope}.countryLink`,
-  },
-  countryStatus: {
-    id: `${scope}.countryStatus`,
-    defaultMessage: `${scope}.countryStatus`,
+  has_npm_false: {
+    id: `${scope}.has_npm_false`,
+    defaultMessage: 'No',
   },
   hrcMemberships: {
     id: `${scope}.hrcMemberships`,
@@ -122,45 +95,9 @@ export default defineMessages({
     id: `${scope}.hrcInvite_false`,
     defaultMessage: 'No',
   },
-  treaties: {
-    id: `${scope}.treaties`,
-    defaultMessage: 'Treaties ratified',
-  },
-  treaty_cat: {
-    id: `${scope}.treaty_cat`,
-    defaultMessage: 'CAT',
-  },
-  treaty_iccpr: {
-    id: `${scope}.treaty_iccpr`,
-    defaultMessage: 'ICCPR',
-  },
-  treaty_ced: {
-    id: `${scope}.treaty_ced`,
-    defaultMessage: 'CED',
-  },
-  treaty_cedaw: {
-    id: `${scope}.treaty_cedaw`,
-    defaultMessage: 'CEDAW',
-  },
-  treaty_cerd: {
-    id: `${scope}.treaty_cerd`,
-    defaultMessage: 'CERD',
-  },
-  treaty_icescr: {
-    id: `${scope}.treaty_icescr`,
-    defaultMessage: 'ICESCR',
-  },
-  treaty_crc: {
-    id: `${scope}.treaty_crc`,
-    defaultMessage: 'CRC',
-  },
-  treaty_crpd: {
-    id: `${scope}.treaty_crpd`,
-    defaultMessage: 'CRPD',
-  },
-  treaty_opcat: {
-    id: `${scope}.treaty_opcat`,
-    defaultMessage: 'OPCAT',
+  income: {
+    id: `${scope}.income`,
+    defaultMessage: 'Income group',
   },
   index_rsf: {
     id: `${scope}.index_rsf`,
@@ -174,9 +111,66 @@ export default defineMessages({
     id: `${scope}.index_eiu`,
     defaultMessage: 'Democracy Index (Economist Intelligence Unit)',
   },
-  dataUnavailable: {
-    id: `${scope}.dataUnavailable`,
-    defaultMessage: 'N/A',
+  population: {
+    id: `${scope}.population`,
+    defaultMessage: 'Population',
+  },
+  populationValue: {
+    id: `${scope}.populationValue`,
+    defaultMessage:
+      '{value}{abbrev, select, millions {m} thousands {k} other {}} ({year})',
+  },
+  sectionHR: {
+    id: `${scope}.sectionHR`,
+    defaultMessage: 'Country human rights information',
+  },
+  sectionIndices: {
+    id: `${scope}.sectionIndices`,
+    defaultMessage: 'Country scores for other indices',
+  },
+  treaties: {
+    id: `${scope}.treaties`,
+    defaultMessage: 'Treaties ratified',
+  },
+  treaty_cat: {
+    id: `${scope}.treaty_cat`,
+    defaultMessage: 'CAT',
+  },
+  treaty_ced: {
+    id: `${scope}.treaty_ced`,
+    defaultMessage: 'CED',
+  },
+  treaty_cedaw: {
+    id: `${scope}.treaty_cedaw`,
+    defaultMessage: 'CEDAW',
+  },
+  treaty_cerd: {
+    id: `${scope}.treaty_cerd`,
+    defaultMessage: 'CERD',
+  },
+  treaty_crc: {
+    id: `${scope}.treaty_crc`,
+    defaultMessage: 'CRC',
+  },
+  treaty_crpd: {
+    id: `${scope}.treaty_crpd`,
+    defaultMessage: 'CRPD',
+  },
+  treaty_iccpr: {
+    id: `${scope}.treaty_iccpr`,
+    defaultMessage: 'ICCPR',
+  },
+  treaty_icescr: {
+    id: `${scope}.treaty_icescr`,
+    defaultMessage: 'ICESCR',
+  },
+  treaty_opcat: {
+    id: `${scope}.treaty_opcat`,
+    defaultMessage: 'OPCAT',
+  },
+  un_region: {
+    id: `${scope}.un_region`,
+    defaultMessage: 'UN Regional Group',
   },
   upr_next: {
     id: `${scope}.upr_next`,
@@ -186,6 +180,14 @@ export default defineMessages({
     id: `${scope}.upr_last`,
     defaultMessage: 'Last Universal Periocic Review',
   },
+  visits_completed: {
+    id: `${scope}.visits_completed`,
+    defaultMessage: 'Number of visits completed',
+  },
+  visits_planned: {
+    id: `${scope}.visits_planned`,
+    defaultMessage: 'Number of visits planned',
+  },
   yourhrc_profile: {
     id: `${scope}.yourhrc_profile`,
     defaultMessage: 'yourHRC.org country profile',
@@ -193,33 +195,5 @@ export default defineMessages({
   yourhrc_profile_url: {
     id: `${scope}.yourhrc_profile_url`,
     defaultMessage: 'https://yourhrc.org/country-detail/?country={code}',
-  },
-  has_npm: {
-    id: `${scope}.has_npm`,
-    defaultMessage: 'Has National Preventative Mechanism?',
-  },
-  has_npm_true: {
-    id: `${scope}.has_npm_true`,
-    defaultMessage: 'Yes',
-  },
-  has_npm_false: {
-    id: `${scope}.has_npm_false`,
-    defaultMessage: 'No',
-  },
-  visits_planned: {
-    id: `${scope}.visits_planned`,
-    defaultMessage: 'Number of visits planned',
-  },
-  visits_completed: {
-    id: `${scope}.visits_completed`,
-    defaultMessage: 'Number of visits completed',
-  },
-  sectionHR: {
-    id: `${scope}.sectionHR`,
-    defaultMessage: 'Country human rights information',
-  },
-  sectionIndices: {
-    id: `${scope}.sectionIndices`,
-    defaultMessage: 'Country scores for other indices',
   },
 });

@@ -40,7 +40,7 @@ export function SectionCredits({ intl }) {
     <SectionContainer pad={{ vertical: 'small' }} background="white">
       <ContentMaxWidth column>
         <SectionTitleSecondary>
-          <FormattedMessage {...messages.credits_title} />
+          <FormattedMessage {...messages.title} />
         </SectionTitleSecondary>
         <Box
           direction="row"
@@ -50,7 +50,7 @@ export function SectionCredits({ intl }) {
         >
           <Box>
             <LabelCredit>
-              <FormattedMessage {...messages.credit_main} />
+              <FormattedMessage {...messages.main} />
             </LabelCredit>
             <ACredit
               href={intl.formatMessage(messages.link_urg)}
@@ -65,7 +65,7 @@ export function SectionCredits({ intl }) {
           </Box>
           <Box>
             <LabelCredit>
-              <FormattedMessage {...messages.credit_data} />
+              <FormattedMessage {...messages.data} />
             </LabelCredit>
             <Box direction="row">
               <ACredit
@@ -99,7 +99,7 @@ export function SectionCredits({ intl }) {
         >
           <Box>
             <LabelCredit>
-              <FormattedMessage {...messages.credit_funding} />
+              <FormattedMessage {...messages.funding} />
             </LabelCredit>
             <Box direction="row">
               <ACredit
@@ -126,7 +126,7 @@ export function SectionCredits({ intl }) {
           </Box>
           <Box>
             <LabelCredit>
-              <FormattedMessage {...messages.credit_development} />
+              <FormattedMessage {...messages.development} />
             </LabelCredit>
             <ACredit
               href={intl.formatMessage(messages.link_dumpark)}

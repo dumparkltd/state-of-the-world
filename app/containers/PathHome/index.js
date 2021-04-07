@@ -101,7 +101,7 @@ export function PathHome({ intl }) {
         <ContentMaxWidth column>
           <Box align="center">
             <SectionTitle>
-              <FormattedMessage {...rootMessages['rights-types'].esr} />
+              <FormattedMessage {...rootMessages.rightsTypes.esr} />
             </SectionTitle>
             <SectionIntro>
               <SectionIntroText>
@@ -130,7 +130,7 @@ export function PathHome({ intl }) {
         <ContentMaxWidth column>
           <Box align="center">
             <SectionTitle>
-              <FormattedMessage {...rootMessages['rights-types'].cpr} />
+              <FormattedMessage {...rootMessages.rightsTypes.cpr} />
             </SectionTitle>
             <SectionIntro>
               <SectionIntroText>

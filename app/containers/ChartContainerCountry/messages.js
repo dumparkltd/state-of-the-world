@@ -14,8 +14,4 @@ export default defineMessages({
     defaultMessage:
       'How well are Human Rights respected in {countryWithArticle}?',
   },
-  exploreDetails: {
-    id: `${scope}.exploreDetails`,
-    defaultMessage: 'Explore Details',
-  },
 });

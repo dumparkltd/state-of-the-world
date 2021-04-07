@@ -209,6 +209,10 @@ export const PAGES = {
     key: 'methodology',
     primary: true,
   },
+  privacy: {
+    key: 'privacy',
+    primary: false,
+  },
 };
 
 export const PATHS = {

@@ -9,24 +9,24 @@ import { defineMessages } from 'react-intl';
 export const scope = 'hrmi.components.SectionCredits';
 
 export default defineMessages({
-  credits_title: {
-    id: `${scope}.credits_title`,
+  title: {
+    id: `${scope}.title`,
     defaultMessage: 'Acknowledgements',
   },
-  credit_main: {
-    id: `${scope}.credit_main`,
+  main: {
+    id: `${scope}.main`,
     defaultMessage: 'Brought to you by',
   },
-  credit_data: {
-    id: `${scope}.credit_data`,
+  data: {
+    id: `${scope}.data`,
     defaultMessage: 'Powered by',
   },
-  credit_development: {
-    id: `${scope}.credit_development`,
+  development: {
+    id: `${scope}.development`,
     defaultMessage: 'Design & development by',
   },
-  credit_funding: {
-    id: `${scope}.credit_development`,
+  funding: {
+    id: `${scope}.funding`,
     defaultMessage: 'Supported by',
   },
   link_urg: {
@@ -75,6 +75,6 @@ export default defineMessages({
   },
   link_denmark_title: {
     id: `${scope}.link_denmark_title`,
-    defaultMessage: 'Permanent Missionof Denmark to UN Geneva',
+    defaultMessage: 'Permanent Mission of Denmark to UN Geneva',
   },
 });

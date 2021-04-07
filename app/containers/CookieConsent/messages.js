@@ -35,9 +35,4 @@ export default defineMessages({
     id: `${scope}.linkDialogue`,
     defaultMessage: 'Privacy Settings',
   },
-  urlPrivacyPolicy: {
-    id: `${scope}.urlPrivacyPolicy`,
-    defaultMessage:
-      '//humanrightsmeasurement.org/wp-content/uploads/2019/09/HRMI-Website-Privacy-Policy.pdf',
-  },
 });

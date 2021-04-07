@@ -105,13 +105,7 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
       </Text>
       <MethodologyLink
         onClick={() => navMethodology()}
-        text={
-          question === 'grades' ? (
-            <FormattedMessage {...messages.methodologyGrades} />
-          ) : (
-            <FormattedMessage {...messages.methodology} />
-          )
-        }
+        text={<FormattedMessage {...messages.methodology} />}
       />
     </>
   );

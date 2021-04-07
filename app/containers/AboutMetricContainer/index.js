@@ -96,7 +96,6 @@ AboutMetricContainer.propTypes = {
   showRelated: PropTypes.bool,
   showSources: PropTypes.bool,
   inverse: PropTypes.bool,
-  countryScoreMsg: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   countryCode: PropTypes.string,
   dateRange: PropTypes.object,
   showAboutMetric: PropTypes.bool,

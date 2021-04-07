@@ -4,18 +4,26 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Box, Layer, Paragraph } from 'grommet';
+import { PAGES, PATHS } from 'containers/App/constants';
+
 import {
   getCookieConsent,
   getCookieConsentApp,
   getCookieConsentChecked,
 } from 'containers/App/selectors';
-import { checkCookieConsent, setCookieConsent } from 'containers/App/actions';
+import {
+  checkCookieConsent,
+  setCookieConsent,
+  navigate,
+} from 'containers/App/actions';
+
 import saga from 'containers/App/saga';
 import { useInjectSaga } from 'utils/injectSaga';
 
 import ButtonHero from 'styled/ButtonHero';
+import ButtonText from 'styled/ButtonText';
 
 import messages from './messages';
 
@@ -24,13 +32,6 @@ const Styled = styled.div``;
 const StyledLayer = styled(Layer)`
   @media print {
     display: none;
-  }
-`;
-
-const LinkInText = styled.a`
-  color: ${props => props.theme.global.colors.white};
-  &:hover {
-    color: rgba(255, 255, 255, 0.85);
   }
 `;
 
@@ -50,9 +51,9 @@ export function CookieConsent({
   init,
   cookieConsent,
   cookieConsentApp,
-  intl,
   onConsent,
   checked,
+  nav,
 }) {
   useInjectSaga({ key: 'app', saga });
   useEffect(() => {
@@ -117,12 +118,11 @@ export function CookieConsent({
             </ButtonWrap>
             <Paragraph margin={{ top: 'medium', bottom: 'small' }} size="small">
               <FormattedMessage {...messages.additionalInfo} />
-              <LinkInText
-                href={intl.formatMessage(messages.urlPrivacyPolicy)}
-                target="_blank"
+              <ButtonText
+                onClick={() => nav(`${PATHS.PAGE}/${PAGES.privacy.key}`)}
               >
                 <FormattedMessage {...messages.linkPrivacyPolicy} />
-              </LinkInText>
+              </ButtonText>
             </Paragraph>
           </Box>
         </StyledLayer>
@@ -137,7 +137,7 @@ CookieConsent.propTypes = {
   cookieConsent: PropTypes.string,
   cookieConsentApp: PropTypes.string,
   checked: PropTypes.bool,
-  intl: intlShape.isRequired,
+  nav: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -150,6 +150,18 @@ export function mapDispatchToProps(dispatch) {
   return {
     init: () => dispatch(checkCookieConsent()),
     onConsent: status => dispatch(setCookieConsent(status)),
+    nav: location => {
+      dispatch(
+        navigate(location, {
+          keepTab: true,
+          trackEvent: {
+            category: 'Content',
+            action: 'Home: navigate',
+            value: typeof location === 'object' ? location.pathname : location,
+          },
+        }),
+      );
+    },
   };
 }
 
@@ -158,4 +170,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(injectIntl(CookieConsent));
+export default compose(withConnect)(CookieConsent);

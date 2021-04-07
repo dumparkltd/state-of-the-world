@@ -55,10 +55,6 @@ export default defineMessages({
       defaultMessage:
         'We could not find any countries for your filter settings',
     },
-    noSortData: {
-      id: `${scope}.hints.noSortData`,
-      defaultMessage: 'Sorting information missing',
-    },
   },
   labels: {
     score: {
@@ -89,14 +85,6 @@ export default defineMessages({
       id: `${scope}.labels.loading`,
       defaultMessage: 'Loading...',
     },
-    allCountries: {
-      id: `${scope}.labels.allCountries`,
-      defaultMessage: 'All countries',
-    },
-    allMetrics: {
-      id: `${scope}.labels.allMetrics`,
-      defaultMessage: 'All metrics',
-    },
     countries: {
       id: `${scope}.labels.countries`,
       defaultMessage: 'Countries',
@@ -125,16 +113,6 @@ export default defineMessages({
       id: `${scope}.labels.countryNo`,
       defaultMessage: 'No of countries',
     },
-    chartTools: {
-      howToRead: {
-        id: `${scope}.labels.chartTools.howToRead`,
-        defaultMessage: 'How to read',
-      },
-      settings: {
-        id: `${scope}.labels.chartTools.settings`,
-        defaultMessage: 'Data settings',
-      },
-    },
     abbrev: {
       notAvailable: {
         id: `${scope}.labels.abbrev.notAvailable`,
@@ -142,17 +120,13 @@ export default defineMessages({
       },
     },
     xAxis: {
-      cpr: {
-        id: `${scope}.labels.xAxis.cpr`,
-        defaultMessage: 'Score',
-      },
-      adjusted: {
-        id: `${scope}.labels.xAxis.adjusted`,
-        defaultMessage: '% of income adjusted benchmark achieved',
-      },
       best: {
         id: `${scope}.labels.xAxis.best`,
         defaultMessage: '% of global best benchmark achieved',
+      },
+      cpr: {
+        id: `${scope}.labels.xAxis.cpr`,
+        defaultMessage: 'Score',
       },
     },
   },
@@ -183,11 +157,11 @@ export default defineMessages({
         defaultMessage: 'About',
       },
       ranking: {
-        id: `${scope}.tabs.ranking`,
+        id: `${scope}.tabs.mobile.ranking`,
         defaultMessage: 'Ranking',
       },
       regions: {
-        id: `${scope}.tabs.regions`,
+        id: `${scope}.tabs.mobile.regions`,
         defaultMessage: 'Over time',
       },
     },
@@ -204,10 +178,10 @@ export default defineMessages({
     incompleteData: {
       id: `${scope}.charts.incompleteData`,
       defaultMessage: 'Incomplete data',
-      changeStandard: {
-        id: `${scope}.charts.incompleteData.changeStandard`,
-        defaultMessage: 'changeStandard',
-      },
+    },
+    changeStandard: {
+      id: `${scope}.charts.changeStandard`,
+      defaultMessage: 'changeStandard',
     },
     noteRegionalBiasESR: {
       id: `${scope}.charts.noteRegionalBiasESR`,
@@ -269,18 +243,18 @@ export default defineMessages({
       id: `${scope}.page.methodology`,
       defaultMessage: 'Methodology',
     },
-    download: {
-      id: `${scope}.page.download`,
-      defaultMessage: 'Download Data',
+    privacy: {
+      id: `${scope}.page.privacy`,
+      defaultMessage: 'Privacy policy',
     },
   },
-  'rights-types': {
+  rightsTypes: {
     cpr: {
-      id: `${scope}.rights-types.cpr`,
+      id: `${scope}.rightsTypes.cpr`,
       defaultMessage: 'cpr',
     },
     esr: {
-      id: `${scope}.rights-types.esr`,
+      id: `${scope}.rightsTypes.esr`,
       defaultMessage: 'esr',
     },
   },
@@ -337,18 +311,6 @@ export default defineMessages({
       id: `${scope}.rights.work`,
       defaultMessage: 'work',
     },
-    job: {
-      id: `${scope}.rights.job`,
-      defaultMessage: 'job',
-    },
-    jobcond: {
-      id: `${scope}.rights.jobcond`,
-      defaultMessage: 'jobcond',
-    },
-    union: {
-      id: `${scope}.rights.union`,
-      defaultMessage: 'union',
-    },
   },
   'rights-short': {
     arrest: {
@@ -402,18 +364,6 @@ export default defineMessages({
     work: {
       id: `${scope}.rights-short.work`,
       defaultMessage: 'work',
-    },
-    job: {
-      id: `${scope}.rights-short.job`,
-      defaultMessage: 'job',
-    },
-    jobcond: {
-      id: `${scope}.rights-short.jobcond`,
-      defaultMessage: 'jobcond',
-    },
-    union: {
-      id: `${scope}.rights-short.union`,
-      defaultMessage: 'union',
     },
   },
   'rights-xshort': {
@@ -469,18 +419,6 @@ export default defineMessages({
       id: `${scope}.rights-xshort.work`,
       defaultMessage: 'work',
     },
-    job: {
-      id: `${scope}.rights-xshort.job`,
-      defaultMessage: 'job',
-    },
-    jobcond: {
-      id: `${scope}.rights-xshort.jobcond`,
-      defaultMessage: 'jobcond',
-    },
-    union: {
-      id: `${scope}.rights-xshort.union`,
-      defaultMessage: 'union',
-    },
   },
   'rights-about': {
     arrest: {
@@ -534,18 +472,6 @@ export default defineMessages({
     work: {
       id: `${scope}.rights-about.work`,
       defaultMessage: 'work-about',
-    },
-    job: {
-      id: `${scope}.rights-about.job`,
-      defaultMessage: 'job-about',
-    },
-    jobcond: {
-      id: `${scope}.rights-about.jobcond`,
-      defaultMessage: 'jobcond-about',
-    },
-    union: {
-      id: `${scope}.rights-about.union`,
-      defaultMessage: 'union-about',
     },
   },
   un_regions: {

@@ -113,7 +113,7 @@ export function ChartContainerCountry({
               </Heading>
             </Box>
             <h2>
-              <FormattedMessage {...rootMessages['rights-types'].esr} />
+              <FormattedMessage {...rootMessages.rightsTypes.esr} />
             </h2>
             <ChartHeader settings={[{ attribute: 'standard' }]} />
             <MultiCardWrapper
@@ -166,7 +166,7 @@ export function ChartContainerCountry({
               <Source type="esr" />
             </MultiCardWrapper>
             <h2>
-              <FormattedMessage {...rootMessages['rights-types'].cpr} />
+              <FormattedMessage {...rootMessages.rightsTypes.cpr} />
             </h2>
             <MultiCardWrapper
               pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
