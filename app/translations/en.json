@@ -473,7 +473,7 @@
   "hrmi.components.ChartMetricTrend.infoESRadditional": "Using HRMI's 'Global Best' benchmark where the maximum possible score (100%) is based on the best outcome achieved by any country regardless of available income",
   "hrmi.components.ChartMetricTrend.infoCPRintro": "Average of all available country scores.",
   "hrmi.components.ChartMetricTrend.infoCPRadditional": "Individual country scores are the median values of all expert responses for that country. The 80% credible intervals are based on the expert survey standard deviations.",
-  "hrmi.components.CountryNarrative.cpr.govRespondents": "Please note: For {countryWithArticle}, because it has a very small population, we allowed some survey respondents to work for or with the government. This was only allowed for countries with a population of fewer than 120,000 people, and excluded politicians, police, and members of the military. For more information, please see HRMI's Methodology Handbook.",
+  "hrmi.components.CountryNarrative.cpr.govRespondents": "Please note: For {countryWithArticle}, because it has a very small population (fewer than 120,000 people), HRMI allowed some survey respondents to work for or with the government (excluding politicians, police, and members of the military).",
   "hrmi.components.CountryNarrative.cpr.noData": "Please note: no civil and political rights scores have yet been produced for {countryWithArticle}.",
   "hrmi.components.CountryNarrative.esr.noData": "Please note: no economic and social rights scores are available for {countryWithArticle}.",
   "hrmi.components.CountryNarrative.esr.dataOnlyForOtherStandard": "Please note: economic and social rights scores for {countryWithArticle} are only available for the '{otherStandard}' assessment standard.",
