@@ -26,6 +26,9 @@ import {
   SET_COOKIECONSENT,
   GA_INITIALISED,
   TRACK_EVENT,
+  ADD_NOTE,
+  REMOVE_NOTE,
+  CLEAR_NOTES,
 } from './constants';
 
 export function checkCookieConsent() {
@@ -145,12 +148,11 @@ export function contentReady(key, time) {
   };
 }
 
-export function selectCountry(code, tab, atRisk) {
+export function selectCountry(code, tab) {
   return {
     type: SELECT_COUNTRY,
     code,
     tab,
-    atRisk,
   };
 }
 export function selectMetric(code, tab, year) {
@@ -191,5 +193,23 @@ export function setAsideLayer(args) {
   return {
     type: ASIDE_LAYER,
     layer: args,
+  };
+}
+export function addNote(key, note) {
+  return {
+    type: ADD_NOTE,
+    key,
+    note,
+  };
+}
+export function removeNote(key) {
+  return {
+    type: REMOVE_NOTE,
+    key,
+  };
+}
+export function clearNotes() {
+  return {
+    type: CLEAR_NOTES,
   };
 }

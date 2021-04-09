@@ -1,29 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Paragraph } from 'grommet';
-import { COLUMNS } from 'containers/App/constants';
 import styled from 'styled-components';
-import { getMessageGrammar } from 'utils/narrative';
 
 import messages from './messages';
 
-const StyledPara = styled(Paragraph)`
-  margin-top: 40px;
-  font-style: italic;
-`;
+const StyledPara = styled(Paragraph)``;
 
-function NarrativeCPRGovRespondents({ countryGrammar, country, intl }) {
-  const messageValues = {
-    ...getMessageGrammar(
-      intl,
-      country[COLUMNS.COUNTRIES.CODE],
-      country[COLUMNS.COUNTRIES.UN_REGION],
-      countryGrammar,
-    ),
-  };
+function NarrativeCPRGovRespondents({ messageValues }) {
   return (
-    <StyledPara>
+    <StyledPara margin={{ bottom: 'medium' }}>
       <FormattedMessage
         {...messages.cpr.govRespondents}
         values={messageValues}
@@ -33,9 +20,7 @@ function NarrativeCPRGovRespondents({ countryGrammar, country, intl }) {
 }
 
 NarrativeCPRGovRespondents.propTypes = {
-  countryGrammar: PropTypes.object,
-  country: PropTypes.object,
-  intl: intlShape.isRequired,
+  messageValues: PropTypes.object,
 };
 
-export default injectIntl(NarrativeCPRGovRespondents);
+export default NarrativeCPRGovRespondents;

@@ -14,7 +14,7 @@ export default defineMessages({
     defaultMessage: 'Sources: HRMI 2020 {linkRightsTracker} & {linkSERF}',
   },
   sourceCPR: {
-    id: `${scope}.sourceESR`,
+    id: `${scope}.sourceCPR`,
     defaultMessage: 'Source: HRMI 2020 {linkRightsTracker}',
   },
 });

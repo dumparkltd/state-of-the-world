@@ -38,6 +38,8 @@ import {
   setGAinitialised,
   trackEvent,
   setAsideLayer,
+  addNote,
+  removeNote,
 } from './actions';
 import {
   LOAD_DATA_IF_NEEDED,
@@ -173,6 +175,7 @@ function* loadContentErrorHandler(err, { key }) {
 }
 
 export function* selectCountrySaga({ code, tab }) {
+  yield put(removeNote('asChanged'));
   // figure out country group and default standard
   const country = yield select(getCountry, code);
   const group =
@@ -190,6 +193,7 @@ export function* selectCountrySaga({ code, tab }) {
   const currentStandard = yield select(getStandardSearch);
   if (countryDefaultStandard.key !== currentStandard) {
     yield searchParams.set('as', countryDefaultStandard.key);
+    yield put(addNote('asChanged', { msg: 'asChangedCountry' }));
   }
   if (tab) {
     yield searchParams.set('tab', tab);
@@ -216,7 +220,7 @@ export function* setStandardSaga({ value }) {
   // get URL search params
   const searchParams = yield select(getRouterSearchParams);
   yield searchParams.set('as', value);
-
+  yield put(removeNote('asChanged'));
   yield put(
     trackEvent({
       category: 'Setting',

@@ -30,17 +30,10 @@ import {
 
 import {
   loadDataIfNeeded,
-  navigate,
   trackEvent,
   setAsideLayer,
 } from 'containers/App/actions';
-import {
-  // INCOME_GROUPS,
-  COUNTRY_FILTERS,
-  PATHS,
-  FAQS,
-  IMAGE_PATH,
-} from 'containers/App/constants';
+import { FAQS, IMAGE_PATH } from 'containers/App/constants';
 
 import saga from 'containers/App/saga';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -87,7 +80,6 @@ const DEPENDENCIES = [
 export function PathCountry({
   intl,
   onLoadData,
-  onCategoryClick,
   match,
   country,
   countryGrammar,
@@ -208,7 +200,6 @@ export function PathCountry({
                     <AboutCountryContainer
                       {...props}
                       countryCode={countryCode}
-                      onCategoryClick={onCategoryClick}
                       showFAQs={faqs}
                       messageValues={messageValues}
                     />
@@ -227,7 +218,6 @@ PathCountry.propTypes = {
   // dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   onLoadData: PropTypes.func.isRequired,
-  onCategoryClick: PropTypes.func,
   activeCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   match: PropTypes.object,
   rights: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
@@ -260,26 +250,6 @@ export function mapDispatchToProps(dispatch) {
     },
     onLoadData: () => {
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key)));
-    },
-    onCategoryClick: (key, value) => {
-      const deleteParams = COUNTRY_FILTERS.ALL;
-      dispatch(
-        navigate(
-          {
-            pathname: `/${PATHS.COUNTRIES}`,
-            search: `?${key}=${value}`,
-          },
-          {
-            replace: false,
-            deleteParams: deleteParams.filter(p => p !== key),
-            trackEvent: {
-              category: 'Data',
-              action: 'Country filter (Country, tags)',
-              value: `${key}/${value}`,
-            },
-          },
-        ),
-      );
     },
     onTrackEvent: e => dispatch(trackEvent(e)),
   };

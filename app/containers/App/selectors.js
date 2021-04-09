@@ -39,6 +39,10 @@ export const getCloseTargetCountry = createSelector(
   getGlobal,
   global => global.closeTargetCountry,
 );
+export const getNotes = createSelector(
+  getGlobal,
+  global => global.notes,
+);
 
 // get data / content
 const getData = createSelector(
@@ -1159,6 +1163,28 @@ export const getESRScoresForCountry = createSelector(
           s.country_code === countryCode,
       );
       return getCountryScores(countryCode, countryScores, BENCHMARKS);
+    }
+    return null;
+  },
+);
+export const getHasOtherESRScoresForCountry = createSelector(
+  (state, { countryCode }) => countryCode,
+  (state, { metricCode }) => metricCode,
+  getESRScores,
+  getStandardSearch,
+  (countryCode, metricCode, scores, standardSearch) => {
+    const metric = getMetricDetails(metricCode);
+    const otherStandard = STANDARDS.find(as => as.key !== standardSearch);
+    const group = PEOPLE_GROUPS.find(g => g.key === 'all');
+    if (metric && group && scores) {
+      const hasCountryScores = scores.some(
+        s =>
+          s[COLUMNS.ESR.GROUP] === group.code &&
+          s[COLUMNS.ESR.STANDARD] === otherStandard.code &&
+          s[COLUMNS.ESR.METRIC] === metric.code &&
+          s.country_code === countryCode,
+      );
+      return hasCountryScores;
     }
     return null;
   },

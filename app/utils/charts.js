@@ -116,14 +116,29 @@ export const getRegionDataLow = (
   );
 
 // prettier-ignore
-export const getCountryYearData = (year, countryColumnScores) =>
-  countryColumnScores[year]
-    ? [({
-      syear: year,
-      x: getXTime(year),
-      y: parseFloat(countryColumnScores[year].score),
-    })]
-    : [];
+export const getCountryYearData = (year, countryColumnScores) => {
+  if (!countryColumnScores[year]) {
+    const years = Object.keys(countryColumnScores).map(y => parseInt(y, 10));
+    const yearClosest = years.reduce((m, testYear) => {
+      if (!m || (Math.abs(testYear - year) < Math.abs(m - year))) {
+        return testYear;
+      }
+      return m;
+    }, null);
+    return yearClosest
+      ? [({
+        syear: yearClosest,
+        x: getXTime(yearClosest),
+        y: parseFloat(countryColumnScores[yearClosest].score),
+      })]
+      : [];
+  }
+  return [({
+    syear: year,
+    x: getXTime(year),
+    y: parseFloat(countryColumnScores[year].score),
+  })];
+}
 // const getCountryData = (country, scores, metricType, benchmarkKey, intl) => {
 export const getCountryData = countryColumnScores =>
   Object.keys(countryColumnScores).reduce(

@@ -24,6 +24,9 @@ import {
   SET_COOKIECONSENT,
   GA_INITIALISED,
   PATHS,
+  ADD_NOTE,
+  REMOVE_NOTE,
+  CLEAR_NOTES,
 } from './constants';
 
 // The initial state of the App
@@ -70,6 +73,7 @@ export const initialState = {
     search: '',
     hash: '',
   },
+  notes: {},
   /* eslint-enable no-param-reassign */
 };
 
@@ -135,6 +139,15 @@ const appReducer = (state = initialState, action) =>
         //   action.status,
         // );
         draft.cookieConsentApp = action.status;
+        break;
+      case ADD_NOTE:
+        draft.notes[action.key] = action.note;
+        break;
+      case REMOVE_NOTE:
+        delete draft.notes[action.key];
+        break;
+      case CLEAR_NOTES:
+        draft.notes = {};
         break;
       case GA_INITIALISED:
         // console.log('Store: storing Google Analytics status: ', action.status);

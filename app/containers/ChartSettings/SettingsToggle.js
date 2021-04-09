@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 // import styled, { css } from 'styled-components';
 import { Box, Text } from 'grommet';
+import { Close } from 'grommet-icons';
 
 import Tooltip from 'components/Tooltip';
 import ButtonToggleSetting from 'styled/ButtonToggleSetting';
+import ButtonIcon from 'styled/ButtonIcon';
 
 import rootMessages from 'messages';
 
@@ -19,9 +21,16 @@ function SettingsToggle({
   active,
   setting,
   msgValues,
+  note,
+  onDismissNote,
 }) {
   return (
-    <Box direction="column" flex={{ shrink: 0 }} responsive={false}>
+    <Box
+      direction="column"
+      flex={{ shrink: 0 }}
+      responsive={false}
+      margin={{ bottom: 'small' }}
+    >
       <Box direction="row" align="center">
         <Box pad={{ bottom: 'xsmall' }} direction="row">
           <Text size="xsmall">
@@ -74,7 +83,7 @@ function SettingsToggle({
           )}
         </Box>
       </Box>
-      <Box direction="row" align="center" margin={{ bottom: 'small' }}>
+      <Box direction="row" align="center">
         {options.map(option => (
           <ButtonToggleSetting
             key={option.key}
@@ -93,6 +102,14 @@ function SettingsToggle({
           </ButtonToggleSetting>
         ))}
       </Box>
+      {note && (
+        <Box direction="row" align="center" gap="xsmall">
+          <Text>{note}</Text>
+          <ButtonIcon onClick={() => onDismissNote()} subtle>
+            <Close size="small" />
+          </ButtonIcon>
+        </Box>
+      )}
     </Box>
   );
 }
@@ -106,6 +123,8 @@ SettingsToggle.propTypes = {
   horizontal: PropTypes.bool,
   msgValues: PropTypes.object,
   name: PropTypes.string,
+  onDismissNote: PropTypes.func,
+  note: PropTypes.string,
 };
 
 export default SettingsToggle;

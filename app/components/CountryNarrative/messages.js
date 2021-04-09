@@ -20,8 +20,20 @@ export default defineMessages({
       defaultMessage:
         'For {needsArticle, select, true {the } false { }}{country} a {dimension} score is not available due to missing data for at least one component of the rights to food, health, education, housing and work. Missing data tells us that {needsArticle, select, true {the } false { }}{country} has not submitted some information to the relevant international databases.',
     },
+    dataOnlyForOtherStandard: {
+      id: `${scope}.esr.dataOnlyForOtherStandard`,
+      defaultMessage: 'dataOnlyForOtherStandard',
+    },
+    dataOnlyForRecommendedStandard: {
+      id: `${scope}.esr.dataOnlyForRecommendedStandard`,
+      defaultMessage: 'dataOnlyForRecommendedStandard',
+    },
   },
   cpr: {
+    noData: {
+      id: `${scope}.cpr.noData`,
+      defaultMessage: 'cpr.noData',
+    },
     govRespondents: {
       id: `${scope}.cpr.govRespondents`,
       defaultMessage:

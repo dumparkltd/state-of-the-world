@@ -7,4 +7,8 @@ export default defineMessages({
     id: `${scope}.labelStandard`,
     defaultMessage: 'labelStandard',
   },
+  asChangedCountry: {
+    id: `${scope}.asChangedCountry`,
+    defaultMessage: 'asChangedCountry',
+  },
 });

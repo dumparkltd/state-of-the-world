@@ -61,8 +61,9 @@ export const SET_TAB = 'hrmi/App/SET_TAB';
 
 // state actions
 export const ASIDE_LAYER = 'hrmi/App/ASIDE_LAYER';
-export const HIGHLIGHT_COUNTRY = 'hrmi/App/HIGHLIGHT_COUNTRY';
-export const SHOW_WELCOME = 'hrmi/App/SHOW_WELCOME';
+export const ADD_NOTE = 'hrmi/App/ADD_NOTE';
+export const REMOVE_NOTE = 'hrmi/App/REMOVE_NOTE';
+export const CLEAR_NOTES = 'hrmi/App/CLEAR_NOTES';
 
 export const CRITICAL_VALUE = {
   80: 1.282,

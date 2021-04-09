@@ -13,7 +13,12 @@ import { FormattedMessage } from 'react-intl';
 import styled, { withTheme } from 'styled-components';
 import { Box, ResponsiveContext, Heading } from 'grommet';
 
-import { RIGHTS, COLUMNS } from 'containers/App/constants';
+import {
+  RIGHTS,
+  COLUMNS,
+  STANDARDS,
+  INCOME_GROUPS,
+} from 'containers/App/constants';
 
 import {
   getCountry,
@@ -27,16 +32,23 @@ import {
   getCPRScoresForCountry,
   getCPRScoresForCountryUNRegion,
   getBenchmarkSearch,
+  getStandardSearch,
+  getHasOtherESRScoresForCountry,
 } from 'containers/App/selectors';
-import { loadDataIfNeeded } from 'containers/App/actions';
+import { loadDataIfNeeded, removeNote } from 'containers/App/actions';
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
+import NarrativeESRStandardHint from 'components/CountryNarrative/NarrativeESRStandardHint';
+import NarrativeESRNoData from 'components/CountryNarrative/NarrativeESRNoData';
+import NarrativeCPRNoData from 'components/CountryNarrative/NarrativeCPRNoData';
+import NarrativeCPRGovRespondents from 'components/CountryNarrative/NarrativeCPRGovRespondents';
 import Source from 'components/Source';
 import WrapPlot from 'styled/WrapPlot';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize, isMaxSize } from 'utils/responsive';
+import quasiEquals from 'utils/quasi-equals';
 // import { CARD_WIDTH } from 'theme';
 import rootMessages from 'messages';
 
@@ -58,12 +70,7 @@ const getCardWidth = (width, number, theme) => {
   return `${width / number - edge * 2}px`;
 };
 
-const DEPENDENCIES = [
-  'countries',
-  'countriesGrammar',
-  'cprScores',
-  'esrScores',
-];
+const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
 
 export function ChartContainerCountry({
   dataReady,
@@ -72,6 +79,7 @@ export function ChartContainerCountry({
   scores,
   regionScores,
   benchmark,
+  standard,
   maxYearESR,
   minYearESR,
   maxYearCPR,
@@ -79,6 +87,7 @@ export function ChartContainerCountry({
   onSelectMetric,
   theme,
   messageValues,
+  hasOtherESR,
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
@@ -101,6 +110,26 @@ export function ChartContainerCountry({
   }, []);
 
   if (!dataReady) return <LoadingIndicator />;
+  // check standard
+  const countryIncomeGroup = INCOME_GROUPS.options.find(s =>
+    quasiEquals(s.value, country[COLUMNS.COUNTRIES.HIGH_INCOME]),
+  );
+  const isRecommendedStandard = countryIncomeGroup.standard === standard;
+  const otherStandard = STANDARDS.find(s => !quasiEquals(standard, s.key));
+
+  const scoresESR = scores.filter(r => r.type === 'esr');
+  const scoresCPR = scores.filter(r => r.type === 'cpr');
+  // check data availability
+  const hasESR = scores.some(
+    r => r.scores[benchmark] && Object.values(r.scores[benchmark]).length > 0,
+  );
+  const hasCPR = scores.some(
+    r =>
+      r.scores[COLUMNS.CPR.MEAN] &&
+      Object.values(r.scores[COLUMNS.CPR.MEAN]).length > 0,
+  );
+  const hasGovRespondents =
+    hasCPR && quasiEquals(country[COLUMNS.COUNTRIES.GOV_RESPONDENTS], 1);
 
   return (
     <div ref={ref}>
@@ -116,6 +145,21 @@ export function ChartContainerCountry({
               <FormattedMessage {...rootMessages.rightsTypes.esr} />
             </h2>
             <ChartHeader settings={[{ attribute: 'standard' }]} />
+            {!isRecommendedStandard && hasOtherESR && hasESR && (
+              <NarrativeESRStandardHint
+                country={country}
+                standard={standard}
+                messageValues={messageValues}
+              />
+            )}
+            {!hasESR && (
+              <NarrativeESRNoData
+                hasScoreForOtherStandard={hasOtherESR}
+                isRecommendedStandard={isRecommendedStandard}
+                messageValues={messageValues}
+                otherStandard={otherStandard.key}
+              />
+            )}
             <MultiCardWrapper
               pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
               align="start"
@@ -129,38 +173,36 @@ export function ChartContainerCountry({
                   overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
                   align="start"
                 >
-                  {scores
-                    .filter(r => r.type === 'esr')
-                    .map(right => {
-                      const regionRight = regionScores.find(
-                        r => r.key === right.key,
-                      );
-                      return (
-                        <WrapPlot
-                          key={right.key}
-                          width={getCardWidth(
-                            gridWidth || 200,
-                            getCardNumber(size),
-                            theme,
-                          )}
-                        >
-                          <ChartMetricTrend
-                            scores={{
-                              country: right.scores,
-                              regions: regionRight.scores,
-                            }}
-                            regionScores={regionScores}
-                            maxYear={maxYearESR}
-                            minYear={minYearESR}
-                            benchmark={benchmark}
-                            metric={getMetricDetails(right.key)}
-                            mode="multi-country"
-                            onSelectMetric={() => onSelectMetric(right.key)}
-                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
-                          />
-                        </WrapPlot>
-                      );
-                    })}
+                  {scoresESR.map(right => {
+                    const regionRight = regionScores.find(
+                      r => r.key === right.key,
+                    );
+                    return (
+                      <WrapPlot
+                        key={right.key}
+                        width={getCardWidth(
+                          gridWidth || 200,
+                          getCardNumber(size),
+                          theme,
+                        )}
+                      >
+                        <ChartMetricTrend
+                          scores={{
+                            country: right.scores,
+                            regions: regionRight.scores,
+                          }}
+                          regionScores={regionScores}
+                          maxYear={maxYearESR}
+                          minYear={minYearESR}
+                          benchmark={benchmark}
+                          metric={getMetricDetails(right.key)}
+                          mode="multi-country"
+                          onSelectMetric={() => onSelectMetric(right.key)}
+                          currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
+                        />
+                      </WrapPlot>
+                    );
+                  })}
                 </Box>
               )}
               <Source type="esr" />
@@ -168,6 +210,10 @@ export function ChartContainerCountry({
             <h2>
               <FormattedMessage {...rootMessages.rightsTypes.cpr} />
             </h2>
+            {!hasCPR && <NarrativeCPRNoData messageValues={messageValues} />}
+            {hasCPR && hasGovRespondents && (
+              <NarrativeCPRGovRespondents messageValues={messageValues} />
+            )}
             <MultiCardWrapper
               pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
               align="start"
@@ -182,39 +228,37 @@ export function ChartContainerCountry({
                   overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
                   align="start"
                 >
-                  {scores
-                    .filter(r => r.type === 'cpr')
-                    .map(right => {
-                      const regionRight = regionScores.find(
-                        r => r.key === right.key,
-                      );
-                      return (
-                        <WrapPlot
-                          key={right.key}
-                          width={getCardWidth(
-                            gridWidth || 200,
-                            getCardNumber(size),
-                            theme,
-                          )}
-                        >
-                          <ChartMetricTrend
-                            scores={{
-                              country: right.scores,
-                              regions: regionRight.scores,
-                            }}
-                            maxYear={maxYearCPR}
-                            minYear={minYearCPR}
-                            maxValue={12}
-                            minValue={-1}
-                            benchmark={benchmark}
-                            metric={getMetricDetails(right.key)}
-                            mode="multi-country"
-                            onSelectMetric={() => onSelectMetric(right.key)}
-                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
-                          />
-                        </WrapPlot>
-                      );
-                    })}
+                  {scoresCPR.map(right => {
+                    const regionRight = regionScores.find(
+                      r => r.key === right.key,
+                    );
+                    return (
+                      <WrapPlot
+                        key={right.key}
+                        width={getCardWidth(
+                          gridWidth || 200,
+                          getCardNumber(size),
+                          theme,
+                        )}
+                      >
+                        <ChartMetricTrend
+                          scores={{
+                            country: right.scores,
+                            regions: regionRight.scores,
+                          }}
+                          maxYear={maxYearCPR}
+                          minYear={minYearCPR}
+                          maxValue={12}
+                          minValue={-1}
+                          benchmark={benchmark}
+                          metric={getMetricDetails(right.key)}
+                          mode="multi-country"
+                          onSelectMetric={() => onSelectMetric(right.key)}
+                          currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
+                        />
+                      </WrapPlot>
+                    );
+                  })}
                 </Box>
               )}
               <Source type="cpr" />
@@ -233,9 +277,11 @@ ChartContainerCountry.propTypes = {
   maxYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   minYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   scores: PropTypes.array,
+  hasOtherESR: PropTypes.bool,
   regionScores: PropTypes.array,
   dataReady: PropTypes.bool,
   benchmark: PropTypes.string,
+  standard: PropTypes.string,
   country: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   theme: PropTypes.object,
   messageValues: PropTypes.object,
@@ -245,6 +291,7 @@ const mapStateToProps = createStructuredSelector({
   country: (state, { countryCode }) => getCountry(state, countryCode),
   dataReady: state => getDependenciesReady(state, DEPENDENCIES),
   benchmark: state => getBenchmarkSearch(state),
+  standard: state => getStandardSearch(state),
   // prettier-ignore
   scores: (state, { countryCode }) =>
     RIGHTS.map(right => ({
@@ -260,6 +307,13 @@ const mapStateToProps = createStructuredSelector({
             metricCode: right.key,
           }),
     })),
+  hasOtherESR: (state, { countryCode }) =>
+    RIGHTS.filter(right => right.type === 'esr').some(right =>
+      getHasOtherESRScoresForCountry(state, {
+        countryCode,
+        metricCode: right.key,
+      }),
+    ),
   // prettier-ignore
   regionScores: (state, { countryCode }) =>
     RIGHTS.map(right => ({
@@ -283,6 +337,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onDismissNote: key => dispatch(removeNote(key)),
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),
   };

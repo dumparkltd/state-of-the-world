@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import { COLUMNS } from 'containers/App/constants';
 
-import { getMessageGrammar } from 'utils/narrative';
 import { lowerCase } from 'utils/string';
 
 import rootMessages from 'messages';
@@ -21,21 +20,18 @@ const isDefaultStandard = (country, standard) =>
 const getIncomeCategory = country =>
   country[COLUMNS.COUNTRIES.HIGH_INCOME] === '1' ? 'hi' : 'lmi';
 
-const StyledParagraph = styled(Paragraph)`
-  font-weight: 600;
-`;
+const StyledParagraph = styled(Paragraph)``;
 
-function NarrativeESRStandardHint({ standard, country, intl, countryGrammar }) {
-  const messageValues = {
-    ...getMessageGrammar(
-      intl,
-      country.country_code,
-      country.region_code,
-      countryGrammar,
+function NarrativeESRStandardHint({ standard, country, intl, messageValues }) {
+  const msgValues = {
+    ...messageValues,
+    otherStandard: lowerCase(
+      intl.formatMessage(rootMessages.settings.standard[standard]),
     ),
-    otherStandard: intl.formatMessage(rootMessages.settings.standard[standard]),
-    defaultStandard: intl.formatMessage(
-      rootMessages.settings.standard[getDefaultStandard(country)],
+    defaultStandard: lowerCase(
+      intl.formatMessage(
+        rootMessages.settings.standard[getDefaultStandard(country)],
+      ),
     ),
     incomeCategory: lowerCase(
       intl.formatMessage(rootMessages.income[getIncomeCategory(country)]),
@@ -43,10 +39,10 @@ function NarrativeESRStandardHint({ standard, country, intl, countryGrammar }) {
   };
 
   return isDefaultStandard(country, standard) ? null : (
-    <StyledParagraph margin={{ bottom: 'large' }}>
+    <StyledParagraph margin={{ bottom: 'medium' }}>
       <FormattedMessage
         {...messages.esr.changeStandardNote}
-        values={messageValues}
+        values={msgValues}
       />
     </StyledParagraph>
   );
@@ -54,7 +50,7 @@ function NarrativeESRStandardHint({ standard, country, intl, countryGrammar }) {
 
 NarrativeESRStandardHint.propTypes = {
   country: PropTypes.object,
-  countryGrammar: PropTypes.object,
+  messageValues: PropTypes.object,
   standard: PropTypes.string,
   intl: intlShape.isRequired,
 };
