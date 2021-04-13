@@ -168,7 +168,6 @@ FAQs.propTypes = {
   questions: PropTypes.array,
   metric: PropTypes.string,
   onSelectMetric: PropTypes.func,
-  showSources: PropTypes.bool,
   dateRange: PropTypes.object,
   countryCode: PropTypes.string,
   navMethodology: PropTypes.func,

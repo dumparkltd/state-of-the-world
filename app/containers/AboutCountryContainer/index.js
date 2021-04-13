@@ -88,13 +88,12 @@ const PanelTitle = styled(p => <Text size="xsmall" {...p} />)`
   text-transform: uppercase;
   font-weight: 600;
 `;
+const HeadingBox = styled(p => <Box flex={{ shrink: 0 }} {...p} />)``;
 
 const FlagImg = styled.img`
   box-shadow: 0px 4px 8px rgb(0 0 0 / 10%);
   width: 120px;
 `;
-
-const HeadingBox = styled(p => <Box flex={{ shrink: 0 }} {...p} />)``;
 
 const Range = styled.div`
   position: relative;

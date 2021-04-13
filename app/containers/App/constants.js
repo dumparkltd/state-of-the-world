@@ -227,6 +227,8 @@ export const IMAGE_PATH =
 
 export const FAQS = {
   COUNTRY_SNAPSHOT: ['scale', 'year', 'standards'],
+  ESR_REGIONS: ['measureRightESR', 'standards'],
+  CPR_REGIONS: ['measureRightCPR'],
   ESR_RIGHT: ['measureRightESR', 'standards'],
   CPR_RIGHT: ['measureRightCPR', 'uncertainty'],
 };
@@ -259,6 +261,10 @@ export const DATA_RESOURCES = [
   {
     key: 'esrScores',
     file: 'esr-scores_v3-1.csv',
+  },
+  {
+    key: 'esrIndicators',
+    file: 'esr-indicators_v3-1.csv',
   },
   {
     key: 'hrcTerms',
@@ -517,6 +523,99 @@ export const RIGHTS = [
     resource: 'cprScores',
     icon: participation,
     iconInv: participationInv,
+  },
+];
+
+export const INDICATORS = [
+  {
+    key: 'net-primary',
+    code: 'NetPrimEnrol',
+    right: 'education',
+  },
+  {
+    key: 'sec-enrol',
+    code: 'NetSecEnrol',
+    right: 'education',
+  },
+  {
+    key: 'pisa-science',
+    code: 'PISAscience',
+    right: 'education',
+  },
+  {
+    key: 'pisa-math',
+    code: 'PISAmath',
+    right: 'education',
+  },
+  {
+    key: 'pisa-reading',
+    code: 'PISAreading',
+    right: 'education',
+  },
+  {
+    key: 'not-stunted',
+    code: 'NotStunted',
+    right: 'food',
+  },
+  {
+    key: 'food-security',
+    code: 'FoodSecure',
+    right: 'food',
+  },
+  {
+    key: 'adult-survival',
+    code: 'AdultSurvival',
+    right: 'health',
+  },
+  {
+    key: 'under-5-survival',
+    code: 'U5Survival',
+    right: 'health',
+  },
+  {
+    key: 'contraception',
+    code: 'Contraception',
+    right: 'health',
+  },
+  {
+    key: 'birth-weight',
+    code: 'NotLowBirWt',
+    right: 'health',
+  },
+  {
+    key: 'water-in-home',
+    code: 'WaterInHome',
+    right: 'housing',
+  },
+  {
+    key: 'basic-sanitation',
+    code: 'BasicSanitation',
+    right: 'housing',
+  },
+  {
+    key: 'safe-sanitation',
+    code: 'SafeSanitation',
+    right: 'housing',
+  },
+  {
+    key: 'affordable-housing',
+    code: 'AffordHouse',
+    right: 'housing',
+  },
+  {
+    key: 'relative-poverty',
+    code: 'NotRelPoor',
+    right: 'work',
+  },
+  {
+    key: 'absolute-poverty',
+    code: 'NotAbsPoor',
+    right: 'work',
+  },
+  {
+    key: 'longterm-unemployment',
+    code: 'NotLTUnemploy',
+    right: 'work',
   },
 ];
 

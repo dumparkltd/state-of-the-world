@@ -31,6 +31,72 @@ export default defineMessages({
       defaultMessage: 'HRMI Rights Tracker - Measuring what matters',
     },
   },
+  indicatorSources: {
+    WB_WDI: {
+      id: `${scope}.indicatorSources.WB_WDI`,
+      defaultMessage: 'WB_WDI',
+    },
+    WHO_UNICEF_JMP: {
+      id: `${scope}.indicatorSources.WHO_UNICEF_JMP`,
+      defaultMessage: 'WHO_UNICEF_JMP',
+    },
+    LIS: {
+      id: `${scope}.indicatorSources.LIS`,
+      defaultMessage: 'LIS',
+    },
+    JME: {
+      id: `${scope}.indicatorSources.JME`,
+      defaultMessage: 'JME',
+    },
+    FAOSTAT: {
+      id: `${scope}.indicatorSources.FAOSTAT`,
+      defaultMessage: 'FAOSTAT',
+    },
+    OECD: {
+      id: `${scope}.indicatorSources.OECD`,
+      defaultMessage: 'OECD',
+    },
+    OECD_ed: {
+      id: `${scope}.indicatorSources.OECD_ed`,
+      defaultMessage: 'OECD_ed',
+    },
+    OECD_unempl: {
+      id: `${scope}.indicatorSources.OECD_unempl`,
+      defaultMessage: 'OECD_unempl',
+    },
+    OECD_housing: {
+      id: `${scope}.indicatorSources.OECD_housing`,
+      defaultMessage: 'OECD_housing',
+    },
+    UNESCO: {
+      id: `${scope}.indicatorSources.UNESCO`,
+      defaultMessage: 'UNESCO',
+    },
+    UNICEF: {
+      id: `${scope}.indicatorSources.UNICEF`,
+      defaultMessage: 'UNICEF',
+    },
+    UN_IGME: {
+      id: `${scope}.indicatorSources.UN_IGME`,
+      defaultMessage: 'UN_IGME',
+    },
+    UNDP: {
+      id: `${scope}.indicatorSources.UNDP`,
+      defaultMessage: 'UNDP',
+    },
+    UNPD: {
+      id: `${scope}.indicatorSources.UNPD`,
+      defaultMessage: 'United Nations Population Division',
+    },
+    UNPD_MPI: {
+      id: `${scope}.indicatorSources.UNPD_MPI`,
+      defaultMessage: 'UNPD_MPI',
+    },
+    WB_POVCAL: {
+      id: `${scope}.indicatorSources.WB_POVCAL`,
+      defaultMessage: 'WB_POVCAL',
+    },
+  },
   sources: {
     urlRightsTracker: {
       id: `${scope}.sources.urlRightsTracker`,
@@ -54,6 +120,154 @@ export default defineMessages({
       id: `${scope}.hints.noResults`,
       defaultMessage:
         'We could not find any countries for your filter settings',
+    },
+  },
+  'indicators-about': {
+    'net-primary': {
+      id: `${scope}.indicators-about.net-primary`,
+      defaultMessage: 'net-primary-about',
+    },
+    'sec-enrol': {
+      id: `${scope}.indicators-about.sec-enrol`,
+      defaultMessage: 'sec-enrol-about',
+    },
+    'pisa-science': {
+      id: `${scope}.indicators-about.pisa-science`,
+      defaultMessage: 'pisa-science-about',
+    },
+    'pisa-math': {
+      id: `${scope}.indicators-about.pisa-math`,
+      defaultMessage: 'pisa-math-about',
+    },
+    'pisa-reading': {
+      id: `${scope}.indicators-about.pisa-reading`,
+      defaultMessage: 'pisa-reading-about',
+    },
+    'not-stunted': {
+      id: `${scope}.indicators-about.not-stunted`,
+      defaultMessage: 'not-stunted-about',
+    },
+    'food-security': {
+      id: `${scope}.indicators-about.food-security`,
+      defaultMessage: 'food-security-about',
+    },
+    'adult-survival': {
+      id: `${scope}.indicators-about.adult-survival`,
+      defaultMessage: 'adult-survival-about',
+    },
+    'under-5-survival': {
+      id: `${scope}.indicators-about.under-5-survival`,
+      defaultMessage: 'under-5-survival-about',
+    },
+    contraception: {
+      id: `${scope}.indicators-about.contraception`,
+      defaultMessage: 'contraception-about',
+    },
+    'birth-weight': {
+      id: `${scope}.indicators-about.birth-weight`,
+      defaultMessage: 'birth-weight-about',
+    },
+    'water-in-home': {
+      id: `${scope}.indicators-about.water-in-home`,
+      defaultMessage: 'water-in-home-about',
+    },
+    'basic-sanitation': {
+      id: `${scope}.indicators-about.basic-sanitation`,
+      defaultMessage: 'basic-sanitation-about',
+    },
+    'safe-sanitation': {
+      id: `${scope}.indicators-about.safe-sanitation`,
+      defaultMessage: 'safe-sanitation-about',
+    },
+    'relative-poverty': {
+      id: `${scope}.indicators-about.relative-poverty`,
+      defaultMessage: 'relative-poverty-about',
+    },
+    'absolute-poverty': {
+      id: `${scope}.indicators-about.absolute-poverty`,
+      defaultMessage: 'absolute-poverty-about',
+    },
+    'longterm-unemployment': {
+      id: `${scope}.indicators-about.longterm-unemployment`,
+      defaultMessage: 'longterm-unemployment-about',
+    },
+    'affordable-housing': {
+      id: `${scope}.indicators-about.affordable-housing`,
+      defaultMessage: 'affordable-housing-about',
+    },
+  },
+  'indicators-raw': {
+    'net-primary': {
+      id: `${scope}.indicators-raw.net-primary`,
+      defaultMessage: 'net-primary',
+    },
+    'sec-enrol': {
+      id: `${scope}.indicators-raw.sec-enrol`,
+      defaultMessage: 'sec-enrol',
+    },
+    'pisa-science': {
+      id: `${scope}.indicators-raw.pisa-science`,
+      defaultMessage: 'pisa-science',
+    },
+    'pisa-math': {
+      id: `${scope}.indicators-raw.pisa-math`,
+      defaultMessage: 'pisa-math',
+    },
+    'pisa-reading': {
+      id: `${scope}.indicators-raw.pisa-reading`,
+      defaultMessage: 'pisa-reading',
+    },
+    'not-stunted': {
+      id: `${scope}.indicators-raw.not-stunted`,
+      defaultMessage: 'not-stunted',
+    },
+    'food-security': {
+      id: `${scope}.indicators-raw.food-security`,
+      defaultMessage: 'food-security',
+    },
+    'adult-survival': {
+      id: `${scope}.indicators-raw.adult-survival`,
+      defaultMessage: 'adult-survival',
+    },
+    'under-5-survival': {
+      id: `${scope}.indicators-raw.under-5-survival`,
+      defaultMessage: 'under-5-survival',
+    },
+    contraception: {
+      id: `${scope}.indicators-raw.contraception`,
+      defaultMessage: 'contraception',
+    },
+    'birth-weight': {
+      id: `${scope}.indicators-raw.birth-weight`,
+      defaultMessage: 'birth-weight',
+    },
+    'water-in-home': {
+      id: `${scope}.indicators-raw.water-in-home`,
+      defaultMessage: 'water-in-home',
+    },
+    'basic-sanitation': {
+      id: `${scope}.indicators-raw.basic-sanitation`,
+      defaultMessage: 'basic-sanitation',
+    },
+    'safe-sanitation': {
+      id: `${scope}.indicators-raw.safe-sanitation`,
+      defaultMessage: 'safe-sanitation',
+    },
+    'relative-poverty': {
+      id: `${scope}.indicators-raw.relative-poverty`,
+      defaultMessage: 'relative-poverty',
+    },
+    'absolute-poverty': {
+      id: `${scope}.indicators-raw.absolute-poverty`,
+      defaultMessage: 'absolute-poverty',
+    },
+    'longterm-unemployment': {
+      id: `${scope}.indicators-raw.longterm-unemployment`,
+      defaultMessage: 'longterm-unemployment',
+    },
+    'affordable-housing': {
+      id: `${scope}.indicators-raw.affordable-housing`,
+      defaultMessage: 'affordable-housing',
     },
   },
   labels: {

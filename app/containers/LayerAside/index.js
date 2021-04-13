@@ -86,9 +86,7 @@ export function LayerAside({ onClose, theme, layer }) {
                 showTitle
                 showMetricLink
                 showAboutMetric
-                showSources={layer.showSources}
                 countryScoreMsg={layer.countryScoreMsg}
-                inverse
               />
             )}
             {layer.type === 'aboutCountry' && (

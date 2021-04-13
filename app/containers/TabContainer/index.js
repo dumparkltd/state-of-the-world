@@ -50,46 +50,11 @@ const SingleTabLabel = styled(Text)`
 `;
 
 function TabContainer({ tabs, tabKey, onTabClick, size }) {
-  // const [scrollTop, setScrollTop] = useState(0);
-  // const tabsRef = useRef();
-  // const fixedRef = useRef();
-  // const tabsRefOffset =
-  //   tabsRef &&
-  //   tabsRef.current &&
-  //   tabsRef.current.getBoundingClientRect &&
-  //   tabsRef.current.getBoundingClientRect().top;
-  // const hh = getHeaderHeight(size, theme);
-  // const fixedTop = scrollTop > hh && tabsRefOffset < hh;
-
-  // useEffect(() => {
-  //   function handleScroll() {
-  //     setScrollTop(window.pageYOffset);
-  //   }
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-  // // make sure scroll to top on ctab change
-  // useEffect(() => {
-  //   const tabsRefParentOffset =
-  //     tabsRef &&
-  //     tabsRef.current &&
-  //     tabsRef.current.offsetParent &&
-  //     tabsRef.current.offsetParent.offsetTop;
-  //   if (scrollTop > tabsRefParentOffset) {
-  //     window.scrollTo(0, tabsRefParentOffset - hh);
-  //   }
-  //   // }
-  // }, [tabKey]);
   // prettier-ignore
-  const tabsWithContent = tabs.filter(t => t.content && t.content());
   const hasAside = isMinSize(size, 'large');
 
-  const mainTabs = hasAside
-    ? tabsWithContent.filter(tab => !tab.aside)
-    : tabsWithContent;
-  const asideTab = hasAside && tabsWithContent.find(tab => tab.aside);
+  const mainTabs = hasAside ? tabs.filter(tab => !tab.aside) : tabs;
+  const asideTab = hasAside && tabs.find(tab => tab.aside);
 
   let activeIndex = 0;
   if (isNumber(tabKey) && parseInt(tabKey, 10) < mainTabs.length) {
@@ -151,7 +116,11 @@ function TabContainer({ tabs, tabKey, onTabClick, size }) {
               })}
             </MainColumn>
             {asideTab && (
-              <Aside content={asideTab} active={activeTab && activeTab.key} />
+              <Aside>
+                {asideTab.content({
+                  active: activeTab.key,
+                })}
+              </Aside>
             )}
           </Box>
         </ContentMaxWidth>

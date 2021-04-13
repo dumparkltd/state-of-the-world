@@ -6,18 +6,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
-import { Box, Heading } from 'grommet';
+import { Box, Heading, Text } from 'grommet';
+import styled from 'styled-components';
 
-import { FAQS } from 'containers/App/constants';
 import { selectMetric } from 'containers/App/actions';
 import FAQs from 'containers/FAQs';
 import ButtonHero from 'styled/ButtonHero';
 
 import AboutMetric from 'components/AboutMetric';
+import AboutMetricSources from 'containers/AboutMetricSources';
 import { lowerCase } from 'utils/string';
 
 import getMetricDetails from 'utils/metric-details';
@@ -25,38 +25,44 @@ import getMetricDetails from 'utils/metric-details';
 import rootMessages from 'messages';
 import messages from './messages';
 
+const RightTitle = styled(p => <Heading level={3} responsive={false} {...p} />)`
+  margin-top: 0;
+  font-weight: 700;
+`;
+
+const PanelTitle = styled(p => <Text size="xsmall" {...p} />)`
+  text-transform: uppercase;
+  font-weight: 600;
+`;
+const HeadingBox = styled(p => <Box flex={{ shrink: 0 }} {...p} />)``;
+
 export function AboutMetricContainer({
   metricCode,
   onSelectMetric,
   intl,
-  showFAQs,
-  showSources,
   dateRange,
   countryCode,
   showMetricLink,
+  questions,
 }) {
   const metric = getMetricDetails(metricCode);
   const { metricType } = metric;
 
-  let questions = [];
-  if (metricType === 'rights') {
-    questions = metric.type === 'cpr' ? FAQS.CPR_RIGHT : FAQS.ESR_RIGHT;
-  }
   return (
     <Box
       direction="column"
       pad={{ horizontal: 'medium', bottom: 'medium', top: 'xlarge' }}
     >
-      <Heading responsive={false} level={3}>
-        <FormattedMessage {...rootMessages[metricType][metric.key]} />
-      </Heading>
-      <AboutMetric
-        metric={metric}
-        onSelectMetric={onSelectMetric}
-        showSources={showSources}
-        dateRange={dateRange}
-        countryCode={countryCode}
-      />
+      <HeadingBox>
+        <PanelTitle>
+          <FormattedMessage {...messages.title} />
+        </PanelTitle>
+        <RightTitle>
+          <FormattedMessage {...rootMessages[metricType][metric.key]} />
+        </RightTitle>
+      </HeadingBox>
+      <AboutMetric metric={metric} />
+      <AboutMetricSources metric={metric} />
       {showMetricLink && (
         <ButtonHero onClick={() => onSelectMetric(metricCode)}>
           <FormattedMessage
@@ -69,7 +75,7 @@ export function AboutMetricContainer({
           />
         </ButtonHero>
       )}
-      {showFAQs && (
+      {questions && questions.length > 0 && (
         <FAQs
           questions={questions}
           metric={intl.formatMessage(
@@ -77,7 +83,6 @@ export function AboutMetricContainer({
           )}
           metrics={metric}
           onSelectMetric={onSelectMetric}
-          showSources={showSources}
           dateRange={dateRange}
           countryCode={countryCode}
         />
@@ -92,10 +97,8 @@ AboutMetricContainer.propTypes = {
   intl: intlShape.isRequired,
   showTitle: PropTypes.bool,
   showMetricLink: PropTypes.bool,
-  showFAQs: PropTypes.bool,
+  questions: PropTypes.array,
   showRelated: PropTypes.bool,
-  showSources: PropTypes.bool,
-  inverse: PropTypes.bool,
   countryCode: PropTypes.string,
   dateRange: PropTypes.object,
   showAboutMetric: PropTypes.bool,

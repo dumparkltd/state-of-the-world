@@ -61,6 +61,10 @@ export const getAuxIndicators = createSelector(
   getData,
   data => data.auxIndicators,
 );
+export const getESRIndicators = createSelector(
+  getData,
+  data => data.esrIndicators,
+);
 export const getCountries = createSelector(
   getData,
   data => data.countries,
@@ -135,10 +139,6 @@ export const getRouterMatch = createSelector(
 export const getTabSearch = createSelector(
   getRouterSearchParams,
   search => (search.has('tab') ? search.get('tab') : '0'),
-);
-export const getAtRiskSearch = createSelector(
-  getRouterSearchParams,
-  search => search.has('atRisk') && search.get('atRisk'),
 );
 
 export const getBenchmarkSearch = () => BENCHMARKS[0].key;

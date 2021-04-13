@@ -20,7 +20,7 @@ import {
   getAsideLayer,
   getAsideLayerActiveCode,
 } from 'containers/App/selectors';
-import { RIGHTS } from 'containers/App/constants';
+import { RIGHTS, FAQS } from 'containers/App/constants';
 import ChartContainerMetricRanking from 'containers/ChartContainerMetricRanking';
 import ChartContainerMetricRegion from 'containers/ChartContainerMetricRegion';
 
@@ -45,6 +45,13 @@ const SupTitle = styled(p => <Text {...p} />)`
   color: white;
   font-weight: 600;
 `;
+
+const getQuestions = (type, key) => {
+  if (type === 'cpr') {
+    return key === 'regions' ? FAQS.CPR_REGIONS : FAQS.CPR_RIGHT;
+  }
+  return key === 'regions' ? FAQS.ESR_REGIONS : FAQS.ESR_RIGHT;
+};
 
 export function PathMetric({
   match,
@@ -137,9 +144,9 @@ export function PathMetric({
                 titleMobile: intl.formatMessage(
                   rootMessages.tabs.mobile.regions,
                 ),
-                content: props => (
+                content: p => (
                   <ChartContainerMetricRegion
-                    {...props}
+                    {...p}
                     metricCode={metricCode}
                     onCountryClick={onCountryClick}
                     mode="regions"
@@ -152,9 +159,9 @@ export function PathMetric({
                 titleMobile: intl.formatMessage(
                   rootMessages.tabs.mobile.ranking,
                 ),
-                content: props => (
+                content: p => (
                   <ChartContainerMetricRanking
-                    {...props}
+                    {...p}
                     metric={metric}
                     onCountryClick={onCountryClick}
                     activeCode={activeCode}
@@ -165,16 +172,12 @@ export function PathMetric({
                 aside: true,
                 key: 'about',
                 title: intl.formatMessage(rootMessages.tabs.about),
-                content: props => (
+                content: p => (
                   <AboutMetricContainer
-                    {...props}
                     metricCode={metricCode}
-                    showFAQs
+                    questions={getQuestions(metric.type, p.active)}
                     showRelated
-                    showSources={
-                      metric.type === 'esr' ||
-                      metric.metricType === 'indicators'
-                    }
+                    {...p}
                   />
                 ),
               },
