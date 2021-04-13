@@ -103,7 +103,7 @@ export default defineMessages({
       defaultMessage: 'https://rightstracker.org',
     },
     anchorRightsTracker: {
-      id: `${scope}.sources.urlRightsTracker`,
+      id: `${scope}.sources.anchorRightsTracker`,
       defaultMessage: 'rightstracker.org',
     },
     urlSERF: {

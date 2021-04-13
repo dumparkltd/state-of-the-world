@@ -14,4 +14,14 @@ export default defineMessages({
     defaultMessage:
       'How well are Human Rights respected in {countryWithArticle}?',
   },
+  rightsTrackerCountryURL: {
+    id: `${scope}.rightsTrackerCountryURL`,
+    defaultMessage:
+      '{url}/en/country/{countryCode}?as={standard}&tab=report-esr',
+  },
+  seeRightsTracker: {
+    id: `${scope}.seeRightsTracker`,
+    defaultMessage:
+      'View Rights Tracker for underlying statistical indicator country scores and raw data',
+  },
 });

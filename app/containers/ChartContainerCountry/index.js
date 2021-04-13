@@ -9,9 +9,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled, { withTheme } from 'styled-components';
-import { Box, ResponsiveContext, Heading } from 'grommet';
+import { Box, ResponsiveContext, Heading, Text } from 'grommet';
+import { Share } from 'grommet-icons';
 
 import {
   RIGHTS,
@@ -45,6 +46,7 @@ import NarrativeCPRNoData from 'components/CountryNarrative/NarrativeCPRNoData';
 import NarrativeCPRGovRespondents from 'components/CountryNarrative/NarrativeCPRGovRespondents';
 import Source from 'components/Source';
 import WrapPlot from 'styled/WrapPlot';
+import ButtonTextIcon from 'styled/ButtonTextIcon';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize, isMaxSize } from 'utils/responsive';
@@ -62,6 +64,17 @@ const MultiCardWrapper = styled(Box)`
     const value = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
     return value * 2;
   }}px);
+`;
+const StyledText = styled(Text)`
+  font-weight: 600;
+  line-height: ${({ theme }) => theme.text.small.height};
+  margin: 1em 0;
+`;
+const WrapSource = styled.div`
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+    padding-right: ${({ theme }) => theme.global.edgeSize.xsmall};
+    padding-left: ${({ theme }) => theme.global.edgeSize.xsmall};
+  }
 `;
 
 const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
@@ -88,6 +101,8 @@ export function ChartContainerCountry({
   theme,
   messageValues,
   hasOtherESR,
+  intl,
+  countryCode,
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
@@ -141,128 +156,155 @@ export function ChartContainerCountry({
                 <FormattedMessage {...messages.title} values={messageValues} />
               </Heading>
             </Box>
-            <h2>
-              <FormattedMessage {...rootMessages.rightsTypes.esr} />
-            </h2>
-            <ChartHeader settings={[{ attribute: 'standard' }]} />
-            {!isRecommendedStandard && hasOtherESR && hasESR && (
-              <NarrativeESRStandardHint
-                country={country}
-                standard={standard}
-                messageValues={messageValues}
-              />
-            )}
-            {!hasESR && (
-              <NarrativeESRNoData
-                hasScoreForOtherStandard={hasOtherESR}
-                isRecommendedStandard={isRecommendedStandard}
-                messageValues={messageValues}
-                otherStandard={otherStandard.key}
-              />
-            )}
-            <MultiCardWrapper
-              pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-              align="start"
-              responsive={false}
-              margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
-            >
-              {gridWidth && (
-                <Box
-                  direction="row"
-                  wrap
-                  overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
-                  align="start"
-                >
-                  {scoresESR.map(right => {
-                    const regionRight = regionScores.find(
-                      r => r.key === right.key,
-                    );
-                    return (
-                      <WrapPlot
-                        key={right.key}
-                        width={getCardWidth(
-                          gridWidth || 200,
-                          getCardNumber(size),
-                          theme,
-                        )}
-                      >
-                        <ChartMetricTrend
-                          scores={{
-                            country: right.scores,
-                            regions: regionRight.scores,
-                          }}
-                          regionScores={regionScores}
-                          maxYear={maxYearESR}
-                          minYear={minYearESR}
-                          benchmark={benchmark}
-                          metric={getMetricDetails(right.key)}
-                          mode="multi-country"
-                          onSelectMetric={() => onSelectMetric(right.key)}
-                          currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
-                        />
-                      </WrapPlot>
-                    );
-                  })}
-                </Box>
+            <Box margin={{ top: 'medium', bottom: 'large' }}>
+              <h2>
+                <FormattedMessage {...rootMessages.rightsTypes.esr} />
+              </h2>
+              <ChartHeader settings={[{ attribute: 'standard' }]} />
+              {!isRecommendedStandard && hasOtherESR && hasESR && (
+                <NarrativeESRStandardHint
+                  country={country}
+                  standard={standard}
+                  messageValues={messageValues}
+                />
               )}
-              <Source type="esr" />
-            </MultiCardWrapper>
-            <h2>
-              <FormattedMessage {...rootMessages.rightsTypes.cpr} />
-            </h2>
-            {!hasCPR && <NarrativeCPRNoData messageValues={messageValues} />}
-            {hasCPR && hasGovRespondents && (
-              <NarrativeCPRGovRespondents messageValues={messageValues} />
-            )}
-            <MultiCardWrapper
-              pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-              align="start"
-              responsive={false}
-              margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
-              ref={ref}
-            >
-              {gridWidth && (
-                <Box
-                  direction="row"
-                  wrap
-                  overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
-                  align="start"
-                >
-                  {scoresCPR.map(right => {
-                    const regionRight = regionScores.find(
-                      r => r.key === right.key,
-                    );
-                    return (
-                      <WrapPlot
-                        key={right.key}
-                        width={getCardWidth(
-                          gridWidth || 200,
-                          getCardNumber(size),
-                          theme,
-                        )}
-                      >
-                        <ChartMetricTrend
-                          scores={{
-                            country: right.scores,
-                            regions: regionRight.scores,
-                          }}
-                          maxYear={maxYearCPR}
-                          minYear={minYearCPR}
-                          maxValue={12}
-                          minValue={-1}
-                          benchmark={benchmark}
-                          metric={getMetricDetails(right.key)}
-                          mode="multi-country"
-                          onSelectMetric={() => onSelectMetric(right.key)}
-                          currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
-                        />
-                      </WrapPlot>
-                    );
-                  })}
-                </Box>
+              {!hasESR && (
+                <NarrativeESRNoData
+                  hasScoreForOtherStandard={hasOtherESR}
+                  isRecommendedStandard={isRecommendedStandard}
+                  messageValues={messageValues}
+                  otherStandard={otherStandard.key}
+                />
               )}
-              <Source type="cpr" />
-            </MultiCardWrapper>
+              <MultiCardWrapper
+                pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                align="start"
+                responsive={false}
+                margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
+              >
+                {gridWidth && (
+                  <Box
+                    direction="row"
+                    wrap
+                    overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
+                    align="start"
+                  >
+                    {scoresESR.map(right => {
+                      const regionRight = regionScores.find(
+                        r => r.key === right.key,
+                      );
+                      return (
+                        <WrapPlot
+                          key={right.key}
+                          width={getCardWidth(
+                            gridWidth || 200,
+                            getCardNumber(size),
+                            theme,
+                          )}
+                        >
+                          <ChartMetricTrend
+                            scores={{
+                              country: right.scores,
+                              regions: regionRight.scores,
+                            }}
+                            regionScores={regionScores}
+                            maxYear={maxYearESR}
+                            minYear={minYearESR}
+                            benchmark={benchmark}
+                            metric={getMetricDetails(right.key)}
+                            mode="multi-country"
+                            onSelectMetric={() => onSelectMetric(right.key)}
+                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
+                          />
+                        </WrapPlot>
+                      );
+                    })}
+                  </Box>
+                )}
+                <WrapSource>
+                  <Source type="esr" />
+                </WrapSource>
+              </MultiCardWrapper>
+              <ButtonTextIcon
+                href={intl.formatMessage(messages.rightsTrackerCountryURL, {
+                  url: intl.formatMessage(
+                    rootMessages.sources.urlRightsTracker,
+                  ),
+                  countryCode,
+                  standard,
+                })}
+                target="_blank"
+                size="small"
+                margin={{ vertical: 'xxsmall' }}
+                gap="small"
+                icon={<Share size="small" />}
+                label={
+                  <StyledText size="small">
+                    {intl.formatMessage(messages.seeRightsTracker)}
+                  </StyledText>
+                }
+              />
+            </Box>
+            <Box>
+              <h2>
+                <FormattedMessage {...rootMessages.rightsTypes.cpr} />
+              </h2>
+              {!hasCPR && <NarrativeCPRNoData messageValues={messageValues} />}
+              {hasCPR && hasGovRespondents && (
+                <NarrativeCPRGovRespondents messageValues={messageValues} />
+              )}
+              <MultiCardWrapper
+                pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                align="start"
+                responsive={false}
+                margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
+                ref={ref}
+              >
+                {gridWidth && (
+                  <Box
+                    direction="row"
+                    wrap
+                    overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
+                    align="start"
+                  >
+                    {scoresCPR.map(right => {
+                      const regionRight = regionScores.find(
+                        r => r.key === right.key,
+                      );
+                      return (
+                        <WrapPlot
+                          key={right.key}
+                          width={getCardWidth(
+                            gridWidth || 200,
+                            getCardNumber(size),
+                            theme,
+                          )}
+                        >
+                          <ChartMetricTrend
+                            scores={{
+                              country: right.scores,
+                              regions: regionRight.scores,
+                            }}
+                            maxYear={maxYearCPR}
+                            minYear={minYearCPR}
+                            maxValue={12}
+                            minValue={-1}
+                            benchmark={benchmark}
+                            metric={getMetricDetails(right.key)}
+                            mode="multi-country"
+                            onSelectMetric={() => onSelectMetric(right.key)}
+                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
+                          />
+                        </WrapPlot>
+                      );
+                    })}
+                  </Box>
+                )}
+                <WrapSource>
+                  <Source type="cpr" />
+                </WrapSource>
+              </MultiCardWrapper>
+            </Box>
           </div>
         )}
       </ResponsiveContext.Consumer>
@@ -282,10 +324,12 @@ ChartContainerCountry.propTypes = {
   dataReady: PropTypes.bool,
   benchmark: PropTypes.string,
   standard: PropTypes.string,
+  countryCode: PropTypes.string,
   country: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   theme: PropTypes.object,
   messageValues: PropTypes.object,
   onSelectMetric: PropTypes.func,
+  intl: intlShape.isRequired,
 };
 const mapStateToProps = createStructuredSelector({
   country: (state, { countryCode }) => getCountry(state, countryCode),
@@ -347,4 +391,6 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withTheme(ChartContainerCountry));
+export default compose(withConnect)(
+  withTheme(injectIntl(ChartContainerCountry)),
+);

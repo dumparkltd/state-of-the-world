@@ -457,6 +457,8 @@
   "hrmi.containers.AboutMetricSources.titleSourceShort": "Source(s)",
   "hrmi.containers.AboutMetricSources.titleStandards": "Assessment standard(s)",
   "hrmi.containers.ChartContainerCountry.title": "How well are human rights respected in {countryWithArticle}?",
+  "hrmi.containers.ChartContainerCountry.rightsTrackerCountryURL": "{url}/en/country/{countryCode}?as={standard}&tab=report-esr",
+  "hrmi.containers.ChartContainerCountry.seeRightsTracker": "View Rights Tracker for underlying statistical indicator scores and raw data",
   "hrmi.containers.ChartContainerMetricRanking.title": "How do countries rank for the {metric}?",
   "hrmi.containers.ChartContainerMetricRegion.title": "How do the UN regional groups and their countries score for the {metric}?",
   "hrmi.containers.ChartFilters.addFilter": "Add country filter",
