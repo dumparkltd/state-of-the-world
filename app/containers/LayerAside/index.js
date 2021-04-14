@@ -25,12 +25,22 @@ import {
   isMinSize,
   getWindowDimensions,
   getFloatingAsideWidth,
+  getAsideWidth,
 } from 'utils/responsive';
 
 const ButtonWrap = styled.div`
   position: absolute;
   top: 1em;
   right: 1em;
+`;
+
+const Styled = styled(Box)`
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    padding-right: ${({ theme }) => theme.global.edgeSize.medium};
+  }
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+    padding-right: ${({ theme }) => theme.global.edgeSize.xlarge};
+  }
 `;
 
 export function LayerAside({ onClose, theme, layer }) {
@@ -79,19 +89,25 @@ export function LayerAside({ onClose, theme, layer }) {
                 <CloseIcon size="xlarge" color="dark" />
               </ButtonIcon>
             </ButtonWrap>
-            {layer.type === 'aboutMetric' && (
-              <AboutMetricContainer
-                metricCode={layer.code}
-                countryCode={layer.countryCode}
-                showTitle
-                showMetricLink
-                showAboutMetric
-                countryScoreMsg={layer.countryScoreMsg}
-              />
-            )}
-            {layer.type === 'aboutCountry' && (
-              <AboutCountryContainer countryCode={layer.code} inAside />
-            )}
+            <Styled
+              width={getAsideWidth(size)}
+              flex={{ shrink: 0 }}
+              fill="vertical"
+            >
+              {layer.type === 'aboutMetric' && (
+                <AboutMetricContainer
+                  metricCode={layer.code}
+                  countryCode={layer.countryCode}
+                  showTitle
+                  showMetricLink
+                  showAboutMetric
+                  countryScoreMsg={layer.countryScoreMsg}
+                />
+              )}
+              {layer.type === 'aboutCountry' && (
+                <AboutCountryContainer countryCode={layer.code} inAside />
+              )}
+            </Styled>
           </Box>
         </Layer>
       )}

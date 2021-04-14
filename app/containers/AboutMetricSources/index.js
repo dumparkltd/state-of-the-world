@@ -19,10 +19,10 @@ import {
   Heading,
   Text,
 } from 'grommet';
-import { Down, Up } from 'grommet-icons';
 
 import { lowerCase } from 'utils/string';
 
+import AccordionHeader from 'components/AccordionHeader';
 import { STANDARDS, INDICATORS } from 'containers/App/constants';
 
 import { getESRIndicators, getStandardSearch } from 'containers/App/selectors';
@@ -50,12 +50,17 @@ export function AboutMetricSources({
   intl,
   standard,
 }) {
-  const [actives, setActive] = useState([]);
+  const [actives, setActives] = useState([]);
 
   useEffect(() => {
     // kick off loading of data
     if (metric.type === 'esr') onLoadData(DEPENDENCIES);
   }, [metric]);
+
+  useEffect(() => {
+    // reset state
+    setActives([]);
+  }, [metric, standard]);
 
   if (metric.type === 'cpr') {
     return null;
@@ -83,7 +88,7 @@ export function AboutMetricSources({
     }, []);
   if (!indicators) return null;
   return (
-    <Box pad={{ vertical: 'small' }}>
+    <Box pad={{ vertical: 'small' }} flex={{ shrink: 0 }}>
       <Heading responsive={false} level={5} margin={{ bottom: 'xxsmall' }}>
         <FormattedMessage {...messages.title} />
       </Heading>
@@ -100,30 +105,19 @@ export function AboutMetricSources({
       <Accordion
         multiple
         activeIndex={actives}
-        onActive={newActive => setActive(newActive)}
+        onActive={newActive => setActives(newActive)}
       >
         {indicators.map((i, index) => (
           <AccordionPanel
             key={i.key}
             header={
-              <Box direction="row" gap="xsmall" align="center">
-                <Box>
-                  <Heading
-                    responsive={false}
-                    level={6}
-                    margin={{ vertical: 'xsmall' }}
-                    style={{ fontWeight: 400 }}
-                  >
-                    <FormattedMessage
-                      {...rootMessages['indicators-raw'][i.key]}
-                    />
-                  </Heading>
-                </Box>
-                <Box margin={{ left: 'auto' }}>
-                  {!actives.includes(index) && <Down size="small" />}
-                  {actives.includes(index) && <Up size="small" />}
-                </Box>
-              </Box>
+              <AccordionHeader
+                title={intl.formatMessage(
+                  rootMessages['indicators-raw'][i.key],
+                )}
+                open={actives.includes(index)}
+                level={2}
+              />
             }
           >
             <Box pad={{ vertical: 'small' }} border="top">

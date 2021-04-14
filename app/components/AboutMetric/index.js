@@ -17,7 +17,7 @@ const StyledText = styled(Text)`
 `;
 function AboutMetric({ metric }) {
   return (
-    <Box margin={{ top: 'medium' }}>
+    <Box margin={{ top: 'medium' }} flex={{ shrink: 0 }}>
       <StyledText>
         <FormattedMarkdown {...rootMessages['rights-about'][metric.key]} />
       </StyledText>

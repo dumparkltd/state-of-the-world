@@ -12,7 +12,6 @@ import { createStructuredSelector } from 'reselect';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
 import { Heading, Box, Text, Accordion, AccordionPanel } from 'grommet';
-import { Up, Down } from 'grommet-icons';
 
 import { selectCountry, loadDataIfNeeded } from 'containers/App/actions';
 
@@ -26,6 +25,7 @@ import {
 } from 'containers/App/selectors';
 
 import Tooltip from 'components/Tooltip';
+import AccordionHeader from 'components/AccordionHeader';
 import { COLUMNS, TREATIES } from 'containers/App/constants';
 
 import FAQs from 'containers/FAQs';
@@ -250,13 +250,20 @@ function AboutCountryContainer({
   hrcTerms,
   onLoadData,
 }) {
-  const [actives, setActive] = useState(inAside ? [] : [0]);
-  const [actives1, setActive1] = useState(inAside ? [] : [0]);
+  const [actives, setActive] = useState([]);
+  const [actives1, setActive1] = useState([]);
   const [term, setTerm] = useState(false);
 
   useEffect(() => {
     onLoadData();
   }, []);
+
+  useEffect(() => {
+    // reset state
+    setActive([]);
+    setActive1([]);
+  }, [countryCode]);
+
   if (!country) return null;
   const incomeCode =
     country[COLUMNS.COUNTRIES.HIGH_INCOME] === '1' ? 'hi' : 'lmi';
@@ -439,21 +446,10 @@ function AboutCountryContainer({
         >
           <AccordionPanel
             header={
-              <Box direction="row" gap="xsmall" align="center">
-                <Box>
-                  <Heading
-                    responsive={false}
-                    level={6}
-                    margin={{ vertical: 'xsmall' }}
-                  >
-                    <FormattedMessage {...messages.sectionHR} />
-                  </Heading>
-                </Box>
-                <Box margin={{ left: 'auto' }}>
-                  {!actives.includes(0) && <Down size="small" />}
-                  {actives.includes(0) && <Up size="small" />}
-                </Box>
-              </Box>
+              <AccordionHeader
+                title={intl.formatMessage(messages.sectionHR)}
+                open={actives.includes(0)}
+              />
             }
           >
             <Box pad={{ vertical: 'small' }} border="top">
@@ -734,21 +730,10 @@ function AboutCountryContainer({
         >
           <AccordionPanel
             header={
-              <Box direction="row" gap="xsmall" align="center">
-                <Box>
-                  <Heading
-                    responsive={false}
-                    level={6}
-                    margin={{ vertical: 'xsmall' }}
-                  >
-                    <FormattedMessage {...messages.sectionIndices} />
-                  </Heading>
-                </Box>
-                <Box margin={{ left: 'auto' }}>
-                  {!actives1.includes(0) && <Down size="small" />}
-                  {actives1.includes(0) && <Up size="small" />}
-                </Box>
-              </Box>
+              <AccordionHeader
+                title={intl.formatMessage(messages.sectionIndices)}
+                open={actives1.includes(0)}
+              />
             }
           >
             <Box pad={{ vertical: 'small' }} border="top">
@@ -804,6 +789,7 @@ function AboutCountryContainer({
           </AccordionPanel>
         </Accordion>
       </DetailSection>
+      {!inAside && showFAQs && <FAQs questions={showFAQs} />}
       {inAside && (
         <div>
           <ButtonHero onClick={() => onCountryClick(countryCode)}>
@@ -818,7 +804,6 @@ function AboutCountryContainer({
           </ButtonHero>
         </div>
       )}
-      {!inAside && showFAQs && <FAQs questions={showFAQs} />}
     </ContainerBox>
   );
 }

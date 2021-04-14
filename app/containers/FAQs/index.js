@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { Accordion, AccordionPanel, Box, Heading, Text } from 'grommet';
-import { Down, Up } from 'grommet-icons';
 
 import FormattedMarkdown from 'components/FormattedMarkdown';
+import AccordionHeader from 'components/AccordionHeader';
 
 import { navigate } from 'containers/App/actions';
 import InfoStandard from 'containers/ChartSettings/InfoStandard';
@@ -111,8 +111,14 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
   );
 };
 
-function FAQs({ questions, intl, metric, navMethodology }) {
+function FAQs({ questions, intl, metric, countryCode, navMethodology }) {
   const [actives, setActive] = useState([]);
+
+  useEffect(() => {
+    // reset state
+    setActive([]);
+  }, [metric, countryCode]);
+
   const msgValues = {
     metric,
     metricLower: lowerCase(metric),
@@ -133,25 +139,11 @@ function FAQs({ questions, intl, metric, navMethodology }) {
           <AccordionPanel
             key={q}
             header={
-              <Box direction="row" gap="xsmall" align="center">
-                <Box>
-                  <Heading
-                    responsive={false}
-                    level={6}
-                    margin={{ vertical: 'xsmall' }}
-                    style={{ fontWeight: 400 }}
-                  >
-                    <FormattedMessage
-                      {...messages.questions[q]}
-                      values={msgValues}
-                    />
-                  </Heading>
-                </Box>
-                <Box margin={{ left: 'auto' }}>
-                  {!actives.includes(index) && <Down size="small" />}
-                  {actives.includes(index) && <Up size="small" />}
-                </Box>
-              </Box>
+              <AccordionHeader
+                title={intl.formatMessage(messages.questions[q], msgValues)}
+                open={actives.includes(index)}
+                level={2}
+              />
             }
           >
             <Box pad={{ vertical: 'small' }} border="top">

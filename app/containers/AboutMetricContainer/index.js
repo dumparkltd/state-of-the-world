@@ -63,18 +63,6 @@ export function AboutMetricContainer({
       </HeadingBox>
       <AboutMetric metric={metric} />
       <AboutMetricSources metric={metric} />
-      {showMetricLink && (
-        <ButtonHero onClick={() => onSelectMetric(metricCode)}>
-          <FormattedMessage
-            {...messages.metricLink}
-            values={{
-              metric: lowerCase(
-                intl.formatMessage(rootMessages[metric.metricType][metricCode]),
-              ),
-            }}
-          />
-        </ButtonHero>
-      )}
       {questions && questions.length > 0 && (
         <FAQs
           questions={questions}
@@ -86,6 +74,22 @@ export function AboutMetricContainer({
           dateRange={dateRange}
           countryCode={countryCode}
         />
+      )}
+      {showMetricLink && (
+        <div>
+          <ButtonHero onClick={() => onSelectMetric(metricCode)}>
+            <FormattedMessage
+              {...messages.metricLink}
+              values={{
+                metric: lowerCase(
+                  intl.formatMessage(
+                    rootMessages[metric.metricType][metricCode],
+                  ),
+                ),
+              }}
+            />
+          </ButtonHero>
+        </div>
       )}
     </Box>
   );

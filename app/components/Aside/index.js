@@ -22,7 +22,6 @@ function Aside({ content, image, active, children, ...other }) {
       {size => (
         <Styled
           width={getAsideWidth(size)}
-          direction="column"
           flex={{ shrink: 0 }}
           fill="vertical"
           image={image}

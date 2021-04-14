@@ -24,6 +24,7 @@ import ChartContainerRightsMulti from 'containers/ChartContainerRightsMulti';
 import SectionContainer from 'styled/SectionContainer';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentWrap from 'styled/ContentWrap';
+import ButtonText from 'styled/ButtonText';
 
 import rootMessages from 'messages';
 import messages from './messages';
@@ -80,16 +81,18 @@ export function PathHome({ intl }) {
                 {...messages.intro}
                 values={{
                   linkRightsTracker: (
-                    <a
+                    <ButtonText
+                      as="a"
                       target="_blank"
                       href={intl.formatMessage(
                         rootMessages.sources.urlRightsTracker,
                       )}
+                      inverse
                     >
                       <FormattedMessage
                         {...rootMessages.sources.anchorRightsTracker}
                       />
-                    </a>
+                    </ButtonText>
                   ),
                 }}
               />
