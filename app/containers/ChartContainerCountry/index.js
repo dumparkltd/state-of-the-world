@@ -240,7 +240,10 @@ export function ChartContainerCountry({
                 icon={<Share size="small" />}
                 label={
                   <StyledText size="small">
-                    {intl.formatMessage(messages.seeRightsTracker)}
+                    {intl.formatMessage(
+                      messages.seeRightsTracker,
+                      messageValues,
+                    )}
                   </StyledText>
                 }
               />
