@@ -35,26 +35,27 @@ export function NavCountry({
   onClose,
   size,
   theme,
+  activeCode,
 }) {
   const [search, setSearch] = useState('');
-  const [activeResult, setActiveResult] = useState(0);
+  const [focusOption, setFocusOption] = useState(0);
   // const [focus, setFocus] = useState(false);
   const onKey = useCallback(
     event => {
       // UP
       if (event.keyCode === 38) {
-        setActiveResult(Math.max(0, activeResult - 1));
+        setFocusOption(Math.max(0, focusOption - 1));
         // setFocus(true);
         event.preventDefault();
       }
       // DOWN
       if (event.keyCode === 40) {
-        setActiveResult(activeResult + 1);
+        setFocusOption(focusOption + 1);
         // setFocus(true);
         event.preventDefault();
       }
     },
-    [activeResult],
+    [focusOption],
   );
   useEffect(() => {
     document.addEventListener('keydown', onKey, false);
@@ -62,7 +63,7 @@ export function NavCountry({
     return () => {
       document.removeEventListener('keydown', onKey, false);
     };
-  }, [activeResult]);
+  }, [focusOption]);
   const sorted = countries && prepCountries(countries, search, intl);
   const grouped = groupBy(sorted, 'group');
   const groupKeys = Object.keys(grouped).sort((a, b) => {
@@ -75,6 +76,7 @@ export function NavCountry({
 
   // figure out available height for IE11
   const h = window.innerHeight - getHeaderHeight(size, theme);
+
   return (
     <NavWrapper h={h}>
       <NavTop
@@ -82,7 +84,7 @@ export function NavCountry({
         search={search}
         onSearch={s => {
           setSearch(s);
-          setActiveResult(0);
+          setFocusOption(0);
         }}
         placeholder={intl.formatMessage(messages.countrySearch)}
         size={size}
@@ -101,7 +103,8 @@ export function NavCountry({
                     key={gkey}
                     label={intl.formatMessage(rootMessages.un_regions[gkey])}
                     options={grouped[gkey]}
-                    activeResult={activeResult - offset}
+                    focusOption={focusOption - offset}
+                    activeCode={activeCode}
                     onClick={key => {
                       onClose();
                       onSelectCountry(key);
@@ -120,11 +123,11 @@ export function NavCountry({
 NavCountry.propTypes = {
   onSelectCountry: PropTypes.func,
   onClose: PropTypes.func,
-  // currentCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   countries: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   intl: intlShape.isRequired,
   size: PropTypes.string,
   theme: PropTypes.object,
+  activeCode: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

@@ -21,8 +21,8 @@ export function SearchResults({
   onSelect,
   intl,
   onClose,
-  activeResult,
-  setActiveResult,
+  focusOption,
+  setFocusOption,
   maxResult,
 }) {
   const [focus, setFocus] = useState(false);
@@ -30,18 +30,18 @@ export function SearchResults({
     event => {
       // UP
       if (event.keyCode === 38) {
-        setActiveResult(Math.max(0, activeResult - 1));
+        setFocusOption(Math.max(0, focusOption - 1));
         setFocus(true);
         event.preventDefault();
       }
       // DOWN
       if (event.keyCode === 40) {
-        setActiveResult(Math.min(activeResult + 1, maxResult - 1));
+        setFocusOption(Math.min(focusOption + 1, maxResult - 1));
         setFocus(true);
         event.preventDefault();
       }
     },
-    [activeResult, maxResult],
+    [focusOption, maxResult],
   );
   useEffect(() => {
     document.addEventListener('keydown', onKey, false);
@@ -49,7 +49,7 @@ export function SearchResults({
     return () => {
       document.removeEventListener('keydown', onKey, false);
     };
-  }, [activeResult, maxResult]);
+  }, [focusOption, maxResult]);
 
   const hasMetrics = rights.length > 0;
   const hasCountries = countries && countries.length > 0;
@@ -66,28 +66,28 @@ export function SearchResults({
         <NavOptionGroup
           label={intl.formatMessage(rootMessages.metricTypes.rights)}
           options={rights}
-          activeResult={activeResult}
+          focusOption={focusOption}
           onClick={key => {
             onClose();
             onSelect();
             onSelectMetric(key);
           }}
           focus={focus}
-          onFocus={index => setActiveResult(index)}
+          onFocus={index => setFocusOption(index)}
         />
       )}
       {hasCountries && (
         <NavOptionGroup
           label={intl.formatMessage(rootMessages.labels.countries)}
           options={countries}
-          activeResult={activeResult - rights.length}
+          focusOption={focusOption - rights.length}
           onClick={key => {
             onClose();
             onSelect();
             onSelectCountry(key);
           }}
           focus={focus}
-          onFocus={index => setActiveResult(index + rights.length)}
+          onFocus={index => setFocusOption(index + rights.length)}
         />
       )}
     </Box>
@@ -97,14 +97,14 @@ export function SearchResults({
 SearchResults.propTypes = {
   onSelectCountry: PropTypes.func,
   onSelectMetric: PropTypes.func,
-  setActiveResult: PropTypes.func,
+  setFocusOption: PropTypes.func,
   countries: PropTypes.array,
   rights: PropTypes.array,
   onClose: PropTypes.func,
   onSelect: PropTypes.func,
   search: PropTypes.string,
   intl: intlShape.isRequired,
-  activeResult: PropTypes.number,
+  focusOption: PropTypes.number,
   maxResult: PropTypes.number,
 };
 

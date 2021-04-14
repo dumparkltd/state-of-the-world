@@ -21,6 +21,7 @@ const ButtonNavSecondary = styled(Button)`
   border-bottom-color: ${({ theme, active }) => (
     active ? theme.global.colors.dark : 'transparent'
   )};
+  color: ${({ theme }) => theme.global.colors.dark};
   &:first-child {
     margin-left: 0;
   }
@@ -39,39 +40,36 @@ const ButtonNavSecondary = styled(Button)`
 `;
 
 const NavBottomButton = React.forwardRef(
-  ({ active, open, onClick, label, windowSize }, ref) => {
-    const gap = '3px';
-    return (
-      <ButtonNavSecondary
-        plain
-        active={active}
-        open={open}
-        onClick={onClick}
-        justify="between"
-        align="center"
-        ref={ref}
-        label={
-          <Box direction="row" align="center" justify="between" fill gap={gap}>
-            <Text size={isMinSize(windowSize, 'medium') ? 'large' : 'medium'}>
-              <FormattedMessage {...rootMessages.labels[label]} />
-            </Text>
-            {open && (
-              <FormUp
-                size={isMinSize(windowSize, 'medium') ? 'xlarge' : 'large'}
-                style={{ stroke: 'currentColor', marginRight: '-3px' }}
-              />
-            )}
-            {!open && (
-              <FormDown
-                size={isMinSize(windowSize, 'medium') ? 'xlarge' : 'large'}
-                style={{ stroke: 'currentColor', marginRight: '-3px' }}
-              />
-            )}
-          </Box>
-        }
-      />
-    );
-  },
+  ({ active, open, onClick, label, windowSize }, ref) => (
+    <ButtonNavSecondary
+      plain
+      active={active}
+      open={open}
+      onClick={onClick}
+      justify="between"
+      align="center"
+      ref={ref}
+      label={
+        <Box direction="row" align="center" justify="between" fill gap="small">
+          <Text size={isMinSize(windowSize, 'medium') ? 'large' : 'medium'}>
+            <FormattedMessage {...rootMessages.labels[label]} />
+          </Text>
+          {open && (
+            <FormUp
+              size={isMinSize(windowSize, 'medium') ? 'xlarge' : 'large'}
+              style={{ stroke: 'currentColor', marginRight: '-3px' }}
+            />
+          )}
+          {!open && (
+            <FormDown
+              size={isMinSize(windowSize, 'medium') ? 'xlarge' : 'large'}
+              style={{ stroke: 'currentColor', marginRight: '-3px' }}
+            />
+          )}
+        </Box>
+      }
+    />
+  ),
 );
 
 NavBottomButton.propTypes = {

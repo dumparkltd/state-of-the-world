@@ -85,20 +85,6 @@ const NavBarBottomBox = styled(Box)`
   }
 `;
 
-const NavBarBottom = props => (
-  <NavBarBottomBox
-    direction="row"
-    align="end"
-    justify={isMinSize(props.size, 'medium') ? 'end' : 'start'}
-    height={`${getHeaderHeightBottom(props.size, props.theme)}px`}
-    {...props}
-  />
-);
-NavBarBottom.propTypes = {
-  theme: PropTypes.object,
-  size: PropTypes.string,
-};
-
 const BrandButton = styled(Button)`
   height: ${({ theme }) => theme.sizes.header.small.heightTop}px;
   width: ${({ theme }) => theme.sizes.header.small.brandWidth}px;
@@ -205,7 +191,6 @@ export function Header({
   }, []);
 
   const [showMenu, setShowMenu] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
   const menuRef = useRef(null);
 
   const onHome = () => {
@@ -308,7 +293,6 @@ export function Header({
                     {navButtonOnClick({
                       match,
                       onClick: key => {
-                        setShowSearch(false);
                         nav(`${PATHS.PAGE}/${key}`);
                       },
                       locale,
@@ -340,28 +324,32 @@ export function Header({
                     </ToggleMenu>
                   </NavBarTop>
                 )}
-                <NavBarBottom theme={theme} size={size}>
-                  {(!showSearch || isMaxSize(size, 'sm')) && (
-                    <>
-                      <NavBottom
-                        type="metrics"
-                        active={path === PATHS.METRICS || path === PATHS.METRIC}
-                        onClick={() => {
-                          onHideAsideLayer();
-                        }}
-                      />
-                      <NavBottom
-                        type="countries"
-                        active={
-                          path === PATHS.COUNTRIES || path === PATHS.COUNTRY
-                        }
-                        onClick={() => {
-                          onHideAsideLayer();
-                        }}
-                      />
-                    </>
-                  )}
-                </NavBarBottom>
+                <NavBarBottomBox
+                  direction="row"
+                  align="end"
+                  justify={isMinSize(size, 'medium') ? 'end' : 'start'}
+                  height={`${getHeaderHeightBottom(size, theme)}px`}
+                  theme={theme}
+                  size={size}
+                  activeCode={match}
+                >
+                  <NavBottom
+                    type="metrics"
+                    active={path === PATHS.METRICS || path === PATHS.METRIC}
+                    onClick={() => {
+                      onHideAsideLayer();
+                    }}
+                    activeCode={path === PATHS.METRIC ? match : ''}
+                  />
+                  <NavBottom
+                    type="countries"
+                    active={path === PATHS.COUNTRIES || path === PATHS.COUNTRY}
+                    onClick={() => {
+                      onHideAsideLayer();
+                    }}
+                    activeCode={path === PATHS.COUNTRY ? match : ''}
+                  />
+                </NavBarBottomBox>
               </Box>
             </ContentMaxWidth>
           </ElevationBox>

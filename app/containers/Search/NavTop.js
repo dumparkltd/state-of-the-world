@@ -22,7 +22,7 @@ const StyledButtonIcon = styled(ButtonIcon)`
   }
 `;
 const Top = styled.div`
-  background-color: ${({ theme }) => theme.global.colors.dark};
+  background-color: ${({ theme }) => theme.global.colors.brandDarker};
   width: 100%;
   height: ${({ theme }) => theme.navTop};
 `;

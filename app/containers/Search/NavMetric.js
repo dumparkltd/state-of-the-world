@@ -22,26 +22,33 @@ import NavOptionGroup from './NavOptionGroup';
 
 import messages from './messages';
 
-export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
+export function NavMetric({
+  onSelectMetric,
+  intl,
+  onClose,
+  size,
+  theme,
+  activeCode,
+}) {
   const [search, setSearch] = useState('');
-  const [activeResult, setActiveResult] = useState(0);
+  const [focusOption, setFocusOption] = useState(0);
   // const [focus, setFocus] = useState(false);
   const onKey = useCallback(
     event => {
       // UP
       if (event.keyCode === 38) {
-        setActiveResult(Math.max(0, activeResult - 1));
+        setFocusOption(Math.max(0, focusOption - 1));
         // setFocus(true);
         event.preventDefault();
       }
       // DOWN
       if (event.keyCode === 40) {
-        setActiveResult(activeResult + 1);
+        setFocusOption(focusOption + 1);
         // setFocus(true);
         event.preventDefault();
       }
     },
-    [activeResult, search],
+    [focusOption, search],
   );
   useEffect(() => {
     document.addEventListener('keydown', onKey, false);
@@ -49,7 +56,7 @@ export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
     return () => {
       document.removeEventListener('keydown', onKey, false);
     };
-  }, [activeResult]);
+  }, [focusOption]);
   const esr = prepMetrics(
     RIGHTS.filter(r => r.type === 'esr'),
     'rights',
@@ -82,7 +89,8 @@ export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
             <NavOptionGroup
               label={intl.formatMessage(rootMessages.rightsTypes.esr)}
               options={esr}
-              activeResult={activeResult}
+              focusOption={focusOption}
+              activeCode={activeCode}
               onClick={key => {
                 onClose();
                 onSelectMetric(key);
@@ -93,7 +101,8 @@ export function NavMetric({ onSelectMetric, intl, onClose, size, theme }) {
             <NavOptionGroup
               label={intl.formatMessage(rootMessages.rightsTypes.cpr)}
               options={cpr}
-              activeResult={activeResult - esr.length}
+              focusOption={focusOption - esr.length}
+              activeCode={activeCode}
               onClick={key => {
                 onClose();
                 onSelectMetric(key);
@@ -112,6 +121,7 @@ NavMetric.propTypes = {
   intl: intlShape.isRequired,
   size: PropTypes.string,
   theme: PropTypes.object,
+  activeCode: PropTypes.string,
 };
 
 export function mapDispatchToProps(dispatch) {

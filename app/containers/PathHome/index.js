@@ -144,13 +144,13 @@ export function PathHome({ intl }) {
           <ChartContainerRightsMulti type="cpr" />
         </ContentMaxWidth>
       </SectionContainer>
-      <SectionContainer>
+      <SectionContainer background="brand">
         <ContentMaxWidth column>
-          <SectionTitle color="black">
+          <SectionTitle color="white">
             <FormattedMessage {...messages.countrySearchTitle} />
           </SectionTitle>
           <SearchWrapper>
-            <Search bordersize="small" bordercolor="dark" stretch />
+            <Search bordersize="small" bordercolor="brandDarker" stretch />
           </SearchWrapper>
         </ContentMaxWidth>
       </SectionContainer>

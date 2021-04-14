@@ -38,12 +38,11 @@ export function Search({
   onSearch,
   focus,
   countries,
-  bordersize,
   bordercolor,
 }) {
   const hasToggle = typeof onToggle !== 'undefined';
   const [search, setSearch] = useState('');
-  const [activeResult, setActiveResult] = useState(0);
+  const [focusOption, setFocusOption] = useState(0);
   const searchRef = useRef(null);
   const textInputRef = useRef(null);
   const dropRef = useRef(null);
@@ -95,8 +94,8 @@ export function Search({
     >
       <Box
         border={{
-          color: expand ? 'dark' : bordercolor,
-          size: expand ? 'small' : bordersize,
+          color: bordercolor,
+          size: 'xsmall',
         }}
         direction="row"
         align="center"
@@ -113,7 +112,7 @@ export function Search({
             plain
             onClick={() => {
               onToggle(true);
-              setActiveResult(0);
+              setFocusOption(0);
             }}
             label={
               <Text weight={600}>{intl.formatMessage(messages.search)}</Text>
@@ -134,7 +133,7 @@ export function Search({
                   searched(evt.target.value);
                   setSearch(evt.target.value);
                   if (onSearch) onSearch(evt.target.value);
-                  setActiveResult(0);
+                  setFocusOption(0);
                 }
               }}
               placeholder={
@@ -158,7 +157,7 @@ export function Search({
                   setSearch('');
                   if (onSearch) onSearch('');
                   if (hasToggle) onToggle(false);
-                  setActiveResult(0);
+                  setFocusOption(0);
                 }}
                 icon={<Close size={size} color="dark" />}
                 style={{
@@ -177,7 +176,7 @@ export function Search({
           onClickOutside={() => {
             setSearch('');
             if (onSearch) onSearch('');
-            setActiveResult(0);
+            setFocusOption(0);
           }}
           ref={dropRef}
         >
@@ -185,12 +184,12 @@ export function Search({
             onClose={() => {
               setSearch('');
               if (onSearch) onSearch('');
-              setActiveResult(0);
+              setFocusOption(0);
             }}
             search={search}
             onSelect={() => hasToggle && onToggle(false)}
-            activeResult={activeResult}
-            setActiveResult={setActiveResult}
+            focusOption={focusOption}
+            setFocusOption={setFocusOption}
             countries={sortedCountries}
             rights={rights}
             maxResult={sortedCountries.length + rights.length}
@@ -216,7 +215,6 @@ Search.propTypes = {
   theme: PropTypes.object,
   placeholder: PropTypes.string,
   countries: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  bordersize: PropTypes.string,
   bordercolor: PropTypes.string,
 };
 

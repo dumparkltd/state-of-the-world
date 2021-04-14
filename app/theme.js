@@ -197,6 +197,7 @@ const theme = {
       hint: '#333333',
       brand: '#0077B3',
       brandDark: '#0E6B9B',
+      brandDarker: '#0a4a6b',
       termsPast: '#66ADD1',
       termsFuture: '#B3D6E8',
       termsPastHover: '#6EA6C3',

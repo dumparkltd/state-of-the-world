@@ -19,9 +19,10 @@ export function NavOptionGroup({
   options,
   onClick,
   subject,
-  activeResult,
+  focusOption,
   focus,
   onFocus,
+  activeCode,
 }) {
   const myRefs = useRef([]);
   const onEnter = useCallback(
@@ -29,10 +30,10 @@ export function NavOptionGroup({
       // on enter
       if (event.keyCode === 13) {
         event.preventDefault();
-        if (options[activeResult]) onClick(options[activeResult].code);
+        if (options[focusOption]) onClick(options[focusOption].code);
       }
     },
-    [options, activeResult],
+    [options, focusOption],
   );
 
   useEffect(() => {
@@ -41,13 +42,13 @@ export function NavOptionGroup({
     return () => {
       document.removeEventListener('keydown', onEnter, false);
     };
-  }, [options, activeResult]);
+  }, [options, focusOption]);
 
   useEffect(() => {
-    if (focus && myRefs && myRefs.current && myRefs.current[activeResult]) {
-      myRefs.current[activeResult].focus();
+    if (focus && myRefs && myRefs.current && myRefs.current[focusOption]) {
+      myRefs.current[focusOption].focus();
     }
-  }, [options, activeResult, focus]);
+  }, [options, focusOption, focus]);
   return (
     <div>
       <NavOptionWrap>
@@ -65,7 +66,8 @@ export function NavOptionGroup({
               myRefs.current[index] = el;
             }}
             onFocus={() => onFocus && onFocus(index)}
-            active={index === activeResult}
+            inFocus={index === focusOption}
+            isActive={m.code === activeCode}
           >
             <Box direction="row" align="end" fill="horizontal" width="100%">
               <Text color={subject}>{m.label}</Text>
@@ -83,7 +85,8 @@ NavOptionGroup.propTypes = {
   options: PropTypes.array,
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
-  activeResult: PropTypes.number,
+  focusOption: PropTypes.number,
+  activeCode: PropTypes.string,
   focus: PropTypes.bool,
 };
 
