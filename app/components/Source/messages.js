@@ -17,4 +17,8 @@ export default defineMessages({
     id: `${scope}.sourceCPR`,
     defaultMessage: 'Source: HRMI 2020 {linkRightsTracker}',
   },
+  sourceVDEM: {
+    id: `${scope}.sourceVDEM`,
+    defaultMessage: 'Source',
+  },
 });

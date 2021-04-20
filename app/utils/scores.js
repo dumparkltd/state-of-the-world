@@ -1,4 +1,4 @@
-import { RIGHTS } from 'containers/App/constants';
+import { RIGHTS, TYPES } from 'containers/App/constants';
 import isNumber from 'utils/is-number';
 
 export const getRightsScoresForType = (rights, typeKey) =>
@@ -96,13 +96,9 @@ export const formatScore = (value, digits = 1, intl) => {
   }
   return value;
 };
-export const formatScoreMax = (
-  value,
-  maxValue = 100,
-  digits = 1,
-  showMax,
-  intl,
-) => {
+export const formatScoreMax = (value, type, showMax, intl) => {
+  const maxValue = getMaxScore(type);
+  const digits = getDigitsScore(type);
   const formatted = formatScore(value, digits, intl);
   if (formatted && maxValue === 100) {
     return `${formatted}%`;
@@ -111,4 +107,15 @@ export const formatScoreMax = (
     return formatted;
   }
   return formatted && `${formatted}/${maxValue}`;
+};
+
+export const getRightType = key => TYPES.find(t => t.key === key);
+
+export const getMaxScore = key => {
+  const oType = getRightType(key);
+  return oType.max;
+};
+export const getDigitsScore = key => {
+  const oType = getRightType(key);
+  return oType.digits;
 };

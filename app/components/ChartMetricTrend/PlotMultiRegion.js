@@ -128,6 +128,42 @@ function PlotMultiRegion({
               }}
             />
           ])}
+      {/* VDEM region credible intervals */}
+      {metric.type === 'vdem' &&
+        regionScores &&
+        Object.keys(regionScores)
+          .filter(region =>
+            highlightRegion
+              ? region === highlightRegion
+              : region === currentRegion,
+          )
+          .map(region => [
+            <AreaSeries
+              data={getRegionDataHigh(
+                regionScores[region][COLUMNS.VDEM.SD],
+                regionScores[region][COLUMNS.VDEM.MEAN],
+                68,
+              )}
+              style={{
+                fill: theme.global.colors[region],
+                stroke: 'transparent',
+                opacity: 0.2,
+              }}
+            />,
+            <AreaSeries
+              data={getRegionDataLow(
+                regionScores[region][COLUMNS.VDEM.SD],
+                regionScores[region][COLUMNS.VDEM.MEAN],
+                68,
+              )}
+              style={{
+                fill: 'white',
+                stroke: 'white',
+                opacity: 1,
+                strokeWidth: 1,
+              }}
+            />
+          ])}
       <HorizontalGridLines
         tickValues={tickValuesY}
         style={{ stroke: 'rgba(136, 150, 160, 0.2)' }}

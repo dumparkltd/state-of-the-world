@@ -16,13 +16,16 @@ import { Box, ResponsiveContext, Text } from 'grommet';
 import { RIGHTS, PATHS } from 'containers/App/constants';
 
 import {
-  getMaxYearESR,
-  getMaxYearCPR,
   getMinYearESR,
+  getMaxYearESR,
   getMinYearCPR,
+  getMaxYearCPR,
+  getMinYearVDEM,
+  getMaxYearVDEM,
   getBenchmarkSearch,
   getESRScoresForUNRegions,
   getCPRScoresForUNRegions,
+  getVDEMScoresForUNRegions,
   getUNRegionSearch,
   getUNRegionTotals,
 } from 'containers/App/selectors';
@@ -41,6 +44,7 @@ import WrapPlot from 'styled/WrapPlot';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize, isMaxSize } from 'utils/responsive';
+import { getMaxScore } from 'utils/scores';
 // import { CARD_WIDTH } from 'theme';
 import rootMessages from 'messages';
 
@@ -58,7 +62,7 @@ const getCardWidth = (width, number, theme) => {
   return `${width / number - edge * 2}px`;
 };
 
-const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
+const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
 export function ChartContainerRightsMulti({
   type,
   onLoadData,
@@ -92,7 +96,6 @@ export function ChartContainerRightsMulti({
   }, []);
 
   if (!rightsScores) return null;
-  const isESR = type === 'esr';
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
@@ -143,7 +146,7 @@ export function ChartContainerRightsMulti({
                       scores={right.scores}
                       maxYear={maxYear}
                       minYear={minYear}
-                      maxValue={isESR ? 100 : 10}
+                      maxValue={getMaxScore(type)}
                       benchmark={benchmark}
                       metric={getMetricDetails(right.key)}
                       onSelectMetric={(tab, year) =>
@@ -198,20 +201,35 @@ ChartContainerRightsMulti.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  maxYear: (state, { type }) =>
-    type === 'esr' ? getMaxYearESR(state) : getMaxYearCPR(state),
-  minYear: (state, { type }) =>
-    type === 'esr' ? getMinYearESR(state) : getMinYearCPR(state),
+  maxYear: (state, { type }) => {
+    if (type === 'esr') return getMaxYearESR(state);
+    if (type === 'cpr') return getMaxYearCPR(state);
+    if (type === 'vdem') return getMaxYearVDEM(state);
+    return false;
+  },
+  minYear: (state, { type }) => {
+    if (type === 'esr') return getMinYearESR(state);
+    if (type === 'cpr') return getMinYearCPR(state);
+    if (type === 'vdem') return getMinYearVDEM(state);
+    return false;
+  },
   benchmark: state => getBenchmarkSearch(state),
   unRegionFilterValue: state => getUNRegionSearch(state),
   rightsScores: (state, { type }) =>
-    RIGHTS.filter(right => right.type === type).map(right => ({
-      ...right,
-      scores:
-        type === 'esr'
-          ? getESRScoresForUNRegions(state, { metricCode: right.key })
-          : getCPRScoresForUNRegions(state, { metricCode: right.key }),
-    })),
+    RIGHTS.filter(right => right.type === type).map(right => {
+      let scores;
+      if (type === 'esr') {
+        scores = getESRScoresForUNRegions(state, { metricCode: right.key });
+      } else if (type === 'cpr') {
+        scores = getCPRScoresForUNRegions(state, { metricCode: right.key });
+      } else if (type === 'vdem') {
+        scores = getVDEMScoresForUNRegions(state, { metricCode: right.key });
+      }
+      return {
+        ...right,
+        scores,
+      };
+    }),
   unRegionTotals: state => getUNRegionTotals(state),
 });
 

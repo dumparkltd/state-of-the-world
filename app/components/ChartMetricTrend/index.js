@@ -48,7 +48,10 @@ function ChartMetricTrend({
   const [highlightCountry, setCountry] = useState(false);
   const [highlightRegion, setRegion] = useState(false);
   if (!maxYear || !scores) return null;
-  const column = metric.type === 'cpr' ? COLUMNS.CPR.MEAN : benchmark;
+  let column;
+  if (metric.type === 'esr') column = benchmark;
+  if (metric.type === 'cpr') column = COLUMNS.CPR.MEAN;
+  if (metric.type === 'vdem') column = COLUMNS.VDEM.MEAN;
 
   // dummy data to force the area plot from 0
   // with some horizontal padding, hard-coded
@@ -60,6 +63,7 @@ function ChartMetricTrend({
   const regionScores = scores.regions;
   const countriesScores = scores.countries;
   const year = highlightYear || maxYear;
+
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
@@ -187,8 +191,7 @@ function ChartMetricTrend({
               column={column}
               currentRegion={currentRegion}
               regionTotals={unRegionTotals}
-              isESR={metric.type === 'esr'}
-              metric={metric}
+              type={metric.type}
               onSelectMetric={onSelectMetric}
               onSelectPage={onSelectPage}
             />

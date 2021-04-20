@@ -65,6 +65,21 @@ function Source({ center = false, maxWidth = 'none', type, intl }) {
           }}
         />
       )}
+      {type === 'vdem' && (
+        <FormattedMessage
+          {...messages.sourceVDEM}
+          values={{
+            linkVDEM: (
+              <a
+                target="_blank"
+                href={intl.formatMessage(rootMessages.sources.urlVDEM)}
+              >
+                <FormattedMessage {...rootMessages.sources.anchorVDEM} />
+              </a>
+            ),
+          }}
+        />
+      )}
     </Styled>
   );
 }

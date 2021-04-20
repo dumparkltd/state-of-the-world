@@ -5,7 +5,12 @@ import { CRITICAL_VALUE } from 'containers/App/constants';
 export const getXTime = year => new Date(`${year}`).getTime();
 
 export const getTickValuesX = (size, mode, minYear, maxYear) => {
-  if (mode === 'multi' || mode === 'multi-country' || isMaxSize(size, 'sm')) {
+  if (
+    mode === 'multi' ||
+    mode === 'multi-country' ||
+    mode === 'multi-region' ||
+    isMaxSize(size, 'sm')
+  ) {
     return [getXTime(minYear), getXTime(maxYear)];
   }
   const tickValuesX = [];
@@ -19,9 +24,15 @@ export const getTickValuesX = (size, mode, minYear, maxYear) => {
 
 export const getTickValuesY = (type, mode) => {
   if (mode === 'detail') {
-    return type === 'esr' ? [0, 20, 40, 60, 80, 100] : [0, 2, 4, 6, 8, 10];
+    if (type === 'esr') return [0, 20, 40, 60, 80, 100];
+    if (type === 'cpr') return [0, 2, 4, 6, 8, 10];
+    if (type === 'vdem') return [0, 0.2, 0.4, 0.6, 0.8, 1];
+    return [];
   }
-  return type === 'esr' ? [0, 50, 100] : [0, 5, 10];
+  if (type === 'esr') return [0, 50, 100];
+  if (type === 'cpr') return [0, 5, 10];
+  if (type === 'vdem') return [0, 0.5, 1];
+  return [];
 };
 
 // prettier-ignore
@@ -157,8 +168,7 @@ export const getRegionYearScore = (year, scores, type, intl) => {
   if (data.length > 0) {
     return formatScoreMax(
       data[0].y,
-      type === 'esr' ? 100 : 10,
-      type === 'esr' ? 0 : 1,
+      type,
       false,
       // type !== 'esr',
       intl,

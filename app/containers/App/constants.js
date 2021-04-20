@@ -8,32 +8,43 @@
  * Follow this format:
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
-import arrest from 'images/metrics/arrest.png';
-import assembly from 'images/metrics/assembly.png';
-import deathPenalty from 'images/metrics/death-penalty.png';
-import disappearance from 'images/metrics/disappearance.png';
 import education from 'images/metrics/education.png';
-import expression from 'images/metrics/expression.png';
-import extrajudKilling from 'images/metrics/extrajud-killing.png';
-import food from 'images/metrics/food.png';
-import health from 'images/metrics/health.png';
-import housing from 'images/metrics/housing.png';
-import participation from 'images/metrics/participation.png';
-import torture from 'images/metrics/torture.png';
-import work from 'images/metrics/work.png';
-import arrestInv from 'images/metrics/arrest_invert.png';
-import assemblyInv from 'images/metrics/assembly_invert.png';
-import deathPenaltyInv from 'images/metrics/death-penalty_invert.png';
-import disappearanceInv from 'images/metrics/disappearance_invert.png';
 import educationInv from 'images/metrics/education_invert.png';
-import expressionInv from 'images/metrics/expression_invert.png';
-import extrajudKillingInv from 'images/metrics/extrajud-killing_invert.png';
+import food from 'images/metrics/food.png';
 import foodInv from 'images/metrics/food_invert.png';
+import health from 'images/metrics/health.png';
 import healthInv from 'images/metrics/health_invert.png';
+import housing from 'images/metrics/housing.png';
 import housingInv from 'images/metrics/housing_invert.png';
-import participationInv from 'images/metrics/participation_invert.png';
-import tortureInv from 'images/metrics/torture_invert.png';
+import work from 'images/metrics/work.png';
 import workInv from 'images/metrics/work_invert.png';
+import arrest from 'images/metrics/arrest.png';
+import arrestInv from 'images/metrics/arrest_invert.png';
+import assembly from 'images/metrics/assembly.png';
+import assemblyInv from 'images/metrics/assembly_invert.png';
+import disappearance from 'images/metrics/disappearance.png';
+import disappearanceInv from 'images/metrics/disappearance_invert.png';
+import extrajudKilling from 'images/metrics/extrajud-killing.png';
+import extrajudKillingInv from 'images/metrics/extrajud-killing_invert.png';
+import participation from 'images/metrics/participation.png';
+import deathPenalty from 'images/metrics/death-penalty.png';
+import deathPenaltyInv from 'images/metrics/death-penalty_invert.png';
+import expression from 'images/metrics/expression.png';
+import expressionInv from 'images/metrics/expression_invert.png';
+import participationInv from 'images/metrics/participation_invert.png';
+import torture from 'images/metrics/torture.png';
+import tortureInv from 'images/metrics/torture_invert.png';
+
+const edi = work;
+const ediInv = workInv;
+const ldi = work;
+const ldiInv = workInv;
+const ddi = work;
+const ddiInv = workInv;
+const pdi = work;
+const pdiInv = workInv;
+const egdi = work;
+const egdiInv = workInv;
 
 export const CHECK_COOKIECONSENT = 'hrmi/App/CHECK_COOKIECONSENT';
 export const COOKIECONSENT_CHECKED = 'hrmi/App/COOKIECONSENT_CHECKED';
@@ -66,15 +77,24 @@ export const REMOVE_NOTE = 'hrmi/App/REMOVE_NOTE';
 export const CLEAR_NOTES = 'hrmi/App/CLEAR_NOTES';
 
 export const CRITICAL_VALUE = {
+  68: 1,
   80: 1.282,
 };
 
 export const TREND_THRESHOLDS = {
   ESR: 0, // %
   CPR: 0.5, // 0-10 point scale
+  VDEM: 0.05, // 0-1 point scale
 };
 
 export const COLUMNS = {
+  VDEM: {
+    MEAN: 'mean',
+    LO: 'low',
+    HI: 'high',
+    SD: 'sd',
+    METRIC: 'metric_code',
+  },
   CPR: {
     MEAN: 'mean',
     LO: 'lobound_10',
@@ -135,6 +155,8 @@ export const COLUMNS = {
     SUBREGION: 'subregion_code',
     GROUPS: 'group_codes',
     GOV_RESPONDENTS: 'gov_respondents',
+    VDEM_CLASS: 'vdem-class',
+    EUI_CLASS: 'eui-class',
   },
   HRC_TERMS: {
     ID: 'term_id',
@@ -210,6 +232,26 @@ export const PAGES = {
     key: 'methodology',
     primary: true,
   },
+  'methodology-esr': {
+    key: 'methodology-esr',
+    primary: false,
+    parent: 'methodology',
+  },
+  'methodology-cpr': {
+    key: 'methodology-cpr',
+    primary: false,
+    parent: 'methodology',
+  },
+  'methodology-vdem': {
+    key: 'methodology-vdem',
+    primary: false,
+    parent: 'methodology',
+  },
+  'methodology-other': {
+    key: 'methodology-other',
+    primary: false,
+    parent: 'methodology',
+  },
   privacy: {
     key: 'privacy',
     primary: false,
@@ -229,8 +271,10 @@ export const FAQS = {
   COUNTRY_SNAPSHOT: ['scale', 'year', 'standards'],
   ESR_REGIONS: ['measureRightESR', 'standards'],
   CPR_REGIONS: ['measureRightCPR'],
+  VDEM_REGIONS: ['measureVDEM'],
   ESR_RIGHT: ['measureRightESR', 'standards'],
   CPR_RIGHT: ['measureRightCPR', 'uncertainty'],
+  VDEM_RIGHT: ['measureVDEM'],
 };
 
 // countries: country lookup table
@@ -261,6 +305,11 @@ export const DATA_RESOURCES = [
   {
     key: 'esrScores',
     file: 'esr-scores_v3-1.csv',
+  },
+  {
+    key: 'vdemScores',
+    file: 'vdem-scores-v11-1.csv',
+    // file: 'vdem-scores-v11-1_ci.csv',
   },
   {
     key: 'esrIndicators',
@@ -356,7 +405,6 @@ export const PEOPLE_GROUPS = [
   {
     key: 'all',
     code: 'All',
-    color: 'allPeople',
   },
 ];
 export const METRIC_TYPES = ['rights'];
@@ -369,53 +417,27 @@ export const SCALES = [
   },
 ];
 
-export const GRADES = {
-  esr: [
-    {
-      class: 'poor',
-      min: 0,
-    },
-    {
-      class: 'bad',
-      min: 75,
-    },
-    {
-      class: 'fair',
-      min: 85,
-    },
-    {
-      class: 'good',
-      min: 95,
-    },
-  ],
-  cpr: [
-    {
-      class: 'poor',
-      min: 0,
-    },
-    {
-      class: 'bad',
-      min: 35,
-    },
-    {
-      class: 'fair',
-      min: 60,
-    },
-    {
-      class: 'good',
-      min: 80,
-    },
-  ],
-};
-
 export const TYPES = [
   {
     key: 'esr',
     resource: 'esrScores',
+    max: 100,
+    digits: 0,
+    isPerc: true,
   },
   {
     key: 'cpr',
     resource: 'cprScores',
+    max: 10,
+    digits: 1,
+    isPerc: false,
+  },
+  {
+    key: 'vdem',
+    resource: 'vdemScores',
+    max: 1,
+    digits: 2,
+    isPerc: false,
   },
 ];
 
@@ -523,6 +545,46 @@ export const RIGHTS = [
     resource: 'cprScores',
     icon: participation,
     iconInv: participationInv,
+  },
+  {
+    key: 'edi',
+    code: 'edi',
+    type: 'vdem',
+    resource: 'vdemScores',
+    icon: edi,
+    iconInv: ediInv,
+  },
+  {
+    key: 'ldi',
+    code: 'ldi',
+    type: 'vdem',
+    resource: 'vdemScores',
+    icon: ldi,
+    iconInv: ldiInv,
+  },
+  {
+    key: 'ddi',
+    code: 'ddi',
+    type: 'vdem',
+    resource: 'vdemScores',
+    icon: ddi,
+    iconInv: ddiInv,
+  },
+  {
+    key: 'pdi',
+    code: 'pdi',
+    type: 'vdem',
+    resource: 'vdemScores',
+    icon: pdi,
+    iconInv: pdiInv,
+  },
+  {
+    key: 'egdi',
+    code: 'egdi',
+    type: 'vdem',
+    resource: 'vdemScores',
+    icon: egdi,
+    iconInv: egdiInv,
   },
 ];
 

@@ -43,7 +43,6 @@ function CardHeader({
   mode,
   intl,
 }) {
-  // console.log(metric, regionScores, regionTotals, currentRegion)
   return (
     <Styled>
       <Box fill direction="row" justify="between" gap="small" align="start">
@@ -98,6 +97,9 @@ function CardHeader({
                         {metric.type === 'cpr' && (
                           <FormattedMessage {...messages.infoCPRintro} />
                         )}
+                        {metric.type === 'vdem' && (
+                          <FormattedMessage {...messages.infoVDEMintro} />
+                        )}
                       </Text>
                       <Text size="xsmall">
                         {metric.type === 'esr' && (
@@ -105,6 +107,9 @@ function CardHeader({
                         )}
                         {metric.type === 'cpr' && (
                           <FormattedMessage {...messages.infoCPRadditional} />
+                        )}
+                        {metric.type === 'vdem' && (
+                          <FormattedMessage {...messages.infoVDEMadditional} />
                         )}
                       </Text>
                     </Box>

@@ -18,6 +18,18 @@ export default defineMessages({
     defaultMessage:
       'Explore how the world is doing for 5 Economic and Social Rights and 7 Civil and Political Rights according to the annual assessment of the Human Rights Measurement Initiative (HRMI, {linkRightsTracker})',
   },
+  titleESR: {
+    id: `${scope}.titleESR`,
+    defaultMessage: 'titleESR',
+  },
+  titleCPR: {
+    id: `${scope}.titleCPR`,
+    defaultMessage: 'titleCPR',
+  },
+  titleVDEM: {
+    id: `${scope}.titleVDEM`,
+    defaultMessage: 'titleVDEM',
+  },
   introESR: {
     id: `${scope}.introESR`,
     defaultMessage:
@@ -27,6 +39,10 @@ export default defineMessages({
     id: `${scope}.introCPR`,
     defaultMessage:
       'Country scores for the 7 Civil and Political Rights are based on expert surveys conducted by HRMI among Human Rights experts for each country. Note that country coverage is still very limited and varies greatly between different UN regional groups.',
+  },
+  introVDEM: {
+    id: `${scope}.introVDEM`,
+    defaultMessage: 'introVDEM',
   },
   countrySearchTitle: {
     id: `${scope}.countrySearchTitle`,

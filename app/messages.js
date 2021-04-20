@@ -114,6 +114,14 @@ export default defineMessages({
       id: `${scope}.sources.anchorSERF`,
       defaultMessage: 'serfindex.org ',
     },
+    urlVDEM: {
+      id: `${scope}.sources.urlVDEM`,
+      defaultMessage: 'https://www.v-dem.net/en/ ',
+    },
+    anchorVDEM: {
+      id: `${scope}.sources.anchorVDEM`,
+      defaultMessage: 'v-dem.net ',
+    },
   },
   hints: {
     noResults: {
@@ -471,6 +479,10 @@ export default defineMessages({
       id: `${scope}.rightsTypes.esr`,
       defaultMessage: 'esr',
     },
+    vdem: {
+      id: `${scope}.rightsTypes.vdem`,
+      defaultMessage: 'vdem',
+    },
   },
   rights: {
     arrest: {
@@ -524,6 +536,26 @@ export default defineMessages({
     work: {
       id: `${scope}.rights.work`,
       defaultMessage: 'work',
+    },
+    edi: {
+      id: `${scope}.rights.edi`,
+      defaultMessage: 'edi',
+    },
+    ldi: {
+      id: `${scope}.rights.ldi`,
+      defaultMessage: 'ldi',
+    },
+    egdi: {
+      id: `${scope}.rights.egdi`,
+      defaultMessage: 'egdi',
+    },
+    pdi: {
+      id: `${scope}.rights.pdi`,
+      defaultMessage: 'pdi',
+    },
+    ddi: {
+      id: `${scope}.rights.ddi`,
+      defaultMessage: 'ddi',
     },
   },
   'rights-short': {
@@ -579,6 +611,26 @@ export default defineMessages({
       id: `${scope}.rights-short.work`,
       defaultMessage: 'work',
     },
+    edi: {
+      id: `${scope}.rights-short.edi`,
+      defaultMessage: 'edi',
+    },
+    ldi: {
+      id: `${scope}.rights-short.ldi`,
+      defaultMessage: 'ldi',
+    },
+    egdi: {
+      id: `${scope}.rights-short.egdi`,
+      defaultMessage: 'egdi',
+    },
+    pdi: {
+      id: `${scope}.rights-short.pdi`,
+      defaultMessage: 'pdi',
+    },
+    ddi: {
+      id: `${scope}.rights-short.ddi`,
+      defaultMessage: 'ddi',
+    },
   },
   'rights-xshort': {
     arrest: {
@@ -633,6 +685,26 @@ export default defineMessages({
       id: `${scope}.rights-xshort.work`,
       defaultMessage: 'work',
     },
+    edi: {
+      id: `${scope}.rights-xshort.edi`,
+      defaultMessage: 'edi',
+    },
+    ldi: {
+      id: `${scope}.rights-xshort.ldi`,
+      defaultMessage: 'ldi',
+    },
+    egdi: {
+      id: `${scope}.rights-xshort.egdi`,
+      defaultMessage: 'egdi',
+    },
+    pdi: {
+      id: `${scope}.rights-xshort.pdi`,
+      defaultMessage: 'pdi',
+    },
+    ddi: {
+      id: `${scope}.rights-xshort.ddi`,
+      defaultMessage: 'ddi',
+    },
   },
   'rights-about': {
     arrest: {
@@ -686,6 +758,26 @@ export default defineMessages({
     work: {
       id: `${scope}.rights-about.work`,
       defaultMessage: 'work-about',
+    },
+    edi: {
+      id: `${scope}.rights-about.edi`,
+      defaultMessage: 'edi',
+    },
+    ldi: {
+      id: `${scope}.rights-about.ldi`,
+      defaultMessage: 'ldi',
+    },
+    egdi: {
+      id: `${scope}.rights-about.egdi`,
+      defaultMessage: 'egdi',
+    },
+    pdi: {
+      id: `${scope}.rights-about.pdi`,
+      defaultMessage: 'pdi',
+    },
+    ddi: {
+      id: `${scope}.rights-about.ddi`,
+      defaultMessage: 'ddi',
     },
   },
   un_regions: {

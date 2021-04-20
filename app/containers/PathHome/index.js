@@ -104,7 +104,7 @@ export function PathHome({ intl }) {
         <ContentMaxWidth column>
           <Box align="center">
             <SectionTitle>
-              <FormattedMessage {...rootMessages.rightsTypes.esr} />
+              <FormattedMessage {...messages.titleESR} />
             </SectionTitle>
             <SectionIntro>
               <SectionIntroText>
@@ -133,7 +133,7 @@ export function PathHome({ intl }) {
         <ContentMaxWidth column>
           <Box align="center">
             <SectionTitle>
-              <FormattedMessage {...rootMessages.rightsTypes.cpr} />
+              <FormattedMessage {...messages.titleCPR} />
             </SectionTitle>
             <SectionIntro>
               <SectionIntroText>
@@ -142,6 +142,21 @@ export function PathHome({ intl }) {
             </SectionIntro>
           </Box>
           <ChartContainerRightsMulti type="cpr" />
+        </ContentMaxWidth>
+      </SectionContainer>
+      <SectionContainer pad={{ vertical: 'large' }}>
+        <ContentMaxWidth column>
+          <Box align="center">
+            <SectionTitle>
+              <FormattedMessage {...messages.titleVDEM} />
+            </SectionTitle>
+            <SectionIntro>
+              <SectionIntroText>
+                <FormattedMessage {...messages.introVDEM} />
+              </SectionIntroText>
+            </SectionIntro>
+          </Box>
+          <ChartContainerRightsMulti type="vdem" />
         </ContentMaxWidth>
       </SectionContainer>
       <SectionContainer background="brand">

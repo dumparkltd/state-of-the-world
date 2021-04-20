@@ -67,15 +67,16 @@ function CardFooter({
   year,
   column,
   regionTotals,
-  isESR,
   onSelectMetric,
   onSelectPage,
   mode,
+  type,
 }) {
   const notes = {
-    regionBias: isESR && mode === 'detail-region' && currentRegion === 'all',
+    regionBias:
+      type === 'esr' && mode === 'detail-region' && currentRegion === 'all',
     regionAvg: mode === 'multi-region' || mode === 'detail-region',
-    regionInterval:
+    regionIntervalCPR:
       (mode === 'multi-region' || mode === 'detail-region') &&
       currentRegion &&
       regionScores &&
@@ -83,14 +84,30 @@ function CardFooter({
       regionScores[currentRegion][column] &&
       Object.keys(regionScores[currentRegion][column]) &&
       Object.keys(regionScores[currentRegion][column]).length > 0 &&
-      !isESR,
-    countryInterval:
+      type === 'cpr',
+    countryIntervalCPR:
       mode === 'multi-country' &&
       countryScores &&
       countryScores[column] &&
       Object.keys(countryScores[column]) &&
       Object.keys(countryScores[column]).length > 0 &&
-      !isESR,
+      type === 'cpr',
+    regionIntervalVDEM:
+      (mode === 'multi-region' || mode === 'detail-region') &&
+      currentRegion &&
+      regionScores &&
+      regionScores[currentRegion] &&
+      regionScores[currentRegion][column] &&
+      Object.keys(regionScores[currentRegion][column]) &&
+      Object.keys(regionScores[currentRegion][column]).length > 0 &&
+      type === 'vdem',
+    countryIntervalVDEM:
+      mode === 'multi-country' &&
+      countryScores &&
+      countryScores[column] &&
+      Object.keys(countryScores[column]) &&
+      Object.keys(countryScores[column]).length > 0 &&
+      type === 'vdem',
     countryRegionAvg:
       mode === 'multi-country' &&
       regionScores &&
@@ -123,7 +140,7 @@ function CardFooter({
       ),
     };
   }
-  if (notes.regionInterval) {
+  if (notes.regionIntervalCPR || notes.regionIntervalVDEM) {
     // prettier-ignore
     valuesInterval = {
       link: (
@@ -136,7 +153,7 @@ function CardFooter({
       ),
     };
   }
-  if (notes.countryInterval) {
+  if (notes.countryIntervalVDEM || notes.countryIntervalVDEM) {
     // prettier-ignore
     valuesInterval = {
       link: (
@@ -196,13 +213,13 @@ function CardFooter({
                       values={{ year }}
                     />
                   )}
-                  {currentRegion !== 'world' && !isESR && (
+                  {currentRegion !== 'world' && type === 'cpr' && (
                     <FormattedMessage
                       {...messages.noteAssessmentNoneRegion}
                       values={{ year }}
                     />
                   )}
-                  {currentRegion !== 'world' && isESR && (
+                  {currentRegion !== 'world' && type === 'esr' && (
                     <FormattedMessage
                       {...messages.noteAssessmentNoneRegionESR}
                       values={{ year }}
@@ -214,7 +231,7 @@ function CardFooter({
           )}
         </>
       )}
-      {(notes.regionInterval || notes.countryInterval) && (
+      {(notes.regionIntervalCPR || notes.countryIntervalCPR) && (
         <Box direction="row" gap="xsmall" align="center">
           <RangeWrapper>
             <Range region={currentRegion} />
@@ -222,15 +239,39 @@ function CardFooter({
           </RangeWrapper>
           <Hint>
             <Text size="xxsmall">
-              {notes.regionInterval && (
+              {notes.regionIntervalCPR && (
                 <FormattedMessage
                   {...messages.noteCredibleIntervalRegions}
                   values={valuesInterval}
                 />
               )}
-              {notes.countryInterval && (
+              {notes.countryIntervalCPR && (
                 <FormattedMessage
                   {...messages.noteCredibleIntervalCountry}
+                  values={valuesInterval}
+                />
+              )}
+            </Text>
+          </Hint>
+        </Box>
+      )}
+      {(notes.regionIntervalVDEM || notes.countryIntervalVDEM) && (
+        <Box direction="row" gap="xsmall" align="center">
+          <RangeWrapper>
+            <Range region={currentRegion} />
+            <Mean region={currentRegion} />
+          </RangeWrapper>
+          <Hint>
+            <Text size="xxsmall">
+              {notes.regionIntervalVDEM && (
+                <FormattedMessage
+                  {...messages.noteCredibleIntervalRegionsVDEM}
+                  values={valuesInterval}
+                />
+              )}
+              {notes.countryIntervalVDEM && (
+                <FormattedMessage
+                  {...messages.noteCredibleIntervalCountryVDEM}
                   values={valuesInterval}
                 />
               )}
@@ -271,7 +312,7 @@ CardFooter.propTypes = {
   regionTotals: PropTypes.object,
   mode: PropTypes.string,
   year: PropTypes.string,
-  isESR: PropTypes.bool,
+  type: PropTypes.string,
   onSelectMetric: PropTypes.func,
   onSelectPage: PropTypes.func,
 };

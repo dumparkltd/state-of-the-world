@@ -57,6 +57,10 @@ export const getCPRScores = createSelector(
   getData,
   data => data.cprScores,
 );
+export const getVDEMScores = createSelector(
+  getData,
+  data => data.vdemScores,
+);
 export const getAuxIndicators = createSelector(
   getData,
   data => data.auxIndicators,
@@ -155,6 +159,13 @@ export const getYearCPRSearch = createSelector(
   search =>
     search.has('ycpr') && isInteger(search.get('ycpr'))
       ? search.get('ycpr')
+      : false,
+);
+export const getYearVDEMSearch = createSelector(
+  getRouterSearchParams,
+  search =>
+    search.has('yvdem') && isInteger(search.get('yvdem'))
+      ? search.get('yvdem')
       : false,
 );
 
@@ -275,6 +286,14 @@ export const getMinYearCPR = createSelector(
   getCPRScores,
   scores => calcMinYear(scores),
 );
+export const getMaxYearVDEM = createSelector(
+  getVDEMScores,
+  scores => calcMaxYear(scores),
+);
+export const getMinYearVDEM = createSelector(
+  getVDEMScores,
+  scores => calcMinYear(scores),
+);
 export const getESRYearRange = createSelector(
   getMinYearESR,
   getMaxYearESR,
@@ -285,6 +304,11 @@ export const getCPRYearRange = createSelector(
   getMaxYearCPR,
   (min, max) => ({ min, max }),
 );
+export const getVDEMYearRange = createSelector(
+  getMinYearVDEM,
+  getMaxYearVDEM,
+  (min, max) => ({ min, max }),
+);
 export const getESRYear = createSelector(
   getYearESRSearch,
   getMaxYearESR,
@@ -293,6 +317,11 @@ export const getESRYear = createSelector(
 export const getCPRYear = createSelector(
   getYearCPRSearch,
   getMaxYearCPR,
+  (searchYear, maxYear) => parseInt(searchYear || maxYear, 10),
+);
+export const getVDEMYear = createSelector(
+  getYearVDEMSearch,
+  getMaxYearVDEM,
   (searchYear, maxYear) => parseInt(searchYear || maxYear, 10),
 );
 
@@ -439,34 +468,41 @@ export const getCPRRightScores = createSelector(
       });
   },
 );
+export const getVDEMRightScores = createSelector(
+  (state, metric) => metric,
+  getVDEMScores,
+  getCountriesFiltered,
+  getVDEMYear,
+  (metric, scores, countries, year) => {
+    // make sure we have a valid metric
+    const right = !!metric && RIGHTS.find(d => d.key === metric);
+    if (!scores || !countries || !right) return false;
 
-export const getHasCountryCPR = createSelector(
-  (state, countryCode) => countryCode,
-  getCPRScores,
-  (countryCode, scores) =>
-    scores && !!scores.find(s => s.country_code === countryCode),
-);
-
-export const getESRScoreForCountry = createSelector(
-  (state, { countryCode }) => countryCode,
-  (state, { metricCode }) => metricCode,
-  getESRScores,
-  getESRYear,
-  getStandardSearch,
-  (countryCode, metricCode, scores, esrYear, standardSearch) => {
-    const standard = STANDARDS.find(as => as.key === standardSearch);
-    const right = RIGHTS.find(r => r.key === metricCode);
-    return (
-      countryCode &&
-      scores &&
-      scores.find(
+    const countryCodes = countries ? countries.map(c => c.country_code) : [];
+    const metricScores = scores
+      .filter(
         s =>
-          s.country_code === countryCode &&
           s.metric_code === right.code &&
-          s.standard === standard.code &&
-          quasiEquals(s.year, esrYear),
+          countryCodes.indexOf(s.country_code) > -1,
       )
-    );
+      .map(s => ({ ...s, value: parseFloat(s[COLUMNS.VDEM.MEAN], 10) }));
+
+    const prevScores = metricScores
+      .filter(s => quasiEquals(s.year, year - 1))
+      .sort((a, b) => sortByNumber(a.value, b.value));
+    return metricScores
+      .filter(s => quasiEquals(s.year, year))
+      .sort((a, b) => sortByNumber(a.value, b.value))
+      .reduce(addRank, [])
+      .map(s => {
+        const prevScore = prevScores.find(
+          ps => s.country_code === ps.country_code,
+        );
+        return {
+          ...s,
+          prevValue: prevScore && prevScore.value,
+        };
+      });
   },
 );
 
@@ -475,15 +511,19 @@ export const getRightScoresForCountry = createSelector(
   (state, country) => country,
   getESRScores,
   getCPRScores,
+  getVDEMScores,
   getESRYear,
   getCPRYear,
-  (country, esrScores, cprScores, esrYear, cprYear) => {
+  getVDEMYear,
+  (country, esrScores, cprScores, vdemScores, esrYear, cprYear, vdemYear) => {
     const rightsESR = RIGHTS.filter(d => d.type === 'esr').map(d => d.code);
     const rightsCPR = RIGHTS.filter(d => d.type === 'cpr').map(d => d.code);
+    const rightsVDEM = RIGHTS.filter(d => d.type === 'vdem').map(d => d.code);
     return (
       country &&
       esrScores &&
-      cprScores && {
+      cprScores &&
+      vdemScores && {
         esr: esrScores.filter(
           s =>
             s.country_code === country &&
@@ -495,6 +535,12 @@ export const getRightScoresForCountry = createSelector(
             s.country_code === country &&
             quasiEquals(s.year, cprYear) &&
             rightsCPR.indexOf(s.metric_code) > -1,
+        ),
+        vdem: vdemScores.filter(
+          s =>
+            s.country_code === country &&
+            quasiEquals(s.year, vdemYear) &&
+            rightsVDEM.indexOf(s.metric_code) > -1,
         ),
       }
     );
@@ -513,6 +559,15 @@ export const getRightsForCountry = createSelector(
           return {
             [r.key]: {
               score: scores.cpr.find(s => s.metric_code === r.code),
+              ...r,
+            },
+            ...memo,
+          };
+        }
+        if (r.type === 'vdem') {
+          return {
+            [r.key]: {
+              score: scores.vdem.find(s => s.metric_code === r.code),
               ...r,
             },
             ...memo,
@@ -570,6 +625,11 @@ export const getCPRScoresForYear = createSelector(
   getCPRScores,
   (year, scores) => filterScoresByYear(year, scores),
 );
+export const getVDEMScoresForYear = createSelector(
+  getVDEMYear,
+  getVDEMScores,
+  (year, scores) => filterScoresByYear(year, scores),
+);
 
 // All countries
 const scoresByCountry = scores =>
@@ -614,13 +674,19 @@ export const getCPRScoresByCountry = createSelector(
   getCPRScoresForYear,
   scores => scoresByCountry(scores, 'cpr'),
 );
+export const getVDEMScoresByCountry = createSelector(
+  getVDEMScoresForYear,
+  scores => scoresByCountry(scores, 'vdem'),
+);
 
 export const getScoresByCountry = createSelector(
   getESRScoresByCountry,
   getCPRScoresByCountry,
-  (esr, cpr) => ({
+  getVDEMScoresByCountry,
+  (esr, cpr, vdem) => ({
     esr,
     cpr,
+    vdem,
   }),
 );
 
@@ -628,12 +694,14 @@ export const getNumberCountriesWithScores = createSelector(
   getCountries,
   getESRScoresByCountry,
   getCPRScoresByCountry,
-  (countries, esr, cpr) => {
-    if (!countries || !esr || !cpr) return 0;
+  getVDEMScoresByCountry,
+  (countries, esr, cpr, vdem) => {
+    if (!countries || !esr || !cpr || !vdem) return 0;
     const countriesWithRightsScores = countries.filter(
       c =>
         Object.keys(cpr).indexOf(c[COLUMNS.COUNTRIES.CODE]) > -1 ||
-        Object.keys(esr).indexOf(c[COLUMNS.COUNTRIES.CODE]) > -1,
+        Object.keys(esr).indexOf(c[COLUMNS.COUNTRIES.CODE]) > -1 ||
+        Object.keys(vdem).indexOf(c[COLUMNS.COUNTRIES.CODE]) > -1,
     );
     return countriesWithRightsScores.length;
   },
@@ -1006,6 +1074,44 @@ export const getCPRScoresForUNRegions = createSelector(
     return null;
   },
 );
+export const getVDEMScoresForUNRegions = createSelector(
+  (state, { metricCode }) => metricCode,
+  getVDEMScores,
+  getCountries,
+  getCountryCodes,
+  (metricCode, scores, countries, countryCodes) => {
+    const metric = getMetricDetails(metricCode);
+    const regions = UN_REGIONS.options;
+    if (metric && countries && scores) {
+      // prettier-ignore
+      const countryScores = scores.filter(s =>
+        s[COLUMNS.VDEM.METRIC] === metric.code &&
+        countryCodes.indexOf(s.country_code) > -1,
+      );
+      const columns = [
+        { key: COLUMNS.VDEM.MEAN, column: COLUMNS.VDEM.MEAN, method: 'mean' },
+        { key: COLUMNS.VDEM.SD, column: COLUMNS.VDEM.SD, method: 'sd' },
+      ];
+      const regionScores = regions.reduce(
+        (m, region) => ({
+          ...m,
+          [region.key]: calculateRegionAverage(
+            region.key,
+            countries,
+            countryScores,
+            columns,
+          ),
+        }),
+        {},
+      );
+      return {
+        regions: regionScores,
+        countries: false,
+      };
+    }
+    return null;
+  },
+);
 
 export const getESRScoresForUNRegionsCountries = createSelector(
   (state, { metricCode }) => metricCode,
@@ -1141,6 +1247,70 @@ export const getCPRScoresForUNRegionsCountries = createSelector(
     return null;
   },
 );
+export const getVDEMScoresForUNRegionsCountries = createSelector(
+  (state, { metricCode }) => metricCode,
+  getVDEMScores,
+  getCountriesFiltered,
+  getCountryCodesFiltered,
+  getUNRegionSearch,
+  (metricCode, scores, countries, countryCodes, unregionSearch) => {
+    const metric = getMetricDetails(metricCode);
+    const regions = UN_REGIONS.options
+      .filter(r => r.key !== 'all')
+      .filter(
+        r =>
+          !unregionSearch ||
+          (unregionSearch === 'all' || r.key === unregionSearch),
+      );
+    if (metric && countries && scores) {
+      // prettier-ignore
+      const countryScores = scores.filter(s =>
+        s[COLUMNS.VDEM.METRIC] === metric.code &&
+        countryCodes.indexOf(s.country_code) > -1,
+      );
+      const regionColumns = [
+        { key: COLUMNS.VDEM.MEAN, column: COLUMNS.VDEM.MEAN, method: 'mean' },
+        { key: COLUMNS.VDEM.SD, column: COLUMNS.VDEM.SD, method: 'sd' },
+      ];
+      const regionScores = regions.reduce(
+        (m, region) => ({
+          ...m,
+          [region.key]: calculateRegionAverage(
+            region.key,
+            countries,
+            countryScores,
+            regionColumns,
+          ),
+        }),
+        {},
+      );
+      // console.log(regionScores)
+      const countryColumns = [
+        { key: COLUMNS.VDEM.MEAN, column: COLUMNS.VDEM.MEAN },
+        { key: COLUMNS.VDEM.LO, column: COLUMNS.VDEM.LO },
+        { key: COLUMNS.VDEM.HI, column: COLUMNS.VDEM.HI },
+      ];
+      return {
+        regions: regionScores,
+        countries:
+          unregionSearch &&
+          unregionSearch !== 'all' &&
+          countryCodes.reduce(
+            (m, countryCode) => ({
+              ...m,
+              [countryCode]: getCountryScores(
+                countryCode,
+                countryScores,
+                countryColumns,
+              ),
+            }),
+            {},
+          ),
+      };
+    }
+    return null;
+  },
+);
 
 // const region = UN_REGIONS.options.filter(
 //   r => r.key === country[COLUMNS.COUNTRIES.UN_REGION],
@@ -1199,13 +1369,35 @@ export const getCPRScoresForCountry = createSelector(
     if (metric && scores) {
       const countryScores = scores.filter(
         s =>
-          s[COLUMNS.ESR.METRIC] === metric.code &&
+          s[COLUMNS.CPR.METRIC] === metric.code &&
           s.country_code === countryCode,
       );
       const columns = [
         { key: COLUMNS.CPR.MEAN, column: COLUMNS.CPR.MEAN },
         { key: COLUMNS.CPR.LO, column: COLUMNS.CPR.LO },
         { key: COLUMNS.CPR.HI, column: COLUMNS.CPR.HI },
+      ];
+      return getCountryScores(countryCode, countryScores, columns);
+    }
+    return null;
+  },
+);
+export const getVDEMScoresForCountry = createSelector(
+  (state, { countryCode }) => countryCode,
+  (state, { metricCode }) => metricCode,
+  getCPRScores,
+  (countryCode, metricCode, scores) => {
+    const metric = getMetricDetails(metricCode);
+    if (metric && scores) {
+      const countryScores = scores.filter(
+        s =>
+          s[COLUMNS.VDEM.METRIC] === metric.code &&
+          s.country_code === countryCode,
+      );
+      const columns = [
+        { key: COLUMNS.VDEM.MEAN, column: COLUMNS.VDEM.MEAN },
+        { key: COLUMNS.VDEMVDEM.LO, column: COLUMNS.VDEM.LO },
+        { key: COLUMNS.VDEM.HI, column: COLUMNS.VDEM.HI },
       ];
       return getCountryScores(countryCode, countryScores, columns);
     }
@@ -1277,6 +1469,39 @@ export const getCPRScoresForCountryUNRegion = createSelector(
           countryCodes.indexOf(s.country_code) > -1,
       );
       const columns = [{ key: 'mean', column: COLUMNS.CPR.MEAN }];
+      return {
+        [region.key]: calculateRegionAverage(
+          region.key,
+          countries,
+          countryScores,
+          columns,
+        ),
+      };
+    }
+    return null;
+  },
+);
+export const getVDEMScoresForCountryUNRegion = createSelector(
+  (state, { metricCode }) => metricCode,
+  (state, { countryCode }) => countryCode,
+  getCountries,
+  getCountryCodes,
+  getVDEMScores,
+  (metricCode, countryCode, countries, countryCodes, scores) => {
+    const metric = getMetricDetails(metricCode);
+    const country =
+      countries && countries.find(c => c.country_code === countryCode);
+    if (metric && scores && country) {
+      const region = UN_REGIONS.options.find(
+        r => r.key === country[COLUMNS.COUNTRIES.UN_REGION],
+      );
+      if (!region) return null;
+      const countryScores = scores.filter(
+        s =>
+          s[COLUMNS.VDEM.METRIC] === metric.code &&
+          countryCodes.indexOf(s.country_code) > -1,
+      );
+      const columns = [{ key: 'mean', column: COLUMNS.VDEM.MEAN }];
       return {
         [region.key]: calculateRegionAverage(
           region.key,

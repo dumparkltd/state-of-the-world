@@ -40,6 +40,10 @@ export default defineMessages({
     id: `${scope}.noteCredibleIntervalRegions`,
     defaultMessage: 'Average score with 80% credible interval ({link}) ',
   },
+  noteCredibleIntervalRegionsVDEM: {
+    id: `${scope}.noteCredibleIntervalRegionsVDEM`,
+    defaultMessage: 'Average score with 68% credible interval ({link}) ',
+  },
   noteCredibleIntervalLinkRegions: {
     id: `${scope}.noteCredibleIntervalLinkRegions`,
     defaultMessage: 'click for details',
@@ -47,6 +51,10 @@ export default defineMessages({
   noteCredibleIntervalCountry: {
     id: `${scope}.noteCredibleIntervalCountry`,
     defaultMessage: '80% credible interval ({link}) ',
+  },
+  noteCredibleIntervalCountryVDEM: {
+    id: `${scope}.noteCredibleIntervalCountryVDEM`,
+    defaultMessage: '68% credible interval ({link}) ',
   },
   noteCredibleIntervalLinkCountry: {
     id: `${scope}.noteCredibleIntervalLinkCountry`,
@@ -71,6 +79,15 @@ export default defineMessages({
   },
   infoCPRadditional: {
     id: `${scope}.infoCPRadditional`,
+    defaultMessage:
+      'Individual country scores are the median values of all expert responses for that country. The 80% credible intervals are based on the expert survey standard deviations.',
+  },
+  infoVDEMintro: {
+    id: `${scope}.infoVDEMintro`,
+    defaultMessage: 'Average of all available country scores.',
+  },
+  infoVDEMadditional: {
+    id: `${scope}.infoVDEMadditional`,
     defaultMessage:
       'Individual country scores are the median values of all expert responses for that country. The 80% credible intervals are based on the expert survey standard deviations.',
   },

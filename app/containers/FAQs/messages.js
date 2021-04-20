@@ -35,6 +35,10 @@ export default defineMessages({
       id: `${scope}.questions.measureRightCPR`,
       defaultMessage: 'How has HRMI measured the {metric}?',
     },
+    measureVDEM: {
+      id: `${scope}.questions.measureVDEM`,
+      defaultMessage: '?',
+    },
     scale: {
       id: `${scope}.questions.scale`,
       defaultMessage: 'Why are the two types of metrics not on the same scale?',
@@ -83,6 +87,10 @@ export default defineMessages({
       id: `${scope}.answers.measureRightCPR`,
       defaultMessage:
         'Each civil and political right metric has been produced from responses to a survey of in-country human rights experts. Respondents’ answers to questions about the frequency of violations of each civil and political right were combined using a statistical model that ensures the comparability of responses across countries. This results in a distribution of estimated levels of respect for each right in each country, represented by the scores and uncertainty bands shown throughout the data visualisations. Other information about who was identified as at risk for human rights abuse was also collected from our respondents, as shown.',
+    },
+    measureVDEM: {
+      id: `${scope}.answers.measureVDEM`,
+      defaultMessage: '!',
     },
     scale: {
       id: `${scope}.answers.scale`,

@@ -148,6 +148,70 @@ function PlotDetailRegion({
               />,
             ];
           })}
+      {/* VDEM region credible interval */}
+      {metric.type === 'vdem' &&
+        regionScores &&
+        !highlightCountry &&
+        Object.keys(regionScores)
+          .filter(
+            region => region === highlightRegion || region === currentRegion,
+          )
+          .map(region => [
+            <AreaSeries
+              data={getRegionDataHigh(
+                regionScores[region][COLUMNS.VDEM.SD],
+                regionScores[region][COLUMNS.VDEM.MEAN],
+                68,
+              )}
+              style={{
+                fill: theme.global.colors[region],
+                stroke: 'transparent',
+                opacity: 0.2,
+              }}
+            />,
+            <AreaSeries
+              data={getRegionDataLow(
+                regionScores[region][COLUMNS.VDEM.SD],
+                regionScores[region][COLUMNS.VDEM.MEAN],
+                68,
+              )}
+              style={{
+                fill: 'white',
+                stroke: 'white',
+                opacity: 1,
+                strokeWidth: 1,
+              }}
+            />,
+          ])}
+      {/* VDEM highlighted country credible interval */}
+      {metric.type === 'vdem' &&
+        countriesScores &&
+        highlightCountry &&
+        Object.keys(countriesScores)
+          .filter(country => country === highlightCountry)
+          .map(country => {
+            // TODO consider colour by region
+            const color = currentRegion;
+            return [
+              <AreaSeries
+                data={getCountryData(countriesScores[country][COLUMNS.VDEM.HI])}
+                style={{
+                  fill: theme.global.colors[color],
+                  stroke: 'transparent',
+                  opacity: 0.2,
+                }}
+              />,
+              <AreaSeries
+                data={getCountryData(countriesScores[country][COLUMNS.VDEM.LO])}
+                style={{
+                  fill: 'white',
+                  stroke: 'white',
+                  opacity: 1,
+                  strokeWidth: 1,
+                }}
+              />,
+            ];
+          })}
       <HorizontalGridLines
         tickValues={tickValuesY}
         style={{

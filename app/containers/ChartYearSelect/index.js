@@ -19,8 +19,10 @@ import quasiEquals from 'utils/quasi-equals';
 import {
   getESRYear,
   getCPRYear,
+  getVDEMYear,
   getESRYearRange,
   getCPRYearRange,
+  getVDEMYearRange,
 } from 'containers/App/selectors';
 import { navigate } from 'containers/App/actions';
 import DropOption from 'styled/DropOption';
@@ -39,15 +41,28 @@ const StyledDropButton = styled(DropButton)`
 export function ChartYearSelect({
   yesr,
   ycpr,
+  yvdem,
   yesrRange,
   ycprRange,
+  yvdemRange,
   onSelectYear,
   metricType,
 }) {
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const year = metricType === 'esr' ? yesr : ycpr;
-  const yearMin = metricType === 'esr' ? yesrRange.min : ycprRange.min;
-  const yearMax = metricType === 'esr' ? yesrRange.max : ycprRange.max;
+  // TODO move to selector
+  let year;
+  if (metricType === 'esr') year = yesr;
+  if (metricType === 'cpr') year = ycpr;
+  if (metricType === 'vdem') year = yvdem;
+  let yearMin;
+  if (metricType === 'esr') yearMin = yesrRange.min;
+  if (metricType === 'cpr') year = ycprRange.min;
+  if (metricType === 'vdem') year = yvdemRange.min;
+  let yearMax;
+  if (metricType === 'esr') yearMin = yesrRange.max;
+  if (metricType === 'cpr') year = ycprRange.max;
+  if (metricType === 'vdem') year = yvdemRange.max;
+
   const yearNext = Math.min(parseInt(year, 10) + 1, yearMax);
   const yearPrevious = Math.max(parseInt(year, 10) - 1, yearMin);
   const options = [];
@@ -131,16 +146,20 @@ ChartYearSelect.propTypes = {
   onSelectYear: PropTypes.func,
   yesr: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   ycpr: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  yvdem: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   yesrRange: PropTypes.object,
   ycprRange: PropTypes.object,
+  yvdemRange: PropTypes.object,
   metricType: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   yesr: state => getESRYear(state),
   ycpr: state => getCPRYear(state),
+  yvdem: state => getVDEMYear(state),
   yesrRange: state => getESRYearRange(state),
   ycprRange: state => getCPRYearRange(state),
+  yvdemRange: state => getVDEMYearRange(state),
 });
 
 export function mapDispatchToProps(dispatch) {

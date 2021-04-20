@@ -69,7 +69,13 @@ export function NavMetric({
     search,
     intl,
   );
-  const hasMetrics = esr.length > 0 || cpr.length > 0;
+  const vdem = prepMetrics(
+    RIGHTS.filter(r => r.type === 'vdem'),
+    'rights',
+    search,
+    intl,
+  );
+  const hasMetrics = esr.length > 0 || cpr.length > 0 || vdem.length > 0;
   // figure out available height for IE11
   const h = window.innerHeight - getHeaderHeight(size, theme);
 
@@ -102,6 +108,18 @@ export function NavMetric({
               label={intl.formatMessage(rootMessages.rightsTypes.cpr)}
               options={cpr}
               focusOption={focusOption - esr.length}
+              activeCode={activeCode}
+              onClick={key => {
+                onClose();
+                onSelectMetric(key);
+              }}
+            />
+          )}
+          {vdem.length > 0 && (
+            <NavOptionGroup
+              label={intl.formatMessage(rootMessages.rightsTypes.vdem)}
+              options={vdem}
+              focusOption={focusOption - esr.length - cpr.length}
               activeCode={activeCode}
               onClick={key => {
                 onClose();

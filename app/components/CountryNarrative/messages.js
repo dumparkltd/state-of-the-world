@@ -9,6 +9,12 @@ import { defineMessages } from 'react-intl';
 export const scope = 'hrmi.components.CountryNarrative';
 
 export default defineMessages({
+  vdem: {
+    noData: {
+      id: `${scope}.vdem.noData`,
+      defaultMessage: 'No data',
+    },
+  },
   esr: {
     changeStandardNote: {
       id: `${scope}.esr.changeStandardNote`,

@@ -178,8 +178,7 @@ function PlotMultiCountry({
           <PlotHint color={currentRegion}>
             {formatScoreMax(
               countryYearData[0].y,
-              metric.type === 'esr' ? 100 : 10,
-              1,
+              metric.type,
               false,
               intl,
             )}
