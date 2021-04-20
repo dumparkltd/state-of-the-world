@@ -429,6 +429,8 @@ export const TYPES = [
     key: 'cpr',
     resource: 'cprScores',
     max: 10,
+    maxX: 12,
+    minX: -1,
     digits: 1,
     isPerc: false,
   },

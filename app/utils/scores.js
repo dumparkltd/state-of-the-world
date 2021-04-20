@@ -112,10 +112,18 @@ export const formatScoreMax = (value, type, showMax, intl) => {
 export const getRightType = key => TYPES.find(t => t.key === key);
 
 export const getMaxScore = key => {
-  const oType = getRightType(key);
-  return oType.max;
+  const type = getRightType(key);
+  return type.max;
+};
+export const getMaxXScore = key => {
+  const type = getRightType(key);
+  return type.maxX || type.max;
+};
+export const getMinXScore = key => {
+  const type = getRightType(key);
+  return type.minX || type.min;
 };
 export const getDigitsScore = key => {
-  const oType = getRightType(key);
-  return oType.digits;
+  const type = getRightType(key);
+  return type.digits;
 };

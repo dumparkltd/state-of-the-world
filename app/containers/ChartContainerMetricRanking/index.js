@@ -15,8 +15,8 @@ import { Box, ResponsiveContext, Heading } from 'grommet';
 import {
   getESRRightScores,
   getCPRRightScores,
+  getVDEMRightScores,
   getBenchmarkSearch,
-  getStandardSearch,
   getUNRegionSearch,
   getSortSearch,
   getSortOrderSearch,
@@ -40,7 +40,7 @@ import CountryLabel from 'components/CountryLabel';
 
 import Hint from 'styled/Hint';
 
-import { sortScores } from 'utils/scores';
+import { sortScores, getMaxScore } from 'utils/scores';
 import { isMinSize } from 'utils/responsive';
 import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
 import { lowerCase } from 'utils/string';
@@ -50,10 +50,21 @@ import messages from './messages';
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
 
-const getBand = score => ({
-  lo: score && parseFloat(score[COLUMNS.CPR.LO]),
-  hi: score && parseFloat(score[COLUMNS.CPR.HI]),
-});
+const getBand = (score, type) => {
+  if (type === 'cpr') {
+    return {
+      lo: score && parseFloat(score[COLUMNS.CPR.LO]),
+      hi: score && parseFloat(score[COLUMNS.CPR.HI]),
+    };
+  }
+  if (type === 'vdem') {
+    return {
+      lo: score && parseFloat(score[COLUMNS.VDEM.LO]),
+      hi: score && parseFloat(score[COLUMNS.VDEM.HI]),
+    };
+  }
+  return null;
+};
 
 const prepareData = ({
   scores,
@@ -98,7 +109,7 @@ const prepareData = ({
       trend,
       key: s.country_code,
       name,
-      band: metric.type === 'cpr' && getBand(s),
+      band: getBand(s, metric.type),
       label: (
         <CountryLabel
           name={name}
@@ -119,7 +130,6 @@ export function ChartContainerMetricRanking({
   metric,
   scores,
   benchmark,
-  standard,
   sort,
   sortOrder,
   intl,
@@ -229,11 +239,10 @@ export function ChartContainerMetricRanking({
               data={sorted}
               currentBenchmark={currentBenchmark}
               metric={metric}
-              bullet={metric.type === 'cpr'}
-              maxValue={metric.type === 'esr' ? 100 : 10}
+              bullet={metric.type === 'cpr' || metric.type === 'vdem'}
+              maxValue={getMaxScore(metric.type)}
               unit={metric.type === 'esr' ? '%' : null}
               color={currentRegion}
-              stripes={metric.type === 'esr' && standard === 'hi'}
               sort={{
                 sort: currentSort,
                 order: currentSortOrder,
@@ -253,6 +262,7 @@ export function ChartContainerMetricRanking({
               hiCountries: showHILabel && hasHICountries,
               trendCPR: metric.type === 'cpr',
               trendESR: metric.type === 'esr',
+              trendVDEM: metric.type === 'vdem',
             }}
           />
         </Box>
@@ -264,7 +274,6 @@ export function ChartContainerMetricRanking({
 ChartContainerMetricRanking.propTypes = {
   onLoadData: PropTypes.func.isRequired,
   metric: PropTypes.object.isRequired,
-  standard: PropTypes.string,
   benchmark: PropTypes.string,
   activeCode: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   scores: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
@@ -286,13 +295,20 @@ ChartContainerMetricRanking.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   dataReady: state => getDependenciesReady(state, DEPENDENCIES),
-  scores: (state, { metric }) =>
-    metric.type === 'esr'
-      ? getESRRightScores(state, metric.key)
-      : getCPRRightScores(state, metric.key),
+  scores: (state, { metric }) => {
+    if (metric.type === 'esr') {
+      return getESRRightScores(state, metric.key);
+    }
+    if (metric.type === 'cpr') {
+      return getCPRRightScores(state, metric.key);
+    }
+    if (metric.type === 'vdem') {
+      return getVDEMRightScores(state, metric.key);
+    }
+    return false;
+  },
   countries: state => getCountries(state),
   benchmark: state => getBenchmarkSearch(state),
-  standard: state => getStandardSearch(state),
   unRegionFilterValue: state => getUNRegionSearch(state),
   sort: state => getSortSearch(state),
   sortOrder: state => getSortOrderSearch(state),

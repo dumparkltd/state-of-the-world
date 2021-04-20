@@ -19,10 +19,13 @@ import {
   getBenchmarkSearch,
   getESRScoresForUNRegionsCountries,
   getCPRScoresForUNRegionsCountries,
+  getVDEMScoresForUNRegionsCountries,
   getMaxYearESR,
   getMaxYearCPR,
+  getMaxYearVDEM,
   getMinYearESR,
   getMinYearCPR,
+  getMinYearVDEM,
   getUNRegionSearch,
   getUNRegionTotals,
 } from 'containers/App/selectors';
@@ -36,23 +39,21 @@ import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
 import Source from 'components/Source';
 
-import getMetricDetails from 'utils/metric-details';
 import { lowerCase } from 'utils/string';
+import { getMaxXScore, getMinXScore } from 'utils/scores';
 
 import rootMessages from 'messages';
 import messages from './messages';
 
-const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
+const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
 
 export function ChartContainerMetricRegion({
-  metricCode,
+  metric,
   scores,
   onLoadData,
   benchmark,
-  maxYearESR,
-  maxYearCPR,
-  minYearESR,
-  minYearCPR,
+  maxYear,
+  minYear,
   unRegionFilterValue,
   onCountryClick,
   unRegionTotals,
@@ -65,9 +66,7 @@ export function ChartContainerMetricRegion({
     onLoadData();
   }, []);
 
-  const metric = getMetricDetails(metricCode);
-  const isESR = metric.type === 'esr';
-
+  // const isESR = metric.type === 'esr';
   if (!scores) return null;
   // prettier-ignore
   return (
@@ -105,10 +104,10 @@ export function ChartContainerMetricRegion({
       <ChartMetricTrend
         mode="detail-region"
         scores={scores}
-        maxYear={isESR ? maxYearESR : maxYearCPR}
-        minYear={isESR ? minYearESR : minYearCPR}
-        maxValue={isESR ? 100 : 12}
-        minValue={isESR ? 0 : -1}
+        maxYear={maxYear}
+        minYear={minYear}
+        maxValue={getMaxXScore(metric.type)}
+        minValue={getMinXScore(metric.type)}
         benchmark={benchmark}
         metric={metric}
         onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
@@ -124,13 +123,11 @@ export function ChartContainerMetricRegion({
 }
 
 ChartContainerMetricRegion.propTypes = {
-  maxYearESR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  maxYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  minYearESR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  minYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  maxYear: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  minYear: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   benchmark: PropTypes.string,
   onLoadData: PropTypes.func,
-  metricCode: PropTypes.string.isRequired,
+  metric: PropTypes.object.isRequired,
   scores: PropTypes.object,
   theme: PropTypes.object,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -143,18 +140,34 @@ ChartContainerMetricRegion.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  maxYearESR: state => getMaxYearESR(state),
-  maxYearCPR: state => getMaxYearCPR(state),
-  minYearESR: state => getMinYearESR(state),
-  minYearCPR: state => getMinYearCPR(state),
+  maxYear: (state, { metric }) => {
+    if (metric.type === 'esr') return getMaxYearESR(state);
+    if (metric.type === 'cpr') return getMaxYearCPR(state);
+    if (metric.type === 'vdem') return getMaxYearVDEM(state);
+    return false;
+  },
+  minYear: (state, { metric }) => {
+    if (metric.type === 'esr') return getMinYearESR(state);
+    if (metric.type === 'cpr') return getMinYearCPR(state);
+    if (metric.type === 'vdem') return getMinYearVDEM(state);
+    return false;
+  },
   benchmark: state => getBenchmarkSearch(state),
   unRegionFilterValue: state => getUNRegionSearch(state),
-  scores: (state, { metricCode }) => {
-    const metric = getMetricDetails(metricCode);
+  scores: (state, { metric }) => {
     if (metric.type === 'esr') {
-      return getESRScoresForUNRegionsCountries(state, { metricCode });
+      return getESRScoresForUNRegionsCountries(state, {
+        metricCode: metric.key,
+      });
     }
-    return getCPRScoresForUNRegionsCountries(state, { metricCode });
+    if (metric.type === 'cpr') {
+      return getCPRScoresForUNRegionsCountries(state, {
+        metricCode: metric.key,
+      });
+    }
+    return getVDEMScoresForUNRegionsCountries(state, {
+      metricCode: metric.key,
+    });
   },
   unRegionTotals: state => getUNRegionTotals(state),
 });

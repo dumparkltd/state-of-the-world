@@ -147,7 +147,7 @@ export function PathMetric({
                 content: p => (
                   <ChartContainerMetricRegion
                     {...p}
-                    metricCode={metricCode}
+                    metric={metric}
                     onCountryClick={onCountryClick}
                     mode="regions"
                   />
