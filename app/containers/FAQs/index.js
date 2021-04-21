@@ -9,6 +9,7 @@ import { Accordion, AccordionPanel, Box, Heading, Text } from 'grommet';
 import FormattedMarkdown from 'components/FormattedMarkdown';
 import AccordionHeader from 'components/AccordionHeader';
 
+import { PATHS } from 'containers/App/constants';
 import { navigate } from 'containers/App/actions';
 import InfoStandard from 'containers/ChartSettings/InfoStandard';
 
@@ -25,7 +26,7 @@ const LI = styled.li`
   margin-bottom: 8px;
 `;
 
-const renderAnswer = (question, intl, msgValues, navMethodology) => {
+const renderAnswer = (question, intl, msgValues, onSelectPage) => {
   if (question === 'measureRightESR') {
     return (
       <>
@@ -64,7 +65,7 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
           </OL>
         </Text>
         <MethodologyLink
-          onClick={() => navMethodology()}
+          onClick={() => onSelectPage('methodology-esr')}
           text={<FormattedMessage {...messages.methodology} />}
         />
       </>
@@ -75,7 +76,7 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
       <>
         <InfoStandard />
         <MethodologyLink
-          onClick={() => navMethodology()}
+          onClick={() => onSelectPage('methodology-esr')}
           text={<FormattedMessage {...messages.methodology} />}
         />
       </>
@@ -91,27 +92,30 @@ const renderAnswer = (question, intl, msgValues, navMethodology) => {
           <FormattedMarkdown {...messages.answers.uncertaintyLong} />
         </Text>
         <MethodologyLink
-          href={intl.formatMessage(messages.methodologyUncertaintyURL)}
-          target="_blank"
+          onClick={() => onSelectPage('methodology-cpr')}
           text={<FormattedMessage {...messages.methodologyUncertainty} />}
         />
       </>
     );
   }
+
+  let methPage = 'methodology';
+  if (question === 'measureVDEM') methPage = 'methodology-vdem';
+  if (question === 'measureRightCPR') methPage = 'methodology-cpr';
   return (
     <>
       <Text size="small">
         <FormattedMarkdown {...messages.answers[question]} values={msgValues} />
       </Text>
       <MethodologyLink
-        onClick={() => navMethodology()}
+        onClick={() => onSelectPage(methPage)}
         text={<FormattedMessage {...messages.methodology} />}
       />
     </>
   );
 };
 
-function FAQs({ questions, intl, metric, countryCode, navMethodology }) {
+function FAQs({ questions, intl, metric, countryCode, onSelectPage }) {
   const [actives, setActive] = useState([]);
 
   useEffect(() => {
@@ -147,7 +151,7 @@ function FAQs({ questions, intl, metric, countryCode, navMethodology }) {
             }
           >
             <Box pad={{ vertical: 'small' }} border="top">
-              {renderAnswer(q, intl, msgValues, navMethodology)}
+              {renderAnswer(q, intl, msgValues, onSelectPage)}
             </Box>
           </AccordionPanel>
         ))}
@@ -162,15 +166,15 @@ FAQs.propTypes = {
   onSelectMetric: PropTypes.func,
   dateRange: PropTypes.object,
   countryCode: PropTypes.string,
-  navMethodology: PropTypes.func,
+  onSelectPage: PropTypes.func,
   intl: intlShape.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   // navigate to location
-  navMethodology: () => {
+  onSelectPage: key => {
     dispatch(
-      navigate('page/methodology', {
+      navigate(`${PATHS.PAGE}/${key}`, {
         trackEvent: {
           category: 'Content',
           action: 'FAQs: open page',

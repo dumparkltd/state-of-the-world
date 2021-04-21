@@ -140,27 +140,49 @@ function CardFooter({
       ),
     };
   }
-  if (notes.regionIntervalCPR || notes.regionIntervalVDEM) {
+  if (notes.countryIntervalCPR) {
     // prettier-ignore
     valuesInterval = {
       link: (
-        <ButtonText onClick={() => onSelectPage('methodology')}>
+        <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
           <FormattedMessage
-            {...messages.noteCredibleIntervalLinkRegions}
-            values={{ count, total }}
+            {...messages.noteCredibleIntervalLinkCountry}
           />
         </ButtonText>
       ),
     };
   }
-  if (notes.countryIntervalVDEM || notes.countryIntervalVDEM) {
+  if (notes.regionIntervalCPR) {
     // prettier-ignore
     valuesInterval = {
       link: (
-        <ButtonText onClick={() => onSelectPage('methodology')}>
+        <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
+          <FormattedMessage
+            {...messages.noteCredibleIntervalLinkRegions}
+          />
+        </ButtonText>
+      ),
+    };
+  }
+  if (notes.countryIntervalVDEM) {
+    // prettier-ignore
+    valuesInterval = {
+      link: (
+        <ButtonText onClick={() => onSelectPage('methodology-vdem')}>
           <FormattedMessage
             {...messages.noteCredibleIntervalLinkCountry}
-            values={{ count, total }}
+          />
+        </ButtonText>
+      ),
+    };
+  }
+  if (notes.regionIntervalVDEM) {
+    // prettier-ignore
+    valuesInterval = {
+      link: (
+        <ButtonText onClick={() => onSelectPage('methodology-vdem')}>
+          <FormattedMessage
+            {...messages.noteCredibleIntervalLinkRegions}
           />
         </ButtonText>
       ),
@@ -175,7 +197,7 @@ function CardFooter({
               {...rootMessages.charts.noteRegionalBiasESR}
               values={{
                 link: (
-                  <ButtonText onClick={() => onSelectPage('methodology')}>
+                  <ButtonText onClick={() => onSelectPage('methodology-esr')}>
                     <FormattedMessage
                       {...rootMessages.charts.noteRegionalBiasESRLink}
                     />

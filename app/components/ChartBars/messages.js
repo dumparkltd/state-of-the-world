@@ -29,8 +29,8 @@ export default defineMessages({
     defaultMessage:
       'While shorter bars indicate more agreement of the different experts, longer bars indicate less agreement.',
   },
-  infoVDEMinfo: {
-    id: `${scope}.infoVDEMinfo`,
+  infoVDEMintro: {
+    id: `${scope}.infoVDEMintro`,
     defaultMessage:
       'Civil and political right scores have been produced from expert survey responses. Scores closer to 10 are better.',
   },

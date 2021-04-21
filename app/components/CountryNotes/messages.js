@@ -13,6 +13,11 @@ export default defineMessages({
     defaultMessage:
       '* Change of median score from previous year. Due to the inherent uncertainty, changes are only indicated when exceeding a threshold of {threshold}.',
   },
+  trendVDEMNote: {
+    id: `${scope}.trendCPRNote`,
+    defaultMessage:
+      '* Change of median score from previous year. Due to the inherent uncertainty, changes are only indicated when exceeding a threshold of {threshold}.',
+  },
   hiNote: {
     id: `${scope}.hiNote`,
     defaultMessage:

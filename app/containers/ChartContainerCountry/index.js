@@ -15,6 +15,7 @@ import { Box, ResponsiveContext, Heading, Text } from 'grommet';
 import { Share } from 'grommet-icons';
 
 import {
+  PATHS,
   RIGHTS,
   COLUMNS,
   STANDARDS,
@@ -40,7 +41,7 @@ import {
   getStandardSearch,
   getHasOtherESRScoresForCountry,
 } from 'containers/App/selectors';
-import { loadDataIfNeeded, removeNote } from 'containers/App/actions';
+import { loadDataIfNeeded, removeNote, navigate } from 'containers/App/actions';
 
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
@@ -105,6 +106,7 @@ export function ChartContainerCountry({
   maxYearVDEM,
   minYearVDEM,
   onSelectMetric,
+  onSelectPage,
   theme,
   messageValues,
   hasOtherESR,
@@ -233,6 +235,7 @@ export function ChartContainerCountry({
                             metric={getMetricDetails(right.key)}
                             mode="multi-country"
                             onSelectMetric={() => onSelectMetric(right.key)}
+                            onSelectPage={onSelectPage}
                             currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
                           />
                         </WrapPlot>
@@ -318,6 +321,7 @@ export function ChartContainerCountry({
                               metric={getMetricDetails(right.key)}
                               mode="multi-country"
                               onSelectMetric={() => onSelectMetric(right.key)}
+                              onSelectPage={onSelectPage}
                               currentRegion={
                                 country[COLUMNS.COUNTRIES.UN_REGION]
                               }
@@ -383,6 +387,7 @@ export function ChartContainerCountry({
                               metric={getMetricDetails(right.key)}
                               mode="multi-country"
                               onSelectMetric={() => onSelectMetric(right.key)}
+                              onSelectPage={onSelectPage}
                               currentRegion={
                                 country[COLUMNS.COUNTRIES.UN_REGION]
                               }
@@ -424,6 +429,7 @@ ChartContainerCountry.propTypes = {
   theme: PropTypes.object,
   messageValues: PropTypes.object,
   onSelectMetric: PropTypes.func,
+  onSelectPage: PropTypes.func,
   intl: intlShape.isRequired,
 };
 const mapStateToProps = createStructuredSelector({
@@ -498,6 +504,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onSelectPage: key => dispatch(navigate(`${PATHS.PAGE}/${key}`)),
     onDismissNote: key => dispatch(removeNote(key)),
     onLoadData: () =>
       DEPENDENCIES.forEach(key => dispatch(loadDataIfNeeded(key))),

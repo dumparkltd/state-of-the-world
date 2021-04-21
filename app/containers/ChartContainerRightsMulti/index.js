@@ -168,7 +168,7 @@ export function ChartContainerRightsMulti({
                 {...rootMessages.charts.noteRegionalBiasESR}
                 values={{
                   link: (
-                    <ButtonText onClick={() => onSelectPage('methodology')}>
+                    <ButtonText onClick={() => onSelectPage('methodology-esr')}>
                       <FormattedMessage
                         {...rootMessages.charts.noteRegionalBiasESRLink}
                       />

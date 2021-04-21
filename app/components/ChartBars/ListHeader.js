@@ -45,6 +45,9 @@ export function ListHeader({
   annotateMinMax = true,
   sort,
 }) {
+  let maxValue = '100%';
+  if (metric.type === 'cpr') maxValue = '10';
+  if (metric.type === 'vdem') maxValue = '1';
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -154,6 +157,9 @@ export function ListHeader({
                             {metric.type === 'cpr' && (
                               <FormattedMessage {...messages.infoCPRintro} />
                             )}
+                            {metric.type === 'vdem' && (
+                              <FormattedMessage {...messages.infoVDEMintro} />
+                            )}
                           </Text>
                           <Text size="xsmall">
                             {metric.type === 'esr' && (
@@ -166,6 +172,11 @@ export function ListHeader({
                                 {...messages.infoCPRadditional}
                               />
                             )}
+                            {metric.type === 'vdem' && (
+                              <FormattedMessage
+                                {...messages.infoVDEMadditional}
+                              />
+                            )}
                           </Text>
                         </Box>
                       }
@@ -173,9 +184,7 @@ export function ListHeader({
                   </Box>
                 )}
                 <Text size="xsmall" style={{ transform: 'translateX(50%)' }}>
-                  {metric.type === 'esr' || metric.metricType === 'indicators'
-                    ? '100%'
-                    : '10'}
+                  {maxValue}
                 </Text>
               </Box>
             )}

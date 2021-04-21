@@ -48,7 +48,7 @@ function ChartMetricTrend({
   const [highlightCountry, setCountry] = useState(false);
   const [highlightRegion, setRegion] = useState(false);
 
-  console.log('ChartMetricTrend', maxYear, scores);
+  // console.log('ChartMetricTrend', maxYear, scores);
   if (!maxYear || !scores) return null;
   let column;
   if (metric.type === 'esr') column = benchmark;

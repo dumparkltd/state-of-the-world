@@ -465,6 +465,22 @@ export default defineMessages({
       id: `${scope}.page.methodology`,
       defaultMessage: 'Methodology',
     },
+    'methodology-esr': {
+      id: `${scope}.page.methodology-esr`,
+      defaultMessage: 'Economic and social rights',
+    },
+    'methodology-cpr': {
+      id: `${scope}.page.methodology-cpr`,
+      defaultMessage: 'Civil and political rights',
+    },
+    'methodology-vdem': {
+      id: `${scope}.page.methodology-vdem`,
+      defaultMessage: 'Democracy metrics',
+    },
+    'methodology-other': {
+      id: `${scope}.page.methodology-other`,
+      defaultMessage: 'Other data',
+    },
     privacy: {
       id: `${scope}.page.privacy`,
       defaultMessage: 'Privacy policy',

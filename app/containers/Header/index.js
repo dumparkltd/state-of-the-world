@@ -159,19 +159,23 @@ const navButtonOnClick = ({ match, onClick, align }) =>
   PAGES &&
   Object.values(PAGES)
     .filter(page => page.primary)
-    .map(page => (
-      <ButtonNavPrimary
-        key={page.key}
-        active={page.key === match}
-        disabled={page.key === match}
-        align={align}
-        onClick={() => onClick(page.key)}
-      >
-        <TextWrap>
-          <FormattedMessage {...rootMessages.page[page.key]} />
-        </TextWrap>
-      </ButtonNavPrimary>
-    ));
+    .map(page => {
+      const children = Object.values(PAGES).filter(p => p.parent === page.key);
+      const active =
+        page.key === match || children.some(ch => ch.key === match);
+      return (
+        <ButtonNavPrimary
+          key={page.key}
+          active={active}
+          align={align}
+          onClick={() => onClick(page.key)}
+        >
+          <TextWrap>
+            <FormattedMessage {...rootMessages.page[page.key]} />
+          </TextWrap>
+        </ButtonNavPrimary>
+      );
+    });
 
 const DEPENDENCIES = ['countries'];
 

@@ -50,7 +50,13 @@ const getQuestions = (type, key) => {
   if (type === 'cpr') {
     return key === 'regions' ? FAQS.CPR_REGIONS : FAQS.CPR_RIGHT;
   }
-  return key === 'regions' ? FAQS.ESR_REGIONS : FAQS.ESR_RIGHT;
+  if (type === 'esr') {
+    return key === 'regions' ? FAQS.ESR_REGIONS : FAQS.ESR_RIGHT;
+  }
+  if (type === 'vdem') {
+    return key === 'regions' ? FAQS.VDEM_REGIONS : FAQS.VDEM_RIGHT;
+  }
+  return [];
 };
 
 export function PathMetric({

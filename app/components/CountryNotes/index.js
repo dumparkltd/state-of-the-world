@@ -66,6 +66,16 @@ function CountryNotes({ intl, hasAside, notes }) {
                   />
                 </Text>
               )}
+              {notes.trendVDEM && (
+                <Text size="xxsmall" color="dark" textAlign="start">
+                  <FormattedMessage
+                    {...messages.trendVDEMNote}
+                    values={{
+                      threshold: TREND_THRESHOLDS.VDEM,
+                    }}
+                  />
+                </Text>
+              )}
               {notes.hiCountries && (
                 <Text size="xxsmall" color="dark" textAlign="start">
                   <FormattedMessage

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Box, Text } from 'grommet';
+import { Box } from 'grommet';
 import styled from 'styled-components';
 
 import { getTabSearch } from 'containers/App/selectors';
@@ -45,10 +45,6 @@ const TabLinks = styled(Box)`
   }
 `;
 
-const SingleTabLabel = styled(Text)`
-  color: white;
-`;
-
 function TabContainer({ tabs, tabKey, onTabClick, size }) {
   // prettier-ignore
   const hasAside = isMinSize(size, 'large');
@@ -67,7 +63,7 @@ function TabContainer({ tabs, tabKey, onTabClick, size }) {
 
   return (
     <Box direction="column" style={{ position: 'relative' }}>
-      {mainTabs.length > 1 && (
+      {mainTabs && mainTabs.length > 1 && (
         <Tabs justify="start">
           <Bar>
             <ContentMaxWidth>
@@ -78,27 +74,20 @@ function TabContainer({ tabs, tabKey, onTabClick, size }) {
                 align="center"
                 wrap
               >
-                {mainTabs &&
-                  mainTabs.length > 1 &&
-                  mainTabs.map(tab => (
-                    <ButtonNavTab
-                      key={tab.key}
-                      active={tab.key === activeTab.key}
-                      onClick={() => onTabClick(tab.key)}
-                    >
-                      {isMaxSize(size, 'medium') && tab.titleMobile && (
-                        <span>{tab.titleMobile}</span>
-                      )}
-                      {(!isMaxSize(size, 'medium') || !tab.titleMobile) && (
-                        <span>{tab.title}</span>
-                      )}
-                    </ButtonNavTab>
-                  ))}
-                {mainTabs && mainTabs.length === 1 && (
-                  <SingleTabLabel alignSelf="center">
-                    {mainTabs[0].title}
-                  </SingleTabLabel>
-                )}
+                {mainTabs.map(tab => (
+                  <ButtonNavTab
+                    key={tab.key}
+                    active={tab.key === activeTab.key}
+                    onClick={() => onTabClick(tab.key)}
+                  >
+                    {isMaxSize(size, 'medium') && tab.titleMobile && (
+                      <span>{tab.titleMobile}</span>
+                    )}
+                    {(!isMaxSize(size, 'medium') || !tab.titleMobile) && (
+                      <span>{tab.title}</span>
+                    )}
+                  </ButtonNavTab>
+                ))}
               </TabLinks>
             </ContentMaxWidth>
           </Bar>
