@@ -205,7 +205,7 @@ function PlotMultiRegion({
               color = theme.global.colors[region];
               strokeWidth = 2.5;
             }
-            if (metric.type === 'cpr') {
+            if (metric.type !== 'esr') {
               strokeWidth = 1.5;
             }
             return (

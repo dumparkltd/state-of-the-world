@@ -266,7 +266,7 @@ function PlotDetailRegion({
                 : theme.global.colors['dark-4'];
             let strokeWidth =
               !highlightRegion || highlightRegion === region ? 2.5 : 1.5;
-            if (metric.type === 'cpr') {
+            if (metric.type !== 'esr') {
               strokeWidth = 1.5;
             }
             return (
