@@ -1385,7 +1385,7 @@ export const getCPRScoresForCountry = createSelector(
 export const getVDEMScoresForCountry = createSelector(
   (state, { countryCode }) => countryCode,
   (state, { metricCode }) => metricCode,
-  getCPRScores,
+  getVDEMScores,
   (countryCode, metricCode, scores) => {
     const metric = getMetricDetails(metricCode);
     if (metric && scores) {
@@ -1396,7 +1396,7 @@ export const getVDEMScoresForCountry = createSelector(
       );
       const columns = [
         { key: COLUMNS.VDEM.MEAN, column: COLUMNS.VDEM.MEAN },
-        { key: COLUMNS.VDEMVDEM.LO, column: COLUMNS.VDEM.LO },
+        { key: COLUMNS.VDEM.LO, column: COLUMNS.VDEM.LO },
         { key: COLUMNS.VDEM.HI, column: COLUMNS.VDEM.HI },
       ];
       return getCountryScores(countryCode, countryScores, columns);

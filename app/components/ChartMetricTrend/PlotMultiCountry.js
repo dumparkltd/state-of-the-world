@@ -96,6 +96,27 @@ function PlotMultiCountry({
           }}
         />
       )}
+      {countryScores && metric.type === 'vdem' && (
+        <AreaSeries
+          data={getCountryData(countryScores[COLUMNS.VDEM.HI])}
+          style={{
+            fill: theme.global.colors[currentRegion],
+            stroke: 'transparent',
+            opacity: 0.1,
+          }}
+        />
+      )}
+      {countryScores && metric.type === 'vdem' && (
+        <AreaSeries
+          data={getCountryData(countryScores[COLUMNS.VDEM.LO])}
+          style={{
+            fill: 'white',
+            stroke: 'white',
+            opacity: 1,
+            strokeWidth: 1,
+          }}
+        />
+      )}
       <HorizontalGridLines
         tickValues={tickValuesY}
         style={{

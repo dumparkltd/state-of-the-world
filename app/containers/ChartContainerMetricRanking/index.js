@@ -48,7 +48,7 @@ import { lowerCase } from 'utils/string';
 import rootMessages from 'messages';
 import messages from './messages';
 
-const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
+const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
 
 const getBand = (score, type) => {
   if (type === 'cpr') {

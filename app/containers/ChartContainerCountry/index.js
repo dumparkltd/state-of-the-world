@@ -25,13 +25,17 @@ import {
   getCountry,
   getDependenciesReady,
   getMaxYearESR,
-  getMaxYearCPR,
   getMinYearESR,
+  getMaxYearCPR,
   getMinYearCPR,
+  getMaxYearVDEM,
+  getMinYearVDEM,
   getESRScoresForCountry,
   getESRScoresForCountryUNRegion,
   getCPRScoresForCountry,
   getCPRScoresForCountryUNRegion,
+  getVDEMScoresForCountry,
+  getVDEMScoresForCountryUNRegion,
   getBenchmarkSearch,
   getStandardSearch,
   getHasOtherESRScoresForCountry,
@@ -43,6 +47,7 @@ import ChartHeader from 'components/ChartHeader';
 import NarrativeESRStandardHint from 'components/CountryNarrative/NarrativeESRStandardHint';
 import NarrativeESRNoData from 'components/CountryNarrative/NarrativeESRNoData';
 import NarrativeCPRNoData from 'components/CountryNarrative/NarrativeCPRNoData';
+import NarrativeVDEMNoData from 'components/CountryNarrative/NarrativeVDEMNoData';
 import NarrativeCPRGovRespondents from 'components/CountryNarrative/NarrativeCPRGovRespondents';
 import Source from 'components/Source';
 import WrapPlot from 'styled/WrapPlot';
@@ -83,7 +88,7 @@ const getCardWidth = (width, number, theme) => {
   return `${width / number - edge * 2}px`;
 };
 
-const DEPENDENCIES = ['countries', 'cprScores', 'esrScores'];
+const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
 
 export function ChartContainerCountry({
   dataReady,
@@ -97,6 +102,8 @@ export function ChartContainerCountry({
   minYearESR,
   maxYearCPR,
   minYearCPR,
+  maxYearVDEM,
+  minYearVDEM,
   onSelectMetric,
   theme,
   messageValues,
@@ -134,14 +141,26 @@ export function ChartContainerCountry({
 
   const scoresESR = scores.filter(r => r.type === 'esr');
   const scoresCPR = scores.filter(r => r.type === 'cpr');
+  const scoresVDEM = scores.filter(r => r.type === 'vdem');
   // check data availability
   const hasESR = scores.some(
-    r => r.scores[benchmark] && Object.values(r.scores[benchmark]).length > 0,
+    r =>
+      r.type === 'esr' &&
+      r.scores[benchmark] &&
+      Object.values(r.scores[benchmark]).length > 0,
   );
   const hasCPR = scores.some(
     r =>
+      r.type === 'cpr' &&
       r.scores[COLUMNS.CPR.MEAN] &&
       Object.values(r.scores[COLUMNS.CPR.MEAN]).length > 0,
+  );
+
+  const hasVDEM = scores.some(
+    r =>
+      r.type === 'vdem' &&
+      r.scores[COLUMNS.VDEM.MEAN] &&
+      Object.values(r.scores[COLUMNS.VDEM.MEAN]).length > 0,
   );
   const hasGovRespondents =
     hasCPR && quasiEquals(country[COLUMNS.COUNTRIES.GOV_RESPONDENTS], 1);
@@ -158,7 +177,7 @@ export function ChartContainerCountry({
             </Box>
             <Box margin={{ top: 'medium', bottom: 'large' }}>
               <h2>
-                <FormattedMessage {...rootMessages.rightsTypes.esr} />
+                <FormattedMessage {...messages.titleESR} />
               </h2>
               <ChartHeader settings={[{ attribute: 'standard' }]} />
               {!isRecommendedStandard && hasOtherESR && hasESR && (
@@ -250,63 +269,134 @@ export function ChartContainerCountry({
             </Box>
             <Box>
               <h2>
-                <FormattedMessage {...rootMessages.rightsTypes.cpr} />
+                <FormattedMessage {...messages.titleCPR} />
               </h2>
               {!hasCPR && <NarrativeCPRNoData messageValues={messageValues} />}
               {hasCPR && hasGovRespondents && (
                 <NarrativeCPRGovRespondents messageValues={messageValues} />
               )}
-              <MultiCardWrapper
-                pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-                align="start"
-                responsive={false}
-                margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
-                ref={ref}
-              >
-                {gridWidth && (
-                  <Box
-                    direction="row"
-                    wrap
-                    overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
-                    align="start"
-                  >
-                    {scoresCPR.map(right => {
-                      const regionRight = regionScores.find(
-                        r => r.key === right.key,
-                      );
-                      return (
-                        <WrapPlot
-                          key={right.key}
-                          width={getCardWidth(
-                            gridWidth || 200,
-                            getCardNumber(size),
-                            theme,
-                          )}
-                        >
-                          <ChartMetricTrend
-                            scores={{
-                              country: right.scores,
-                              regions: regionRight.scores,
-                            }}
-                            maxYear={maxYearCPR}
-                            minYear={minYearCPR}
-                            maxValue={12}
-                            minValue={-1}
-                            benchmark={benchmark}
-                            metric={getMetricDetails(right.key)}
-                            mode="multi-country"
-                            onSelectMetric={() => onSelectMetric(right.key)}
-                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
-                          />
-                        </WrapPlot>
-                      );
-                    })}
-                  </Box>
-                )}
-                <WrapSource>
-                  <Source type="cpr" />
-                </WrapSource>
-              </MultiCardWrapper>
+              {hasCPR && (
+                <MultiCardWrapper
+                  pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                  align="start"
+                  responsive={false}
+                  margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
+                  ref={ref}
+                >
+                  {gridWidth && (
+                    <Box
+                      direction="row"
+                      wrap
+                      overflow={
+                        isMaxSize(size, 'medium') ? 'hidden' : 'visible'
+                      }
+                      align="start"
+                    >
+                      {scoresCPR.map(right => {
+                        const regionRight = regionScores.find(
+                          r => r.key === right.key,
+                        );
+                        return (
+                          <WrapPlot
+                            key={right.key}
+                            width={getCardWidth(
+                              gridWidth || 200,
+                              getCardNumber(size),
+                              theme,
+                            )}
+                          >
+                            <ChartMetricTrend
+                              scores={{
+                                country: right.scores,
+                                regions: regionRight.scores,
+                              }}
+                              maxYear={maxYearCPR}
+                              minYear={minYearCPR}
+                              maxValue={12}
+                              minValue={-1}
+                              benchmark={benchmark}
+                              metric={getMetricDetails(right.key)}
+                              mode="multi-country"
+                              onSelectMetric={() => onSelectMetric(right.key)}
+                              currentRegion={
+                                country[COLUMNS.COUNTRIES.UN_REGION]
+                              }
+                            />
+                          </WrapPlot>
+                        );
+                      })}
+                    </Box>
+                  )}
+                  <WrapSource>
+                    <Source type="cpr" />
+                  </WrapSource>
+                </MultiCardWrapper>
+              )}
+            </Box>
+            <Box>
+              <h2>
+                <FormattedMessage {...messages.titleVDEM} />
+              </h2>
+              {!hasVDEM && (
+                <NarrativeVDEMNoData messageValues={messageValues} />
+              )}
+              {hasVDEM && (
+                <MultiCardWrapper
+                  pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                  align="start"
+                  responsive={false}
+                  margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
+                  ref={ref}
+                >
+                  {gridWidth && (
+                    <Box
+                      direction="row"
+                      wrap
+                      overflow={
+                        isMaxSize(size, 'medium') ? 'hidden' : 'visible'
+                      }
+                      align="start"
+                    >
+                      {scoresVDEM.map(right => {
+                        const regionRight = regionScores.find(
+                          r => r.key === right.key,
+                        );
+                        return (
+                          <WrapPlot
+                            key={right.key}
+                            width={getCardWidth(
+                              gridWidth || 200,
+                              getCardNumber(size),
+                              theme,
+                            )}
+                          >
+                            <ChartMetricTrend
+                              scores={{
+                                country: right.scores,
+                                regions: regionRight.scores,
+                              }}
+                              maxYear={maxYearVDEM}
+                              minYear={minYearVDEM}
+                              maxValue={1}
+                              minValue={0}
+                              benchmark={benchmark}
+                              metric={getMetricDetails(right.key)}
+                              mode="multi-country"
+                              onSelectMetric={() => onSelectMetric(right.key)}
+                              currentRegion={
+                                country[COLUMNS.COUNTRIES.UN_REGION]
+                              }
+                            />
+                          </WrapPlot>
+                        );
+                      })}
+                    </Box>
+                  )}
+                  <WrapSource>
+                    <Source type="vdem" />
+                  </WrapSource>
+                </MultiCardWrapper>
+              )}
             </Box>
           </div>
         )}
@@ -321,6 +411,8 @@ ChartContainerCountry.propTypes = {
   minYearESR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   maxYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   minYearCPR: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  maxYearVDEM: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  minYearVDEM: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   scores: PropTypes.array,
   hasOtherESR: PropTypes.bool,
   regionScores: PropTypes.array,
@@ -341,19 +433,29 @@ const mapStateToProps = createStructuredSelector({
   standard: state => getStandardSearch(state),
   // prettier-ignore
   scores: (state, { countryCode }) =>
-    RIGHTS.map(right => ({
-      ...right,
-      scores:
-        right.type === 'esr'
-          ? getESRScoresForCountry(state, {
-            countryCode,
-            metricCode: right.key,
-          })
-          : getCPRScoresForCountry(state, {
-            countryCode,
-            metricCode: right.key,
-          }),
-    })),
+    RIGHTS.map(right => {
+      let scores;
+      if (right.type === 'esr') {
+        scores = getESRScoresForCountry(state, {
+          countryCode,
+          metricCode: right.key,
+        })
+      } else if (right.type === 'cpr') {
+        scores = getCPRScoresForCountry(state, {
+          countryCode,
+          metricCode: right.key,
+        });
+      } else if (right.type === 'vdem') {
+        scores = getVDEMScoresForCountry(state, {
+          countryCode,
+          metricCode: right.key,
+        });
+      }
+      return {
+        ...right,
+        scores,
+      };
+    }),
   hasOtherESR: (state, { countryCode }) =>
     RIGHTS.filter(right => right.type === 'esr').some(right =>
       getHasOtherESRScoresForCountry(state, {
@@ -363,23 +465,35 @@ const mapStateToProps = createStructuredSelector({
     ),
   // prettier-ignore
   regionScores: (state, { countryCode }) =>
-    RIGHTS.map(right => ({
-      ...right,
-      scores:
-        right.type === 'esr'
-          ? getESRScoresForCountryUNRegion(state, {
-            countryCode,
-            metricCode: right.key,
-          })
-          : getCPRScoresForCountryUNRegion(state, {
-            countryCode,
-            metricCode: right.key,
-          }),
-    })),
+    RIGHTS.map(right => {
+      let scores;
+      if (right.type === 'esr') {
+        scores = getESRScoresForCountryUNRegion(state, {
+          countryCode,
+          metricCode: right.key,
+        })
+      } else if (right.type === 'cpr') {
+        scores = getCPRScoresForCountryUNRegion(state, {
+          countryCode,
+          metricCode: right.key,
+        });
+      } else if (right.type === 'vdem') {
+        scores = getVDEMScoresForCountryUNRegion(state, {
+          countryCode,
+          metricCode: right.key,
+        });
+      }
+      return {
+        ...right,
+        scores,
+      };
+    }),
   maxYearESR: state => getMaxYearESR(state),
   minYearESR: state => getMinYearESR(state),
   maxYearCPR: state => getMaxYearCPR(state),
   minYearCPR: state => getMinYearCPR(state),
+  maxYearVDEM: state => getMaxYearVDEM(state),
+  minYearVDEM: state => getMinYearVDEM(state),
 });
 
 export function mapDispatchToProps(dispatch) {

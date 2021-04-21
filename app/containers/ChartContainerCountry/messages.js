@@ -24,4 +24,16 @@ export default defineMessages({
     defaultMessage:
       'View Rights Tracker for underlying statistical indicator country scores and raw data',
   },
+  titleESR: {
+    id: `${scope}.titleESR`,
+    defaultMessage: 'titleESR',
+  },
+  titleCPR: {
+    id: `${scope}.titleCPR`,
+    defaultMessage: 'titleCPR',
+  },
+  titleVDEM: {
+    id: `${scope}.titleVDEM`,
+    defaultMessage: 'titleVDEM',
+  },
 });
