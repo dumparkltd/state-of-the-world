@@ -659,7 +659,7 @@ function AboutCountryContainer({
                     <FormattedMessage {...messages.treaties} />
                   </Label>
                 </Box>
-                <Box direction="row" gap="xxsmall">
+                <Box direction="row" gap="xxsmall" wrap>
                   {countryTreaties.map((t, i) => (
                     <Value key={t.key}>
                       {t.label}
