@@ -576,6 +576,7 @@
   "hrmi.components.ChartBars.infoVDEMadditional": "TODO While shorter bars indicate more agreement of the different experts, longer bars indicate less agreement.",
   "hrmi.components.ChartMetricTrend.noteRatioLink": "{count} of {total} countries",
   "hrmi.components.ChartMetricTrend.noteAssessmentRatio": "Based on {link} only and may thus not be representative. ",
+  "hrmi.components.ChartMetricTrend.noteAssessmentRatioAll": "Based on all {link}. ",
   "hrmi.components.ChartMetricTrend.noteAssessmentNoneWorld": "No countries were assessed in {year}",
   "hrmi.components.ChartMetricTrend.noteAssessmentNoneRegion": "No countries were assessed in {year} for the selected UN group",
   "hrmi.components.ChartMetricTrend.noteAssessmentNoneRegionESR": "No countries assessed for selected UN group and assessment standard",

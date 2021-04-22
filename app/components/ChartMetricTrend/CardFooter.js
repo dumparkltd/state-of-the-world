@@ -227,6 +227,14 @@ function CardFooter({
                   />
                 </Text>
               )}
+              {count > 0 && count === total && (
+                <Text size="xxsmall">
+                  <FormattedMessage
+                    {...messages.noteAssessmentRatioAll}
+                    values={valuesAvg}
+                  />
+                </Text>
+              )}
               {count === 0 && (
                 <Text size="xxsmall">
                   {currentRegion === 'world' && (

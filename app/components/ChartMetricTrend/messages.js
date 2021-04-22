@@ -17,6 +17,10 @@ export default defineMessages({
     id: `${scope}.noteAssessmentRatio`,
     defaultMessage: 'Based on {link} only and may thus not be representative. ',
   },
+  noteAssessmentRatioAll: {
+    id: `${scope}.noteAssessmentRatioAll`,
+    defaultMessage: 'Based on all {link}',
+  },
   noteAssessmentNoneWorld: {
     id: `${scope}.noteAssessmentNoneWorld`,
     defaultMessage: 'No countries were assessed in {year}',
