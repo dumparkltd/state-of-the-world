@@ -417,15 +417,16 @@ export const SCALES = [
   },
 ];
 
-export const TYPES = [
-  {
+export const TYPES = {
+  esr: {
     key: 'esr',
     resource: 'esrScores',
     max: 100,
     digits: 0,
     isPerc: true,
+    uncertainty: false,
   },
-  {
+  cpr: {
     key: 'cpr',
     resource: 'cprScores',
     max: 10,
@@ -433,15 +434,17 @@ export const TYPES = [
     minX: -1,
     digits: 1,
     isPerc: false,
+    uncertainty: true,
   },
-  {
+  vdem: {
     key: 'vdem',
     resource: 'vdemScores',
     max: 1,
     digits: 2,
     isPerc: false,
+    uncertainty: true,
   },
-];
+};
 
 export const RIGHTS = [
   {

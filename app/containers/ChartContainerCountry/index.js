@@ -16,6 +16,7 @@ import { Share } from 'grommet-icons';
 
 import {
   PATHS,
+  TYPES,
   RIGHTS,
   COLUMNS,
   STANDARDS,
@@ -231,6 +232,7 @@ export function ChartContainerCountry({
                             regionScores={regionScores}
                             maxYear={maxYearESR}
                             minYear={minYearESR}
+                            maxValue={TYPES.esr.max}
                             benchmark={benchmark}
                             metric={getMetricDetails(right.key)}
                             mode="multi-country"
@@ -315,8 +317,8 @@ export function ChartContainerCountry({
                               }}
                               maxYear={maxYearCPR}
                               minYear={minYearCPR}
-                              maxValue={12}
-                              minValue={-1}
+                              maxValue={TYPES.cpr.maxX}
+                              minValue={TYPES.cpr.minX}
                               benchmark={benchmark}
                               metric={getMetricDetails(right.key)}
                               mode="multi-country"
@@ -381,8 +383,7 @@ export function ChartContainerCountry({
                               }}
                               maxYear={maxYearVDEM}
                               minYear={minYearVDEM}
-                              maxValue={1}
-                              minValue={0}
+                              maxValue={TYPES.vdem.max}
                               benchmark={benchmark}
                               metric={getMetricDetails(right.key)}
                               mode="multi-country"

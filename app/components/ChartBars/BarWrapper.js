@@ -10,6 +10,8 @@ import styled from 'styled-components';
 import { Box, ResponsiveContext, Text } from 'grommet';
 import { Ascending, Descending } from 'grommet-icons';
 
+import { TYPES } from 'containers/App/constants';
+
 import Bar from 'components/ChartBars/Bar';
 import BarBullet from 'components/ChartBars/BarBullet';
 
@@ -31,16 +33,9 @@ const ScoreWrap = styled(Box)`
 // border-right: 1px solid;
 // border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
 
-export function BarWrapper({
-  score,
-  bullet,
-  maxValue,
-  unit,
-  stripes,
-  intl,
-  color,
-}) {
+export function BarWrapper({ score, type, intl, color }) {
   const [hover, setHover] = useState(false);
+  const bullet = TYPES[type] && TYPES[type].uncertainty;
   return (
     <ResponsiveContext.Consumer>
       {size => (
@@ -78,8 +73,7 @@ export function BarWrapper({
                 size={isMinSize(size, 'medium') ? 'small' : 'xxsmall'}
                 weight={600}
               >
-                {score.value &&
-                  `${formatScore(score.value, 1, intl)}${score.unit || ''}`}
+                {score.value && formatScore(score.value, type, intl)}
                 {!score.value &&
                   intl.formatMessage(rootMessages.labels.abbrev.notAvailable)}
               </Text>
@@ -95,23 +89,14 @@ export function BarWrapper({
             </LabelWrap>
             <BarWrap flex border="right">
               {!bullet && (
-                <Bar
-                  showScore={hover}
-                  data={score}
-                  maxValue={maxValue}
-                  unit={unit}
-                  stripes={stripes}
-                  color={color}
-                />
+                <Bar showScore={hover} data={score} color={color} type={type} />
               )}
               {bullet && (
                 <BarBullet
                   color={color}
                   data={score}
                   showScore={hover}
-                  maxValue={maxValue}
-                  unit={unit}
-                  stripes={stripes}
+                  type={type}
                 />
               )}
             </BarWrap>
@@ -126,10 +111,7 @@ export function BarWrapper({
 
 BarWrapper.propTypes = {
   score: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  bullet: PropTypes.bool,
-  maxValue: PropTypes.number,
-  stripes: PropTypes.bool,
-  unit: PropTypes.string,
+  type: PropTypes.string,
   color: PropTypes.string,
   intl: intlShape,
 };

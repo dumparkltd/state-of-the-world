@@ -40,7 +40,7 @@ import CountryLabel from 'components/CountryLabel';
 
 import Hint from 'styled/Hint';
 
-import { sortScores, getMaxScore } from 'utils/scores';
+import { sortScores } from 'utils/scores';
 import { isMinSize } from 'utils/responsive';
 import { isCountryHighIncome, hasCountryGovRespondents } from 'utils/countries';
 import { lowerCase } from 'utils/string';
@@ -239,9 +239,6 @@ export function ChartContainerMetricRanking({
               data={sorted}
               currentBenchmark={currentBenchmark}
               metric={metric}
-              bullet={metric.type === 'cpr' || metric.type === 'vdem'}
-              maxValue={getMaxScore(metric.type)}
-              unit={metric.type === 'esr' ? '%' : null}
               color={currentRegion}
               sort={{
                 sort: currentSort,

@@ -26,7 +26,7 @@ function Score({
   score,
   left,
   color,
-  unit = '',
+  type,
   level,
   secondary = false,
   align,
@@ -47,7 +47,7 @@ function Score({
         )}
         {score && (
           <Text color={`${color}Dark`} size="small">
-            {score && `${formatScore(score, 1, intl)}${unit}`}
+            {score && formatScore(score, type, intl)}
           </Text>
         )}
       </Box>
@@ -60,7 +60,7 @@ Score.propTypes = {
   left: PropTypes.number,
   secondary: PropTypes.bool,
   color: PropTypes.string,
-  unit: PropTypes.string,
+  type: PropTypes.string,
   align: PropTypes.string,
   title: PropTypes.string,
   level: PropTypes.number,

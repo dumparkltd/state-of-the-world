@@ -19,7 +19,7 @@ import {
 } from 'react-vis';
 import { utcFormat as timeFormat } from 'd3-time-format';
 
-import { COLUMNS } from 'containers/App/constants';
+import { COLUMNS, TYPES } from 'containers/App/constants';
 
 import {
   getCountryData,
@@ -228,7 +228,9 @@ function PlotDetailRegion({
         tickPadding={2}
       />
       <YAxis
-        tickFormat={value => (metric.type === 'esr' ? `${value}%` : value)}
+        tickFormat={value =>
+          TYPES[metric.type] && TYPES[metric.type].isPerc ? `${value}%` : value
+        }
         style={{
           line: { strokeWidth: 0 },
           ticks: { strokeWidth: 1 },

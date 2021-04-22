@@ -27,9 +27,9 @@ import {
   sortRegions,
   getRegionData,
 } from 'utils/charts';
-import { formatScoreMax } from 'utils/scores';
+import { formatScore } from 'utils/scores';
 
-import { COLUMNS } from 'containers/App/constants';
+import { COLUMNS, TYPES } from 'containers/App/constants';
 
 const PlotHint = styled.div`
   color: ${({ color, theme }) => (color ? theme.global.colors[color] : 'grey')};
@@ -134,7 +134,7 @@ function PlotMultiCountry({
       />
       <YAxis
         tickFormat={value =>
-          metric.type === 'esr' ? `${value}%` : value
+          TYPES[metric.type] && TYPES[metric.type].isPerc ? `${value}%` : value
         }
         style={{
           line: { strokeWidth: 0 },
@@ -197,10 +197,9 @@ function PlotMultiCountry({
           }}
         >
           <PlotHint color={currentRegion}>
-            {formatScoreMax(
+            {formatScore(
               countryYearData[0].y,
               metric.type,
-              false,
               intl,
             )}
           </PlotHint>

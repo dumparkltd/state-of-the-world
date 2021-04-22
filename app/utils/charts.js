@@ -1,38 +1,50 @@
 import { isMaxSize } from 'utils/responsive';
-import { formatScoreMax } from 'utils/scores';
-import { CRITICAL_VALUE } from 'containers/App/constants';
+import { formatScore } from 'utils/scores';
+import { CRITICAL_VALUE, TYPES } from 'containers/App/constants';
+
+import rootMessages from 'messages';
 
 export const getXTime = year => new Date(`${year}`).getTime();
 
+const MAX_STEPS = {
+  default: 11,
+  sm: 2,
+  multi: 2,
+  'multi-country': 2,
+  'multi-region': 2,
+};
 export const getTickValuesX = (size, mode, minYear, maxYear) => {
-  if (
-    mode === 'multi' ||
-    mode === 'multi-country' ||
-    mode === 'multi-region' ||
-    isMaxSize(size, 'sm')
-  ) {
+  let max = MAX_STEPS.default;
+  if (MAX_STEPS[mode]) {
+    max = MAX_STEPS[mode];
+  }
+  if (isMaxSize(size, 'sm')) {
+    max = MAX_STEPS.sm;
+  }
+  if (max === 2) {
     return [getXTime(minYear), getXTime(maxYear)];
   }
-  const tickValuesX = [];
-  /* eslint-disable no-plusplus */
-  for (let y = minYear; y <= maxYear; y++) {
-    tickValuesX.push(getXTime(y));
+  const range = maxYear - minYear;
+  const values = [];
+  const inc = Math.floor(range / max) + 1;
+  const initial = range % inc;
+  for (let x = minYear + initial; x <= maxYear; x += inc) {
+    values.push(getXTime(x));
   }
-  /* eslint-enable no-plusplus */
-  return tickValuesX;
+  return values;
 };
 
 export const getTickValuesY = (type, mode) => {
-  if (mode === 'detail') {
-    if (type === 'esr') return [0, 20, 40, 60, 80, 100];
-    if (type === 'cpr') return [0, 2, 4, 6, 8, 10];
-    if (type === 'vdem') return [0, 0.2, 0.4, 0.6, 0.8, 1];
-    return [];
+  const max = TYPES[type] ? TYPES[type].max : 100;
+  const steps = mode === 'detail-region' ? 4 : 2;
+  const values = [0];
+  const inc = max / steps;
+  /* eslint-disable no-plusplus */
+  for (let y = 0; y < steps; y++) {
+    values.push(values[y] + inc);
   }
-  if (type === 'esr') return [0, 50, 100];
-  if (type === 'cpr') return [0, 5, 10];
-  if (type === 'vdem') return [0, 0.5, 1];
-  return [];
+  /* eslint-enable no-plusplus */
+  return values;
 };
 
 // prettier-ignore
@@ -166,15 +178,9 @@ export const sortRegions = (regionA, regionB, priorityRegion) => {
 export const getRegionYearScore = (year, scores, type, intl) => {
   const data = getRegionYearData(year, scores);
   if (data.length > 0) {
-    return formatScoreMax(
-      data[0].y,
-      type,
-      false,
-      // type !== 'esr',
-      intl,
-    );
+    return formatScore(data[0].y, type, intl);
   }
-  return 'N/A';
+  return intl.formatMessage(rootMessages.labels.abbrev.notAvailable);
 };
 export const getRegionYearCount = (year, scores) => {
   const data = getRegionYearData(year, scores);

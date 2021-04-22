@@ -8,10 +8,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { getMaxScore } from 'utils/scores';
+
 import Wrapper from './styled/BarWrap';
 // import Score from './styled/Score';
 
-const BarWrapper = styled.div``;
+const BarWrapperInner = styled.div``;
 
 const BarReference = styled.div`
   position: relative;
@@ -35,17 +37,17 @@ const BarValue = styled.div`
 function Bar({
   data,
   // showScore = false,
-  maxValue,
   stripes = false,
-  // unit,
+  type,
   color = 'world',
 }) {
   const { value } = data;
   const hasValue = !!value || value === 0;
+  const maxValue = getMaxScore(type);
   // prettier-ignore
   return (
     <Wrapper responsive={false}>
-      <BarWrapper>
+      <BarWrapperInner>
         <BarReference>
           {hasValue && (
             <BarValue
@@ -55,7 +57,7 @@ function Bar({
             />
           )}
         </BarReference>
-      </BarWrapper>
+      </BarWrapperInner>
     </Wrapper>
   );
 }
@@ -71,9 +73,8 @@ function Bar({
 Bar.propTypes = {
   data: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   // showScore: PropTypes.bool,
-  maxValue: PropTypes.number,
   stripes: PropTypes.bool,
-  // unit: PropTypes.string,
+  type: PropTypes.string,
   color: PropTypes.string,
 };
 

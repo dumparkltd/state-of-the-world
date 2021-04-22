@@ -161,7 +161,6 @@ function ScoreSheet({
   currentRegion,
   setRegion,
 }) {
-  // const maxValue = metric.type === 'esr' ? 100 : 10;
   const styledHeight = margin
     ? height - (margin.top || 0) - (margin.bottom || 0)
     : height;
@@ -201,6 +200,7 @@ function ScoreSheet({
     highlightCountry && rootMessages.countries[highlightCountry]
       ? intl.formatMessage(rootMessages.countries[highlightCountry])
       : highlightCountry;
+
   return (
     <Styled padding={margin}>
       <Inner>
@@ -234,9 +234,7 @@ function ScoreSheet({
                     align="center"
                   >
                     <Text size="xsmall">
-                      {`${formatScore(region.value, 1, intl)}${
-                        metric.type === 'esr' ? '%' : ''
-                      }`}
+                      {formatScore(region.value, metric.type, intl)}
                     </Text>
                     <Text size="xxsmall">
                       <FormattedMessage
@@ -261,10 +259,9 @@ function ScoreSheet({
           >
             <Text size="xsmall">
               {hiCountry.value &&
-                `${formatScore(hiCountry.value, 1, intl)}${
-                  metric.type === 'esr' ? '%' : ''
-                }`}
-              {!hiCountry.value && 'N/A'}
+                formatScore(hiCountry.value, metric.type, intl)}
+              {!hiCountry.value &&
+                intl.formatMessage(rootMessages.labels.abbrev.notAvailable)}
             </Text>
             <Text size="xxsmall">{countryTitle}</Text>
           </CountryLabel>

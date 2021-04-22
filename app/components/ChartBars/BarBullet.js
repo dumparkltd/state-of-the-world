@@ -8,10 +8,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { getMaxScore } from 'utils/scores';
+
 import Wrapper from './styled/BarWrap';
 import Score from './styled/Score';
 
-const BarWrapper = styled.div``;
+const BarWrapperInner = styled.div``;
 
 // level:
 const MARK_WIDTH = [4, 4, 3, 3];
@@ -62,17 +64,18 @@ const BarBand = styled.div`
   }};
 `;
 
-function BarBullet({ color, data, showScore, active, maxValue }) {
+function BarBullet({ color = 'world', data, showScore, active, type }) {
   const { value, band } = data;
-
+  const maxValue = getMaxScore(type);
+  const showBand = value && !(band.lo === value && band.hi === value);
   return (
     <Wrapper>
-      <BarWrapper>
+      <BarWrapperInner>
         <BarAnchor>
           {value && <BarReference />}
-          {value && (
+          {showBand && (
             <BarBand
-              color={color || 'world'}
+              color={color}
               active={active}
               lo={(band.lo / maxValue) * 100}
               hi={(band.hi / maxValue) * 100}
@@ -85,41 +88,43 @@ function BarBullet({ color, data, showScore, active, maxValue }) {
           )}
           {value && (
             <MarkValue
-              color={color || 'world'}
+              color={color}
               style={{ left: `${(value / maxValue) * 100}%` }}
             />
           )}
-          {value && (
+          {showBand && (
             <MarkBound
-              color={color || 'world'}
+              color={color}
               style={{ left: `${(band.lo / maxValue) * 100}%` }}
             />
           )}
-          {value && (
+          {showBand && (
             <MarkBound
-              color={color || 'world'}
+              color={color}
               style={{ left: `${(band.hi / maxValue) * 100}%` }}
             />
           )}
-          {band.lo && showScore && (
+          {band.lo && showBand && showScore && (
             <Score
               score={band.lo}
               left={(band.lo / maxValue) * 100}
               color={color}
               secondary
               align="right"
+              type={type}
             />
           )}
-          {band.hi && showScore && (
+          {band.hi && showBand && showScore && (
             <Score
               score={band.hi}
               left={(band.hi / maxValue) * 100}
               secondary
               align="left"
+              type={type}
             />
           )}
         </BarAnchor>
-      </BarWrapper>
+      </BarWrapperInner>
     </Wrapper>
   );
 }
@@ -128,8 +133,8 @@ BarBullet.propTypes = {
   data: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   showScore: PropTypes.bool,
   active: PropTypes.bool,
-  maxValue: PropTypes.number,
   color: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default BarBullet;

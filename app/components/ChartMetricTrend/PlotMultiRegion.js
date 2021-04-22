@@ -20,7 +20,7 @@ import {
 } from 'react-vis';
 import { utcFormat as timeFormat } from 'd3-time-format';
 
-import { COLUMNS } from 'containers/App/constants';
+import { COLUMNS, TYPES } from 'containers/App/constants';
 
 import {
   sortRegions,
@@ -179,7 +179,7 @@ function PlotMultiRegion({
       />
       <YAxis
         tickFormat={value =>
-          metric.type === 'esr' ? `${value}%` : value
+          TYPES[metric.type] && TYPES[metric.type].isPerc ? `${value}%` : value
         }
         style={{
           line: { strokeWidth: 0 },

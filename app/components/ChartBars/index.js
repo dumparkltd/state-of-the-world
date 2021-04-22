@@ -21,10 +21,6 @@ function ChartBars({
   data,
   currentBenchmark,
   metric,
-  bullet,
-  maxValue,
-  stripes = false,
-  unit,
   sort,
   allowWordBreak = true,
   annotateMinMax = true,
@@ -75,11 +71,8 @@ function ChartBars({
               <BarWrapper
                 key={d.key}
                 score={d}
-                bullet={bullet}
                 allowWordBreak={allowWordBreak}
-                maxValue={maxValue}
-                unit={unit}
-                stripes={stripes}
+                type={metric.type}
                 color={color}
               />
             ))}

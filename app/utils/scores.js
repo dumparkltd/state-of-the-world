@@ -86,30 +86,28 @@ export const roundScore = (value, digits = 1) => {
   const factor = 10 ** Math.min(digits, 3);
   return isNumber(value) && Math.round(value * factor) / factor;
 };
-export const formatScore = (value, digits = 1, intl) => {
-  const d = Math.min(digits, 3);
+export const formatScore = (value, type, intl) => {
+  const mType = TYPES[type];
+  const d = mType ? Math.min(mType.digits, 3) : 1;
   if (isNumber(value)) {
     const rounded = roundScore(value, d);
-    return intl
+    const formatted = intl
       ? intl.formatNumber(rounded, { minimumFractionDigits: d })
       : rounded.toFixed(d);
+    return mType && mType.isPerc ? `${formatted}%` : formatted;
   }
   return value;
 };
-export const formatScoreMax = (value, type, showMax, intl) => {
-  const maxValue = getMaxScore(type);
-  const digits = getDigitsScore(type);
-  const formatted = formatScore(value, digits, intl);
-  if (formatted && maxValue === 100) {
-    return `${formatted}%`;
-  }
-  if (formatted && !showMax) {
-    return formatted;
-  }
-  return formatted && `${formatted}/${maxValue}`;
-};
+// export const formatScoreMax = (value, type, showMax, intl) => {
+//   const maxValue = getMaxScore(type);
+//   const formatted = formatScore(value, type, intl);
+//   if (formatted && !showMax) {
+//     return formatted;
+//   }
+//   return formatted && `${formatted}/${maxValue}`;
+// };
 
-export const getRightType = key => TYPES.find(t => t.key === key);
+export const getRightType = key => TYPES[key];
 
 export const getMaxScore = key => {
   const type = getRightType(key);

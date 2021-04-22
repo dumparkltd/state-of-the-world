@@ -56,12 +56,16 @@ export function ChartYearSelect({
   if (metricType === 'vdem') year = yvdem;
   let yearMin;
   if (metricType === 'esr') yearMin = yesrRange.min;
-  if (metricType === 'cpr') year = ycprRange.min;
-  if (metricType === 'vdem') year = yvdemRange.min;
+  if (metricType === 'cpr') yearMin = ycprRange.min;
+  if (metricType === 'vdem') yearMin = yvdemRange.min;
   let yearMax;
-  if (metricType === 'esr') yearMin = yesrRange.max;
-  if (metricType === 'cpr') year = ycprRange.max;
-  if (metricType === 'vdem') year = yvdemRange.max;
+  if (metricType === 'esr') yearMax = yesrRange.max;
+  if (metricType === 'cpr') yearMax = ycprRange.max;
+  if (metricType === 'vdem') yearMax = yvdemRange.max;
+  let param;
+  if (metricType === 'esr') param = 'yesr';
+  if (metricType === 'cpr') param = 'ycpr';
+  if (metricType === 'vdem') param = 'yvdem';
 
   const yearNext = Math.min(parseInt(year, 10) + 1, yearMax);
   const yearPrevious = Math.max(parseInt(year, 10) - 1, yearMin);
@@ -91,7 +95,7 @@ export function ChartYearSelect({
       </Box>
       <Box direction="row" align="center" gap="small">
         <ButtonPlain
-          onClick={() => onSelectYear(yearPrevious, metricType)}
+          onClick={() => onSelectYear(yearPrevious, param)}
           disabled={quasiEquals(year, yearPrevious)}
         >
           <Previous
@@ -118,7 +122,7 @@ export function ChartYearSelect({
                 options.map(option => (
                   <DropOption
                     key={option.year}
-                    onClick={() => onSelectYear(option.year, metricType)}
+                    onClick={() => onSelectYear(option.year, param)}
                     active={option.active}
                     disabled={option.active}
                   >
@@ -129,7 +133,7 @@ export function ChartYearSelect({
           }
         />
         <ButtonPlain
-          onClick={() => onSelectYear(yearNext, metricType)}
+          onClick={() => onSelectYear(yearNext, param)}
           disabled={quasiEquals(year, yearNext)}
         >
           <Next
@@ -164,10 +168,10 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onSelectYear: (value, type) =>
+    onSelectYear: (value, param) =>
       dispatch(
         navigate(
-          { search: type === 'esr' ? `?yesr=${value}` : `?ycpr=${value}` },
+          { search: `?${param}=${value}` },
           {
             replace: false,
             trackEvent: {
