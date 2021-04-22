@@ -24,6 +24,7 @@ import {
   getHRCTerms,
 } from 'containers/App/selectors';
 
+import FormattedMarkdown from 'components/FormattedMarkdown';
 import Tooltip from 'components/Tooltip';
 import AccordionHeader from 'components/AccordionHeader';
 import { COLUMNS, TREATIES } from 'containers/App/constants';
@@ -267,6 +268,9 @@ function AboutCountryContainer({
   if (!country) return null;
   const incomeCode =
     country[COLUMNS.COUNTRIES.HIGH_INCOME] === '1' ? 'hi' : 'lmi';
+  const vdemCode =
+    country[COLUMNS.COUNTRIES.VDEM_CLASS] &&
+    country[COLUMNS.COUNTRIES.VDEM_CLASS].toString();
   const hasCurrentGDP =
     currentGDP && currentGDP.value && currentGDP.value !== '';
   const hasPPPGDP = pppGDP && pppGDP.value && pppGDP.value !== '';
@@ -438,6 +442,27 @@ function AboutCountryContainer({
             </Value>
           </Box>
         </DetailBox>
+        {vdemCode && (
+          <DetailBox>
+            <Box>
+              <Label>
+                <FormattedMessage {...messages.vdemClass} />
+              </Label>
+            </Box>
+            <Box direction="row" align="center">
+              <Value>
+                <FormattedMessage {...rootMessages.vdemClass[vdemCode]} />
+              </Value>
+              <Tooltip
+                iconSize="small"
+                component={
+                  <FormattedMarkdown {...rootMessages.vdemClassInfo[vdemCode]} />
+                }
+                inAside={inAside}
+              />
+            </Box>
+          </DetailBox>
+        )}
       </DetailSection>
       <DetailSection>
         <Accordion
@@ -745,12 +770,35 @@ function AboutCountryContainer({
                 </Box>
                 <Box>
                   <Value>
-                    {country[COLUMNS.COUNTRIES.RSF] &&
-                      roundScore(country[COLUMNS.COUNTRIES.RSF], 2)}
+                    {country[COLUMNS.COUNTRIES.RSF] && (
+                      <FormattedMessage
+                        {...messages.index_rsf_score}
+                        values={{
+                          score: roundScore(country[COLUMNS.COUNTRIES.RSF], 2),
+                        }}
+                      />
+                    )}
                     {!country[COLUMNS.COUNTRIES.RSF] && (
                       <FormattedMessage {...messages.dataUnavailable} />
                     )}
                   </Value>
+                  {intl.formatMessage(messages.index_rsf_hint) && intl.formatMessage(messages.index_rsf_hint).trim() !== '' && (
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_rsf_hint} />
+                    </Value>
+                  )}
+                  <Box margin={{ vertical: 'xsmall' }}>
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_label_source} />
+                      {` `}
+                      <a
+                        href={intl.formatMessage(messages.index_rsf_link)}
+                        target="_blank"
+                      >
+                        <FormattedMessage {...messages.index_rsf_source} />
+                      </a>
+                    </Value>
+                  </Box>
                 </Box>
               </DetailBox>
               <DetailBox>
@@ -761,12 +809,35 @@ function AboutCountryContainer({
                 </Box>
                 <Box>
                   <Value>
-                    {country[COLUMNS.COUNTRIES.TI] &&
-                      roundScore(country[COLUMNS.COUNTRIES.TI], 2)}
+                    {country[COLUMNS.COUNTRIES.TI] && (
+                      <FormattedMessage
+                        {...messages.index_ti_score}
+                        values={{
+                          score: roundScore(country[COLUMNS.COUNTRIES.TI], 2),
+                        }}
+                      />
+                    )}
                     {!country[COLUMNS.COUNTRIES.TI] && (
                       <FormattedMessage {...messages.dataUnavailable} />
                     )}
                   </Value>
+                  {intl.formatMessage(messages.index_ti_hint) && intl.formatMessage(messages.index_ti_hint).trim() !== '' && (
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_ti_hint} />
+                    </Value>
+                  )}
+                  <Box margin={{ vertical: 'xsmall' }}>
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_label_source} />
+                      {` `}
+                      <a
+                        href={intl.formatMessage(messages.index_ti_link)}
+                        target="_blank"
+                      >
+                        <FormattedMessage {...messages.index_ti_source} />
+                      </a>
+                    </Value>
+                  </Box>
                 </Box>
               </DetailBox>
               <DetailBox>
@@ -777,12 +848,35 @@ function AboutCountryContainer({
                 </Box>
                 <Box>
                   <Value>
-                    {country[COLUMNS.COUNTRIES.EIU] &&
-                      roundScore(country[COLUMNS.COUNTRIES.EIU], 2)}
+                    {country[COLUMNS.COUNTRIES.EIU] && (
+                      <FormattedMessage
+                        {...messages.index_eiu_score}
+                        values={{
+                          score: roundScore(country[COLUMNS.COUNTRIES.EIU], 2),
+                        }}
+                      />
+                    )}
                     {!country[COLUMNS.COUNTRIES.EIU] && (
                       <FormattedMessage {...messages.dataUnavailable} />
                     )}
                   </Value>
+                  {intl.formatMessage(messages.index_eiu_hint) && intl.formatMessage(messages.index_eiu_hint).trim() !== '' && (
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_eiu_hint} />
+                    </Value>
+                  )}
+                  <Box margin={{ vertical: 'xsmall' }}>
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_label_source} />
+                      {` `}
+                      <a
+                        href={intl.formatMessage(messages.index_eiu_link)}
+                        target="_blank"
+                      >
+                        <FormattedMessage {...messages.index_eiu_source} />
+                      </a>
+                    </Value>
+                  </Box>
                 </Box>
               </DetailBox>
             </Box>

@@ -874,6 +874,42 @@ export default defineMessages({
       defaultMessage: 'lmi',
     },
   },
+  vdemClass: {
+    '0': {
+      id: `${scope}.vdemClass.0`,
+      defaultMessage: 'Closed autocracy',
+    },
+    '1': {
+      id: `${scope}.vdemClass.1`,
+      defaultMessage: 'Electoral autocracy',
+    },
+    '2': {
+      id: `${scope}.vdemClass.2`,
+      defaultMessage: 'Electoral democracy',
+    },
+    '3': {
+      id: `${scope}.vdemClass.3`,
+      defaultMessage: 'Liberal democracy',
+    },
+  },
+  vdemClassInfo: {
+    '0': {
+      id: `${scope}.vdemClassInfo.0`,
+      defaultMessage: 'Closed autocracy',
+    },
+    '1': {
+      id: `${scope}.vdemClassInfo.1`,
+      defaultMessage: 'Electoral autocracy',
+    },
+    '2': {
+      id: `${scope}.vdemClassInfo.2`,
+      defaultMessage: 'Electoral democracy',
+    },
+    '3': {
+      id: `${scope}.vdemClassInfo.3`,
+      defaultMessage: 'Liberal democracy',
+    },
+  },
   countries: {
     ABW: {
       id: `${scope}.countries.ABW`,

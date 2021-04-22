@@ -99,17 +99,73 @@ export default defineMessages({
     id: `${scope}.income`,
     defaultMessage: 'Income group',
   },
+  vdemClass: {
+    id: `${scope}.vdemClass`,
+    defaultMessage: 'V-Dem regime type',
+  },
+  index_label_source: {
+    id: `${scope}.index_label_source`,
+    defaultMessage: 'Source: ',
+  },
   index_rsf: {
     id: `${scope}.index_rsf`,
-    defaultMessage: 'Press Freedom Index (Reporters Without Borders)',
+    defaultMessage: 'Press Freedom Index',
+  },
+  index_rsf_source: {
+    id: `${scope}.index_rsf_source`,
+    defaultMessage: 'Reporters Without Borders',
+  },
+  index_rsf_score: {
+    id: `${scope}.index_rsf_score`,
+    defaultMessage: '{score}/100',
+  },
+  index_rsf_hint: {
+    id: `${scope}.index_rsf_hint`,
+    defaultMessage: 'Smaller scores are better',
+  },
+  index_rsf_link: {
+    id: `${scope}.index_rsf_link`,
+    defaultMessage: 'https://rsf.org/en/ranking',
   },
   index_ti: {
     id: `${scope}.index_ti`,
-    defaultMessage: 'Corruption Perception Index (Transparency International)',
+    defaultMessage: 'Corruption Perception Index',
+  },
+  index_ti_source: {
+    id: `${scope}.index_ti_source`,
+    defaultMessage: 'Transparency International',
+  },
+  index_ti_link: {
+    id: `${scope}.index_ti_link`,
+    defaultMessage: 'https://www.transparency.org/en/cpi',
+  },
+  index_ti_score: {
+    id: `${scope}.index_ti_score`,
+    defaultMessage: '{score}/100',
+  },
+  index_ti_hint: {
+    id: `${scope}.index_ti_hint`,
+    defaultMessage: ' ',
   },
   index_eiu: {
     id: `${scope}.index_eiu`,
-    defaultMessage: 'Democracy Index (Economist Intelligence Unit)',
+    defaultMessage: 'Democracy Index',
+  },
+  index_eiu_source: {
+    id: `${scope}.index_eiu_source`,
+    defaultMessage: 'Economist Intelligence Unit',
+  },
+  index_eiu_score: {
+    id: `${scope}.index_eiu_score`,
+    defaultMessage: '{score}/10',
+  },
+  index_eiu_hint: {
+    id: `${scope}.index_eiu_hint`,
+    defaultMessage: ' ',
+  },
+  index_eiu_link: {
+    id: `${scope}.index_eiu_link`,
+    defaultMessage: 'https://www.eiu.com/n/campaigns/democracy-index-2020/',
   },
   population: {
     id: `${scope}.population`,

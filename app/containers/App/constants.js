@@ -288,7 +288,7 @@ export const FAQS = {
 export const DATA_RESOURCES = [
   {
     key: 'countries',
-    file: 'countries_v3-1-sotw.csv',
+    file: 'countries.csv',
   },
   {
     key: 'countriesGrammar',

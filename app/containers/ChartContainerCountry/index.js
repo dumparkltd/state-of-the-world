@@ -182,7 +182,9 @@ export function ChartContainerCountry({
               <h2>
                 <FormattedMessage {...messages.titleESR} />
               </h2>
-              <ChartHeader settings={[{ attribute: 'standard' }]} />
+              {(hasESR || hasOtherESR) && (
+                <ChartHeader settings={[{ attribute: 'standard' }]} />
+              )}
               {!isRecommendedStandard && hasOtherESR && hasESR && (
                 <NarrativeESRStandardHint
                   country={country}
@@ -198,79 +200,87 @@ export function ChartContainerCountry({
                   otherStandard={otherStandard.key}
                 />
               )}
-              <MultiCardWrapper
-                pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-                align="start"
-                responsive={false}
-                margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
-              >
-                {gridWidth && (
-                  <Box
-                    direction="row"
-                    wrap
-                    overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
-                    align="start"
-                  >
-                    {scoresESR.map(right => {
-                      const regionRight = regionScores.find(
-                        r => r.key === right.key,
-                      );
-                      return (
-                        <WrapPlot
-                          key={right.key}
-                          width={getCardWidth(
-                            gridWidth || 200,
-                            getCardNumber(size),
-                            theme,
-                          )}
-                        >
-                          <ChartMetricTrend
-                            scores={{
-                              country: right.scores,
-                              regions: regionRight.scores,
-                            }}
-                            regionScores={regionScores}
-                            maxYear={maxYearESR}
-                            minYear={minYearESR}
-                            maxValue={TYPES.esr.max}
-                            benchmark={benchmark}
-                            metric={getMetricDetails(right.key)}
-                            mode="multi-country"
-                            onSelectMetric={() => onSelectMetric(right.key)}
-                            onSelectPage={onSelectPage}
-                            currentRegion={country[COLUMNS.COUNTRIES.UN_REGION]}
-                          />
-                        </WrapPlot>
-                      );
-                    })}
-                  </Box>
-                )}
-                <WrapSource>
-                  <Source type="esr" />
-                </WrapSource>
-              </MultiCardWrapper>
-              <ButtonTextIcon
-                href={intl.formatMessage(messages.rightsTrackerCountryURL, {
-                  url: intl.formatMessage(
-                    rootMessages.sources.urlRightsTracker,
-                  ),
-                  countryCode,
-                  standard,
-                })}
-                target="_blank"
-                size="small"
-                margin={{ vertical: 'xxsmall' }}
-                gap="small"
-                icon={<Share size="small" />}
-                label={
-                  <StyledText size="small">
-                    {intl.formatMessage(
-                      messages.seeRightsTracker,
-                      messageValues,
-                    )}
-                  </StyledText>
-                }
-              />
+              {(hasESR || hasOtherESR) && (
+                <MultiCardWrapper
+                  pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                  align="start"
+                  responsive={false}
+                  margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
+                >
+                  {gridWidth && (
+                    <Box
+                      direction="row"
+                      wrap
+                      overflow={
+                        isMaxSize(size, 'medium') ? 'hidden' : 'visible'
+                      }
+                      align="start"
+                    >
+                      {scoresESR.map(right => {
+                        const regionRight = regionScores.find(
+                          r => r.key === right.key,
+                        );
+                        return (
+                          <WrapPlot
+                            key={right.key}
+                            width={getCardWidth(
+                              gridWidth || 200,
+                              getCardNumber(size),
+                              theme,
+                            )}
+                          >
+                            <ChartMetricTrend
+                              scores={{
+                                country: right.scores,
+                                regions: regionRight.scores,
+                              }}
+                              regionScores={regionScores}
+                              maxYear={maxYearESR}
+                              minYear={minYearESR}
+                              maxValue={TYPES.esr.max}
+                              benchmark={benchmark}
+                              metric={getMetricDetails(right.key)}
+                              mode="multi-country"
+                              onSelectMetric={() => onSelectMetric(right.key)}
+                              onSelectPage={onSelectPage}
+                              currentRegion={
+                                country[COLUMNS.COUNTRIES.UN_REGION]
+                              }
+                            />
+                          </WrapPlot>
+                        );
+                      })}
+                    </Box>
+                  )}
+                  <WrapSource>
+                    <Source type="esr" />
+                  </WrapSource>
+                </MultiCardWrapper>
+              )}
+              {(hasESR || hasOtherESR) && (
+                <ButtonTextIcon
+                  href={intl.formatMessage(messages.rightsTrackerCountryURL, {
+                    url: intl.formatMessage(
+                      rootMessages.sources.urlRightsTracker,
+                    ),
+                    countryCode,
+                    standard,
+                  })}
+                  target="_blank"
+                  size="small"
+                  margin={{ vertical: 'xxsmall' }}
+                  gap="small"
+                  icon={<Share size="small" />}
+                  label={
+                    <StyledText size="small">
+                      {intl.formatMessage(
+                        messages.seeRightsTracker,
+                        messageValues,
+                      )}
+                    </StyledText>
+                  }
+                />
+              )}
             </Box>
             <Box>
               <h2>
