@@ -48,4 +48,8 @@ export default defineMessages({
     id: `${scope}.countrySearchTitle`,
     defaultMessage: 'Explore country profiles or human rights',
   },
+  jumpToSection: {
+    id: `${scope}.jumpToSection`,
+    defaultMessage: 'Jump to metric group',
+  },
 });

@@ -117,6 +117,7 @@ const icon = {
     large: '20px',
     xlarge: '24px',
     xxlarge: '32px',
+    xxxlarge: '56px',
   },
 };
 const edgeSize = {

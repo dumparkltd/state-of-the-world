@@ -4,16 +4,17 @@
  *
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { compose } from 'redux';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
-import { Box, Text, Paragraph } from 'grommet';
+import { Box, Text, Paragraph, Button } from 'grommet';
+import { Down } from 'grommet-icons';
 import all from 'images/metrics/all.png';
 
-// import { navigate } from 'containers/App/actions';
+import { getHeaderHeight } from 'utils/responsive';
 
 import Search from 'containers/Search';
 import SectionFooter from 'components/SectionFooter';
@@ -25,9 +26,40 @@ import SectionContainer from 'styled/SectionContainer';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import ContentWrap from 'styled/ContentWrap';
 import ButtonText from 'styled/ButtonText';
+// import ButtonPlain from 'styled/ButtonPlain';
 
 import rootMessages from 'messages';
 import messages from './messages';
+
+const IntroImg = styled.img`
+  max-width: 700px;
+  max-height: 45vh;
+`;
+// margin-top: -${({ theme }) => getHeaderHeight('small', theme)}px;
+const IntroSectionContainer = styled(p => (
+  <SectionContainer background="brand" justify="end" {...p} />
+))`
+  padding-bottom: ${({ theme }) => getHeaderHeight('small', theme)}px;
+  min-height: 100vh;
+  &:focus {
+    outline: none;
+  }
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    padding-bottom: ${({ theme }) => getHeaderHeight('medium', theme)}px;
+  }
+`;
+/* margin-top: -${({ theme }) => getHeaderHeight('medium', theme)}px; */
+
+const ButtonShortcut = styled(p => <ButtonText inverse {...p} />)`
+  /* font-weight: normal; */
+  font-size: ${({ theme }) => theme.text.xlarge.size};
+  text-decoration: none;
+  &:hover {
+    opacity: 1;
+  }
+`;
+// width: 180px;
+// text-align: center;
 
 const Title = styled.h1``;
 const SectionTitle = styled.h2`
@@ -40,125 +72,163 @@ const SearchWrapper = styled.div`
   margin: 20px auto;
 `;
 
-const Intro = styled(p => <Text size="large" {...p} />)``;
 const SectionIntro = styled(p => <Paragraph textAlign="center" {...p} />)``;
 const SectionIntroText = styled(p => <Text size="medium" {...p} />)``;
-// const DEPENDENCIES = ['countries'];
+
+const MetricSection = styled(p => (
+  <SectionContainer pad={{ bottom: 'xsmall' }} {...p} />
+))`
+  padding-top: ${({ theme }) => getHeaderHeight('small', theme)}px;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    padding-top: ${({ theme }) => getHeaderHeight('medium', theme)}px;
+  }
+`;
 
 export function PathHome({ intl }) {
-  // export function PathHome({ nav, intl }) {
-  // useInjectSaga({ key: 'app', saga });
-  // useEffect(() => {
-  //   // kick off loading of data
-  //   onLoadData();
-  // }, []);
-  // const { locale } = intl;
-  // <SectionIntro />
+  const sectionESR = useRef(null);
+  const sectionCPR = useRef(null);
+  const sectionVDEM = useRef(null);
+
   return (
     <ContentWrap>
-      <SectionContainer
-        background="brand"
-        pad={{ vertical: 'large' }}
-        align="center"
-        justify="center"
-      >
+      <IntroSectionContainer>
         <ContentMaxWidth stretch column align="center">
-          <Box align="center" justify="center" fill>
-            <img
-              src={all}
-              alt=""
-              style={{
-                maxWidth: '700px',
-              }}
-            />
+          <Box align="center" justify="center" fill="horizontal">
+            <IntroImg src={all} alt="" />
           </Box>
           <Title>
             <FormattedMessage {...messages.title} />
           </Title>
-          <Paragraph textAlign="center">
-            <Intro>
-              <FormattedMessage
-                {...messages.intro}
-                values={{
-                  linkRightsTracker: (
-                    <ButtonText
-                      as="a"
-                      target="_blank"
-                      href={intl.formatMessage(
-                        rootMessages.sources.urlRightsTracker,
-                      )}
-                      inverse
-                    >
-                      <FormattedMessage
-                        {...rootMessages.sources.anchorRightsTracker}
-                      />
-                    </ButtonText>
-                  ),
-                }}
-              />
-            </Intro>
+          <Paragraph textAlign="center" size="large">
+            <FormattedMessage
+              {...messages.intro}
+              values={{
+                linkRightsTracker: (
+                  <ButtonText
+                    as="a"
+                    target="_blank"
+                    href={intl.formatMessage(
+                      rootMessages.sources.urlRightsTracker,
+                    )}
+                    inverse
+                  >
+                    <FormattedMessage
+                      {...rootMessages.sources.anchorRightsTracker}
+                    />
+                  </ButtonText>
+                ),
+              }}
+            />
           </Paragraph>
-        </ContentMaxWidth>
-      </SectionContainer>
-      <SectionContainer pad={{ vertical: 'large' }}>
-        <ContentMaxWidth column>
-          <Box align="center">
-            <SectionTitle>
-              <FormattedMessage {...messages.titleESR} />
-            </SectionTitle>
-            <SectionIntro>
-              <SectionIntroText>
-                <FormattedMessage
-                  {...messages.introESR}
-                  values={{
-                    linkSERF: (
-                      <a
-                        target="_blank"
-                        href={intl.formatMessage(rootMessages.sources.urlSERF)}
-                      >
-                        <FormattedMessage
-                          {...rootMessages.sources.anchorSERF}
-                        />
-                      </a>
-                    ),
-                  }}
-                />
-              </SectionIntroText>
-            </SectionIntro>
+          <Box margin={{ top: 'large' }} align="center" gap="xsmall">
+            <Text size="medium">
+              <FormattedMessage {...messages.jumpToSection} />
+            </Text>
+            <Box direction="row" gap="ml">
+              <ButtonShortcut
+                onClick={() => {
+                  if (sectionESR && sectionESR.current)
+                    sectionESR.current.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <FormattedMessage {...messages.titleESR} />
+              </ButtonShortcut>
+              <ButtonShortcut
+                onClick={() => {
+                  if (sectionCPR && sectionCPR.current)
+                    sectionCPR.current.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <FormattedMessage {...messages.titleCPR} />
+              </ButtonShortcut>
+              <ButtonShortcut
+                onClick={() => {
+                  if (sectionVDEM && sectionVDEM.current)
+                    sectionVDEM.current.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <FormattedMessage {...messages.titleVDEM} />
+              </ButtonShortcut>
+            </Box>
           </Box>
-          <ChartContainerRightsMulti type="esr" />
-        </ContentMaxWidth>
-      </SectionContainer>
-      <SectionContainer pad={{ vertical: 'large' }}>
-        <ContentMaxWidth column>
-          <Box align="center">
-            <SectionTitle>
-              <FormattedMessage {...messages.titleCPR} />
-            </SectionTitle>
-            <SectionIntro>
-              <SectionIntroText>
-                <FormattedMessage {...messages.introCPR} />
-              </SectionIntroText>
-            </SectionIntro>
+          <Box margin={{ top: 'ms' }} align="center" gap="xsmall">
+            <Button
+              onClick={() => {
+                if (sectionESR && sectionESR.current)
+                  sectionESR.current.scrollIntoView({ behavior: 'smooth' });
+              }}
+              icon={<Down color="white" size="xxxlarge" />}
+            />
           </Box>
-          <ChartContainerRightsMulti type="cpr" />
         </ContentMaxWidth>
-      </SectionContainer>
-      <SectionContainer pad={{ vertical: 'large' }}>
-        <ContentMaxWidth column>
-          <Box align="center">
-            <SectionTitle>
-              <FormattedMessage {...messages.titleVDEM} />
-            </SectionTitle>
-            <SectionIntro>
-              <SectionIntroText>
-                <FormattedMessage {...messages.introVDEM} />
-              </SectionIntroText>
-            </SectionIntro>
-          </Box>
-          <ChartContainerRightsMulti type="vdem" />
-        </ContentMaxWidth>
-      </SectionContainer>
+      </IntroSectionContainer>
+      <div ref={sectionESR}>
+        <MetricSection>
+          <ContentMaxWidth column>
+            <Box align="center">
+              <SectionTitle>
+                <FormattedMessage {...messages.titleESR} />
+              </SectionTitle>
+              <SectionIntro>
+                <SectionIntroText>
+                  <FormattedMessage
+                    {...messages.introESR}
+                    values={{
+                      linkSERF: (
+                        <a
+                          target="_blank"
+                          href={intl.formatMessage(
+                            rootMessages.sources.urlSERF,
+                          )}
+                        >
+                          <FormattedMessage
+                            {...rootMessages.sources.anchorSERF}
+                          />
+                        </a>
+                      ),
+                    }}
+                  />
+                </SectionIntroText>
+              </SectionIntro>
+            </Box>
+            <ChartContainerRightsMulti type="esr" />
+          </ContentMaxWidth>
+        </MetricSection>
+      </div>
+      <div ref={sectionCPR}>
+        <MetricSection>
+          <ContentMaxWidth column>
+            <Box align="center">
+              <SectionTitle>
+                <FormattedMessage {...messages.titleCPR} />
+              </SectionTitle>
+              <SectionIntro>
+                <SectionIntroText>
+                  <FormattedMessage {...messages.introCPR} />
+                </SectionIntroText>
+              </SectionIntro>
+            </Box>
+            <ChartContainerRightsMulti type="cpr" />
+          </ContentMaxWidth>
+        </MetricSection>
+      </div>
+      <div ref={sectionVDEM}>
+        <MetricSection>
+          <ContentMaxWidth column>
+            <Box align="center">
+              <SectionTitle>
+                <FormattedMessage {...messages.titleVDEM} />
+              </SectionTitle>
+              <SectionIntro>
+                <SectionIntroText>
+                  <FormattedMessage {...messages.introVDEM} />
+                </SectionIntroText>
+              </SectionIntro>
+            </Box>
+            <ChartContainerRightsMulti type="vdem" />
+          </ContentMaxWidth>
+        </MetricSection>
+      </div>
       <SectionContainer background="brand">
         <ContentMaxWidth column>
           <SectionTitle color="white">

@@ -562,6 +562,7 @@
   "hrmi.containers.PathHome.introCPR": "Country scores for the seven civil and political rights are based on expert surveys conducted by HRMI among human rights experts for each country. Note that country coverage is still very limited and varies greatly between different UN regional groups.",
   "hrmi.containers.PathHome.introVDEM": "TODO Country scores for the seven civil and political rights are based on expert surveys conducted by HRMI among human rights experts for each country. Note that country coverage is still very limited and varies greatly between different UN regional groups.",
   "hrmi.containers.PathHome.countrySearchTitle": "Explore country profiles or metric",
+  "hrmi.containers.PathHome.jumpToSection": "Jump to metric group",
   "hrmi.containers.PathNotFoundPage.header": "Page not found.",
   "hrmi.containers.Search.allSearch": "Find country or metric",
   "hrmi.containers.Search.countrySearch": "Find country",
