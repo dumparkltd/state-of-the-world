@@ -103,13 +103,19 @@ function PlotDetailRegion({
               regionScores[region][COLUMNS.CPR.MEAN],
               80,
             );
-            console.log(
-              region,
-              'median   ',
-              getRegionData(regionScores[region][column]),
-            );
-            console.log(region, 'upper 80%', dataHigh);
-            console.log(region, 'lower 80%', dataLow);
+            // const dataMedian = getRegionData(regionScores[region][column]);
+            // console.log(
+            //   dataMedian.map((median, index) => {
+            //     return [
+            //       region,
+            //       median.syear,
+            //       median.y,
+            //       dataLow[index].y,
+            //       dataHigh[index].y,
+            //       median.count,
+            //     ].join();
+            //   }),
+            // );
             return [
               <AreaSeries
                 data={dataHigh}
