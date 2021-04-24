@@ -92,33 +92,44 @@ function PlotDetailRegion({
           .filter(
             region => region === highlightRegion || region === currentRegion,
           )
-          .map(region => [
-            <AreaSeries
-              data={getRegionDataHigh(
-                regionScores[region][COLUMNS.CPR.SD],
-                regionScores[region][COLUMNS.CPR.MEAN],
-                80,
-              )}
-              style={{
-                fill: theme.global.colors[region],
-                stroke: 'transparent',
-                opacity: 0.2,
-              }}
-            />,
-            <AreaSeries
-              data={getRegionDataLow(
-                regionScores[region][COLUMNS.CPR.SD],
-                regionScores[region][COLUMNS.CPR.MEAN],
-                80,
-              )}
-              style={{
-                fill: 'white',
-                stroke: 'white',
-                opacity: 1,
-                strokeWidth: 1,
-              }}
-            />,
-          ])}
+          .map(region => {
+            const dataHigh = getRegionDataHigh(
+              regionScores[region][COLUMNS.CPR.SD],
+              regionScores[region][COLUMNS.CPR.MEAN],
+              80,
+            );
+            const dataLow = getRegionDataLow(
+              regionScores[region][COLUMNS.CPR.SD],
+              regionScores[region][COLUMNS.CPR.MEAN],
+              80,
+            );
+            console.log(
+              region,
+              'median   ',
+              getRegionData(regionScores[region][column]),
+            );
+            console.log(region, 'upper 80%', dataHigh);
+            console.log(region, 'lower 80%', dataLow);
+            return [
+              <AreaSeries
+                data={dataHigh}
+                style={{
+                  fill: theme.global.colors[region],
+                  stroke: 'transparent',
+                  opacity: 0.2,
+                }}
+              />,
+              <AreaSeries
+                data={dataLow}
+                style={{
+                  fill: 'white',
+                  stroke: 'white',
+                  opacity: 1,
+                  strokeWidth: 1,
+                }}
+              />,
+            ];
+          })}
       {/* CPR highlighted country credible interval */}
       {metric.type === 'cpr' &&
         countriesScores &&
