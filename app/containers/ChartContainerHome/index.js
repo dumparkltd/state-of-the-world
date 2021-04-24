@@ -1,6 +1,6 @@
 /**
  *
- * ChartContainerRightsMulti
+ * ChartContainerHome
  *
  */
 
@@ -63,7 +63,7 @@ const getCardWidth = (width, number, theme) => {
 };
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
-export function ChartContainerRightsMulti({
+export function ChartContainerHome({
   type,
   onLoadData,
   rightsScores,
@@ -185,7 +185,7 @@ export function ChartContainerRightsMulti({
   );
 }
 
-ChartContainerRightsMulti.propTypes = {
+ChartContainerHome.propTypes = {
   type: PropTypes.string.isRequired,
   maxYear: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   minYear: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -275,4 +275,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withTheme(ChartContainerRightsMulti));
+export default compose(withConnect)(withTheme(ChartContainerHome));
