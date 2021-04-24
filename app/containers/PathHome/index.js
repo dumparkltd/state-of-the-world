@@ -33,14 +33,22 @@ import messages from './messages';
 
 const IntroImg = styled.img`
   max-width: 700px;
-  max-height: 45vh;
+  max-height: 40vh;
 `;
 // margin-top: -${({ theme }) => getHeaderHeight('small', theme)}px;
-const IntroSectionContainer = styled(p => (
-  <SectionContainer background="brand" justify="end" {...p} />
+// justify="evenly"
+const IntroUpper = styled(p => (
+  <ContentMaxWidth column align="center" justify="center" flex="grow" {...p} />
 ))`
-  padding-bottom: ${({ theme }) => getHeaderHeight('small', theme)}px;
+  padding-top: ${({ theme }) => theme.global.edgeSize.medium};
+`;
+
+const IntroSectionContainer = styled(p => (
+  <SectionContainer background="brand" align="center" fill="vertical" {...p} />
+))`
   min-height: 100vh;
+  padding-top: 0;
+  padding-bottom: ${({ theme }) => getHeaderHeight('small', theme)}px;
   &:focus {
     outline: none;
   }
@@ -92,10 +100,8 @@ export function PathHome({ intl }) {
   return (
     <ContentWrap>
       <IntroSectionContainer>
-        <ContentMaxWidth stretch column align="center">
-          <Box align="center" justify="center" fill="horizontal">
-            <IntroImg src={all} alt="" />
-          </Box>
+        <IntroUpper>
+          <IntroImg src={all} alt="" />
           <Title>
             <FormattedMessage {...messages.title} />
           </Title>
@@ -120,7 +126,9 @@ export function PathHome({ intl }) {
               }}
             />
           </Paragraph>
-          <Box margin={{ top: 'large' }} align="center" gap="xsmall">
+        </IntroUpper>
+        <ContentMaxWidth column flex={false}>
+          <Box margin={{ top: 'medium' }} align="center" gap="xsmall">
             <Text size="medium">
               <FormattedMessage {...messages.jumpToSection} />
             </Text>
@@ -144,14 +152,16 @@ export function PathHome({ intl }) {
               <ButtonShortcut
                 onClick={() => {
                   if (sectionVDEM && sectionVDEM.current)
-                    sectionVDEM.current.scrollIntoView({ behavior: 'smooth' });
+                    sectionVDEM.current.scrollIntoView({
+                      behavior: 'smooth',
+                    });
                 }}
               >
                 <FormattedMessage {...messages.titleVDEM} />
               </ButtonShortcut>
             </Box>
           </Box>
-          <Box margin={{ top: 'ms' }} align="center" gap="xsmall">
+          <Box margin={{ top: 'xxsmall' }} align="center" gap="xsmall">
             <Button
               onClick={() => {
                 if (sectionESR && sectionESR.current)
