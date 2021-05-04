@@ -34,17 +34,16 @@ import expressionInv from 'images/metrics/expression_invert.png';
 import participationInv from 'images/metrics/participation_invert.png';
 import torture from 'images/metrics/torture.png';
 import tortureInv from 'images/metrics/torture_invert.png';
-
-const edi = work;
-const ediInv = workInv;
-const ldi = work;
-const ldiInv = workInv;
-const ddi = work;
-const ddiInv = workInv;
-const pdi = work;
-const pdiInv = workInv;
-const egdi = work;
-const egdiInv = workInv;
+import edi from 'images/metrics/edi.png';
+import ediInv from 'images/metrics/edi_invert.png';
+import ldi from 'images/metrics/ldi.png';
+import ldiInv from 'images/metrics/ldi_invert.png';
+import ddi from 'images/metrics/ddi.png';
+import ddiInv from 'images/metrics/ddi_invert.png';
+import pdi from 'images/metrics/pdi.png';
+import pdiInv from 'images/metrics/pdi_invert.png';
+import egdi from 'images/metrics/egdi.png';
+import egdiInv from 'images/metrics/egdi_invert.png';
 
 export const CHECK_COOKIECONSENT = 'hrmi/App/CHECK_COOKIECONSENT';
 export const COOKIECONSENT_CHECKED = 'hrmi/App/COOKIECONSENT_CHECKED';
