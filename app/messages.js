@@ -351,6 +351,24 @@ export default defineMessages({
         defaultMessage: 'Score',
       },
     },
+    grades: {
+      poor: {
+        id: `${scope}.labels.grades.poor`,
+        defaultMessage: 'Very Bad',
+      },
+      bad: {
+        id: `${scope}.labels.grades.bad`,
+        defaultMessage: 'Bad',
+      },
+      fair: {
+        id: `${scope}.labels.grades.fair`,
+        defaultMessage: 'Fair',
+      },
+      good: {
+        id: `${scope}.labels.grades.good`,
+        defaultMessage: 'Good',
+      },
+    },
   },
   tabs: {
     snapshot: {
@@ -408,11 +426,44 @@ export default defineMessages({
     noteRegionalBiasESR: {
       id: `${scope}.charts.noteRegionalBiasESR`,
       defaultMessage:
+        'Note that country scores are based on the most recent indicator data available, possibly introducing a regional bias',
+    },
+    noteRegionalBiasESRWithLink: {
+      id: `${scope}.charts.noteRegionalBiasESRWithLink`,
+      defaultMessage:
         'Note that country scores are based on the most recent indicator data available, possibly introducing a regional bias ({link})',
     },
     noteRegionalBiasESRLink: {
       id: `${scope}.charts.noteRegionalBiasESRLink`,
       defaultMessage: 'click here for details',
+    },
+    gradesESR: {
+      id: `${scope}.charts.gradesESR`,
+      defaultMessage:
+        'Indicative ranges for interpreting economic and social rights scores (please refer to the Methodology page for details):',
+    },
+    gradesCPR: {
+      id: `${scope}.charts.gradesCPR`,
+      defaultMessage:
+        'Indicative ranges for interpreting civil and political rights scores (please refer to the Methodology page for details):',
+    },
+    gradesESRWithLink: {
+      id: `${scope}.charts.gradesESRWithLink`,
+      defaultMessage:
+        'Indicative ranges for interpreting economic and social rights scores:',
+    },
+    gradesCPRWithLink: {
+      id: `${scope}.charts.gradesCPRWithLink`,
+      defaultMessage:
+        'Indicative ranges for interpreting civil and political rights scores:',
+    },
+    gradeBracket: {
+      id: `${scope}.charts.gradeBracket`,
+      defaultMessage: '{grade}: {min} - {max}{unit}',
+    },
+    methodologyLink: {
+      id: `${scope}.charts.methodologyLink`,
+      defaultMessage: 'See the Methodology page for details',
     },
   },
   settings: {

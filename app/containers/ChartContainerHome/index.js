@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled, { withTheme } from 'styled-components';
 import { Box, ResponsiveContext, Text } from 'grommet';
 
-import { RIGHTS, PATHS } from 'containers/App/constants';
+import { RIGHTS, PATHS, GRADES } from 'containers/App/constants';
 
 import {
   getMinYearESR,
@@ -76,6 +76,7 @@ export function ChartContainerHome({
   theme,
   unRegionTotals,
   onSelectPage,
+  intl,
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
@@ -162,21 +163,80 @@ export function ChartContainerHome({
               </Box>
             )}
           </MultiCardWrapper>
-          {type === 'esr' && (
-            <Text size="xxsmall" color="dark">
-              <FormattedMessage
-                {...rootMessages.charts.noteRegionalBiasESR}
-                values={{
-                  link: (
-                    <ButtonText onClick={() => onSelectPage('methodology-esr')}>
-                      <FormattedMessage
-                        {...rootMessages.charts.noteRegionalBiasESRLink}
-                      />
-                    </ButtonText>
-                  ),
-                }}
-              />
-            </Text>
+          {(type === 'esr' || type === 'cpr') && (
+            <Box gap="xxsmall">
+              {type === 'cpr' && (
+                <Box gap="xsmall" direction="row">
+                  <Text size="xxsmall" textAlign="start">
+                    <FormattedMessage {...rootMessages.charts.gradesCPRWithLink} />
+                  </Text>
+                  {GRADES.cpr
+                    .sort((a, b) => (a.min > b.min ? 1 : -1))
+                    .map(g => (
+                      <Text size="xxsmall" textAlign="start" key={g.class}>
+                        <FormattedMessage
+                          {...rootMessages.charts.gradeBracket}
+                          values={{
+                            grade: intl.formatMessage(
+                              rootMessages.labels.grades[g.class],
+                            ),
+                            min: g.min,
+                            max: g.max,
+                            unit: '',
+                          }}
+                        />
+                      </Text>
+                    ))}
+                </Box>
+              )}
+              {type === 'esr' && (
+                <Box gap="xsmall" direction="row">
+                  <Text size="xxsmall" textAlign="start">
+                    <FormattedMessage {...rootMessages.charts.gradesESRWithLink} />
+                  </Text>
+                  {GRADES.esr
+                    .sort((a, b) => (a.min > b.min ? 1 : -1))
+                    .map(g => (
+                      <Text size="xxsmall" textAlign="start" key={g.class}>
+                        <FormattedMessage
+                          {...rootMessages.charts.gradeBracket}
+                          values={{
+                            grade: intl.formatMessage(
+                              rootMessages.labels.grades[g.class],
+                            ),
+                            min: g.min,
+                            max: g.max,
+                            unit: '%',
+                          }}
+                        />
+                      </Text>
+                    ))}
+                </Box>
+              )}
+              {type === 'esr' && (
+                <Text size="xxsmall" color="dark">
+                  <FormattedMessage {...rootMessages.charts.noteRegionalBiasESR} />
+                </Text>
+              )}
+              {type === 'esr' && (
+                <Text size="xxsmall" color="dark">
+                  <ButtonText onClick={() => onSelectPage('methodology-esr')}>
+                    <FormattedMessage
+                      {...rootMessages.charts.methodologyLink}
+                    />
+                  </ButtonText>
+                </Text>
+              )}
+              {type === 'cpr' && (
+                <Text size="xxsmall" color="dark">
+                  <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
+                    <FormattedMessage
+                      {...rootMessages.charts.methodologyLink}
+                    />
+                  </ButtonText>
+                </Text>
+              )}
+            </Box>
           )}
           <Source type={type} />
         </div>
@@ -198,6 +258,7 @@ ChartContainerHome.propTypes = {
   theme: PropTypes.object,
   unRegionFilterValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   unRegionTotals: PropTypes.object,
+  intl: intlShape.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -275,4 +336,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withTheme(ChartContainerHome));
+export default compose(withConnect)(withTheme(injectIntl(ChartContainerHome)));

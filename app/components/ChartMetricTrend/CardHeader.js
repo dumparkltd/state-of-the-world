@@ -11,8 +11,12 @@ import styled from 'styled-components';
 import { Text, Box } from 'grommet';
 
 import { getRegionYearScore } from 'utils/charts';
+
+import ChartNotes from 'components/ChartNotes';
 import Tooltip from 'components/Tooltip';
+
 import ButtonPlain from 'styled/ButtonPlain';
+
 import rootMessages from 'messages';
 import messages from './messages';
 
@@ -43,6 +47,7 @@ function CardHeader({
   mode,
   intl,
 }) {
+  console.log(mode);
   return (
     <Styled>
       <Box fill direction="row" justify="between" gap="small" align="start">
@@ -90,7 +95,7 @@ function CardHeader({
                   iconSize="small"
                   component={
                     <Box gap="small">
-                      <Text size="xsmall">
+                      <Text size="xsmall" weight={600}>
                         {metric.type === 'esr' && (
                           <FormattedMessage {...messages.infoESRintro} />
                         )}
@@ -112,6 +117,12 @@ function CardHeader({
                           <FormattedMessage {...messages.infoVDEMadditional} />
                         )}
                       </Text>
+                      <ChartNotes
+                        notes={{
+                          gradesESR: metric.type === 'esr',
+                          gradesCPR: metric.type === 'cpr',
+                        }}
+                      />
                     </Box>
                   }
                 />

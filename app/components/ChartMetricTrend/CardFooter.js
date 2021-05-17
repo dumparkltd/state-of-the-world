@@ -194,7 +194,7 @@ function CardFooter({
         <Hint>
           <Text size="xxsmall">
             <FormattedMessage
-              {...rootMessages.charts.noteRegionalBiasESR}
+              {...rootMessages.charts.noteRegionalBiasESRWithLink}
               values={{
                 link: (
                   <ButtonText onClick={() => onSelectPage('methodology-esr')}>

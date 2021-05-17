@@ -416,6 +416,53 @@ export const SCALES = [
   },
 ];
 
+export const GRADES = {
+  esr: [
+    {
+      class: 'poor',
+      min: 0,
+      max: 75,
+    },
+    {
+      class: 'bad',
+      min: 75,
+      max: 85,
+    },
+    {
+      class: 'fair',
+      min: 85,
+      max: 95,
+    },
+    {
+      class: 'good',
+      min: 95,
+      max: 100,
+    },
+  ],
+  cpr: [
+    {
+      class: 'poor',
+      min: 0,
+      max: 3.5,
+    },
+    {
+      class: 'bad',
+      min: 3.5,
+      max: 6,
+    },
+    {
+      class: 'fair',
+      min: 6,
+      max: 8,
+    },
+    {
+      class: 'good',
+      min: 8,
+      max: 10,
+    },
+  ],
+};
+
 export const TYPES = {
   esr: {
     key: 'esr',
@@ -686,4 +733,4 @@ export const INDICATORS = [
 ];
 
 export const COOKIECONSENT_NAME = 'state-of-the-world-cookie-consent-status';
-export const GA_PROPERTY_ID = 'XXX-TODO-XXX';
+export const GA_PROPERTY_ID = 'G-20Q2EMMHCK';
