@@ -124,8 +124,8 @@ module.exports = require('./webpack.base.babel')({
     }),
 
     new WebpackPwaManifest({
-      name: 'HRMI Data Portal',
-      short_name: 'HRMI',
+      name: 'State of the World',
+      short_name: 'State of the World',
       description: '',
       background_color: '#fff',
       theme_color: '#ffffff',
@@ -133,11 +133,11 @@ module.exports = require('./webpack.base.babel')({
       ios: true,
       icons: [
         {
-          src: path.resolve('app/images/icon-512x512.png'),
-          sizes: [72, 96, 128, 144, 192, 384, 512],
+          src: path.resolve('app/images/android-chrome-256x256.png'),
+          sizes: [72, 96, 128, 144, 192, 256],
         },
         {
-          src: path.resolve('app/images/icon-512x512.png'),
+          src: path.resolve('app/images/android-chrome-256x256.png'),
           sizes: [120, 152, 167, 180],
           ios: true,
         },
