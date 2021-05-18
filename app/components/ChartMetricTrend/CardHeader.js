@@ -47,7 +47,7 @@ function CardHeader({
   mode,
   intl,
 }) {
-  console.log(mode);
+  // console.log(mode)
   return (
     <Styled>
       <Box fill direction="row" justify="between" gap="small" align="start">
