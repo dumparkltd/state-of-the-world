@@ -58,10 +58,11 @@ export function setGAinitialised(status) {
     status,
   };
 }
-export function trackEvent(gaEvent) {
+export function trackEvent(gaEvent, name) {
   return {
     type: TRACK_EVENT,
     gaEvent,
+    name,
   };
 }
 /**

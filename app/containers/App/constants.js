@@ -733,4 +733,5 @@ export const INDICATORS = [
 ];
 
 export const COOKIECONSENT_NAME = 'state-of-the-world-cookie-consent-status';
-export const GA_PROPERTY_ID = 'G-20Q2EMMHCK';
+export const GA_PROPERTY_ID = 'G-ND03JE80RW';
+export const GA_COOKIE_ID = '_ga_ND03JE80RW';

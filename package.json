@@ -1,10 +1,10 @@
 {
-  "name": "hrmi-dataportal",
+  "name": "state-of-the-world",
   "version": "3.1.0",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/HumanRightsMeasurement/hrmi-dataportal"
+    "url": "git://github.com/dumparkltd/state-of-the-world"
   },
   "engines": {
     "npm": ">=5",
@@ -77,6 +77,7 @@
     "d3-time-format": "^2.2.3",
     "express": "4.16.4",
     "fontfaceobserver": "2.1.0",
+    "ga-4-react": "^0.1.281",
     "grommet": "^2.13.0",
     "grommet-icons": "^4.4.0",
     "history": "4.9.0",
@@ -91,7 +92,6 @@
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-ga": "^2.7.0",
     "react-helmet": "6.0.0-beta",
     "react-intl": "2.8.0",
     "react-multi-carousel": "^2.5.5",

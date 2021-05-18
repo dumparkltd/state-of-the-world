@@ -1,9 +1,11 @@
 import { takeEvery, takeLatest, select, put, call } from 'redux-saga/effects';
-import { push, replace, LOCATION_CHANGE } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 import { csvParse } from 'd3-dsv';
 import extend from 'lodash/extend';
 import Cookies from 'js-cookie';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
+// import TagManager from 'react-gtm-module';
+import GA4React from 'ga-4-react';
 import 'whatwg-fetch';
 import 'url-search-params-polyfill';
 
@@ -60,11 +62,14 @@ import {
   SET_COOKIECONSENT,
   COOKIECONSENT_CHECKED,
   GA_PROPERTY_ID,
+  GA_COOKIE_ID,
   TRACK_EVENT,
   PATHS,
 } from './constants';
 
 const MAX_LOAD_ATTEMPTS = 5;
+
+const ga4react = new GA4React(GA_PROPERTY_ID);
 
 /**
  * Generator function. Function for restarting sagas multiple times before giving up and calling the error handler.
@@ -391,17 +396,28 @@ export function* setCookieConsentSaga({ status }) {
 }
 // status = consentStatus
 export function* initialiseAnalyticsSaga({ status }) {
-  // console.log('Initialise Google Analytics?', status);
+  console.log('Initialise Google Analytics?', status);
   if (status === 'true') {
     const initialisedGA = yield select(getGAStatus);
-    // console.log('Already initialised? ', initialisedGA);
+    console.log('Already initialised? ', initialisedGA);
     if (!initialisedGA) {
-      ReactGA.initialize(GA_PROPERTY_ID, { debug: false, titleCase: false });
-      ReactGA.set({ anonymizeIp: true });
+      // TagManager.initialize({ gtmId: GA_PROPERTY_ID }); // , { debug: false, titleCase: false });
+      // ReactGA.set({ anonymizeIp: true });
+      // console.log('initialize ga4react')
+      yield ga4react.initialize();
+      // .then(
+      //   ga4 => {
+      //     ga4.pageview('path');
+      //     ga4.gtag('event', 'pageview', 'path'); // or your custom gtag event
+      //   },
+      //   err => {
+      //     console.error(err)
+      //   },
+      // );
       yield put(setGAinitialised(true));
-      const initialPage = yield select(getRouterPath);
+      // const initialPage = yield select(getRouterPath);
       const currentLocation = yield select(getRouterLocation);
-      ReactGA.pageview(initialPage);
+      // ReactGA.pageview(initialPage);
       yield put(
         trackEvent({
           category: 'Analytics',
@@ -412,25 +428,30 @@ export function* initialiseAnalyticsSaga({ status }) {
     }
   } else if (status === 'false') {
     Cookies.remove('_ga', { path: '/', domain: window.location.hostname });
+    Cookies.remove(GA_COOKIE_ID, {
+      path: '/',
+      domain: window.location.hostname,
+    });
     Cookies.remove('_gat', { path: '/', domain: window.location.hostname });
     Cookies.remove('_gid', { path: '/', domain: window.location.hostname });
   }
 }
 
-export function* trackPageviewSaga({ payload }) {
-  const initialisedGA = yield select(getGAStatus);
-  const consentStatus = Cookies.get(COOKIECONSENT_NAME);
-  if (consentStatus === 'true' && initialisedGA && !payload.isFirstRendering) {
-    ReactGA.pageview(`${payload.location.pathname}${payload.location.search}`);
-  }
-}
+// export function* trackPageviewSaga({ payload }) {
+//   const initialisedGA = yield select(getGAStatus);
+//   const consentStatus = Cookies.get(COOKIECONSENT_NAME);
+//   if (consentStatus === 'true' && initialisedGA && !payload.isFirstRendering) {
+//     // ReactGA.pageview(`${payload.location.pathname}${payload.location.search}`);
+//   }
+// }
 
-export function* trackEventSaga({ gaEvent }) {
+export function* trackEventSaga({ gaEvent, name }) {
   const initialisedGA = yield select(getGAStatus);
   const currentLocation = yield select(getRouterLocation);
   const consentStatus = Cookies.get(COOKIECONSENT_NAME);
-  if (consentStatus === 'true' && initialisedGA) {
-    ReactGA.event({
+  if (consentStatus === 'true' && initialisedGA && gaEvent) {
+    console.log('event', name || gaEvent.category, gaEvent);
+    ga4react.gtag('event', name || gaEvent.category, {
       category: gaEvent.category,
       action:
         typeof gaEvent.value !== 'undefined'
@@ -459,6 +480,6 @@ export default function* defaultSaga() {
   yield takeLatest(CHECK_COOKIECONSENT, checkCookieConsentSaga);
   yield takeLatest(SET_COOKIECONSENT, setCookieConsentSaga);
   yield takeLatest(COOKIECONSENT_CHECKED, initialiseAnalyticsSaga);
-  yield takeLatest(LOCATION_CHANGE, trackPageviewSaga);
+  // yield takeLatest(LOCATION_CHANGE, trackPageviewSaga);
   yield takeLatest(TRACK_EVENT, trackEventSaga);
 }
