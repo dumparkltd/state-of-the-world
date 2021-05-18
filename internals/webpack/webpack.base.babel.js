@@ -69,25 +69,27 @@ module.exports = options => ({
             },
           },
           {
-            loader: 'image-webpack-loader',
+            loader: 'img-loader',
             options: {
-              mozjpeg: {
-                enabled: false,
-                // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
-                // Try enabling it in your environment by switching the config to:
-                // enabled: true,
-                // progressive: true,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              optipng: {
-                optimizationLevel: 7,
-              },
-              pngquant: {
-                quality: '65-90',
-                speed: 4,
-              },
+              // plugins: [
+              //   require('imagemin-gifsicle')({
+              //     interlaced: false
+              //   }),
+              //   require('imagemin-mozjpeg')({
+              //     progressive: true,
+              //     arithmetic: false,
+              //   }),
+              //   require('imagemin-pngquant') ({
+              //     floyd: 0.5,
+              //     speed: 2
+              //   }),
+              //   require('imagemin-svgo') ({
+              //     plugins: [
+              //       { removeTitle: true },
+              //       { convertPathData: false },
+              //     ],
+              //   })
+              // ],
             },
           },
         ],
