@@ -61,8 +61,30 @@ const Styled = styled.header`
 const Title = styled.span`
   font-size: 20px;
   font-weight: bold;
-  color: ${({ theme }) => theme.global.colors.world};
+  color: ${({ theme }) => theme.global.colors.brand};
   text-transform: uppercase;
+  position: relative;
+`;
+const Claim = styled.span`
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.global.colors.brand};
+  text-transform: uppercase;
+`;
+
+const Beta = styled.span`
+  font-size: 12px;
+  line-height: 12px;
+  background-color: ${({ theme }) => theme.global.colors.secondary};
+  color: ${({ theme }) => theme.global.colors.white};
+  text-transform: none;
+  padding: 1px 5px;
+  border-radius: 4px;
+  position: absolute;
+  left: 100%;
+  top: 1px;
+  margin-left: 4px;
 `;
 
 const NavBarTop = props => (
@@ -239,9 +261,15 @@ export function Header({
                         fit="contain"
                       />
                     </LogoWrap>
-                    <Title>
-                      <FormattedMessage {...rootMessages.app.title} />
-                    </Title>
+                    <Box>
+                      <Title>
+                        <FormattedMessage {...rootMessages.app.title} />
+                        <Beta>beta</Beta>
+                      </Title>
+                      <Claim>
+                        <FormattedMessage {...rootMessages.app.claim} />
+                      </Claim>
+                    </Box>
                   </BrandInner>
                 </BrandButton>
                 {isMaxSize(size, 'sm') && appLocales.length > 1 && (

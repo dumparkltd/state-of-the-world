@@ -10,7 +10,7 @@ export const SIZES = {
     padRight: 0,
     padBottom: 0,
     padTopBottom: 10,
-    brandWidth: 230,
+    brandWidth: 400,
     logoWidth: 72,
     small: {
       height: 72,
@@ -193,7 +193,7 @@ const theme = {
       'dark-5': '#BBBBBB', // AA large
       dark: '#555555', // empowerment',
       darker: '#111111', // empowerment',
-      secondary: '#757575',
+      secondary: '#8996A0',
       disabled: '#8896A0',
       hint: '#333333',
       brand: '#0077B3',
