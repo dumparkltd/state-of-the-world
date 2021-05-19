@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "state-of-the-world",
+    "default": "state-of-the-world-prod",
     "dev": "state-of-the-world-dev"
   }
 }
