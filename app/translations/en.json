@@ -495,7 +495,7 @@
   "hrmi.containers.AboutCountryContainer.index_rsf_score": "{score}/100",
   "hrmi.containers.AboutCountryContainer.index_rsf_source": "Reporters Without Borders",
   "hrmi.containers.AboutCountryContainer.index_ti": "Corruption Perception Index",
-  "hrmi.containers.AboutCountryContainer.index_ti_hint": "Smaller scores are better",
+  "hrmi.containers.AboutCountryContainer.index_ti_hint": "Higher scores are better",
   "hrmi.containers.AboutCountryContainer.index_ti_link": "https://www.transparency.org/en/cpi",
   "hrmi.containers.AboutCountryContainer.index_ti_score": "{score}/100",
   "hrmi.containers.AboutCountryContainer.index_ti_source": "Transparency International",
