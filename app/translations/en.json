@@ -580,7 +580,7 @@
   "hrmi.containers.LocaleToggle.language": "Language: ",
   "hrmi.containers.PathCountry.supTitle": "Country Profile",
   "hrmi.containers.PathHome.title": "What is the state of human rights and democracy around the world?",
-  "hrmi.containers.PathHome.intro": "What is the state of human rights and democracy around the world? Explore how states are doing in upholding their obligations to respect, protect and promote 5 economic and social rights, 7 civil and political rights, and 5 high-level principles of democracy",
+  "hrmi.containers.PathHome.intro": "Explore how states are doing in upholding their obligations to respect, protect and promote 5 economic and social rights, 7 civil and political rights, and 5 high-level principles of democracy",
   "hrmi.containers.PathHome.titleESR": "Economic and social rights",
   "hrmi.containers.PathHome.titleCPR": "Civil and political rights",
   "hrmi.containers.PathHome.titleVDEM": "Democracy",
