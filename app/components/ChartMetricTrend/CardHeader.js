@@ -56,9 +56,14 @@ function CardHeader({
             <Box direction="row" gap="small" align="center">
               <MetricIcon src={metric.iconInv} alt="" color={currentRegion} />
               <Text size="large" weight={600} color={currentRegion}>
-                <FormattedMessage
-                  {...rootMessages['rights-short'][metric.key]}
-                />
+                {metric.type === 'esr' && (
+                  <FormattedMessage {...rootMessages.rights[metric.key]} />
+                )}
+                {metric.type !== 'esr' && (
+                  <FormattedMessage
+                    {...rootMessages['rights-short'][metric.key]}
+                  />
+                )}
               </Text>
             </Box>
           </ButtonTitle>
