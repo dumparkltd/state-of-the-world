@@ -29,8 +29,8 @@ import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
-// import '!file-loader?name=[name].[ext]!./images/hrmi-og.png';
-// import '!file-loader?name=[name].[ext]!./images/hrmi-twitter.png';
+import '!file-loader?name=[name].[ext]!./images/sotw-og.png';
+import '!file-loader?name=[name].[ext]!./images/sotw-twitter.png';
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import '!file-loader?name=[name].[ext]!./images/browserconfig.xml';
 import '!file-loader?name=[name].[ext]!./images/mstile-150x150.png';
