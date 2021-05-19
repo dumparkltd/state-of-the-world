@@ -265,7 +265,7 @@ function AboutCountryContainer({
   }, [countryCode]);
 
   if (!country) return null;
-  console.log(country[COLUMNS.COUNTRIES.RSF]);
+
   const incomeCode =
     country[COLUMNS.COUNTRIES.HIGH_INCOME] === '1' ? 'hi' : 'lmi';
   const vdemCode =
