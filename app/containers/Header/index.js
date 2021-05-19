@@ -193,7 +193,7 @@ const navButtonOnClick = ({ match, onClick, align }) =>
           onClick={() => onClick(page.key)}
         >
           <TextWrap>
-            <FormattedMessage {...rootMessages.page[page.key]} />
+            <FormattedMessage {...rootMessages.pageMenu[page.key]} />
           </TextWrap>
         </ButtonNavPrimary>
       );

@@ -537,6 +537,36 @@ export default defineMessages({
       defaultMessage: 'Privacy policy',
     },
   },
+  pageMenu: {
+    about: {
+      id: `${scope}.pageMenu.about`,
+      defaultMessage: 'About',
+    },
+    methodology: {
+      id: `${scope}.pageMenu.methodology`,
+      defaultMessage: 'Methodology',
+    },
+    'methodology-esr': {
+      id: `${scope}.pageMenu.methodology-esr`,
+      defaultMessage: 'Economic and social rights',
+    },
+    'methodology-cpr': {
+      id: `${scope}.pageMenu.methodology-cpr`,
+      defaultMessage: 'Civil and political rights',
+    },
+    'methodology-vdem': {
+      id: `${scope}.pageMenu.methodology-vdem`,
+      defaultMessage: 'Democracy metrics',
+    },
+    'methodology-other': {
+      id: `${scope}.pageMenu.methodology-other`,
+      defaultMessage: 'Other data',
+    },
+    privacy: {
+      id: `${scope}.pageMenu.privacy`,
+      defaultMessage: 'Privacy policy',
+    },
+  },
   rightsTypes: {
     cpr: {
       id: `${scope}.rightsTypes.cpr`,
