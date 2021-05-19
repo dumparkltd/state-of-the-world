@@ -991,6 +991,42 @@ export default defineMessages({
       defaultMessage: 'Liberal democracy',
     },
   },
+  eiuClass: {
+    '0': {
+      id: `${scope}.eiuClass.0`,
+      defaultMessage: 'eiuClass',
+    },
+    '1': {
+      id: `${scope}.eiuClass.1`,
+      defaultMessage: 'eiuClass',
+    },
+    '2': {
+      id: `${scope}.eiuClass.2`,
+      defaultMessage: 'eiuClass',
+    },
+    '3': {
+      id: `${scope}.eiuClass.3`,
+      defaultMessage: 'eiuClass',
+    },
+  },
+  eiuClassInfo: {
+    '0': {
+      id: `${scope}.eiuClassInfo.0`,
+      defaultMessage: 'eiuClassInfo',
+    },
+    '1': {
+      id: `${scope}.eiuClassInfo.1`,
+      defaultMessage: 'eiuClassInfo',
+    },
+    '2': {
+      id: `${scope}.eiuClassInfo.2`,
+      defaultMessage: 'eiuClassInfo',
+    },
+    '3': {
+      id: `${scope}.eiuClassInfo.3`,
+      defaultMessage: 'eiuClassInfo',
+    },
+  },
   countries: {
     ABW: {
       id: `${scope}.countries.ABW`,

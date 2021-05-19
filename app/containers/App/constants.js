@@ -155,7 +155,7 @@ export const COLUMNS = {
     GROUPS: 'group_codes',
     GOV_RESPONDENTS: 'gov_respondents',
     VDEM_CLASS: 'vdem-class',
-    EUI_CLASS: 'eui-class',
+    EIU_CLASS: 'eiu-class',
   },
   HRC_TERMS: {
     ID: 'term_id',

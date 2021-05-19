@@ -241,7 +241,6 @@ function AboutCountryContainer({
   intl,
   country,
   currentGDP,
-  pppGDP,
   population,
   onCountryClick,
   showFAQs,
@@ -266,14 +265,17 @@ function AboutCountryContainer({
   }, [countryCode]);
 
   if (!country) return null;
+  console.log(country[COLUMNS.COUNTRIES.RSF]);
   const incomeCode =
     country[COLUMNS.COUNTRIES.HIGH_INCOME] === '1' ? 'hi' : 'lmi';
   const vdemCode =
     country[COLUMNS.COUNTRIES.VDEM_CLASS] &&
     country[COLUMNS.COUNTRIES.VDEM_CLASS].toString();
+  const eiuCode =
+    country[COLUMNS.COUNTRIES.EIU_CLASS] &&
+    country[COLUMNS.COUNTRIES.EIU_CLASS].toString();
   const hasCurrentGDP =
     currentGDP && currentGDP.value && currentGDP.value !== '';
-  const hasPPPGDP = pppGDP && pppGDP.value && pppGDP.value !== '';
   const hasPopulation =
     population && population.value && population.value !== '';
 
@@ -383,7 +385,7 @@ function AboutCountryContainer({
             </Box>
           </DetailBox>
         )}
-        {(hasCurrentGDP || hasPPPGDP) && (
+        {hasCurrentGDP && (
           <DetailBox>
             <Box>
               <Label>
@@ -391,42 +393,16 @@ function AboutCountryContainer({
               </Label>
             </Box>
             {hasCurrentGDP && (
-              <Box direction="row" align="center">
-                <Text size="small">
-                  <FormattedMessage
-                    {...messages.gdpValue}
-                    values={{
-                      value: intl.formatNumber(roundScore(currentGDP.value, 0)),
-                      year: currentGDP.year,
-                      hint: intl.formatMessage(messages.gdpHint),
-                    }}
-                  />
-                </Text>
-                <Tooltip
-                  iconSize="small"
-                  text={intl.formatMessage(messages.gdpTooltip)}
-                  inAside={inAside}
+              <Text size="small">
+                <FormattedMessage
+                  {...messages.gdpValue}
+                  values={{
+                    value: intl.formatNumber(roundScore(currentGDP.value, 0)),
+                    year: currentGDP.year,
+                    hint: intl.formatMessage(messages.gdpHint),
+                  }}
                 />
-              </Box>
-            )}
-            {hasPPPGDP && (
-              <Box direction="row" align="center">
-                <Text size="small">
-                  <FormattedMessage
-                    {...messages.gdpValue}
-                    values={{
-                      value: intl.formatNumber(roundScore(pppGDP.value, 0)),
-                      year: pppGDP.year,
-                      hint: intl.formatMessage(messages.gdpHintPPP),
-                    }}
-                  />
-                </Text>
-                <Tooltip
-                  iconSize="small"
-                  text={intl.formatMessage(messages.gdpTooltipPPP)}
-                  inAside={inAside}
-                />
-              </Box>
+              </Text>
             )}
           </DetailBox>
         )}
@@ -455,8 +431,45 @@ function AboutCountryContainer({
               </Value>
               <Tooltip
                 iconSize="small"
+                large
                 component={
-                  <FormattedMarkdown {...rootMessages.vdemClassInfo[vdemCode]} />
+                  <Box margin={{ vertical: 'xsmall' }}>
+                    <FormattedMarkdown {...rootMessages.vdemClassInfo[vdemCode]} />
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_label_source} />
+                      {` `}
+                      <FormattedMessage {...rootMessages.sources.anchorVDEM} />
+                    </Value>
+                  </Box>
+                }
+                inAside={inAside}
+              />
+            </Box>
+          </DetailBox>
+        )}
+        {eiuCode && (
+          <DetailBox>
+            <Box>
+              <Label>
+                <FormattedMessage {...messages.eiuClass} />
+              </Label>
+            </Box>
+            <Box direction="row" align="center">
+              <Value>
+                <FormattedMessage {...rootMessages.eiuClass[eiuCode]} />
+              </Value>
+              <Tooltip
+                iconSize="small"
+                large
+                component={
+                  <Box margin={{ vertical: 'xsmall' }}>
+                    <FormattedMarkdown {...rootMessages.eiuClassInfo[eiuCode]} />
+                    <Value size="xsmall">
+                      <FormattedMessage {...messages.index_label_source} />
+                      {` `}
+                      <FormattedMessage {...messages.index_eiu_source} />
+                    </Value>
+                  </Box>
                 }
                 inAside={inAside}
               />

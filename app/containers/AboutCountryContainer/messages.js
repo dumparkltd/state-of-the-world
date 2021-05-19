@@ -103,6 +103,10 @@ export default defineMessages({
     id: `${scope}.vdemClass`,
     defaultMessage: 'V-Dem regime type',
   },
+  eiuClass: {
+    id: `${scope}.eiuClass`,
+    defaultMessage: 'EIU regime type',
+  },
   index_label_source: {
     id: `${scope}.index_label_source`,
     defaultMessage: 'Source: ',
