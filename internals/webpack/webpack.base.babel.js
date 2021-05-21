@@ -59,7 +59,7 @@ module.exports = options => ({
         ],
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.png$/,
         use: [
           {
             loader: 'url-loader',
@@ -70,27 +70,24 @@ module.exports = options => ({
           },
           {
             loader: 'img-loader',
-            options: {
-              // plugins: [
-              //   require('imagemin-gifsicle')({
-              //     interlaced: false
-              //   }),
-              //   require('imagemin-mozjpeg')({
-              //     progressive: true,
-              //     arithmetic: false,
-              //   }),
-              //   require('imagemin-pngquant') ({
-              //     floyd: 0.5,
-              //     speed: 2
-              //   }),
-              //   require('imagemin-svgo') ({
-              //     plugins: [
-              //       { removeTitle: true },
-              //       { convertPathData: false },
-              //     ],
-              //   })
-              // ],
-            },
+            // options: {
+            //   plugins: [
+            //     // imageminPngquant(),
+            //     // require('imagemin-gifsicle')({
+            //     //   interlaced: false
+            //     // }),
+            //     // require('imagemin-mozjpeg')({
+            //     //   progressive: true,
+            //     //   arithmetic: false,
+            //     // }),
+            //     // require('imagemin-svgo') ({
+            //     //   plugins: [
+            //     //     { removeTitle: true },
+            //     //     { convertPathData: false },
+            //     //   ],
+            //     // })
+            //   ],
+            // },
           },
         ],
       },
