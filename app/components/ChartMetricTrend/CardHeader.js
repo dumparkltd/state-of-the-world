@@ -47,37 +47,21 @@ function CardHeader({
   mode,
   intl,
 }) {
-  // console.log(mode)
   return (
     <Styled>
-      <Box fill direction="row" justify="between" gap="small" align="start">
-        <Box>
-          <ButtonTitle color={currentRegion} onClick={() => onSelectMetric()}>
-            <Box direction="row" gap="small" align="center">
-              <MetricIcon src={metric.iconInv} alt="" color={currentRegion} />
-              <Text size="large" weight={600} color={currentRegion}>
-                {metric.type === 'esr' && (
-                  <FormattedMessage {...rootMessages.rights[metric.key]} />
-                )}
-                {metric.type !== 'esr' && (
-                  <FormattedMessage
-                    {...rootMessages['rights-short'][metric.key]}
-                  />
-                )}
-              </Text>
-            </Box>
-          </ButtonTitle>
-        </Box>
-        {mode === 'multi-region' && (
-          <Box flex={{ shrink: 0 }}>
-            <Box align="end" gap="xxsmall">
-              <Text size="large" weight={700} color={currentRegion}>
-                {getRegionYearScore(
-                  year,
-                  regionScores[currentRegion][column],
-                  metric.type,
-                  intl,
-                )}
+      <Box direction="row" gap="small" align="center" fill="horizontal">
+        <MetricIcon src={metric.iconInv} alt="" color={currentRegion} />
+        <Box gap="xxsmall" fill>
+          {mode === 'multi-region' && (
+            <Box
+              fill
+              direction="row"
+              justify="between"
+              gap="small"
+              align="start"
+            >
+              <Text size="xxsmall" color="secondary">
+                <FormattedMessage {...rootMessages.un_regions[currentRegion]} />
               </Text>
               <Box direction="row" gap="xxsmall">
                 <Text size="xxsmall">
@@ -133,8 +117,34 @@ function CardHeader({
                 />
               </Box>
             </Box>
+          )}
+          <Box fill direction="row" justify="between" gap="small" align="start">
+            <ButtonTitle color={currentRegion} onClick={() => onSelectMetric()}>
+              <Text size="large" weight={600} color={currentRegion}>
+                {metric.type === 'esr' && (
+                  <FormattedMessage {...rootMessages.rights[metric.key]} />
+                )}
+                {metric.type !== 'esr' && (
+                  <FormattedMessage
+                    {...rootMessages['rights-short'][metric.key]}
+                  />
+                )}
+              </Text>
+            </ButtonTitle>
+            {mode === 'multi-region' && (
+              <Box flex={{ shrink: 0 }}>
+                <Text size="large" weight={700} color={currentRegion}>
+                  {getRegionYearScore(
+                    year,
+                    regionScores[currentRegion][column],
+                    metric.type,
+                    intl,
+                  )}
+                </Text>
+              </Box>
+            )}
           </Box>
-        )}
+        </Box>
       </Box>
     </Styled>
   );
