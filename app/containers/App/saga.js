@@ -396,10 +396,10 @@ export function* setCookieConsentSaga({ status }) {
 }
 // status = consentStatus
 export function* initialiseAnalyticsSaga({ status }) {
-  console.log('Initialise Google Analytics?', status);
+  // console.log('Initialise Google Analytics?', status);
   if (status === 'true') {
     const initialisedGA = yield select(getGAStatus);
-    console.log('Already initialised? ', initialisedGA);
+    // console.log('Already initialised? ', initialisedGA);
     if (!initialisedGA) {
       // TagManager.initialize({ gtmId: GA_PROPERTY_ID }); // , { debug: false, titleCase: false });
       // ReactGA.set({ anonymizeIp: true });
@@ -450,7 +450,7 @@ export function* trackEventSaga({ gaEvent, name }) {
   const currentLocation = yield select(getRouterLocation);
   const consentStatus = Cookies.get(COOKIECONSENT_NAME);
   if (consentStatus === 'true' && initialisedGA && gaEvent) {
-    console.log('event', name || gaEvent.category, gaEvent);
+    // console.log('event', name || gaEvent.category, gaEvent);
     ga4react.gtag('event', name || gaEvent.category, {
       category: gaEvent.category,
       action:
