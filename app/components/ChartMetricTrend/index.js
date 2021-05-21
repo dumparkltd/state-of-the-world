@@ -96,15 +96,16 @@ function ChartMetricTrend({
                 </Text>
               </Box>
             )}
-            {(mode === 'multi-region' || mode === 'multi-country') &&
-              currentRegion && (
+            {(mode === 'multi-region' || mode === 'multi-country') && (
               <CardHeader
                 onSelectMetric={onSelectMetric}
                 regionScores={regionScores}
                 year={year}
                 column={column}
                 metric={metric}
-                currentRegion={currentRegion === 'all' ? 'world' : currentRegion}
+                currentRegion={
+                  currentRegion === 'all' ? 'world' : (currentRegion || 'world')
+                }
                 mode={mode}
               />
             )}
@@ -178,7 +179,7 @@ function ChartMetricTrend({
                 year={year}
                 column={column}
                 metric={metric}
-                currentRegion={currentRegion}
+                currentRegion={currentRegion || 'world'}
                 setYear={setYear}
                 tickValuesX={tickValuesX}
                 tickValuesY={tickValuesY}
@@ -191,7 +192,7 @@ function ChartMetricTrend({
               countryScores={scores.country}
               year={year}
               column={column}
-              currentRegion={currentRegion}
+              currentRegion={currentRegion || 'world'}
               regionTotals={unRegionTotals}
               type={metric.type}
               onSelectMetric={onSelectMetric}
