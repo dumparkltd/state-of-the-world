@@ -53,6 +53,7 @@ function PlotDetailRegion({
   tickValuesY,
   dataForceYRange,
   onSetRegionFilter,
+  activeCountry,
 }) {
   return (
     <FlexibleWidthXYPlot
@@ -68,8 +69,8 @@ function PlotDetailRegion({
         cursor: highlightRegion || highlightCountry ? 'pointer' : 'default',
       }}
       onMouseLeave={() => {
-        setRegion(false);
-        setCountry(false);
+        setRegion(null);
+        setCountry(null);
       }}
       onClick={() => {
         if (highlightCountry) {
@@ -257,10 +258,10 @@ function PlotDetailRegion({
         tickValues={tickValuesY}
         tickPadding={2}
       />
-      {/* all country lines except when highlighted */}
+      {/* all country lines except when highlighted or active */}
       {countriesScores &&
         Object.keys(countriesScores)
-          .filter(c => c !== highlightCountry)
+          .filter(c => c !== highlightCountry && c !== activeCountry)
           .map(country => (
             <LineSeries
               key={country}
@@ -271,7 +272,7 @@ function PlotDetailRegion({
               }}
               onSeriesMouseOver={() => {
                 setCountry(country);
-                setRegion(false);
+                setRegion(null);
               }}
             />
           ))}
@@ -326,6 +327,37 @@ function PlotDetailRegion({
               />
             );
           })}
+      {/* active country line */}
+      {countriesScores &&
+        activeCountry &&
+        currentRegion &&
+        Object.keys(countriesScores)
+          .filter(c => c === activeCountry)
+          .map(country => (
+            <LineSeries
+              key={country}
+              data={getCountryData(countriesScores[country][column])}
+              style={{
+                stroke: theme.global.colors[currentRegion],
+                strokeWidth: 1,
+              }}
+            />
+          ))}
+      {/* highlighted country marker */}
+      {countriesScores &&
+        activeCountry &&
+        currentRegion &&
+        Object.keys(countriesScores)
+          .filter(c => c === activeCountry)
+          .map(country => (
+            <MarkSeries
+              key={country}
+              data={getCountryYearData(year, countriesScores[country][column])}
+              stroke={theme.global.colors[currentRegion]}
+              fill={theme.global.colors[currentRegion]}
+              size={3}
+            />
+          ))}
       {/* highlighted country line */}
       {countriesScores &&
         highlightCountry &&
@@ -379,6 +411,7 @@ PlotDetailRegion.propTypes = {
   year: PropTypes.string,
   column: PropTypes.string,
   height: PropTypes.number,
+  activeCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 
 export default withTheme(PlotDetailRegion);

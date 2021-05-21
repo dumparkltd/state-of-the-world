@@ -51,6 +51,7 @@ function PlotMultiRegion({
   tickValuesX,
   tickValuesY,
   dataForceYRange,
+  showTooltip,
 }) {
   let highlightRegionHint;
   if (
@@ -79,7 +80,7 @@ function PlotMultiRegion({
         cursor: highlightRegion ? 'pointer' : 'default',
       }}
       onMouseLeave={() => {
-        setRegion(false);
+        setRegion(null);
         // setYear(false);
       }}
       onClick={() => {
@@ -223,7 +224,7 @@ function PlotMultiRegion({
                   if (region !== currentRegion) {
                     setRegion(region);
                   } else {
-                    setRegion(false)
+                    setRegion(null)
                   }
                 }}
               />
@@ -265,7 +266,26 @@ function PlotMultiRegion({
               }}
             />
           ))}
-      {highlightRegionHint &&
+      {/* highlighted region marker only */}
+      {regionScores &&
+        highlightRegion &&
+        highlightRegion !== currentRegion &&
+        Object.keys(regionScores)
+          .filter(r => r === highlightRegion)
+          .map(region => (
+            <MarkSeries
+              key={region}
+              data={getRegionYearData(
+                year,
+                regionScores[region][column],
+              )}
+              stroke={theme.global.colors[highlightRegion]}
+              fill={theme.global.colors[highlightRegion]}
+              size={3}
+            />
+          ))}
+      {showTooltip &&
+        highlightRegionHint &&
         highlightRegionHint.length > 0 && (
         <Hint
           value={highlightRegionHint[0]}
@@ -281,24 +301,7 @@ function PlotMultiRegion({
     </FlexibleWidthXYPlot>
   );
 }
-// {/* highlighted region marker only */}
-// {regionScores &&
-//   highlightRegion &&
-//   highlightRegion !== currentRegion &&
-//   Object.keys(regionScores)
-//     .filter(r => r === highlightRegion)
-//     .map(region => (
-//       <MarkSeries
-//         key={region}
-//         data={getRegionYearData(
-//           year,
-//           regionScores[region][column],
-//         )}
-//         stroke={theme.global.colors[highlightRegion]}
-//         fill={theme.global.colors[highlightRegion]}
-//         size={3}
-//       />
-//     ))}
+
 PlotMultiRegion.propTypes = {
   theme: PropTypes.object,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
@@ -314,6 +317,7 @@ PlotMultiRegion.propTypes = {
   year: PropTypes.string,
   column: PropTypes.string,
   height: PropTypes.number,
+  showTooltip: PropTypes.bool,
 };
 
 export default withTheme(PlotMultiRegion);

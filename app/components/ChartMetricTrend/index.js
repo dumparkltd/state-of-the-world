@@ -43,10 +43,15 @@ function ChartMetricTrend({
   onSelectMetric,
   onSelectPage,
   unRegionTotals,
+  highlightYear,
+  setHighlightYear,
+  highlightRegion,
+  setHighlightRegion,
+  activeCountry,
 }) {
-  const [highlightYear, setYear] = useState(false);
-  const [highlightCountry, setCountry] = useState(false);
-  const [highlightRegion, setRegion] = useState(false);
+  // const [highlightYear, setYear] = useState(false);
+  const [isHighlightSource, setHighlightSource] = useState(false);
+  const [highlightCountry, setHighlightCountry] = useState(false);
 
   // console.log('ChartMetricTrend', maxYear, scores);
   if (!maxYear || !scores) return null;
@@ -65,7 +70,6 @@ function ChartMetricTrend({
   const regionScores = scores.regions;
   const countriesScores = scores.countries;
   const year = highlightYear || maxYear;
-
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
@@ -84,7 +88,11 @@ function ChartMetricTrend({
           <Card
             padRight={mode === 'detail-region'}
             onMouseLeave={() => {
-              setYear(false);
+              setHighlightYear(null);
+              setHighlightSource(false);
+            }}
+            onMouseEnter={() => {
+              setHighlightSource(true);
             }}
           >
             {mode === 'detail-region' && (
@@ -115,6 +123,7 @@ function ChartMetricTrend({
                   <PlotDetailRegion
                     height={h}
                     highlightCountry={highlightCountry}
+                    activeCountry={activeCountry}
                     highlightRegion={highlightRegion}
                     countriesScores={countriesScores}
                     regionScores={regionScores}
@@ -124,9 +133,9 @@ function ChartMetricTrend({
                     currentRegion={currentRegion}
                     onSetRegionFilter={onSetRegionFilter}
                     onCountryClick={onCountryClick}
-                    setYear={setYear}
-                    setCountry={setCountry}
-                    setRegion={setRegion}
+                    setYear={setHighlightYear}
+                    setCountry={setHighlightCountry}
+                    setRegion={setHighlightRegion}
                     tickValuesX={tickValuesX}
                     tickValuesY={tickValuesY}
                     dataForceYRange={dataForceYRange}
@@ -136,6 +145,7 @@ function ChartMetricTrend({
                   height={h}
                   margin={{ bottom: 20, top: 10 }}
                   highlightCountry={highlightCountry}
+                  activeCountry={activeCountry}
                   highlightRegion={highlightRegion}
                   countriesScores={countriesScores}
                   regionScores={regionScores}
@@ -147,13 +157,14 @@ function ChartMetricTrend({
                   maxYear={maxYear}
                   currentRegion={currentRegion}
                   onSetRegionFilter={onSetRegionFilter}
-                  setRegion={setRegion}
+                  setRegion={setHighlightRegion}
                 />
               </Box>
             )}
             {mode === 'multi-region' && (
               <Box pad={{ horizontal: 'ml', vertical: 'small' }}>
                 <PlotMultiRegion
+                  showTooltip={isHighlightSource}
                   height={h}
                   highlightRegion={highlightRegion}
                   regionScores={regionScores}
@@ -162,8 +173,8 @@ function ChartMetricTrend({
                   metric={metric}
                   currentRegion={currentRegion === 'all' ? 'world' : currentRegion}
                   onSetRegionFilter={onSetRegionFilter}
-                  setYear={setYear}
-                  setRegion={setRegion}
+                  setYear={setHighlightYear}
+                  setRegion={setHighlightRegion}
                   tickValuesX={tickValuesX}
                   tickValuesY={tickValuesY}
                   dataForceYRange={dataForceYRange}
@@ -180,7 +191,7 @@ function ChartMetricTrend({
                 column={column}
                 metric={metric}
                 currentRegion={currentRegion || 'world'}
-                setYear={setYear}
+                setYear={setHighlightYear}
                 tickValuesX={tickValuesX}
                 tickValuesY={tickValuesY}
                 dataForceYRange={dataForceYRange}
@@ -219,6 +230,11 @@ ChartMetricTrend.propTypes = {
   onSetRegionFilter: PropTypes.func,
   onSelectMetric: PropTypes.func,
   onSelectPage: PropTypes.func,
+  highlightYear: PropTypes.string,
+  setHighlightYear: PropTypes.func,
+  highlightRegion: PropTypes.string,
+  setHighlightRegion: PropTypes.func,
+  activeCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 
 export default ChartMetricTrend;

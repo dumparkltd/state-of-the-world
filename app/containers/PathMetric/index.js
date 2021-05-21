@@ -155,6 +155,7 @@ export function PathMetric({
                     {...p}
                     metric={metric}
                     onCountryClick={onCountryClick}
+                    activeCode={activeCode}
                     mode="regions"
                   />
                 ),

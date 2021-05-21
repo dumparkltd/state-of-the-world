@@ -139,8 +139,11 @@ export const getRegionDataLow = (
   );
 
 // prettier-ignore
-export const getCountryYearData = (year, countryColumnScores) => {
-  if (!countryColumnScores[year]) {
+export const getCountryYearData = (year, countryColumnScores, closest) => {
+  if (!countryColumnScores[year] && !closest) {
+    return [];
+  }
+  if (!countryColumnScores[year] && closest) {
     const years = Object.keys(countryColumnScores).map(y => parseInt(y, 10));
     const yearClosest = years.reduce((m, testYear) => {
       if (!m || (Math.abs(testYear - year) < Math.abs(m - year))) {

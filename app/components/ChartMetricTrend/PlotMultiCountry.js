@@ -60,7 +60,7 @@ function PlotMultiCountry({
 }) {
   let countryYearData;
   if (countryScores && countryScores[column]) {
-    countryYearData = getCountryYearData(year, countryScores[column]);
+    countryYearData = getCountryYearData(year, countryScores[column], true);
   }
   // prettier-ignore
   return (

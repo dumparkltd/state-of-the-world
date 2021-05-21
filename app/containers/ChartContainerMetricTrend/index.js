@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -61,7 +61,11 @@ export function ChartContainerMetricTrend({
   onSelectPage,
   onSetRegionFilter,
   intl,
+  activeCode,
 }) {
+  const [highlightYear, setYear] = useState(null);
+  const [highlightRegion, setRegion] = useState(null);
+
   useEffect(() => {
     onLoadData();
   }, []);
@@ -116,6 +120,11 @@ export function ChartContainerMetricTrend({
         onSetRegionFilter={onSetRegionFilter}
         unRegionTotals={unRegionTotals}
         onSelectPage={onSelectPage}
+        setHighlightYear={setYear}
+        highlightYear={highlightYear}
+        setHighlightRegion={setRegion}
+        highlightRegion={highlightRegion}
+        activeCountry={activeCode}
       />
       <Source type={metric.type} />
     </div>
@@ -136,6 +145,7 @@ ChartContainerMetricTrend.propTypes = {
   onSelectMetric: PropTypes.func,
   onSelectPage: PropTypes.func,
   onSetRegionFilter: PropTypes.func,
+  activeCode: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   intl: intlShape,
 };
 

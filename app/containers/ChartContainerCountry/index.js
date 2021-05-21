@@ -116,6 +116,7 @@ export function ChartContainerCountry({
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
+  const [highlightYear, setYear] = useState(null);
 
   const handleResize = () =>
     setGridWidth(ref.current ? ref.current.offsetWidth : false);
@@ -246,6 +247,8 @@ export function ChartContainerCountry({
                               currentRegion={
                                 country[COLUMNS.COUNTRIES.UN_REGION]
                               }
+                              setHighlightYear={setYear}
+                              highlightYear={highlightYear}
                             />
                           </WrapPlot>
                         );
@@ -337,6 +340,8 @@ export function ChartContainerCountry({
                               currentRegion={
                                 country[COLUMNS.COUNTRIES.UN_REGION]
                               }
+                              setHighlightYear={setYear}
+                              highlightYear={highlightYear}
                             />
                           </WrapPlot>
                         );
@@ -402,6 +407,8 @@ export function ChartContainerCountry({
                               currentRegion={
                                 country[COLUMNS.COUNTRIES.UN_REGION]
                               }
+                              setHighlightYear={setYear}
+                              highlightYear={highlightYear}
                             />
                           </WrapPlot>
                         );

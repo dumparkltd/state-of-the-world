@@ -80,6 +80,8 @@ export function ChartContainerRegion({
 }) {
   const ref = useRef(null);
   const [gridWidth, setGridWidth] = useState(null);
+  const [highlightYear, setYear] = useState(null);
+  const [highlightRegion, setRegion] = useState(null);
 
   const handleResize = () =>
     setGridWidth(ref.current ? ref.current.offsetWidth : 0);
@@ -157,6 +159,10 @@ export function ChartContainerRegion({
                       currentRegion={(!unRegionFilterValue || unRegionFilterValue === 'all') ? 'world' : unRegionFilterValue}
                       onSetRegionFilter={onSetRegionFilter}
                       unRegionTotals={unRegionTotals}
+                      setHighlightYear={setYear}
+                      highlightYear={highlightYear}
+                      setHighlightRegion={setRegion}
+                      highlightRegion={highlightRegion}
                     />
                   </WrapPlot>
                 ))}

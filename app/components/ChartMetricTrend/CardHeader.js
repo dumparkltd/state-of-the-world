@@ -64,7 +64,7 @@ function CardHeader({
                 <FormattedMessage {...rootMessages.un_regions[currentRegion]} />
               </Text>
               <Box direction="row" gap="xxsmall">
-                <Text size="xxsmall">
+                <Text size="xxsmall" color="secondary">
                   {currentRegion === 'world' && (
                     <FormattedMessage
                       {...rootMessages.labels.worldScore}
