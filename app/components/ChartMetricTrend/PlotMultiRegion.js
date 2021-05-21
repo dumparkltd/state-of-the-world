@@ -6,7 +6,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+
 import { withTheme } from 'styled-components';
 import {
   FlexibleWidthXYPlot,
@@ -28,10 +29,13 @@ import {
   getRegionYearData,
   getRegionDataLow,
   getRegionDataHigh,
+  getXTime,
 } from 'utils/charts';
+import { formatScore } from 'utils/scores';
 
 import rootMessages from 'messages';
 import PlotHintHighlight from './PlotHintHighlight';
+import PlotHintWrapper from './PlotHintWrapper';
 
 // const isEven = n => n % 2 === 0;
 // const isOdd = n => Math.abs(n % 2) === 1;
@@ -52,19 +56,28 @@ function PlotMultiRegion({
   tickValuesY,
   dataForceYRange,
   showTooltip,
+  intl,
+  hintAlign,
 }) {
-  let highlightRegionHint;
-  if (
-    highlightRegion &&
+  const activeRegionScore =
+    regionScores && currentRegion && regionScores[currentRegion];
+  const activeRegionData =
+    activeRegionScore && getRegionYearData(year, activeRegionScore[column]);
+  const hiRegionScore =
     regionScores &&
-    regionScores[highlightRegion] &&
-    regionScores[highlightRegion][column]
-  ) {
-    const regionColumnScores = regionScores[highlightRegion][column];
-    const years = Object.keys(regionColumnScores);
-    highlightRegionHint = getRegionYearData(years[0], regionColumnScores);
-  }
-  // console.log(metric, regionScores)
+    highlightRegion &&
+    highlightRegion !== currentRegion &&
+    regionScores[highlightRegion];
+  const hiRegionYearData =
+    hiRegionScore && getRegionYearData(year, hiRegionScore[column]);
+  const hiAbove =
+    hiRegionYearData &&
+    hiRegionYearData[0] &&
+    hiRegionYearData[0].y &&
+    activeRegionData &&
+    activeRegionData[0] &&
+    activeRegionData[0].y &&
+    hiRegionYearData[0].y > activeRegionData[0].y;
   // prettier-ignore
   return (
     <FlexibleWidthXYPlot
@@ -73,7 +86,7 @@ function PlotMultiRegion({
       margin={{
         bottom: 20,
         top: 10,
-        right: 10,
+        right: 12,
         left: 30,
       }}
       style={{
@@ -178,6 +191,19 @@ function PlotMultiRegion({
         tickValues={tickValuesX}
         tickPadding={2}
       />
+      <XAxis
+        tickFormat={timeFormat('%Y')}
+        style={{
+          line: { strokeWidth: 0 },
+          ticks: { strokeWidth: 0 },
+          text: {
+            fontWeight: 700,
+            textShadow: theme.global.outline,
+          },
+        }}
+        tickValues={[getXTime(year)]}
+        tickPadding={2}
+      />
       <YAxis
         tickFormat={value =>
           TYPES[metric.type] && TYPES[metric.type].isPerc ? `${value}%` : value
@@ -231,25 +257,15 @@ function PlotMultiRegion({
             );
           })}
       {/* active region marker */}
-      {regionScores &&
-        Object.keys(regionScores)
-          .filter(region => region === currentRegion)
-          .map(region => {
-            const color = theme.global.colors[region]
-            const msize = 4;
-            return (
-              <MarkSeries
-                key={region}
-                data={getRegionYearData(
-                  year,
-                  regionScores[region][column],
-                )}
-                stroke={color}
-                fill={color}
-                size={msize}
-              />
-            );
-          })}
+      {activeRegionData && (
+        <MarkSeries
+          key={currentRegion}
+          data={activeRegionData}
+          stroke={theme.global.colors[currentRegion]}
+          fill={theme.global.colors[currentRegion]}
+          size={4}
+        />
+      )}
       {/* highlighted region line only */}
       {regionScores &&
         highlightRegion &&
@@ -267,35 +283,54 @@ function PlotMultiRegion({
             />
           ))}
       {/* highlighted region marker only */}
-      {regionScores &&
-        highlightRegion &&
-        highlightRegion !== currentRegion &&
-        Object.keys(regionScores)
-          .filter(r => r === highlightRegion)
-          .map(region => (
-            <MarkSeries
-              key={region}
-              data={getRegionYearData(
-                year,
-                regionScores[region][column],
-              )}
-              stroke={theme.global.colors[highlightRegion]}
-              fill={theme.global.colors[highlightRegion]}
-              size={3}
-            />
-          ))}
-      {showTooltip &&
-        highlightRegionHint &&
-        highlightRegionHint.length > 0 && (
+      {hiRegionYearData && (
+        <MarkSeries
+          key={highlightRegion}
+          data={hiRegionYearData}
+          stroke={theme.global.colors[highlightRegion]}
+          fill={theme.global.colors[highlightRegion]}
+          size={3}
+        />
+      )}
+      {/* active region hint */}
+      {activeRegionData && activeRegionData[0] && activeRegionData[0].y &&(
         <Hint
-          value={highlightRegionHint[0]}
-          align={{ vertical: 'bottom', horizontal: 'right' }}
+          value={activeRegionData[0]}
+          align={{ vertical: hiAbove ? 'bottom' : 'top', horizontal: hintAlign }}
         >
-          <PlotHintHighlight>
-            <FormattedMessage
-              {...rootMessages.un_regions_short[highlightRegion]}
-            />
-          </PlotHintHighlight>
+          <PlotHintWrapper vertical={hiAbove ? 'bottom' : 'top'}>
+            <PlotHintHighlight color={currentRegion} active>
+              {formatScore(
+                activeRegionData[0].y,
+                metric.type,
+                intl,
+              )}
+            </PlotHintHighlight>
+          </PlotHintWrapper>
+        </Hint>
+      )}
+      {/* highlight region hint */}
+      {hiRegionYearData && hiRegionYearData[0] && hiRegionYearData[0].y && (
+        <Hint
+          value={hiRegionYearData[0]}
+          align={{ vertical: hiAbove ? 'top' : 'bottom', horizontal: hintAlign }}
+        >
+          <PlotHintWrapper vertical={hiAbove ? 'top' : 'bottom'} horizontal={hintAlign}>
+            <PlotHintHighlight color={highlightRegion} highlight >
+              {formatScore(
+                hiRegionYearData[0].y,
+                metric.type,
+                intl,
+              )}
+            </PlotHintHighlight>
+            {showTooltip && (
+              <PlotHintHighlight color={highlightRegion}>
+                <FormattedMessage
+                  {...rootMessages.un_regions_short[highlightRegion]}
+                />
+              </PlotHintHighlight>
+            )}
+          </PlotHintWrapper>
         </Hint>
       )}
     </FlexibleWidthXYPlot>
@@ -316,8 +351,10 @@ PlotMultiRegion.propTypes = {
   regionScores: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   year: PropTypes.string,
   column: PropTypes.string,
+  hintAlign: PropTypes.string,
   height: PropTypes.number,
   showTooltip: PropTypes.bool,
+  intl: intlShape.isRequired,
 };
 
-export default withTheme(PlotMultiRegion);
+export default withTheme(injectIntl(PlotMultiRegion));

@@ -12,6 +12,7 @@ const MAX_STEPS = {
   multi: 2,
   'multi-country': 2,
   'multi-region': 2,
+  highlight: 2,
 };
 export const getTickValuesX = (size, mode, minYear, maxYear) => {
   let max = MAX_STEPS.default;

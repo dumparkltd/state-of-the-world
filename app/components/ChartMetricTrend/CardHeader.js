@@ -6,11 +6,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { Text, Box } from 'grommet';
-
-import { getRegionYearScore } from 'utils/charts';
 
 import ChartNotes from 'components/ChartNotes';
 import Tooltip from 'components/Tooltip';
@@ -37,16 +35,7 @@ const ButtonTitle = styled(ButtonPlain)`
   }
 `;
 
-function CardHeader({
-  metric,
-  regionScores,
-  currentRegion,
-  year,
-  onSelectMetric,
-  column,
-  mode,
-  intl,
-}) {
+function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
   return (
     <Styled>
       <Box direction="row" gap="small" align="center" fill="horizontal">
@@ -60,22 +49,16 @@ function CardHeader({
               gap="small"
               align="start"
             >
-              <Text size="xxsmall" color="secondary">
+              <Text size="xxsmall" color={currentRegion}>
                 <FormattedMessage {...rootMessages.un_regions[currentRegion]} />
               </Text>
               <Box direction="row" gap="xxsmall">
                 <Text size="xxsmall" color="secondary">
                   {currentRegion === 'world' && (
-                    <FormattedMessage
-                      {...rootMessages.labels.worldScore}
-                      values={{ year }}
-                    />
+                    <FormattedMessage {...rootMessages.labels.worldScore} />
                   )}
                   {currentRegion !== 'world' && (
-                    <FormattedMessage
-                      {...rootMessages.labels.regionScore}
-                      values={{ year }}
-                    />
+                    <FormattedMessage {...rootMessages.labels.regionScore} />
                   )}
                 </Text>
                 <Tooltip
@@ -131,18 +114,6 @@ function CardHeader({
                 )}
               </Text>
             </ButtonTitle>
-            {mode === 'multi-region' && (
-              <Box flex={{ shrink: 0 }}>
-                <Text size="large" weight={700} color={currentRegion}>
-                  {getRegionYearScore(
-                    year,
-                    regionScores[currentRegion][column],
-                    metric.type,
-                    intl,
-                  )}
-                </Text>
-              </Box>
-            )}
           </Box>
         </Box>
       </Box>
@@ -151,15 +122,10 @@ function CardHeader({
 }
 
 CardHeader.propTypes = {
-  currentRegion: PropTypes.string,
-  column: PropTypes.string,
-  regionScores: PropTypes.object,
-  year: PropTypes.string,
-  mode: PropTypes.string,
-  onSelectMetric: PropTypes.func,
-  highlightCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  intl: intlShape.isRequired,
+  currentRegion: PropTypes.string,
+  onSelectMetric: PropTypes.func,
+  mode: PropTypes.string,
 };
 
-export default injectIntl(CardHeader);
+export default CardHeader;

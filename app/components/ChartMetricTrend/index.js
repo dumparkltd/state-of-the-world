@@ -70,6 +70,12 @@ function ChartMetricTrend({
   const regionScores = scores.regions;
   const countriesScores = scores.countries;
   const year = highlightYear || maxYear;
+  const hintAlign =
+    parseInt(minYear, 10) +
+      (parseInt(maxYear, 10) - parseInt(minYear, 10)) / 2 >
+    parseInt(year, 10)
+      ? 'right'
+      : 'left';
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
@@ -78,6 +84,7 @@ function ChartMetricTrend({
         if (isMinSize(size, 'medium')) {
           h = mode === 'detail-region' ? 280 : 120;
         }
+        // year !== maxYear ? 'highlight' : mode,
         const tickValuesX = getTickValuesX(
           size,
           mode,
@@ -178,6 +185,7 @@ function ChartMetricTrend({
                   tickValuesX={tickValuesX}
                   tickValuesY={tickValuesY}
                   dataForceYRange={dataForceYRange}
+                  hintAlign={hintAlign}
                 />
               </Box>
             )}

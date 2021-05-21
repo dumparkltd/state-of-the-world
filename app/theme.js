@@ -157,6 +157,8 @@ const theme = {
   icon,
   navTop: '60px',
   global: {
+    outline:
+      '0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff',
     active: {
       color: {
         dark: 'white',

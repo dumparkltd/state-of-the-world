@@ -29,6 +29,7 @@ import {
   getRegionYearData,
   getRegionDataLow,
   getRegionDataHigh,
+  getXTime,
 } from 'utils/charts';
 
 // const isEven = n => n % 2 === 0;
@@ -62,7 +63,7 @@ function PlotDetailRegion({
       margin={{
         bottom: 20,
         top: 10,
-        right: 10,
+        right: 12,
         left: 30,
       }}
       style={{
@@ -244,6 +245,19 @@ function PlotDetailRegion({
           ticks: { strokeWidth: 1 },
         }}
         tickValues={tickValuesX}
+        tickPadding={2}
+      />
+      <XAxis
+        tickFormat={timeFormat('%Y')}
+        style={{
+          line: { strokeWidth: 0 },
+          ticks: { strokeWidth: 0 },
+          text: {
+            fontWeight: 700,
+            textShadow: theme.global.outline,
+          },
+        }}
+        tickValues={[getXTime(year)]}
         tickPadding={2}
       />
       <YAxis

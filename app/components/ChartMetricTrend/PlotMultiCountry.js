@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 
-import styled, { withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
 import {
   FlexibleWidthXYPlot,
   XAxis,
@@ -26,18 +26,13 @@ import {
   getCountryYearData,
   sortRegions,
   getRegionData,
+  getXTime,
 } from 'utils/charts';
 import { formatScore } from 'utils/scores';
 
 import { COLUMNS, TYPES } from 'containers/App/constants';
-
-const PlotHint = styled.div`
-  color: ${({ color, theme }) => (color ? theme.global.colors[color] : 'grey')};
-  padding: 2px;
-  margin-bottom: 5px;
-  width: auto;
-  font-weight: 600;
-`;
+import PlotHintHighlight from './PlotHintHighlight';
+import PlotHintWrapper from './PlotHintWrapper';
 
 // const isEven = n => n % 2 === 0;
 // const isOdd = n => Math.abs(n % 2) === 1;
@@ -70,7 +65,7 @@ function PlotMultiCountry({
       margin={{
         bottom: 20,
         top: 10,
-        right: 10,
+        right: 12,
         left: 30,
       }}
     >
@@ -132,6 +127,16 @@ function PlotMultiCountry({
         tickValues={tickValuesX}
         tickPadding={2}
       />
+      <XAxis
+        tickFormat={timeFormat('%Y')}
+        style={{
+          line: { strokeWidth: 0 },
+          ticks: { strokeWidth: 0 },
+          text: { fontWeight: 700 },
+        }}
+        tickValues={[getXTime(year)]}
+        tickPadding={2}
+      />
       <YAxis
         tickFormat={value =>
           TYPES[metric.type] && TYPES[metric.type].isPerc ? `${value}%` : value
@@ -139,6 +144,10 @@ function PlotMultiCountry({
         style={{
           line: { strokeWidth: 0 },
           ticks: { strokeWidth: 1 },
+          text: {
+            fontWeight: 700,
+            textShadow: theme.global.outline,
+          },
         }}
         tickSize={3}
         tickValues={tickValuesY}
@@ -196,13 +205,15 @@ function PlotMultiCountry({
             transform: 'translateX(50%)',
           }}
         >
-          <PlotHint color={currentRegion}>
-            {formatScore(
-              countryYearData[0].y,
-              metric.type,
-              intl,
-            )}
-          </PlotHint>
+          <PlotHintWrapper vertical="top">
+            <PlotHintHighlight color={currentRegion} active>
+              {formatScore(
+                countryYearData[0].y,
+                metric.type,
+                intl,
+              )}
+            </PlotHintHighlight>
+          </PlotHintWrapper>
         </Hint>
       )}
     </FlexibleWidthXYPlot>

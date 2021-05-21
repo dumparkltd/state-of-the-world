@@ -199,7 +199,7 @@ function ScoreSheet({
                         rootMessages.labels.abbrev.notAvailable,
                       )}
                   </Text>
-                  <Text size="xxsmall">
+                  <Text size="xsmall">
                     {rootMessages.countries[label.code]
                       ? intl.formatMessage(rootMessages.countries[label.code])
                       : label.code}
@@ -235,7 +235,7 @@ function ScoreSheet({
                     <Text size="xsmall">
                       {formatScore(label.value, metric.type, intl)}
                     </Text>
-                    <Text size="xxsmall">
+                    <Text size="xsmall">
                       <FormattedMessage
                         {...rootMessages.un_regions_short[label.code]}
                       />
