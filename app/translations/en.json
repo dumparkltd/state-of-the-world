@@ -539,7 +539,7 @@
   "hrmi.containers.ChartContainerCountry.titleCPR": "Civil and political rights",
   "hrmi.containers.ChartContainerCountry.titleVDEM": "Democracy",
   "hrmi.containers.ChartContainerMetricRanking.title": "How do countries rank for the {metric}?",
-  "hrmi.containers.ChartContainerMetricRegion.title": "How do the UN regional groups and their countries score for the {metric}?",
+  "hrmi.containers.ChartContainerMetricTrend.title": "How do the UN regional groups and their countries score for the {metric}?",
   "hrmi.containers.ChartFilters.addFilter": "Add country filter",
   "hrmi.containers.ChartFilters.addFilterMobile": "Add filter",
   "hrmi.containers.ChartFilters.unregionFilterAll": "Filter countries by UN regional group or select 'All' to compare UN regional group averages",

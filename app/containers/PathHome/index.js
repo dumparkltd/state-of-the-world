@@ -19,7 +19,7 @@ import { getHeaderHeight } from 'utils/responsive';
 import Search from 'containers/Search';
 import SectionFooter from 'components/SectionFooter';
 import SectionCredits from 'components/SectionCredits';
-import ChartContainerHome from 'containers/ChartContainerHome';
+import ChartContainerRegion from 'containers/ChartContainerRegion';
 
 // styles
 import SectionContainer from 'styled/SectionContainer';
@@ -201,7 +201,7 @@ export function PathHome({ intl }) {
                 </SectionIntroText>
               </SectionIntro>
             </Box>
-            <ChartContainerHome type="esr" />
+            <ChartContainerRegion type="esr" />
           </ContentMaxWidth>
         </MetricSection>
       </div>
@@ -218,7 +218,7 @@ export function PathHome({ intl }) {
                 </SectionIntroText>
               </SectionIntro>
             </Box>
-            <ChartContainerHome type="cpr" />
+            <ChartContainerRegion type="cpr" />
           </ContentMaxWidth>
         </MetricSection>
       </div>
@@ -235,7 +235,7 @@ export function PathHome({ intl }) {
                 </SectionIntroText>
               </SectionIntro>
             </Box>
-            <ChartContainerHome type="vdem" />
+            <ChartContainerRegion type="vdem" />
           </ContentMaxWidth>
         </MetricSection>
       </div>

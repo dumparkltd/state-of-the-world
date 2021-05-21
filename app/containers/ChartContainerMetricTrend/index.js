@@ -1,6 +1,6 @@
 /**
  *
- * ChartContainerMetricRegion
+ * ChartContainerMetricTrend
  *
  */
 
@@ -47,7 +47,7 @@ import messages from './messages';
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
 
-export function ChartContainerMetricRegion({
+export function ChartContainerMetricTrend({
   metric,
   scores,
   onLoadData,
@@ -122,7 +122,7 @@ export function ChartContainerMetricRegion({
   );
 }
 
-ChartContainerMetricRegion.propTypes = {
+ChartContainerMetricTrend.propTypes = {
   maxYear: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   minYear: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   benchmark: PropTypes.string,
@@ -200,5 +200,5 @@ const withConnect = connect(
 );
 
 export default compose(withConnect)(
-  withTheme(injectIntl(ChartContainerMetricRegion)),
+  withTheme(injectIntl(ChartContainerMetricTrend)),
 );
