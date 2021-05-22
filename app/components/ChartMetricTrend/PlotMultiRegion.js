@@ -297,6 +297,7 @@ function PlotMultiRegion({
         <Hint
           value={activeRegionData[0]}
           align={{ vertical: hiAbove ? 'bottom' : 'top', horizontal: hintAlign }}
+          style={{ pointerEvents: 'none' }}
         >
           <PlotHintWrapper vertical={hiAbove ? 'bottom' : 'top'}>
             <PlotHintHighlight color={currentRegion} active>
@@ -314,6 +315,7 @@ function PlotMultiRegion({
         <Hint
           value={hiRegionYearData[0]}
           align={{ vertical: hiAbove ? 'top' : 'bottom', horizontal: hintAlign }}
+          style={{ pointerEvents: 'none' }}
         >
           <PlotHintWrapper vertical={hiAbove ? 'top' : 'bottom'} horizontal={hintAlign}>
             <PlotHintHighlight color={highlightRegion} highlight >

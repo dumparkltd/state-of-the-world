@@ -203,6 +203,7 @@ function PlotMultiCountry({
           align={{ vertical: 'top', horizontal: 'left' }}
           style={{
             transform: 'translateX(50%)',
+            pointerEvents: 'none',
           }}
         >
           <PlotHintWrapper vertical="top">
