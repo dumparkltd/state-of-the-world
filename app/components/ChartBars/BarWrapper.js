@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
 import { Box, ResponsiveContext, Text } from 'grommet';
-import { Ascending, Descending } from 'grommet-icons';
+import { Ascending } from 'grommet-icons';
 
 import { TYPES } from 'containers/App/constants';
 
@@ -27,6 +27,9 @@ import BarLabel from './BarLabel';
 const BarWrap = styled(Box)``;
 // prettier-ignore
 const LabelWrap = styled(Box)``;
+const TrendWrap = styled.span`
+  transform: rotate(${({ rotate = 0 }) => rotate}deg);
+`;
 // prettier-ignore
 const ScoreWrap = styled(Box)`
 `;
@@ -84,18 +87,31 @@ export function BarWrapper({ score, type, intl, color }) {
               flex={{ shrink: 0 }}
               pad={{ right: 'small' }}
             >
-              {score.trend && score.trend === 'up' && <Ascending />}
-              {score.trend && score.trend !== 'up' && <Descending />}
+              {score.trend && score.trend === 'up' && (
+                <TrendWrap rotate={45}>
+                  <Ascending size="large" />
+                </TrendWrap>
+              )}
+              {score.trend && score.trend !== 'up' && (
+                <TrendWrap rotate={135}>
+                  <Ascending size="large" />
+                </TrendWrap>
+              )}
             </LabelWrap>
             <BarWrap flex border="right">
               {!bullet && (
-                <Bar showScore={hover} data={score} color={color} type={type} />
+                <Bar
+                  showScore={hover || score.active}
+                  data={score}
+                  color={color}
+                  type={type}
+                />
               )}
               {bullet && (
                 <BarBullet
                   color={color}
                   data={score}
-                  showScore={hover}
+                  showScore={hover || score.active}
                   type={type}
                 />
               )}

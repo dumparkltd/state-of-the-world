@@ -123,7 +123,7 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                 onClick={() => onSelectMetric('regions')}
               >
                 <Text
-                  size={mode === 'multi-country' ? 'mediumTight' : 'large'}
+                  size={mode === 'multi-country' ? 'medium' : 'large'}
                   weight={600}
                   color={currentRegion}
                 >
@@ -145,41 +145,45 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                 </Text>
               </Box>
             )}
-            {mode === 'detail-region' && (
+            {(mode === 'detail-region' || mode === 'multi-country') && (
               <Box direction="row" gap="xxsmall" align="center">
-                <Text size="xxsmall" color="secondary">
-                  {currentRegion === 'world' && (
-                    <FormattedMessage
-                      {...rootMessages.labels.worldDetailScore}
-                    />
-                  )}
-                  {currentRegion === 'all' && (
-                    <FormattedMessage {...rootMessages.labels.allDetailScore} />
-                  )}
-                  {currentRegion !== 'world' && currentRegion !== 'all' && (
-                    <FormattedMessage
-                      {...rootMessages.labels.regionDetailScore}
-                    />
-                  )}
-                </Text>
+                {mode === 'detail-region' && (
+                  <Text size="xxsmall" color="secondary">
+                    {currentRegion === 'world' && (
+                      <FormattedMessage
+                        {...rootMessages.labels.worldDetailScore}
+                      />
+                    )}
+                    {currentRegion === 'all' && (
+                      <FormattedMessage {...rootMessages.labels.allDetailScore} />
+                    )}
+                    {currentRegion !== 'world' && currentRegion !== 'all' && (
+                      <FormattedMessage
+                        {...rootMessages.labels.regionDetailScore}
+                      />
+                    )}
+                  </Text>
+                )}
                 <Tooltip
                   large
                   margin={{}}
                   iconSize="small"
                   component={
                     <Box gap="small">
-                      <Text size="xsmall">
-                        {currentRegion === 'all' && (
-                          <FormattedMessage {...messages.infoIntroAll} />
-                        )}
-                        {currentRegion === 'world' && (
-                          <FormattedMessage {...messages.infoIntroWorld} />
-                        )}
-                        {currentRegion !== 'world' &&
-                          currentRegion !== 'all' && (
-                          <FormattedMessage {...messages.infoIntro} />
-                        )}
-                      </Text>
+                      {mode === 'detail-region' && (
+                        <Text size="xsmall">
+                          {currentRegion === 'all' && (
+                            <FormattedMessage {...messages.infoIntroAll} />
+                          )}
+                          {currentRegion === 'world' && (
+                            <FormattedMessage {...messages.infoIntroWorld} />
+                          )}
+                          {currentRegion !== 'world' &&
+                            currentRegion !== 'all' && (
+                            <FormattedMessage {...messages.infoIntro} />
+                          )}
+                        </Text>
+                      )}
                       <Text size="xsmall">
                         {metric.type === 'esr' && (
                           <FormattedMessage {...messages.infoESRadditional} />

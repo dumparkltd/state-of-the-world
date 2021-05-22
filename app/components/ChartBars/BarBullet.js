@@ -109,7 +109,6 @@ function BarBullet({ color = 'world', data, showScore, active, type }) {
               score={band.lo}
               left={(band.lo / maxValue) * 100}
               color={color}
-              secondary
               align="right"
               type={type}
             />
@@ -118,7 +117,7 @@ function BarBullet({ color = 'world', data, showScore, active, type }) {
             <Score
               score={band.hi}
               left={(band.hi / maxValue) * 100}
-              secondary
+              color={color}
               align="left"
               type={type}
             />

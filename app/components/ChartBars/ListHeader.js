@@ -13,6 +13,8 @@ import styled from 'styled-components';
 
 import { COUNTRY_SORTS } from 'containers/App/constants';
 import Tooltip from 'components/Tooltip';
+import ChartNotes from 'components/ChartNotes';
+
 import rootMessages from 'messages';
 import messages from './messages';
 import { chartColumnWidth } from './chart-utils';
@@ -178,6 +180,12 @@ export function ListHeader({
                               />
                             )}
                           </Text>
+                          <ChartNotes
+                            notes={{
+                              gradesESR: metric.type === 'esr',
+                              gradesCPR: metric.type === 'cpr',
+                            }}
+                          />
                         </Box>
                       }
                     />

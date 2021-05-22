@@ -4,6 +4,9 @@ import { FormattedMessage } from 'react-intl'; // not used now?
 import styled from 'styled-components';
 import { Box, ResponsiveContext, Text } from 'grommet';
 
+import LoadingIndicator from 'components/LoadingIndicator';
+import Hint from 'styled/Hint';
+
 import rootMessages from 'messages';
 
 import BarWrapper from './BarWrapper';
@@ -17,6 +20,12 @@ const WrapInnerChart = styled(Box)`
   position: relative;
 `;
 
+const MetricIcon = styled.img`
+  background: ${({ theme, bgr }) => theme.global.colors[bgr]};
+  height: ${({ small }) => (small ? 40 : 48)}px;
+  width: ${({ small }) => (small ? 40 : 48)}px;
+`;
+
 function ChartBars({
   data,
   currentBenchmark,
@@ -25,20 +34,11 @@ function ChartBars({
   allowWordBreak = true,
   annotateMinMax = true,
   color,
+  dataReady,
 }) {
   const scoresAside = true;
-  if (!data) return null;
-  // <Box
-  // margin={{ bottom: 'small' }}
-  // direction="row"
-  // gap="small"
-  // align="center"
-  // >
-  // <MetricIcon src={metric.iconInv} alt="" color={color} />
-  // <Text size="large" weight={600}>
-  // <FormattedMessage {...rootMessages.rights[metric.key]} />
-  // </Text>
-  // </Box>
+  const hasResults = dataReady && (data && data.length > 0);
+
   return (
     <ResponsiveContext.Consumer>
       {() => (
@@ -54,29 +54,45 @@ function ChartBars({
           elevation="small"
           background="white"
         >
-          <Box pad={{ left: 'small' }} margin={{ bottom: 'small' }}>
-            <Text size="large" weight={600}>
+          <Box
+            margin={{ bottom: 'small' }}
+            direction="row"
+            gap="small"
+            align="center"
+          >
+            <MetricIcon src={metric.iconInv} alt="" bgr={color} />
+            <Text size="large" weight={600} color={color}>
               <FormattedMessage {...rootMessages.rights[metric.key]} />
             </Text>
           </Box>
-          <ListHeader
-            metric={metric}
-            benchmark={currentBenchmark && currentBenchmark.key}
-            hasAside={scoresAside}
-            annotateMinMax={annotateMinMax}
-            sort={sort}
-          />
-          <WrapInnerChart>
-            {data.map(d => (
-              <BarWrapper
-                key={d.key}
-                score={d}
-                allowWordBreak={allowWordBreak}
-                type={metric.type}
-                color={color}
-              />
-            ))}
-          </WrapInnerChart>
+          {!dataReady && <LoadingIndicator />}
+          {!hasResults && dataReady && (
+            <Hint italic>
+              <FormattedMessage {...rootMessages.hints.noResults} />
+            </Hint>
+          )}
+          {hasResults && dataReady && (
+            <ListHeader
+              metric={metric}
+              benchmark={currentBenchmark && currentBenchmark.key}
+              hasAside={scoresAside}
+              annotateMinMax={annotateMinMax}
+              sort={sort}
+            />
+          )}
+          {hasResults && dataReady && (
+            <WrapInnerChart>
+              {data.map(d => (
+                <BarWrapper
+                  key={d.key}
+                  score={d}
+                  allowWordBreak={allowWordBreak}
+                  type={metric.type}
+                  color={color}
+                />
+              ))}
+            </WrapInnerChart>
+          )}
         </Styled>
       )}
     </ResponsiveContext.Consumer>
@@ -96,6 +112,7 @@ ChartBars.propTypes = {
   annotateMinMax: PropTypes.bool,
   maxValue: PropTypes.number,
   stripes: PropTypes.bool,
+  dataReady: PropTypes.bool,
   unit: PropTypes.string,
   color: PropTypes.string,
 };

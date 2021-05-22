@@ -8,11 +8,10 @@ import { injectIntl, intlShape } from 'react-intl';
 const Styled = styled.div`
   position: absolute;
   top: 0;
-  font-weight: ${({ secondary }) => (secondary ? 400 : 700)};
+  font-weight: 400;
   transform: ${({ align }) => {
-    if (align === 'left') return 'translateY(-33%)';
-    if (align === 'right') return 'translateX(-100%) translateY(-33%)';
-    return 'translateX(-50%) translateY(-33%)';
+    if (align === 'right') return 'translateX(-100%)';
+    return 'none';
   }};
   transform-origin: top left;
   margin-top: auto;
@@ -20,36 +19,16 @@ const Styled = styled.div`
   margin-left: 0;
   display: table;
   width: auto;
+  text-shadow: ${({ theme }) => theme.global.outline};
 `;
 
-function Score({
-  score,
-  left,
-  color,
-  type,
-  level,
-  secondary = false,
-  align,
-  title,
-  intl,
-}) {
+function Score({ score, left, color, type, align, intl }) {
   return (
-    <Styled style={{ left: `${left}%` }} secondary={secondary} align={align}>
+    <Styled style={{ left: `${left}%` }} align={align}>
       <Box pad={{ horizontal: 'xsmall', vertical: 'hair' }}>
-        {title && (
-          <Text
-            color={`${color}Dark`}
-            size="small"
-            style={{ fontWeight: score || level > 1 ? 400 : 600 }}
-          >
-            {title}
-          </Text>
-        )}
-        {score && (
-          <Text color={`${color}Dark`} size="small">
-            {score && formatScore(score, type, intl)}
-          </Text>
-        )}
+        <Text color={`${color}Dark`} size="xsmall">
+          {score && formatScore(score, type, intl)}
+        </Text>
       </Box>
     </Styled>
   );
@@ -58,12 +37,9 @@ function Score({
 Score.propTypes = {
   score: PropTypes.number,
   left: PropTypes.number,
-  secondary: PropTypes.bool,
   color: PropTypes.string,
   type: PropTypes.string,
   align: PropTypes.string,
-  title: PropTypes.string,
-  level: PropTypes.number,
   intl: intlShape.isRequired,
 };
 

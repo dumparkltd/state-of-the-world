@@ -31,14 +31,11 @@ import {
   TREND_THRESHOLDS,
 } from 'containers/App/constants';
 
-import LoadingIndicator from 'components/LoadingIndicator';
 import ChartBars from 'components/ChartBars';
 import ChartHeader from 'components/ChartHeader';
 import Source from 'components/Source';
 import CountryNotes from 'components/CountryNotes';
 import CountryLabel from 'components/CountryLabel';
-
-import Hint from 'styled/Hint';
 
 import { sortScores } from 'utils/scores';
 import { isMinSize } from 'utils/responsive';
@@ -184,7 +181,6 @@ export function ChartContainerMetricRanking({
       order: currentSortOrder,
     });
 
-  const hasResults = dataReady && (sorted && sorted.length > 0);
   const hasHICountries = countriesForScores.some(c => isCountryHighIncome(c));
   const hasGovRespondentsCountries = countriesForScores.some(c =>
     hasCountryGovRespondents(c),
@@ -228,27 +224,20 @@ export function ChartContainerMetricRanking({
             year
             metricType={metric.type}
           />
-          {!dataReady && <LoadingIndicator />}
-          {!hasResults && dataReady && (
-            <Hint italic>
-              <FormattedMessage {...rootMessages.hints.noResults} />
-            </Hint>
-          )}
-          {hasResults && sorted && sorted.length > 0 && (
-            <ChartBars
-              data={sorted}
-              currentBenchmark={currentBenchmark}
-              metric={metric}
-              color={currentRegion}
-              sort={{
-                sort: currentSort,
-                order: currentSortOrder,
-                onSortSelect,
-                onOrderToggle: () =>
-                  onOrderChange(currentSortOrder === 'asc' ? 'desc' : 'asc'),
-              }}
-            />
-          )}
+          <ChartBars
+            data={sorted}
+            dataReady={dataReady}
+            currentBenchmark={currentBenchmark}
+            metric={metric}
+            color={currentRegion}
+            sort={{
+              sort: currentSort,
+              order: currentSortOrder,
+              onSortSelect,
+              onOrderToggle: () =>
+                onOrderChange(currentSortOrder === 'asc' ? 'desc' : 'asc'),
+            }}
+          />
           <Source type={metric.type} />
           <CountryNotes
             hasAside={isMinSize(size, 'large')}
