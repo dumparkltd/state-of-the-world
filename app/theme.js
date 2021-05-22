@@ -106,6 +106,7 @@ const text = {
   xlarge: { size: '22px', height: '30px', maxWidth: '800px' },
   large: { size: '18px', height: '24px', maxWidth: '800px' },
   medium: { size: '16px', height: '21px', maxWidth: '800px' },
+  mediumTight: { size: '16px', height: '18px', maxWidth: '800px' },
   small: { size: '14px', height: '18px', maxWidth: '700px' },
   xsmall: { size: '13px', height: '16px', maxWidth: '600px' },
   xxsmall: { size: '12px', height: '14px', maxWidth: '500px' },

@@ -102,6 +102,19 @@ const GlobalStyle = createGlobalStyle`
     position: relative;
     overflow: visible !important;
   }
+
+  .rv-xy-plot__axis__title.sotw-chart-nodata-watermark text{
+    font-size: 24px;
+    font-weight: 600;
+    fill: ${({ theme }) => theme.global.colors.grey};
+    fill-opacity: 0.4;
+  }
+  .rv-xy-plot__axis__title.sotw-chart-nodata-watermark-small text{
+    font-size: 18px;
+    font-weight: 600;
+    fill: ${({ theme }) => theme.global.colors.grey};
+    fill-opacity: 0.4;
+  }
 `;
 
 export default GlobalStyle;

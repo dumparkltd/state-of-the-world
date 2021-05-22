@@ -22,24 +22,42 @@ const Styled = styled.div`
   margin-bottom: 5px;
 `;
 const MetricIcon = styled.img`
-  background: ${({ theme, color }) => theme.global.colors[color]};
-  height: 48px;
-  width: 48px;
+  background: ${({ theme, bgr }) => theme.global.colors[bgr]};
+  height: ${({ small }) => (small ? 40 : 48)}px;
+  width: ${({ small }) => (small ? 40 : 48)}px;
 `;
 
 const ButtonTitle = styled(ButtonPlain)`
   color: ${({ color, theme }) => theme.global.colors[color]};
+  line-height: normal;
   &:hover {
     color: ${({ color, theme }) => theme.global.colors[color]};
     text-decoration: underline;
   }
 `;
 
+// {mode === 'detail-region' && (
+//   <Box margin={{ vertical: 'small' }}>
+//     <Text size="large" weight={700}>
+//       <FormattedMessage
+//         {...rootMessages.rights[metric.key]}
+//       />
+//     </Text>
+//   </Box>
+// )}
+
 function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
+  const color = currentRegion === 'all' ? 'world' : currentRegion || 'world';
+  // prettier-ignore
   return (
     <Styled>
       <Box direction="row" gap="small" align="center" fill="horizontal">
-        <MetricIcon src={metric.iconInv} alt="" color={currentRegion} />
+        <MetricIcon
+          src={metric.iconInv}
+          alt=""
+          bgr={color}
+          small={mode === 'multi-country'}
+        />
         <Box gap="xxsmall" fill>
           {mode === 'multi-region' && (
             <Box
@@ -49,7 +67,7 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
               gap="small"
               align="start"
             >
-              <Text size="xxsmall" color={currentRegion}>
+              <Text size="xxsmall" color={color}>
                 <FormattedMessage {...rootMessages.un_regions[currentRegion]} />
               </Text>
               <Box direction="row" gap="xxsmall">
@@ -68,15 +86,7 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                   component={
                     <Box gap="small">
                       <Text size="xsmall" weight={600}>
-                        {metric.type === 'esr' && (
-                          <FormattedMessage {...messages.infoESRintro} />
-                        )}
-                        {metric.type === 'cpr' && (
-                          <FormattedMessage {...messages.infoCPRintro} />
-                        )}
-                        {metric.type === 'vdem' && (
-                          <FormattedMessage {...messages.infoVDEMintro} />
-                        )}
+                        <FormattedMessage {...messages.infoIntro} />
                       </Text>
                       <Text size="xsmall">
                         {metric.type === 'esr' && (
@@ -101,22 +111,97 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
               </Box>
             </Box>
           )}
-          <Box fill direction="row" justify="between" gap="small" align="start">
-            <ButtonTitle
-              color={currentRegion}
-              onClick={() => onSelectMetric('regions')}
-            >
-              <Text size="large" weight={600} color={currentRegion}>
-                {metric.type === 'esr' && (
+          <Box
+            direction="row"
+            justify="between"
+            gap="small"
+            align="center"
+          >
+            {(mode === 'multi-region' || mode === 'multi-country') && (
+              <ButtonTitle
+                color={currentRegion}
+                onClick={() => onSelectMetric('regions')}
+              >
+                <Text
+                  size={mode === 'multi-country' ? 'mediumTight' : 'large'}
+                  weight={600}
+                  color={currentRegion}
+                >
+                  {metric.type === 'esr' && (
+                    <FormattedMessage {...rootMessages.rights[metric.key]} />
+                  )}
+                  {metric.type !== 'esr' && (
+                    <FormattedMessage
+                      {...rootMessages['rights-short'][metric.key]}
+                    />
+                  )}
+                </Text>
+              </ButtonTitle>
+            )}
+            {mode === 'detail-region' && (
+              <Box>
+                <Text size="large" weight={600} color={color}>
                   <FormattedMessage {...rootMessages.rights[metric.key]} />
-                )}
-                {metric.type !== 'esr' && (
-                  <FormattedMessage
-                    {...rootMessages['rights-short'][metric.key]}
-                  />
-                )}
-              </Text>
-            </ButtonTitle>
+                </Text>
+              </Box>
+            )}
+            {mode === 'detail-region' && (
+              <Box direction="row" gap="xxsmall" align="center">
+                <Text size="xxsmall" color="secondary">
+                  {currentRegion === 'world' && (
+                    <FormattedMessage
+                      {...rootMessages.labels.worldDetailScore}
+                    />
+                  )}
+                  {currentRegion === 'all' && (
+                    <FormattedMessage {...rootMessages.labels.allDetailScore} />
+                  )}
+                  {currentRegion !== 'world' && currentRegion !== 'all' && (
+                    <FormattedMessage
+                      {...rootMessages.labels.regionDetailScore}
+                    />
+                  )}
+                </Text>
+                <Tooltip
+                  large
+                  margin={{}}
+                  iconSize="small"
+                  component={
+                    <Box gap="small">
+                      <Text size="xsmall">
+                        {currentRegion === 'all' && (
+                          <FormattedMessage {...messages.infoIntroAll} />
+                        )}
+                        {currentRegion === 'world' && (
+                          <FormattedMessage {...messages.infoIntroWorld} />
+                        )}
+                        {currentRegion !== 'world' &&
+                          currentRegion !== 'all' && (
+                          <FormattedMessage {...messages.infoIntro} />
+                        )}
+                      </Text>
+                      <Text size="xsmall">
+                        {metric.type === 'esr' && (
+                          <FormattedMessage {...messages.infoESRadditional} />
+                        )}
+                        {metric.type === 'cpr' && (
+                          <FormattedMessage {...messages.infoCPRadditional} />
+                        )}
+                        {metric.type === 'vdem' && (
+                          <FormattedMessage {...messages.infoVDEMadditional} />
+                        )}
+                      </Text>
+                      <ChartNotes
+                        notes={{
+                          gradesESR: metric.type === 'esr',
+                          gradesCPR: metric.type === 'cpr',
+                        }}
+                      />
+                    </Box>
+                  }
+                />
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>

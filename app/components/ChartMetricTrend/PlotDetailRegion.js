@@ -6,7 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { intlShape, injectIntl } from 'react-intl';
 import { withTheme } from 'styled-components';
 import {
   FlexibleWidthXYPlot,
@@ -16,6 +16,7 @@ import {
   AreaSeries,
   HorizontalGridLines,
   MarkSeries,
+  ChartLabel,
 } from 'react-vis';
 import { utcFormat as timeFormat } from 'd3-time-format';
 
@@ -32,8 +33,16 @@ import {
   getXTime,
 } from 'utils/charts';
 
+import messages from './messages';
+
 // const isEven = n => n % 2 === 0;
 // const isOdd = n => Math.abs(n % 2) === 1;
+
+const checkDataAvailable = (scores, column) =>
+  Object.keys(scores).some(
+    code =>
+      scores[code][column] && Object.values(scores[code][column]).length > 0,
+  );
 
 function PlotDetailRegion({
   theme,
@@ -55,7 +64,10 @@ function PlotDetailRegion({
   dataForceYRange,
   onSetRegionFilter,
   activeCountry,
+  intl,
 }) {
+  // if we have regionScores we also have countryScores and vice versa
+  const hasData = checkDataAvailable(regionScores, column);
   return (
     <FlexibleWidthXYPlot
       height={height}
@@ -64,7 +76,7 @@ function PlotDetailRegion({
         bottom: 20,
         top: 10,
         right: 12,
-        left: 30,
+        left: 50,
       }}
       style={{
         cursor: highlightRegion || highlightCountry ? 'pointer' : 'default',
@@ -105,20 +117,6 @@ function PlotDetailRegion({
               regionScores[region][COLUMNS.CPR.MEAN],
               80,
             );
-            // const dataMedian = getRegionData(regionScores[region][column]);
-            // console.log(
-            //   dataMedian.map((median, index) =>
-            //     [
-            //       metric.code,
-            //       region,
-            //       median.syear,
-            //       median.y,
-            //       dataLow[index].y,
-            //       dataHigh[index].y,
-            //       median.count,
-            //     ].join(),
-            //   ),
-            // );
             return [
               <AreaSeries
                 data={dataHigh}
@@ -403,6 +401,19 @@ function PlotDetailRegion({
               size={3}
             />
           ))}
+      {!hasData && (
+        <ChartLabel
+          text={intl.formatMessage(messages.noDataForRegion)}
+          className="sotw-chart-nodata-watermark"
+          includeMargin={false}
+          xPercent={0.5}
+          yPercent={0.5}
+          style={{
+            dominantBaseline: 'middle',
+            textAnchor: 'middle',
+          }}
+        />
+      )}
     </FlexibleWidthXYPlot>
   );
 }
@@ -426,6 +437,22 @@ PlotDetailRegion.propTypes = {
   column: PropTypes.string,
   height: PropTypes.number,
   activeCountry: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  intl: intlShape.isRequired,
 };
 
-export default withTheme(PlotDetailRegion);
+export default withTheme(injectIntl(PlotDetailRegion));
+
+// const dataMedian = getRegionData(regionScores[region][column]);
+// console.log(
+//   dataMedian.map((median, index) =>
+//     [
+//       metric.code,
+//       region,
+//       median.syear,
+//       median.y,
+//       dataLow[index].y,
+//       dataHigh[index].y,
+//       median.count,
+//     ].join(),
+//   ),
+// );

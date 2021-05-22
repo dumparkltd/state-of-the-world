@@ -18,6 +18,7 @@ import {
   HorizontalGridLines,
   MarkSeries,
   Hint,
+  ChartLabel,
 } from 'react-vis';
 import { utcFormat as timeFormat } from 'd3-time-format';
 
@@ -33,9 +34,13 @@ import { formatScore } from 'utils/scores';
 import { COLUMNS, TYPES } from 'containers/App/constants';
 import PlotHintHighlight from './PlotHintHighlight';
 import PlotHintWrapper from './PlotHintWrapper';
+import messages from './messages';
 
 // const isEven = n => n % 2 === 0;
 // const isOdd = n => Math.abs(n % 2) === 1;
+
+const checkDataAvailable = (scores, column) =>
+  Object.values(scores[column]).length > 0;
 
 function PlotMultiCountry({
   intl,
@@ -57,6 +62,8 @@ function PlotMultiCountry({
   if (countryScores && countryScores[column]) {
     countryYearData = getCountryYearData(year, countryScores[column], true);
   }
+  // const hasData = false;
+  const hasData = checkDataAvailable(countryScores, column);
   // prettier-ignore
   return (
     <FlexibleWidthXYPlot
@@ -216,6 +223,19 @@ function PlotMultiCountry({
             </PlotHintHighlight>
           </PlotHintWrapper>
         </Hint>
+      )}
+      {!hasData && (
+        <ChartLabel
+          text={intl.formatMessage(messages.noDataForCountry)}
+          className="sotw-chart-nodata-watermark-small"
+          includeMargin={false}
+          xPercent={0.5}
+          yPercent={0.5}
+          style={{
+            dominantBaseline: 'middle',
+            textAnchor: 'middle',
+          }}
+        />
       )}
     </FlexibleWidthXYPlot>
   );

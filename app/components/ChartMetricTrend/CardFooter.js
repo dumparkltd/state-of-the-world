@@ -108,15 +108,16 @@ function CardFooter({
       Object.keys(countryScores[column]) &&
       Object.keys(countryScores[column]).length > 0 &&
       type === 'vdem',
-    countryRegionAvg:
+    countryRegionAvg: mode === 'multi-country',
+    countryRegionAvgNA:
       mode === 'multi-country' &&
       regionScores &&
       regionScores[currentRegion] &&
       regionScores[currentRegion][column] &&
       Object.keys(regionScores[currentRegion][column]) &&
-      Object.keys(regionScores[currentRegion][column]).length > 0,
+      Object.keys(regionScores[currentRegion][column]).length === 0,
   };
-  // console.log(notes)
+
   let total;
   let count;
   let valuesAvg;
@@ -330,6 +331,11 @@ function CardFooter({
                 }}
               />
             </Text>
+            {notes.countryRegionAvgNA && (
+              <Text size="xxsmall">
+                <FormattedMessage {...messages.noteUNRegionAverageNA} />
+              </Text>
+            )}
           </Hint>
         </Box>
       )}

@@ -6,16 +6,13 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 
-import { ResponsiveContext, Box, Text } from 'grommet';
+import { ResponsiveContext, Box } from 'grommet';
 
 import { isMinSize } from 'utils/responsive';
 import { getXTime, getTickValuesY, getTickValuesX } from 'utils/charts';
 
 import { COLUMNS } from 'containers/App/constants';
-
-import rootMessages from 'messages';
 
 import Card from './Card';
 import CardHeader from './CardHeader';
@@ -97,28 +94,15 @@ function ChartMetricTrend({
               setHighlightSource(true);
             }}
           >
-            {mode === 'detail-region' && (
-              <Box margin={{ vertical: 'small' }}>
-                <Text size="large" weight={700}>
-                  <FormattedMessage
-                    {...rootMessages.rights[metric.key]}
-                  />
-                </Text>
-              </Box>
-            )}
-            {(mode === 'multi-region' || mode === 'multi-country') && (
-              <CardHeader
-                onSelectMetric={tab => onSelectMetric(tab)}
-                regionScores={regionScores}
-                year={year}
-                column={column}
-                metric={metric}
-                currentRegion={
-                  currentRegion === 'all' ? 'world' : (currentRegion || 'world')
-                }
-                mode={mode}
-              />
-            )}
+            <CardHeader
+              onSelectMetric={tab => onSelectMetric(tab)}
+              regionScores={regionScores}
+              year={year}
+              column={column}
+              metric={metric}
+              currentRegion={currentRegion}
+              mode={mode}
+            />
             {mode === 'detail-region' && (
               <Box direction="row">
                 <Box fill="horizontal">

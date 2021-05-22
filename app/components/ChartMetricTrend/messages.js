@@ -68,31 +68,44 @@ export default defineMessages({
     id: `${scope}.noteRegionEverage`,
     defaultMessage: '{group} average',
   },
-  infoESRintro: {
-    id: `${scope}.infoESRintro`,
+  noteUNRegionAverageNA: {
+    id: `${scope}.noteRegionEverage`,
+    defaultMessage: ' (not available)',
+  },
+  infoIntro: {
+    id: `${scope}.infoIntro`,
     defaultMessage: 'Average of all available country scores.',
+  },
+  infoIntroAll: {
+    id: `${scope}.infoIntroAll`,
+    defaultMessage:
+      'Average of all available country scores for each UN regional group and the world.',
+  },
+  infoIntroWorld: {
+    id: `${scope}.infoIntroWorld`,
+    defaultMessage: 'All available country scores and world average.',
   },
   infoESRadditional: {
     id: `${scope}.infoESRadditional`,
     defaultMessage:
       "Using HRMI's 'Global Best' benchmark where the maximum possible score (100%) is based on the best outcome achieved by any country regardless of available income",
   },
-  infoCPRintro: {
-    id: `${scope}.infoCPRintro`,
-    defaultMessage: 'Average of all available country scores.',
-  },
   infoCPRadditional: {
     id: `${scope}.infoCPRadditional`,
     defaultMessage:
       'Individual country scores are the median values of all expert responses for that country. The 80% credible intervals are based on the expert survey standard deviations.',
   },
-  infoVDEMintro: {
-    id: `${scope}.infoVDEMintro`,
-    defaultMessage: 'Average of all available country scores.',
-  },
   infoVDEMadditional: {
     id: `${scope}.infoVDEMadditional`,
     defaultMessage:
       'Individual country scores are the median values of all expert responses for that country. The 80% credible intervals are based on the expert survey standard deviations.',
+  },
+  noDataForRegion: {
+    id: `${scope}.noDataForRegion`,
+    defaultMessage: 'No data available for selected group',
+  },
+  noDataForCountry: {
+    id: `${scope}.noDataForCountry`,
+    defaultMessage: 'No data for country',
   },
 });

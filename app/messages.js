@@ -319,6 +319,18 @@ export default defineMessages({
       id: `${scope}.labels.regionScore`,
       defaultMessage: 'Group average',
     },
+    worldDetailScore: {
+      id: `${scope}.labels.worldDetailScore`,
+      defaultMessage: 'Global average',
+    },
+    regionDetailScore: {
+      id: `${scope}.labels.regionDetailScore`,
+      defaultMessage: 'Group average',
+    },
+    allDetailScore: {
+      id: `${scope}.labels.allDetailScore`,
+      defaultMessage: 'Group average',
+    },
     worldScore: {
       id: `${scope}.labels.worldScore`,
       defaultMessage: 'Global average',
