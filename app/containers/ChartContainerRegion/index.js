@@ -152,9 +152,10 @@ export function ChartContainerRegion({
                       maxValue={getMaxScore(type)}
                       benchmark={benchmark}
                       metric={getMetricDetails(right.key)}
-                      onSelectMetric={(tab, year) =>
-                        onSelectMetric(right.key, tab, year)
-                      }
+                      onSelectMetric={(tab, year) => {
+                        console.log(tab, year)
+                        onSelectMetric(right.key, tab, year);
+                      }}
                       onSelectPage={onSelectPage}
                       currentRegion={(!unRegionFilterValue || unRegionFilterValue === 'all') ? 'world' : unRegionFilterValue}
                       onSetRegionFilter={onSetRegionFilter}

@@ -70,12 +70,7 @@ function ChartMetricTrend({
   const regionScores = scores.regions;
   const countriesScores = scores.countries;
   const year = highlightYear || maxYear;
-  const hintAlign =
-    parseInt(minYear, 10) +
-      (parseInt(maxYear, 10) - parseInt(minYear, 10)) / 2 >
-    parseInt(year, 10)
-      ? 'right'
-      : 'left';
+
   // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
@@ -113,7 +108,7 @@ function ChartMetricTrend({
             )}
             {(mode === 'multi-region' || mode === 'multi-country') && (
               <CardHeader
-                onSelectMetric={onSelectMetric}
+                onSelectMetric={tab => onSelectMetric(tab)}
                 regionScores={regionScores}
                 year={year}
                 column={column}
@@ -165,27 +160,45 @@ function ChartMetricTrend({
                   currentRegion={currentRegion}
                   onSetRegionFilter={onSetRegionFilter}
                   setRegion={setHighlightRegion}
+                  mode={mode}
                 />
               </Box>
             )}
             {mode === 'multi-region' && (
-              <Box pad={{ horizontal: 'ml', vertical: 'small' }}>
-                <PlotMultiRegion
-                  showTooltip={isHighlightSource}
+              <Box direction="row" pad={{ horizontal: 'small', vertical: 'xsmall' }}>
+                <Box fill="horizontal">
+                  <PlotMultiRegion
+                    height={h}
+                    highlightRegion={highlightRegion}
+                    regionScores={regionScores}
+                    year={year}
+                    column={column}
+                    metric={metric}
+                    currentRegion={currentRegion === 'all' ? 'world' : currentRegion}
+                    onSetRegionFilter={onSetRegionFilter}
+                    setYear={setHighlightYear}
+                    setRegion={setHighlightRegion}
+                    tickValuesX={tickValuesX}
+                    tickValuesY={tickValuesY}
+                    dataForceYRange={dataForceYRange}
+                  />
+                </Box>
+                <ScoreSheet
                   height={h}
-                  highlightRegion={highlightRegion}
+                  margin={{ bottom: 20, top: 10 }}
                   regionScores={regionScores}
                   year={year}
                   column={column}
                   metric={metric}
-                  currentRegion={currentRegion === 'all' ? 'world' : currentRegion}
+                  maxValue={maxValue}
+                  minValue={minValue}
+                  maxYear={maxYear}
+                  highlightRegion={highlightRegion}
+                  currentRegion={currentRegion}
                   onSetRegionFilter={onSetRegionFilter}
-                  setYear={setHighlightYear}
                   setRegion={setHighlightRegion}
-                  tickValuesX={tickValuesX}
-                  tickValuesY={tickValuesY}
-                  dataForceYRange={dataForceYRange}
-                  hintAlign={hintAlign}
+                  mode={mode}
+                  showLabel={isHighlightSource}
                 />
               </Box>
             )}
@@ -214,7 +227,7 @@ function ChartMetricTrend({
               currentRegion={currentRegion || 'world'}
               regionTotals={unRegionTotals}
               type={metric.type}
-              onSelectMetric={onSelectMetric}
+              onSelectMetric={(tab, y) => onSelectMetric(tab, y)}
               onSelectPage={onSelectPage}
             />
           </Card>

@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import styled from 'styled-components';
 import { Box, Text } from 'grommet';
+import { reduce } from 'lodash/collection';
 
 import { formatScore } from 'utils/scores';
 
@@ -16,7 +17,7 @@ import ButtonPlain from 'styled/ButtonPlain';
 import rootMessages from 'messages';
 
 const Styled = styled(p => <Box flex={{ shrink: 0 }} {...p} />)`
-  width: 200px;
+  width: ${({ mode }) => (mode === 'detail-region' ? 200 : 30)}px;
   padding-top: ${({ padding }) => padding.top || 0}px;
   padding-bottom: ${({ padding }) => padding.bottom || 0}px;
 `;
@@ -42,19 +43,39 @@ const RegionButton = styled(p => <ButtonPlain {...p} />)`
   display: block;
   width: 100%;
 `;
-const RegionLabel = styled(Box)`
-  position: absolute;
-  left: 0;
-  top: ${({ offsetY }) => offsetY}px;
-  font-weight: bold;
-  font-weight: ${({ inactive }) => (inactive ? 'normal' : 'bold')};
+const RegionLabelWrap = styled(Box)`
   color: ${({ regionCode, inactive, theme }) =>
     inactive ? 'grey' : theme.global.colors[regionCode]};
-  transform: translateY(-50%);
-  margin-top: -1px;
 `;
-// background: yellow;
-// border: 1px solid;
+const RegionLabelWrapMulti = styled.div`
+  position: absolute;
+  right: 0;
+  top: ${({ offsetY }) => offsetY || 0}px;
+  color: ${({ regionCode, theme }) => theme.global.colors[regionCode]};
+  text-align: right;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+`;
+// margin-top: -1px;
+const RegionLabelMultiScore = styled.div`
+  font-weight: 700;
+  font-size: ${({ large }) => (large ? 16 : 14)}px;
+  line-height: ${({ large }) => (large ? 16 : 14)}px;
+  height: ${({ large }) => (large ? 16 : 14)}px;
+  margin-top: ${({ large }) => (large ? -2 : 0)}px;
+`;
+const RegionLabelMultiTitle = styled.div`
+  position: absolute;
+  top: ${({ above }) => (above ? 'auto' : '100%')};
+  bottom: ${({ above }) => (above ? '100%' : 'auto')};
+  right: 1px;
+  text-shadow: ${({ theme }) => theme.global.outline};
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  transform: translateY(${({ above }) => (above ? -3 : 3)}px);
+`;
 
 const prepLabels = (
   scores,
@@ -112,7 +133,7 @@ const getScores = (regionScores, countryScores, hCountry, aCountry) => {
       [hCountry]: countryScores[hCountry],
     };
   }
-  if (countryScores && aCountry) {
+  if (countryScores && aCountry && countryScores[aCountry]) {
     scores = {
       ...scores,
       [aCountry]: countryScores[aCountry],
@@ -120,8 +141,25 @@ const getScores = (regionScores, countryScores, hCountry, aCountry) => {
   }
   return scores;
 };
+const getScoresMulti = (regionScores, hRegion, aRegion) =>
+  reduce(
+    regionScores,
+    (memo, value, code) => {
+      if (code === hRegion || code === aRegion) {
+        return {
+          ...memo,
+          [code]: value,
+        };
+      }
+      return memo;
+    },
+    {},
+  );
 
-const LABEL_RESERVED_HEIGHT = 12;
+const LABEL_RESERVED_HEIGHT = {
+  'detail-region': 12,
+  'multi-region': 12,
+};
 
 function ScoreSheet({
   height,
@@ -141,16 +179,22 @@ function ScoreSheet({
   currentRegion,
   setRegion,
   activeCountry,
+  mode,
+  showLabel,
 }) {
   const styledHeight = margin
     ? height - (margin.top || 0) - (margin.bottom || 0)
     : height;
-  const scores = getScores(
-    regionScores,
-    countriesScores,
-    highlightCountry,
-    activeCountry,
-  );
+  // prettier-ignore
+  const scores =
+    mode === 'multi-region'
+      ? getScoresMulti(regionScores, highlightRegion, currentRegion)
+      : getScores(
+        regionScores,
+        countriesScores,
+        highlightCountry,
+        activeCountry,
+      );
   const labels =
     scores &&
     prepLabels(
@@ -158,7 +202,7 @@ function ScoreSheet({
       column,
       year,
       styledHeight,
-      LABEL_RESERVED_HEIGHT,
+      LABEL_RESERVED_HEIGHT[mode],
       maxValue - minValue,
       minValue,
       maxYear,
@@ -172,10 +216,10 @@ function ScoreSheet({
   }
   /* eslint-enable no-console */
   return (
-    <Styled padding={margin}>
+    <Styled padding={margin} mode={mode}>
       <Inner>
         {labels &&
-          labels.map(label => {
+          labels.map((label, index) => {
             const isRegion =
               label.code !== activeCountry && label.code !== highlightCountry;
             if (!isRegion) {
@@ -207,7 +251,9 @@ function ScoreSheet({
                 </CountryLabel>
               );
             }
-            if (label.value && isRegion) {
+            if (label.value && isRegion && mode === 'detail-region') {
+              const inactive =
+                highlightRegion && label.code !== highlightRegion;
               return (
                 <RegionButton
                   key={label.code}
@@ -225,23 +271,47 @@ function ScoreSheet({
                   onBlur={() => currentRegion === 'all' && setRegion(null)}
                   disabled={currentRegion === 'world'}
                 >
-                  <RegionLabel
+                  <RegionLabelWrap
                     direction="row"
                     gap="xsmall"
-                    inactive={highlightRegion && label.code !== highlightRegion}
+                    inactive={inactive}
                     regionCode={label.code}
                     align="center"
                   >
-                    <Text size="xsmall">
+                    <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
                       {formatScore(label.value, metric.type, intl)}
                     </Text>
-                    <Text size="xsmall">
+                    <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
                       <FormattedMessage
                         {...rootMessages.un_regions_short[label.code]}
                       />
                     </Text>
-                  </RegionLabel>
+                  </RegionLabelWrap>
                 </RegionButton>
+              );
+            }
+            if (label.value && isRegion && mode === 'multi-region') {
+              const showTitleMulti =
+                showLabel && highlightRegion && label.code === highlightRegion;
+              const titleMultiAbove = showTitleMulti && index === 0;
+
+              return (
+                <RegionLabelWrapMulti
+                  key={label.code}
+                  regionCode={label.code}
+                  offsetY={label.offset}
+                >
+                  <RegionLabelMultiScore large={!highlightRegion}>
+                    {formatScore(label.value, metric.type, intl)}
+                  </RegionLabelMultiScore>
+                  {showTitleMulti && (
+                    <RegionLabelMultiTitle above={titleMultiAbove}>
+                      <FormattedMessage
+                        {...rootMessages.un_regions_short[label.code]}
+                      />
+                    </RegionLabelMultiTitle>
+                  )}
+                </RegionLabelWrapMulti>
               );
             }
             return null;
@@ -286,9 +356,11 @@ ScoreSheet.propTypes = {
   minValue: PropTypes.number,
   maxYear: PropTypes.string,
   currentRegion: PropTypes.string,
+  mode: PropTypes.string,
   metric: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   onSetRegionFilter: PropTypes.func,
   setRegion: PropTypes.func,
+  showLabel: PropTypes.bool,
   intl: intlShape.isRequired,
 };
 

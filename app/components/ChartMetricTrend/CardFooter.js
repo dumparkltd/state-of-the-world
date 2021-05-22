@@ -131,7 +131,10 @@ function CardFooter({
     valuesAvg = {
       year: <strong>{year}</strong>,
       link: (
-        <ButtonText onClick={() => onSelectMetric('ranking', year)}>
+        <ButtonText
+          onClick={() => onSelectMetric('ranking', year)}
+          color={currentRegion}
+        >
           <FormattedMessage
             {...messages.noteRatioLink}
             values={{ count, total }}

@@ -102,7 +102,10 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
             </Box>
           )}
           <Box fill direction="row" justify="between" gap="small" align="start">
-            <ButtonTitle color={currentRegion} onClick={() => onSelectMetric()}>
+            <ButtonTitle
+              color={currentRegion}
+              onClick={() => onSelectMetric('regions')}
+            >
               <Text size="large" weight={600} color={currentRegion}>
                 {metric.type === 'esr' && (
                   <FormattedMessage {...rootMessages.rights[metric.key]} />
