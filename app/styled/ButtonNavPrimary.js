@@ -8,7 +8,7 @@ export default styled(ButtonPlain)`
   font-size: 1em;
   font-weight: 600;
   text-align: 'left';
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     text-align: 'center';
     color: ${({ theme, active }) => theme.global.colors[active ? 'dark' : 'secondary' ]};
     padding: 0px 10px;

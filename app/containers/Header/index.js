@@ -76,6 +76,7 @@ const Title = styled.span`
   text-transform: uppercase;
   position: relative;
   display: inline;
+  white-space: nowrap;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     font-size: 20px;
   }
@@ -86,6 +87,7 @@ const Claim = styled.span`
   font-weight: 600;
   text-transform: uppercase;
   color: ${({ theme }) => theme.global.colors.brand};
+  white-space: nowrap;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     font-weight: bold;
     font-size: 12px;
@@ -343,7 +345,7 @@ export function Header({
                 )}
               </BrandBox>
               <Box fill>
-                {isMinSize(size, 'large') && (
+                {isMinSize(size, 'medium') && (
                   <NavBarTop
                     theme={theme}
                     direction="row"
@@ -361,28 +363,6 @@ export function Header({
                     {appLocales.length > 1 && isMinSize(size, 'medium') && (
                       <LocaleToggle />
                     )}
-                  </NavBarTop>
-                )}
-                {size === 'medium' && (
-                  <NavBarTop
-                    theme={theme}
-                    direction="row"
-                    justify="end"
-                    size={size}
-                  >
-                    {appLocales.length > 1 && (
-                      <Box margin={{ left: 'auto' }}>
-                        <LocaleToggle />
-                      </Box>
-                    )}
-                    <ToggleMenu
-                      plain
-                      onClick={() => setShowMenu(!showMenu)}
-                      ref={menuRef}
-                    >
-                      {!showMenu && <Menu color="dark" />}
-                      {showMenu && <Close color="dark" />}
-                    </ToggleMenu>
                   </NavBarTop>
                 )}
                 <NavBarBottomBox
