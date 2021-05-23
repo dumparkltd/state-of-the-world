@@ -85,7 +85,9 @@ export function NavMetric({
         onClose={() => onClose()}
         search={search}
         onSearch={s => setSearch(s)}
-        placeholder={intl.formatMessage(messages.metricSearch)}
+        placeholder={intl.formatMessage(
+          messages[size === 'small' ? 'metricSearchSmall' : 'metricSearch'],
+        )}
         size={size}
       />
       <NavScroll>

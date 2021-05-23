@@ -36,7 +36,7 @@ export function NavTop({
 }) {
   const textInputRef = useRef(null);
   useEffect(() => {
-    if (textInputRef) {
+    if (textInputRef && textInputRef.current) {
       textInputRef.current.focus();
     }
   }, []);

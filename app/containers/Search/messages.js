@@ -21,6 +21,10 @@ export default defineMessages({
     id: `${scope}.metricSearch`,
     defaultMessage: 'Search metric',
   },
+  metricSearchSmall: {
+    id: `${scope}.metricSearchSmall`,
+    defaultMessage: 'Search metric',
+  },
   noResults: {
     id: `${scope}.noResults`,
     defaultMessage: 'We are sorry! Your search did not return any results.',

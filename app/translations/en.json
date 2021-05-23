@@ -595,6 +595,7 @@
   "hrmi.containers.Search.allSearch": "Find country or metric",
   "hrmi.containers.Search.countrySearch": "Find country",
   "hrmi.containers.Search.metricSearch": "Find human right or democracry metric",
+  "hrmi.containers.Search.metricSearchSmall": "Find metric",
   "hrmi.containers.Search.noResults": "We are sorry! Your search did not return any results.",
   "hrmi.containers.Search.search": "Search",
   "hrmi.components.ChartBars.infoESRintro": "Economic and social right scores have been produced from national statistics.",
