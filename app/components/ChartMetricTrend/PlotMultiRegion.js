@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
 
 import { withTheme } from 'styled-components';
 import {
@@ -16,6 +17,7 @@ import {
   AreaSeries,
   HorizontalGridLines,
   MarkSeries,
+  ChartLabel,
 } from 'react-vis';
 import { utcFormat as timeFormat } from 'd3-time-format';
 
@@ -30,8 +32,13 @@ import {
   getXTime,
 } from 'utils/charts';
 
+import messages from './messages';
+
 // const isEven = n => n % 2 === 0;
 // const isOdd = n => Math.abs(n % 2) === 1;
+
+const checkDataAvailable = (scores, column) =>
+  Object.values(scores[column]).length > 0;
 
 function PlotMultiRegion({
   theme,
@@ -48,6 +55,7 @@ function PlotMultiRegion({
   tickValuesX,
   tickValuesY,
   dataForceYRange,
+  intl,
 }) {
   const activeRegionScore =
     regionScores && currentRegion && regionScores[currentRegion];
@@ -60,6 +68,8 @@ function PlotMultiRegion({
     regionScores[highlightRegion];
   const hiRegionYearData =
     hiRegionScore && getRegionYearData(year, hiRegionScore[column]);
+
+  const hasData = checkDataAvailable(activeRegionScore, column);
   // prettier-ignore
   return (
     <FlexibleWidthXYPlot
@@ -274,6 +284,19 @@ function PlotMultiRegion({
           size={3}
         />
       )}
+      {!hasData && (
+        <ChartLabel
+          text={intl.formatMessage(messages.noDataForRegionShort)}
+          className="sotw-chart-nodata-watermark-small"
+          includeMargin={false}
+          xPercent={0.5}
+          yPercent={1}
+          style={{
+            dominantBaseline: 'middle',
+            textAnchor: 'middle',
+          }}
+        />
+      )}
     </FlexibleWidthXYPlot>
   );
 }
@@ -293,6 +316,7 @@ PlotMultiRegion.propTypes = {
   year: PropTypes.string,
   column: PropTypes.string,
   height: PropTypes.number,
+  intl: intlShape.isRequired,
 };
 
-export default withTheme(PlotMultiRegion);
+export default withTheme(injectIntl(PlotMultiRegion));

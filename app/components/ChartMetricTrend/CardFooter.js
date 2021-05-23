@@ -137,7 +137,7 @@ function CardFooter({
           color={currentRegion}
         >
           <FormattedMessage
-            {...messages.noteRatioLink}
+            {...messages[count === total ? 'noteRatioLinkAll' : 'noteRatioLink']}
             values={{ count, total }}
           />
         </ButtonText>

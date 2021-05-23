@@ -13,13 +13,17 @@ export default defineMessages({
     id: `${scope}.noteRatioLink`,
     defaultMessage: '{count} of {total} countries',
   },
+  noteRatioLinkAll: {
+    id: `${scope}.noteRatioLinkAll`,
+    defaultMessage: '{total} countries',
+  },
   noteAssessmentRatio: {
     id: `${scope}.noteAssessmentRatio`,
     defaultMessage: 'Based on {link} only and may thus not be representative. ',
   },
   noteAssessmentRatioAll: {
     id: `${scope}.noteAssessmentRatioAll`,
-    defaultMessage: 'Based on all {link}',
+    defaultMessage: 'Based on all {link} in the selected UN group',
   },
   noteAssessmentNoneWorld: {
     id: `${scope}.noteAssessmentNoneWorld`,
@@ -103,6 +107,10 @@ export default defineMessages({
   noDataForRegion: {
     id: `${scope}.noDataForRegion`,
     defaultMessage: 'No data available for selected group',
+  },
+  noDataForRegionShort: {
+    id: `${scope}.noDataForRegionShort`,
+    defaultMessage: 'No data for selected group',
   },
   noDataForCountry: {
     id: `${scope}.noDataForCountry`,
