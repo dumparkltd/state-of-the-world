@@ -69,11 +69,11 @@ export default defineMessages({
     defaultMessage: 'details',
   },
   noteUNRegionAverage: {
-    id: `${scope}.noteRegionEverage`,
+    id: `${scope}.noteUNRegionAverage`,
     defaultMessage: '{group} average',
   },
   noteUNRegionAverageNA: {
-    id: `${scope}.noteRegionEverage`,
+    id: `${scope}.noteUNRegionAverageNA`,
     defaultMessage: ' (not available)',
   },
   infoIntro: {

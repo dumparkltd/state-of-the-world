@@ -335,10 +335,6 @@ export default defineMessages({
       id: `${scope}.labels.worldScore`,
       defaultMessage: 'Global average',
     },
-    regionRefScore: {
-      id: `${scope}.labels.regionRefScore`,
-      defaultMessage: 'Average score',
-    },
     countryScore: {
       id: `${scope}.labels.countryScore`,
       defaultMessage: 'Score',
