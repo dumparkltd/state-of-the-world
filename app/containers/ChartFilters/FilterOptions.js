@@ -13,6 +13,7 @@ const StyledButton = styled(ButtonPrimary)`
   display: inline-block;
   margin-bottom: ${({ theme }) => theme.global.edgeSize.xxsmall};
   margin-right: ${({ theme }) => theme.global.edgeSize.xxsmall};
+  white-space: nowrap;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     margin-right: ${({ theme }) => theme.global.edgeSize.xsmall};
     font-size: ${({ theme }) => theme.text.small.size};
@@ -21,6 +22,25 @@ const StyledButton = styled(ButtonPrimary)`
   }
 `;
 const StyledText = styled.span``;
+const ButtonWrapperInner = styled(p => (
+  <Box direction="row" justify="start" {...p} />
+))`
+  overflow-x: auto;
+`;
+const ButtonWrapper = styled.div`
+  position: relative;
+  &:after {
+    content: '';
+    box-shadow: inset -15px 0px 10px -10px
+      ${({ theme }) => theme.global.colors['light-0']};
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    pointer-events: none;
+  }
+`;
 
 const Styled = styled.div`
   padding-bottom: 16px;
@@ -84,21 +104,23 @@ export function FilterOptions({
           </Text>
         </Box>
       )}
-      <Box direction="row">
-        {options &&
-          options.map(option => (
-            <StyledButton
-              key={option.value}
-              color={option.color}
-              title={option.label}
-              active={option.active}
-              onClick={option.onClick}
-              disabled={option.disabled}
-            >
-              <StyledText>{option.label}</StyledText>
-            </StyledButton>
-          ))}
-      </Box>
+      <ButtonWrapper>
+        <ButtonWrapperInner>
+          {options &&
+            options.map(option => (
+              <StyledButton
+                key={option.value}
+                color={option.color}
+                title={option.label}
+                active={option.active}
+                onClick={option.onClick}
+                disabled={option.disabled}
+              >
+                <StyledText>{option.label}</StyledText>
+              </StyledButton>
+            ))}
+        </ButtonWrapperInner>
+      </ButtonWrapper>
     </Styled>
   );
 }

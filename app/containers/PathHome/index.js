@@ -10,11 +10,19 @@ import React, { useRef } from 'react';
 // import { compose } from 'redux';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled from 'styled-components';
-import { Box, Text, Paragraph, Button } from 'grommet';
+import {
+  ResponsiveContext,
+  Box,
+  Text,
+  Paragraph,
+  Button,
+  Heading,
+} from 'grommet';
 import { Down } from 'grommet-icons';
+
 import all from 'images/metrics/all.png';
 
-import { getHeaderHeight } from 'utils/responsive';
+import { getHeaderHeight, isMinSize } from 'utils/responsive';
 
 import Search from 'containers/Search';
 import SectionFooter from 'components/SectionFooter';
@@ -32,8 +40,14 @@ import rootMessages from 'messages';
 import messages from './messages';
 
 const IntroImg = styled.img`
-  max-width: 700px;
+  max-width: 280px;
   max-height: 40vh;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    max-width: 500px;
+  }
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    max-width: 700px;
+  }
 `;
 // margin-top: -${({ theme }) => getHeaderHeight('small', theme)}px;
 // justify="evenly"
@@ -59,9 +73,13 @@ const IntroSectionContainer = styled(p => (
 /* margin-top: -${({ theme }) => getHeaderHeight('medium', theme)}px; */
 
 const ButtonShortcut = styled(p => <ButtonText inverse {...p} />)`
-  /* font-weight: normal; */
-  font-size: ${({ theme }) => theme.text.xlarge.size};
-  text-decoration: none;
+  font-size: ${({ theme }) => theme.text.small.size};
+  text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: ${({ theme }) => theme.text.xlarge.size};
+  }
   &:hover {
     opacity: 1;
   }
@@ -69,9 +87,13 @@ const ButtonShortcut = styled(p => <ButtonText inverse {...p} />)`
 // width: 180px;
 // text-align: center;
 
-const Title = styled.h1``;
-const SectionTitle = styled.h2`
-  font-size: 32px;
+const Title = styled(p => (
+  <Heading level={1} color="white" {...p} textAlign="center" />
+))`
+  font-weight: bold;
+`;
+const SectionTitle = styled(p => <Heading level={2} {...p} size="large" />)`
+  font-weight: bold;
   color: ${({ theme, color }) => theme.global.colors[color || 'brand']};
 `;
 
@@ -81,7 +103,7 @@ const SearchWrapper = styled.div`
 `;
 
 const SectionIntro = styled(p => <Paragraph textAlign="center" {...p} />)``;
-const SectionIntroText = styled(p => <Text size="medium" {...p} />)``;
+const SectionIntroText = styled(Text)``;
 
 const MetricSection = styled(p => (
   <SectionContainer pad={{ bottom: 'xsmall' }} {...p} />
@@ -98,160 +120,182 @@ export function PathHome({ intl }) {
   const sectionVDEM = useRef(null);
 
   return (
-    <ContentWrap>
-      <IntroSectionContainer>
-        <IntroUpper>
-          <IntroImg src={all} alt="" />
-          <Title>
-            <FormattedMessage {...messages.title} />
-          </Title>
-          <Paragraph textAlign="center" size="large">
-            <FormattedMessage
-              {...messages.intro}
-              values={{
-                linkRightsTracker: (
-                  <ButtonText
-                    as="a"
-                    target="_blank"
-                    href={intl.formatMessage(
-                      rootMessages.sources.urlRightsTracker,
-                    )}
-                    inverse
-                  >
-                    <FormattedMessage
-                      {...rootMessages.sources.anchorRightsTracker}
-                    />
-                  </ButtonText>
-                ),
-              }}
-            />
-          </Paragraph>
-        </IntroUpper>
-        <ContentMaxWidth column flex={false}>
-          <Box margin={{ top: 'medium' }} align="center" gap="xsmall">
-            <Text size="medium">
-              <FormattedMessage {...messages.jumpToSection} />
-            </Text>
-            <Box direction="row" gap="ml">
-              <ButtonShortcut
-                onClick={() => {
-                  if (sectionESR && sectionESR.current)
-                    sectionESR.current.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <FormattedMessage {...messages.titleESR} />
-              </ButtonShortcut>
-              <ButtonShortcut
-                onClick={() => {
-                  if (sectionCPR && sectionCPR.current)
-                    sectionCPR.current.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <FormattedMessage {...messages.titleCPR} />
-              </ButtonShortcut>
-              <ButtonShortcut
-                onClick={() => {
-                  if (sectionVDEM && sectionVDEM.current)
-                    sectionVDEM.current.scrollIntoView({
-                      behavior: 'smooth',
-                    });
-                }}
-              >
-                <FormattedMessage {...messages.titleVDEM} />
-              </ButtonShortcut>
-            </Box>
-          </Box>
-          <Box margin={{ top: 'xxsmall' }} align="center" gap="xsmall">
-            <Button
-              onClick={() => {
-                if (sectionESR && sectionESR.current)
-                  sectionESR.current.scrollIntoView({ behavior: 'smooth' });
-              }}
-              icon={<Down color="white" size="xxxlarge" />}
-            />
-          </Box>
-        </ContentMaxWidth>
-      </IntroSectionContainer>
-      <div ref={sectionESR}>
-        <MetricSection>
-          <ContentMaxWidth column>
-            <Box align="center">
-              <SectionTitle>
-                <FormattedMessage {...messages.titleESR} />
-              </SectionTitle>
-              <SectionIntro>
-                <SectionIntroText>
-                  <FormattedMessage
-                    {...messages.introESR}
-                    values={{
-                      linkSERF: (
-                        <a
-                          target="_blank"
-                          href={intl.formatMessage(
-                            rootMessages.sources.urlSERF,
-                          )}
-                        >
-                          <FormattedMessage
-                            {...rootMessages.sources.anchorSERF}
-                          />
-                        </a>
-                      ),
+    <ResponsiveContext.Consumer>
+      {size => (
+        <ContentWrap>
+          <IntroSectionContainer>
+            <IntroUpper>
+              <IntroImg src={all} alt="" />
+              <Title>
+                <FormattedMessage {...messages.title} />
+              </Title>
+              <Paragraph textAlign="center" size="large">
+                <FormattedMessage
+                  {...messages.intro}
+                  values={{
+                    linkRightsTracker: (
+                      <ButtonText
+                        as="a"
+                        target="_blank"
+                        href={intl.formatMessage(
+                          rootMessages.sources.urlRightsTracker,
+                        )}
+                        inverse
+                      >
+                        <FormattedMessage
+                          {...rootMessages.sources.anchorRightsTracker}
+                        />
+                      </ButtonText>
+                    ),
+                  }}
+                />
+              </Paragraph>
+            </IntroUpper>
+            <ContentMaxWidth column flex={false}>
+              <Box margin={{ top: 'medium' }} align="center" gap="small">
+                <Text size={isMinSize(size, 'sm') ? 'medium' : 'small'}>
+                  <FormattedMessage {...messages.jumpToSection} />
+                </Text>
+                <Box
+                  direction={isMinSize(size, 'sm') ? 'row' : 'column'}
+                  gap={isMinSize(size, 'sm') ? 'ml' : 'xsmall'}
+                >
+                  <ButtonShortcut
+                    onClick={() => {
+                      if (sectionESR && sectionESR.current)
+                        sectionESR.current.scrollIntoView({
+                          behavior: 'smooth',
+                        });
                     }}
-                  />
-                </SectionIntroText>
-              </SectionIntro>
-            </Box>
-            <ChartContainerRegion type="esr" />
-          </ContentMaxWidth>
-        </MetricSection>
-      </div>
-      <div ref={sectionCPR}>
-        <MetricSection>
-          <ContentMaxWidth column>
-            <Box align="center">
-              <SectionTitle>
-                <FormattedMessage {...messages.titleCPR} />
+                  >
+                    <FormattedMessage {...messages.titleESR} />
+                  </ButtonShortcut>
+                  <ButtonShortcut
+                    onClick={() => {
+                      if (sectionCPR && sectionCPR.current)
+                        sectionCPR.current.scrollIntoView({
+                          behavior: 'smooth',
+                        });
+                    }}
+                  >
+                    <FormattedMessage {...messages.titleCPR} />
+                  </ButtonShortcut>
+                  <ButtonShortcut
+                    onClick={() => {
+                      if (sectionVDEM && sectionVDEM.current)
+                        sectionVDEM.current.scrollIntoView({
+                          behavior: 'smooth',
+                        });
+                    }}
+                  >
+                    <FormattedMessage {...messages.titleVDEM} />
+                  </ButtonShortcut>
+                </Box>
+              </Box>
+              <Box margin={{ top: 'xsmall' }} align="center">
+                <Button
+                  onClick={() => {
+                    if (sectionESR && sectionESR.current)
+                      sectionESR.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  icon={
+                    <Down
+                      color="white"
+                      size={isMinSize(size, 'sm') ? 'xxxlarge' : 'xxlarge'}
+                    />
+                  }
+                />
+              </Box>
+            </ContentMaxWidth>
+          </IntroSectionContainer>
+          <div ref={sectionESR}>
+            <MetricSection>
+              <ContentMaxWidth column>
+                <Box align="center">
+                  <SectionTitle>
+                    <FormattedMessage {...messages.titleESR} />
+                  </SectionTitle>
+                  <SectionIntro>
+                    <SectionIntroText
+                      size={isMinSize(size, 'sm') ? 'medium' : 'small'}
+                    >
+                      <FormattedMessage
+                        {...messages.introESR}
+                        values={{
+                          linkSERF: (
+                            <a
+                              target="_blank"
+                              href={intl.formatMessage(
+                                rootMessages.sources.urlSERF,
+                              )}
+                            >
+                              <FormattedMessage
+                                {...rootMessages.sources.anchorSERF}
+                              />
+                            </a>
+                          ),
+                        }}
+                      />
+                    </SectionIntroText>
+                  </SectionIntro>
+                </Box>
+                <ChartContainerRegion type="esr" />
+              </ContentMaxWidth>
+            </MetricSection>
+          </div>
+          <div ref={sectionCPR}>
+            <MetricSection>
+              <ContentMaxWidth column>
+                <Box align="center">
+                  <SectionTitle>
+                    <FormattedMessage {...messages.titleCPR} />
+                  </SectionTitle>
+                  <SectionIntro>
+                    <SectionIntroText
+                      size={isMinSize(size, 'sm') ? 'medium' : 'small'}
+                    >
+                      <FormattedMessage {...messages.introCPR} />
+                    </SectionIntroText>
+                  </SectionIntro>
+                </Box>
+                <ChartContainerRegion type="cpr" />
+              </ContentMaxWidth>
+            </MetricSection>
+          </div>
+          <div ref={sectionVDEM}>
+            <MetricSection>
+              <ContentMaxWidth column>
+                <Box align="center">
+                  <SectionTitle>
+                    <FormattedMessage {...messages.titleVDEM} />
+                  </SectionTitle>
+                  <SectionIntro>
+                    <SectionIntroText
+                      size={isMinSize(size, 'sm') ? 'medium' : 'small'}
+                    >
+                      <FormattedMessage {...messages.introVDEM} />
+                    </SectionIntroText>
+                  </SectionIntro>
+                </Box>
+                <ChartContainerRegion type="vdem" />
+              </ContentMaxWidth>
+            </MetricSection>
+          </div>
+          <SectionContainer background="brand">
+            <ContentMaxWidth column>
+              <SectionTitle color="white">
+                <FormattedMessage {...messages.countrySearchTitle} />
               </SectionTitle>
-              <SectionIntro>
-                <SectionIntroText>
-                  <FormattedMessage {...messages.introCPR} />
-                </SectionIntroText>
-              </SectionIntro>
-            </Box>
-            <ChartContainerRegion type="cpr" />
-          </ContentMaxWidth>
-        </MetricSection>
-      </div>
-      <div ref={sectionVDEM}>
-        <MetricSection>
-          <ContentMaxWidth column>
-            <Box align="center">
-              <SectionTitle>
-                <FormattedMessage {...messages.titleVDEM} />
-              </SectionTitle>
-              <SectionIntro>
-                <SectionIntroText>
-                  <FormattedMessage {...messages.introVDEM} />
-                </SectionIntroText>
-              </SectionIntro>
-            </Box>
-            <ChartContainerRegion type="vdem" />
-          </ContentMaxWidth>
-        </MetricSection>
-      </div>
-      <SectionContainer background="brand">
-        <ContentMaxWidth column>
-          <SectionTitle color="white">
-            <FormattedMessage {...messages.countrySearchTitle} />
-          </SectionTitle>
-          <SearchWrapper>
-            <Search bordersize="small" bordercolor="brandDarker" stretch />
-          </SearchWrapper>
-        </ContentMaxWidth>
-      </SectionContainer>
-      <SectionCredits />
-      <SectionFooter />
-    </ContentWrap>
+              <SearchWrapper>
+                <Search bordersize="small" bordercolor="brandDarker" stretch />
+              </SearchWrapper>
+            </ContentMaxWidth>
+          </SectionContainer>
+          <SectionCredits />
+          <SectionFooter />
+        </ContentWrap>
+      )}
+    </ResponsiveContext.Consumer>
   );
 }
 // <SectionFooter locale={locale} nav={nav} />

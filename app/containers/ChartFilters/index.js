@@ -5,16 +5,13 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import styled from 'styled-components';
-import { ResponsiveContext } from 'grommet';
 
 import { getUNRegionSearch } from 'containers/App/selectors';
 import { navigate } from 'containers/App/actions';
 
 import { COUNTRY_FILTERS } from 'containers/App/constants';
-import { isMinSize, isMaxSize } from 'utils/responsive';
 import { getFilterOptionValues } from 'utils/filters';
 import FilterOptions from './FilterOptions';
-import FilterOptionsDrop from './FilterOptionsDrop';
 
 const FilterWrap = styled.div``;
 
@@ -29,30 +26,15 @@ export function ChartFilters({
     config,
   );
   return (
-    <ResponsiveContext.Consumer>
-      {size => (
-        <FilterWrap>
-          {isMinSize(size, 'large') && (
-            <FilterOptions
-              unRegionFilterValue={unRegionFilterValue}
-              onRemoveFilter={onRemoveFilter}
-              onAddFilter={onAddFilter}
-              filterValues={filterValues}
-              config={config}
-            />
-          )}
-          {isMaxSize(size, 'medium') && (
-            <FilterOptionsDrop
-              unRegionFilterValue={unRegionFilterValue}
-              onRemoveFilter={onRemoveFilter}
-              onAddFilter={onAddFilter}
-              filterValues={filterValues}
-              config={config}
-            />
-          )}
-        </FilterWrap>
-      )}
-    </ResponsiveContext.Consumer>
+    <FilterWrap>
+      <FilterOptions
+        unRegionFilterValue={unRegionFilterValue}
+        onRemoveFilter={onRemoveFilter}
+        onAddFilter={onAddFilter}
+        filterValues={filterValues}
+        config={config}
+      />
+    </FilterWrap>
   );
 }
 
