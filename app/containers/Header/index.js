@@ -58,33 +58,60 @@ const Styled = styled.header`
   }
 `;
 
+// prettier-ignore
+const ContentMaxWidthHeader = styled(ContentMaxWidth)`
+  padding: 0 ${({ theme }) => theme.global.edgeSize.xsmall};
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    padding: 0 ${({ theme }) => theme.global.edgeSize.medium};
+  }
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+    padding: 0 ${({ theme }) => theme.global.edgeSize.xlarge};
+  }
+`;
+
 const Title = styled.span`
-  font-size: 20px;
+  font-size: 14px;
   font-weight: bold;
   color: ${({ theme }) => theme.global.colors.brand};
   text-transform: uppercase;
   position: relative;
+  display: inline;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    font-size: 20px;
+  }
 `;
 const Claim = styled.span`
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.global.colors.brand};
+  font-size: 11px;
+  line-height: 13px;
+  font-weight: 600;
   text-transform: uppercase;
+  color: ${({ theme }) => theme.global.colors.brand};
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+  }
 `;
 
 const Beta = styled.span`
-  font-size: 12px;
-  line-height: 12px;
+  position: absolute;
+  left: 100%;
+  top: 0px;
+  font-size: 10px;
+  line-height: 10px;
   background-color: ${({ theme }) => theme.global.colors.secondary};
   color: ${({ theme }) => theme.global.colors.white};
   text-transform: none;
-  padding: 1px 5px;
-  border-radius: 4px;
-  position: absolute;
-  left: 100%;
-  top: 1px;
-  margin-left: 4px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 3px;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    padding: 1px 5px;
+    border-radius: 4px;
+    margin-left: 4px;
+    font-size: 12px;
+    line-height: 12px;
+  }
 `;
 
 const NavBarTop = props => (
@@ -229,7 +256,7 @@ export function Header({
       {size => (
         <Styled role="banner" size={size}>
           <ElevationBox background="white">
-            <ContentMaxWidth column={isMaxSize(size, 'sm')}>
+            <ContentMaxWidthHeader column={isMaxSize(size, 'sm')}>
               <BrandBox
                 direction="row"
                 align="center"
@@ -261,7 +288,7 @@ export function Header({
                         fit="contain"
                       />
                     </LogoWrap>
-                    <Box>
+                    <Box align="start">
                       <Title>
                         <FormattedMessage {...rootMessages.app.title} />
                         <Beta>beta</Beta>
@@ -272,20 +299,22 @@ export function Header({
                     </Box>
                   </BrandInner>
                 </BrandButton>
-                {isMaxSize(size, 'sm') && appLocales.length > 1 && (
-                  <Box margin={{ left: 'auto' }}>
-                    <LocaleToggle />
-                  </Box>
-                )}
                 {isMaxSize(size, 'sm') && (
-                  <ToggleMenu
-                    plain
-                    onClick={() => setShowMenu(!showMenu)}
-                    ref={menuRef}
-                  >
-                    {!showMenu && <Menu color="dark" />}
-                    {showMenu && <Close color="dark" />}
-                  </ToggleMenu>
+                  <Box margin={{ left: 'auto' }} direction="row" align="center">
+                    {appLocales.length > 1 && (
+                      <Box>
+                        <LocaleToggle />
+                      </Box>
+                    )}
+                    <ToggleMenu
+                      plain
+                      onClick={() => setShowMenu(!showMenu)}
+                      ref={menuRef}
+                    >
+                      {!showMenu && <Menu color="dark" />}
+                      {showMenu && <Close color="dark" />}
+                    </ToggleMenu>
+                  </Box>
                 )}
                 {showMenu && isMaxSize(size, 'medium') && (
                   <Layer
@@ -359,7 +388,7 @@ export function Header({
                 <NavBarBottomBox
                   direction="row"
                   align="end"
-                  justify={isMinSize(size, 'medium') ? 'end' : 'start'}
+                  justify={isMinSize(size, 'medium') ? 'end' : 'evenly'}
                   height={`${getHeaderHeightBottom(size, theme)}px`}
                   theme={theme}
                   size={size}
@@ -368,22 +397,22 @@ export function Header({
                   <NavBottom
                     type="metrics"
                     active={path === PATHS.METRICS || path === PATHS.METRIC}
+                    activeCode={path === PATHS.METRIC ? match : ''}
                     onClick={() => {
                       onHideAsideLayer();
                     }}
-                    activeCode={path === PATHS.METRIC ? match : ''}
                   />
                   <NavBottom
                     type="countries"
                     active={path === PATHS.COUNTRIES || path === PATHS.COUNTRY}
+                    activeCode={path === PATHS.COUNTRY ? match : ''}
                     onClick={() => {
                       onHideAsideLayer();
                     }}
-                    activeCode={path === PATHS.COUNTRY ? match : ''}
                   />
                 </NavBarBottomBox>
               </Box>
-            </ContentMaxWidth>
+            </ContentMaxWidthHeader>
           </ElevationBox>
         </Styled>
       )}
