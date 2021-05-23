@@ -50,10 +50,12 @@ import rootMessages from 'messages';
 
 // prettier-ignore
 const MultiCardWrapper = styled(Box)`
-  max-width: calc(100% + ${({ theme }) => {
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+    max-width: calc(100% + ${({ theme }) => {
     const value = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
     return value * 2;
   }}px);
+  }
 `;
 
 const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
@@ -123,26 +125,32 @@ export function ChartContainerRegion({
           />
           <MultiCardWrapper
             pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-            align="start"
+            align="center"
             responsive={false}
-            margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
+            margin={isMinSize(size, 'large') ?
+              { horizontal: `-${theme.global.edgeSize.xsmall}` } : {}
+            }
             ref={ref}
           >
             {gridWidth && (
               <Box
-                direction="row"
-                wrap
+                direction={isMinSize(size, 'large') ? 'row' : 'column'}
+                wrap={isMinSize(size, 'large')}
                 overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
-                align="start"
+                align="center"
+                fill="horizontal"
               >
                 {rightsScores.map(right => (
                   <WrapPlot
                     key={right.key}
-                    width={getCardWidth(
-                      gridWidth || 200,
-                      getCardNumber(size),
-                      theme,
-                    )}
+                    width={
+                      isMinSize(size, 'large') ?
+                        getCardWidth(
+                          gridWidth,
+                          getCardNumber(size),
+                          theme,
+                        ) : null
+                    }
                   >
                     <ChartMetricTrend
                       mode="multi-region"
@@ -169,7 +177,7 @@ export function ChartContainerRegion({
           </MultiCardWrapper>
           {(type === 'esr' || type === 'cpr') && (
             <Box gap="xxsmall">
-              {type === 'cpr' && (
+              {isMinSize(size, 'sm') && type === 'cpr' && (
                 <Box gap="xsmall" direction="row">
                   <Text size="xxsmall" textAlign="start">
                     <FormattedMessage {...rootMessages.charts.gradesCPRWithLink} />
@@ -193,7 +201,7 @@ export function ChartContainerRegion({
                     ))}
                 </Box>
               )}
-              {type === 'esr' && (
+              {isMinSize(size, 'sm') && type === 'esr' && (
                 <Box gap="xsmall" direction="row">
                   <Text size="xxsmall" textAlign="start">
                     <FormattedMessage {...rootMessages.charts.gradesESRWithLink} />
@@ -231,7 +239,7 @@ export function ChartContainerRegion({
                   </ButtonText>
                 </Text>
               )}
-              {type === 'cpr' && (
+              {isMinSize(size, 'sm') && type === 'cpr' && (
                 <Text size="xxsmall" color="dark">
                   <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
                     <FormattedMessage

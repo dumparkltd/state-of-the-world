@@ -21,6 +21,10 @@ export default defineMessages({
     id: `${scope}.noteAssessmentRatio`,
     defaultMessage: 'Based on {link} only and may thus not be representative. ',
   },
+  noteAssessmentRatioSmall: {
+    id: `${scope}.noteAssessmentRatioSmall`,
+    defaultMessage: 'Based on {link}, may thus not be representative',
+  },
   noteAssessmentRatioAll: {
     id: `${scope}.noteAssessmentRatioAll`,
     defaultMessage: 'Based on all {link} in the selected UN group',
@@ -56,12 +60,12 @@ export default defineMessages({
     id: `${scope}.noteCredibleIntervalLinkRegions`,
     defaultMessage: 'click for details',
   },
-  noteCredibleIntervalCountry: {
-    id: `${scope}.noteCredibleIntervalCountry`,
+  noteCredibleIntervalSmall: {
+    id: `${scope}.noteCredibleIntervalSmall`,
     defaultMessage: '80% credible interval ({link}) ',
   },
-  noteCredibleIntervalCountryVDEM: {
-    id: `${scope}.noteCredibleIntervalCountryVDEM`,
+  noteCredibleIntervalSmallVDEM: {
+    id: `${scope}.noteCredibleIntervalSmallVDEM`,
     defaultMessage: '68% credible interval ({link}) ',
   },
   noteCredibleIntervalLinkCountry: {

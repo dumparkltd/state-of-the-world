@@ -67,10 +67,12 @@ import messages from './messages';
 
 // prettier-ignore
 const MultiCardWrapper = styled(Box)`
-  max-width: calc(100% + ${({ theme }) => {
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+    max-width: calc(100% + ${({ theme }) => {
     const value = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
     return value * 2;
   }}px);
+  }
 `;
 const StyledText = styled(Text)`
   font-weight: 600;
@@ -169,6 +171,7 @@ export function ChartContainerCountry({
   const hasGovRespondents =
     hasCPR && quasiEquals(country[COLUMNS.COUNTRIES.GOV_RESPONDENTS], 1);
 
+  // prettier-ignore
   return (
     <div ref={ref}>
       <ResponsiveContext.Consumer>
@@ -204,18 +207,23 @@ export function ChartContainerCountry({
               {(hasESR || hasOtherESR) && (
                 <MultiCardWrapper
                   pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-                  align="start"
+                  align="center"
                   responsive={false}
-                  margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
+                  margin={
+                    isMinSize(size, 'large')
+                      ? { horizontal: `-${theme.global.edgeSize.xsmall}` }
+                      : {}
+                  }
                 >
                   {gridWidth && (
                     <Box
-                      direction="row"
-                      wrap
+                      direction={isMinSize(size, 'large') ? 'row' : 'column'}
+                      wrap={isMinSize(size, 'large')}
                       overflow={
                         isMaxSize(size, 'medium') ? 'hidden' : 'visible'
                       }
-                      align="start"
+                      align="center"
+                      fill="horizontal"
                     >
                       {scoresESR.map(right => {
                         const regionRight = regionScores.find(
@@ -224,11 +232,14 @@ export function ChartContainerCountry({
                         return (
                           <WrapPlot
                             key={right.key}
-                            width={getCardWidth(
-                              gridWidth || 200,
-                              getCardNumber(size),
-                              theme,
-                            )}
+                            width={
+                              isMinSize(size, 'large') ?
+                                getCardWidth(
+                                  gridWidth,
+                                  getCardNumber(size),
+                                  theme,
+                                ) : null
+                            }
                           >
                             <ChartMetricTrend
                               scores={{
@@ -296,19 +307,23 @@ export function ChartContainerCountry({
               {hasCPR && (
                 <MultiCardWrapper
                   pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-                  align="start"
+                  align="center"
                   responsive={false}
-                  margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
-                  ref={ref}
+                  margin={
+                    isMinSize(size, 'large')
+                      ? { horizontal: `-${theme.global.edgeSize.xsmall}` }
+                      : {}
+                  }
                 >
                   {gridWidth && (
                     <Box
-                      direction="row"
-                      wrap
+                      direction={isMinSize(size, 'large') ? 'row' : 'column'}
+                      wrap={isMinSize(size, 'large')}
                       overflow={
                         isMaxSize(size, 'medium') ? 'hidden' : 'visible'
                       }
-                      align="start"
+                      align="center"
+                      fill="horizontal"
                     >
                       {scoresCPR.map(right => {
                         const regionRight = regionScores.find(
@@ -317,11 +332,14 @@ export function ChartContainerCountry({
                         return (
                           <WrapPlot
                             key={right.key}
-                            width={getCardWidth(
-                              gridWidth || 200,
-                              getCardNumber(size),
-                              theme,
-                            )}
+                            width={
+                              isMinSize(size, 'large') ?
+                                getCardWidth(
+                                  gridWidth,
+                                  getCardNumber(size),
+                                  theme,
+                                ) : null
+                            }
                           >
                             <ChartMetricTrend
                               scores={{
@@ -364,19 +382,23 @@ export function ChartContainerCountry({
               {hasVDEM && (
                 <MultiCardWrapper
                   pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
-                  align="start"
+                  align="center"
                   responsive={false}
-                  margin={{ horizontal: `-${theme.global.edgeSize.xsmall}` }}
-                  ref={ref}
+                  margin={
+                    isMinSize(size, 'large')
+                      ? { horizontal: `-${theme.global.edgeSize.xsmall}` }
+                      : {}
+                  }
                 >
                   {gridWidth && (
                     <Box
-                      direction="row"
-                      wrap
+                      direction={isMinSize(size, 'large') ? 'row' : 'column'}
+                      wrap={isMinSize(size, 'large')}
                       overflow={
                         isMaxSize(size, 'medium') ? 'hidden' : 'visible'
                       }
-                      align="start"
+                      align="center"
+                      fill="horizontal"
                     >
                       {scoresVDEM.map(right => {
                         const regionRight = regionScores.find(
@@ -385,11 +407,14 @@ export function ChartContainerCountry({
                         return (
                           <WrapPlot
                             key={right.key}
-                            width={getCardWidth(
-                              gridWidth || 200,
-                              getCardNumber(size),
-                              theme,
-                            )}
+                            width={
+                              isMinSize(size, 'large') ?
+                                getCardWidth(
+                                  gridWidth,
+                                  getCardNumber(size),
+                                  theme,
+                                ) : null
+                            }
                           >
                             <ChartMetricTrend
                               scores={{

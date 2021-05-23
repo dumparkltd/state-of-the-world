@@ -8,9 +8,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { Text, Box } from 'grommet';
+import { Text, Box, ResponsiveContext } from 'grommet';
 
 import { getRegionYearCount } from 'utils/charts';
+import { isMinSize } from 'utils/responsive';
 
 import ButtonText from 'styled/ButtonText';
 
@@ -27,7 +28,7 @@ const RangeWrapper = styled(Box)`
   position: relative;
   display: block;
   width: 20px;
-  height: 12px;
+  height: 13px;
 `;
 const Range = styled.div`
   position: absolute;
@@ -35,7 +36,7 @@ const Range = styled.div`
   top: 0;
   display: block;
   width: 20px;
-  height: 12px;
+  height: 13px;
   background-color: ${({ theme, region }) => theme.global.colors[region]};
   opacity: 0.2;
 `;
@@ -46,9 +47,10 @@ const Mean = styled.div`
   position: absolute;
   top: 50%;
   left: 0;
-  width: 100%;
+  width: 20px;
   border-top: 2px solid;
   border-color: ${({ theme, region }) => theme.global.colors[region]};
+  margin-top: -1px;
 `;
 const MeanRegion = styled.div`
   display: block;
@@ -193,153 +195,163 @@ function CardFooter({
     };
   }
   return (
-    <Styled>
-      {notes.regionBias && (
-        <Hint>
-          <Text size="xxsmall">
-            <FormattedMessage
-              {...rootMessages.charts.noteRegionalBiasESRWithLink}
-              values={{
-                link: (
-                  <ButtonText onClick={() => onSelectPage('methodology-esr')}>
-                    <FormattedMessage
-                      {...rootMessages.charts.noteRegionalBiasESRLink}
-                    />
-                  </ButtonText>
-                ),
-              }}
-            />
-          </Text>
-        </Hint>
-      )}
-      {notes.regionAvg && (
-        <>
-          {(!currentRegion || currentRegion === 'all') && (
+    <ResponsiveContext.Consumer>
+      {size => (
+        <Styled>
+          {notes.regionBias && (
             <Hint>
               <Text size="xxsmall">
-                <FormattedMessage {...messages.noteAssessmentMultiple} />
+                <FormattedMessage
+                  {...rootMessages.charts.noteRegionalBiasESRWithLink}
+                  values={{
+                    link: (
+                      <ButtonText
+                        onClick={() => onSelectPage('methodology-esr')}
+                      >
+                        <FormattedMessage
+                          {...rootMessages.charts.noteRegionalBiasESRLink}
+                        />
+                      </ButtonText>
+                    ),
+                  }}
+                />
               </Text>
             </Hint>
           )}
-          {currentRegion && (
-            <Hint>
-              {count > 0 && count < total && (
-                <Text size="xxsmall">
-                  <FormattedMessage
-                    {...messages.noteAssessmentRatio}
-                    values={valuesAvg}
-                  />
-                </Text>
+          {notes.regionAvg && (
+            <>
+              {(!currentRegion || currentRegion === 'all') && (
+                <Hint>
+                  <Text size="xxsmall">
+                    <FormattedMessage {...messages.noteAssessmentMultiple} />
+                  </Text>
+                </Hint>
               )}
-              {count > 0 && count === total && (
-                <Text size="xxsmall">
-                  <FormattedMessage
-                    {...messages.noteAssessmentRatioAll}
-                    values={valuesAvg}
-                  />
-                </Text>
+              {currentRegion && (
+                <Hint>
+                  {count > 0 && count < total && (
+                    <Text size="xxsmall">
+                      <FormattedMessage
+                        {...messages[
+                          isMinSize(size, 'sm')
+                            ? 'noteAssessmentRatio'
+                            : 'noteAssessmentRatioSmall'
+                        ]}
+                        values={valuesAvg}
+                      />
+                    </Text>
+                  )}
+                  {count > 0 && count === total && (
+                    <Text size="xxsmall">
+                      <FormattedMessage
+                        {...messages.noteAssessmentRatioAll}
+                        values={valuesAvg}
+                      />
+                    </Text>
+                  )}
+                  {count === 0 && (
+                    <Text size="xxsmall">
+                      {currentRegion === 'world' && (
+                        <FormattedMessage
+                          {...messages.noteAssessmentNoneWorld}
+                          values={{ year }}
+                        />
+                      )}
+                      {currentRegion !== 'world' && type === 'cpr' && (
+                        <FormattedMessage
+                          {...messages.noteAssessmentNoneRegion}
+                          values={{ year }}
+                        />
+                      )}
+                      {currentRegion !== 'world' && type === 'esr' && (
+                        <FormattedMessage
+                          {...messages.noteAssessmentNoneRegionESR}
+                          values={{ year }}
+                        />
+                      )}
+                    </Text>
+                  )}
+                </Hint>
               )}
-              {count === 0 && (
-                <Text size="xxsmall">
-                  {currentRegion === 'world' && (
-                    <FormattedMessage
-                      {...messages.noteAssessmentNoneWorld}
-                      values={{ year }}
-                    />
-                  )}
-                  {currentRegion !== 'world' && type === 'cpr' && (
-                    <FormattedMessage
-                      {...messages.noteAssessmentNoneRegion}
-                      values={{ year }}
-                    />
-                  )}
-                  {currentRegion !== 'world' && type === 'esr' && (
-                    <FormattedMessage
-                      {...messages.noteAssessmentNoneRegionESR}
-                      values={{ year }}
-                    />
-                  )}
-                </Text>
-              )}
-            </Hint>
+            </>
           )}
-        </>
-      )}
-      {(notes.regionIntervalCPR || notes.countryIntervalCPR) && (
-        <Box direction="row" gap="xsmall" align="center">
-          <RangeWrapper>
-            <Range region={currentRegion} />
-            <Mean region={currentRegion} />
-          </RangeWrapper>
-          <Hint>
-            <Text size="xxsmall">
-              {notes.regionIntervalCPR && (
-                <FormattedMessage
-                  {...messages.noteCredibleIntervalRegions}
-                  values={valuesInterval}
-                />
-              )}
-              {notes.countryIntervalCPR && (
-                <FormattedMessage
-                  {...messages.noteCredibleIntervalCountry}
-                  values={valuesInterval}
-                />
-              )}
-            </Text>
-          </Hint>
-        </Box>
-      )}
-      {(notes.regionIntervalVDEM || notes.countryIntervalVDEM) && (
-        <Box direction="row" gap="xsmall" align="center">
-          <RangeWrapper>
-            <Range region={currentRegion} />
-            <Mean region={currentRegion} />
-          </RangeWrapper>
-          <Hint>
-            <Text size="xxsmall">
-              {notes.regionIntervalVDEM && (
-                <FormattedMessage
-                  {...messages.noteCredibleIntervalRegionsVDEM}
-                  values={valuesInterval}
-                />
-              )}
-              {notes.countryIntervalVDEM && (
-                <FormattedMessage
-                  {...messages.noteCredibleIntervalCountryVDEM}
-                  values={valuesInterval}
-                />
-              )}
-            </Text>
-          </Hint>
-        </Box>
-      )}
-      {notes.countryRegionAvg && (
-        <Box direction="row" gap="xsmall" align="center">
-          <RangeWrapper>
-            <MeanRegion />
-          </RangeWrapper>
-          <Hint>
-            <Text size="xxsmall">
-              <FormattedMessage
-                {...messages.noteUNRegionAverage}
-                values={{
-                  group: (
+          {(notes.regionIntervalCPR || notes.countryIntervalCPR) && (
+            <Box direction="row" gap="xsmall" align="center">
+              <RangeWrapper>
+                <Range region={currentRegion} />
+                <Mean region={currentRegion} />
+              </RangeWrapper>
+              <Hint>
+                <Text size="xxsmall">
+                  {notes.regionIntervalCPR && isMinSize(size, 'sm') && (
                     <FormattedMessage
-                      {...rootMessages.un_regions_short[currentRegion]}
+                      {...messages.noteCredibleIntervalRegions}
+                      values={valuesInterval}
                     />
-                  ),
-                }}
-              />
-            </Text>
-            {notes.countryRegionAvgNA && (
-              <Text size="xxsmall">
-                <FormattedMessage {...messages.noteUNRegionAverageNA} />
-              </Text>
-            )}
-          </Hint>
-        </Box>
+                  )}
+                  {(notes.countryIntervalCPR || size === 'small') && (
+                    <FormattedMessage
+                      {...messages.noteCredibleIntervalSmall}
+                      values={valuesInterval}
+                    />
+                  )}
+                </Text>
+              </Hint>
+            </Box>
+          )}
+          {(notes.regionIntervalVDEM || notes.countryIntervalVDEM) && (
+            <Box direction="row" gap="xsmall" align="center">
+              <RangeWrapper>
+                <Range region={currentRegion} />
+                <Mean region={currentRegion} />
+              </RangeWrapper>
+              <Hint>
+                <Text size="xxsmall">
+                  {notes.regionIntervalVDEM && isMinSize(size, 'sm') && (
+                    <FormattedMessage
+                      {...messages.noteCredibleIntervalRegionsVDEM}
+                      values={valuesInterval}
+                    />
+                  )}
+                  {(notes.countryIntervalVDEM || size === 'small') && (
+                    <FormattedMessage
+                      {...messages.noteCredibleIntervalSmallVDEM}
+                      values={valuesInterval}
+                    />
+                  )}
+                </Text>
+              </Hint>
+            </Box>
+          )}
+          {notes.countryRegionAvg && (
+            <Box direction="row" gap="xsmall" align="center">
+              <RangeWrapper>
+                <MeanRegion />
+              </RangeWrapper>
+              <Hint>
+                <Text size="xxsmall">
+                  <FormattedMessage
+                    {...messages.noteUNRegionAverage}
+                    values={{
+                      group: (
+                        <FormattedMessage
+                          {...rootMessages.un_regions_short[currentRegion]}
+                        />
+                      ),
+                    }}
+                  />
+                </Text>
+                {notes.countryRegionAvgNA && (
+                  <Text size="xxsmall">
+                    <FormattedMessage {...messages.noteUNRegionAverageNA} />
+                  </Text>
+                )}
+              </Hint>
+            </Box>
+          )}
+        </Styled>
       )}
-    </Styled>
+    </ResponsiveContext.Consumer>
   );
 }
 

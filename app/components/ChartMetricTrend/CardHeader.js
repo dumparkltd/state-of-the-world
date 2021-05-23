@@ -70,8 +70,8 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
               <Text size="xxsmall" color={color}>
                 <FormattedMessage {...rootMessages.un_regions[currentRegion]} />
               </Text>
-              <Box direction="row" gap="xxsmall">
-                <Text size="xxsmall" color="secondary">
+              <Box direction="row" gap="xsmall">
+                <Text size="xxsmall" color="secondary" textAlign="end">
                   {currentRegion === 'world' && (
                     <FormattedMessage {...rootMessages.labels.worldScore} />
                   )}

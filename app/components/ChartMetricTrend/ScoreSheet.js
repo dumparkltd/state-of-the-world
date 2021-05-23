@@ -8,18 +8,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import styled from 'styled-components';
-import { Box, Text } from 'grommet';
+import { Box, Text, ResponsiveContext } from 'grommet';
 import { reduce } from 'lodash/collection';
 
 import { formatScore } from 'utils/scores';
+// import { isMinSize, isMaxSize } from 'utils/responsive';
+import { isMinSize } from 'utils/responsive';
 
 import ButtonPlain from 'styled/ButtonPlain';
 import rootMessages from 'messages';
 
 const Styled = styled(p => <Box flex={{ shrink: 0 }} {...p} />)`
-  width: ${({ mode }) => (mode === 'detail-region' ? 200 : 30)}px;
+  width: 30px;
   padding-top: ${({ padding }) => padding.top || 0}px;
   padding-bottom: ${({ padding }) => padding.bottom || 0}px;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    width: ${({ mode }) => (mode === 'detail-region' ? 200 : 30)}px;
+  }
 `;
 const Inner = styled(p => <Box fill {...p} />)`
   position: relative;
@@ -215,109 +220,123 @@ function ScoreSheet({
     console.log('Country code not in language files:', activeCountry);
   }
   /* eslint-enable no-console */
+  // prettier-ignore
   return (
-    <Styled padding={margin} mode={mode}>
-      <Inner>
-        {labels &&
-          labels.map((label, index) => {
-            const isRegion =
-              label.code !== activeCountry && label.code !== highlightCountry;
-            if (!isRegion) {
-              return (
-                <CountryLabel
-                  key={label.code}
-                  direction="row"
-                  gap="xsmall"
-                  align="center"
-                  regionCode={
-                    regionScores &&
-                    Object.keys(regionScores) &&
-                    Object.keys(regionScores)[0]
-                  }
-                  offsetY={label.offset}
-                >
-                  <Text size="xsmall">
-                    {label.value && formatScore(label.value, metric.type, intl)}
-                    {!label.value &&
-                      intl.formatMessage(
-                        rootMessages.labels.abbrev.notAvailable,
-                      )}
-                  </Text>
-                  <Text size="xsmall">
-                    {rootMessages.countries[label.code]
-                      ? intl.formatMessage(rootMessages.countries[label.code])
-                      : label.code}
-                  </Text>
-                </CountryLabel>
-              );
-            }
-            if (label.value && isRegion && mode === 'detail-region') {
-              const inactive =
-                highlightRegion && label.code !== highlightRegion;
-              return (
-                <RegionButton
-                  key={label.code}
-                  offsetY={label.offset}
-                  onClick={() =>
-                    currentRegion === 'all' && onSetRegionFilter(label.code)
-                  }
-                  onMouseOver={() =>
-                    currentRegion === 'all' && setRegion(label.code)
-                  }
-                  onFocus={() =>
-                    currentRegion === 'all' && setRegion(label.code)
-                  }
-                  onMouseOut={() => currentRegion === 'all' && setRegion(null)}
-                  onBlur={() => currentRegion === 'all' && setRegion(null)}
-                  disabled={currentRegion === 'world'}
-                >
-                  <RegionLabelWrap
-                    direction="row"
-                    gap="xsmall"
-                    inactive={inactive}
-                    regionCode={label.code}
-                    align="center"
-                  >
-                    <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
-                      {formatScore(label.value, metric.type, intl)}
-                    </Text>
-                    <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
-                      <FormattedMessage
-                        {...rootMessages.un_regions_short[label.code]}
-                      />
-                    </Text>
-                  </RegionLabelWrap>
-                </RegionButton>
-              );
-            }
-            if (label.value && isRegion && mode === 'multi-region') {
-              const showTitleMulti =
-                showLabel && highlightRegion && label.code === highlightRegion;
-              const titleMultiAbove = showTitleMulti && index === 0;
+    <ResponsiveContext.Consumer>
+      {size => (
+        <Styled padding={margin} mode={mode}>
+          <Inner>
+            {labels &&
+              labels.map((label, index) => {
+                const isRegion =
+                  label.code !== activeCountry &&
+                  label.code !== highlightCountry;
+                if (!isRegion) {
+                  return (
+                    <CountryLabel
+                      key={label.code}
+                      direction="row"
+                      gap="xsmall"
+                      align="center"
+                      regionCode={
+                        regionScores &&
+                        Object.keys(regionScores) &&
+                        Object.keys(regionScores)[0]
+                      }
+                      offsetY={label.offset}
+                    >
+                      <Text size="xsmall">
+                        {label.value &&
+                          formatScore(label.value, metric.type, intl)}
+                        {!label.value &&
+                          intl.formatMessage(
+                            rootMessages.labels.abbrev.notAvailable,
+                          )}
+                      </Text>
+                      <Text size="xsmall">
+                        {rootMessages.countries[label.code]
+                          ? intl.formatMessage(
+                            rootMessages.countries[label.code],
+                          )
+                          : label.code}
+                      </Text>
+                    </CountryLabel>
+                  );
+                }
+                if (
+                  label.value &&
+                  isRegion &&
+                  mode === 'detail-region' &&
+                  isMinSize(size, 'large')
+                ) {
+                  const inactive =
+                    highlightRegion && label.code !== highlightRegion;
+                  return (
+                    <RegionButton
+                      key={label.code}
+                      offsetY={label.offset}
+                      onClick={() =>
+                        currentRegion === 'all' && onSetRegionFilter(label.code)
+                      }
+                      onMouseOver={() =>
+                        currentRegion === 'all' && setRegion(label.code)
+                      }
+                      onFocus={() =>
+                        currentRegion === 'all' && setRegion(label.code)
+                      }
+                      onMouseOut={() => currentRegion === 'all' && setRegion(null)}
+                      onBlur={() => currentRegion === 'all' && setRegion(null)}
+                      disabled={currentRegion === 'world'}
+                    >
+                      <RegionLabelWrap
+                        direction="row"
+                        gap="xsmall"
+                        inactive={inactive}
+                        regionCode={label.code}
+                        align="center"
+                      >
+                        <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
+                          {formatScore(label.value, metric.type, intl)}
+                        </Text>
+                        <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
+                          <FormattedMessage
+                            {...rootMessages.un_regions_short[label.code]}
+                          />
+                        </Text>
+                      </RegionLabelWrap>
+                    </RegionButton>
+                  );
+                }
+                if (label.value && isRegion && mode === 'multi-region') {
+                  const showTitleMulti =
+                    showLabel && highlightRegion && label.code === highlightRegion;
+                  const titleMultiAbove = showTitleMulti && index === 0;
 
-              return (
-                <RegionLabelWrapMulti
-                  key={label.code}
-                  regionCode={label.code}
-                  offsetY={label.offset}
-                >
-                  <RegionLabelMultiScore large={!highlightRegion}>
-                    {formatScore(label.value, metric.type, intl)}
-                  </RegionLabelMultiScore>
-                  {showTitleMulti && (
-                    <RegionLabelMultiTitle above={titleMultiAbove}>
-                      <FormattedMessage
-                        {...rootMessages.un_regions_short[label.code]}
-                      />
-                    </RegionLabelMultiTitle>
-                  )}
-                </RegionLabelWrapMulti>
-              );
-            }
-            return null;
-          })}
-      </Inner>
-    </Styled>
+                  return (
+                    <RegionLabelWrapMulti
+                      key={label.code}
+                      regionCode={label.code}
+                      offsetY={label.offset}
+                    >
+                      <RegionLabelMultiScore large={!highlightRegion}>
+                        {formatScore(label.value, metric.type, intl)}
+                      </RegionLabelMultiScore>
+                      {showTitleMulti && (
+                        <RegionLabelMultiTitle above={titleMultiAbove}>
+                          <FormattedMessage
+                            {...rootMessages.un_regions_short[label.code]}
+                          />
+                        </RegionLabelMultiTitle>
+                      )}
+                    </RegionLabelWrapMulti>
+                  );
+                }
+                return null;
+              })}
+          </Inner>
+        </Styled>
+      )}
+    </ResponsiveContext.Consumer>
   );
 }
 // {actCountry && (
