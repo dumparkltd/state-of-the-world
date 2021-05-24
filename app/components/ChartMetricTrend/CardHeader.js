@@ -15,7 +15,7 @@ import Tooltip from 'components/Tooltip';
 
 import ButtonPlain from 'styled/ButtonPlain';
 
-import { isMinSize, isMaxSize } from 'utils/responsive';
+import { isMinSize } from 'utils/responsive';
 
 import rootMessages from 'messages';
 import messages from './messages';
@@ -43,11 +43,9 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
   return (
     <ResponsiveContext.Consumer>
       {size => {
-        const showRegion =
-          mode === 'multi-region' ||
-          (mode === 'detail-region' && isMaxSize(size, 'small'));
+        const showRegion = mode === 'multi-region';
         const showTooltipLabel =
-          isMinSize(size, 'sm') && !mode === 'multi-country';
+          isMinSize(size, 'sm') && mode !== 'multi-country';
         // prettier-ignore
         return (
           <Styled>
@@ -147,7 +145,7 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                       </Text>
                     </Box>
                   )}
-                  {mode === 'multi-country' && (
+                  {(mode === 'multi-country' || mode === 'detail-region') && (
                     <Box direction="row" gap="xxsmall" align="center">
                       {showTooltipLabel && (
                         <Text size="xxsmall" color="secondary">
