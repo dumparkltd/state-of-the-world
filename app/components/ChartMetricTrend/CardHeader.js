@@ -46,7 +46,8 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
         const showRegion =
           mode === 'multi-region' ||
           (mode === 'detail-region' && isMaxSize(size, 'small'));
-        const showTooltipLabel = isMinSize(size, 'sm');
+        const showTooltipLabel =
+          isMinSize(size, 'sm') && !mode === 'multi-country';
         // prettier-ignore
         return (
           <Styled>
