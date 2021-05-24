@@ -42,9 +42,7 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-const Styled = styled.div`
-  padding-bottom: 16px;
-`;
+const Styled = styled.div``;
 
 export function FilterOptions({
   unRegionFilterValue,

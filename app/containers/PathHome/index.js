@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { compose } from 'redux';
@@ -28,6 +28,7 @@ import Search from 'containers/Search';
 import SectionFooter from 'components/SectionFooter';
 import SectionCredits from 'components/SectionCredits';
 import ChartContainerRegion from 'containers/ChartContainerRegion';
+import ChartFilters from 'containers/ChartFilters';
 
 // styles
 import SectionContainer from 'styled/SectionContainer';
@@ -114,15 +115,106 @@ const MetricSection = styled(p => (
   }
 `;
 
+const FilterWrap = styled.div`
+  position: fixed;
+  background: ${({ theme }) => theme.global.colors.bgTrans};
+  z-index: 9;
+  left: 0;
+  right: 0;
+  padding: 5px 0;
+  top: ${({ theme }) => getHeaderHeight('small', theme)}px;
+  display: ${({ show }) => (show ? 'block' : 'none')};
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    top: ${({ theme }) => getHeaderHeight('medium', theme)}px;
+  }
+`;
+
+const INVIEW_OFFSET_BOTTOM = 180;
+const INVIEW_OFFSET_TOP = 5;
+
 export function PathHome({ intl }) {
   const sectionESR = useRef(null);
   const sectionCPR = useRef(null);
   const sectionVDEM = useRef(null);
+  const ccESR = useRef(null);
+  const ccCPR = useRef(null);
+  const ccVDEM = useRef(null);
+
+  const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const esrInView =
+        ccESR &&
+        ccESR.current &&
+        sectionESR &&
+        sectionESR.current &&
+        sectionESR.current.offsetTop +
+          INVIEW_OFFSET_TOP +
+          ccESR.current.offsetTop <
+          currentScrollY &&
+        sectionESR.current.offsetTop +
+          ccESR.current.offsetTop +
+          ccESR.current.clientHeight -
+          INVIEW_OFFSET_BOTTOM >
+          currentScrollY;
+      const cprInView =
+        ccCPR &&
+        ccCPR.current &&
+        sectionCPR &&
+        sectionCPR.current &&
+        sectionCPR.current.offsetTop +
+          INVIEW_OFFSET_TOP +
+          ccCPR.current.offsetTop <
+          currentScrollY &&
+        sectionCPR.current.offsetTop +
+          ccCPR.current.offsetTop +
+          ccCPR.current.clientHeight -
+          INVIEW_OFFSET_BOTTOM >
+          currentScrollY;
+      const vdemInView =
+        ccVDEM &&
+        ccVDEM.current &&
+        sectionVDEM &&
+        sectionVDEM.current &&
+        sectionVDEM.current.offsetTop +
+          INVIEW_OFFSET_TOP +
+          ccVDEM.current.offsetTop <
+          currentScrollY &&
+        sectionVDEM.current.offsetTop +
+          ccVDEM.current.offsetTop +
+          ccVDEM.current.clientHeight -
+          INVIEW_OFFSET_BOTTOM >
+          currentScrollY;
+      // const belowEnd = false;
+      if (esrInView || cprInView || vdemInView) {
+        setShowFilters(true);
+      } else {
+        setShowFilters(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [showFilters]);
 
   return (
     <ResponsiveContext.Consumer>
       {size => (
         <ContentWrap>
+          <FilterWrap show={showFilters}>
+            <ContentMaxWidth column flex={false}>
+              <ChartFilters
+                key="unregion"
+                config={{
+                  attribute: 'unregion',
+                  type: 'highlight',
+                }}
+              />
+            </ContentMaxWidth>
+          </FilterWrap>
           <IntroSectionContainer>
             <IntroUpper>
               <IntroImg src={all} alt="" />
@@ -239,7 +331,9 @@ export function PathHome({ intl }) {
                     </SectionIntroText>
                   </SectionIntro>
                 </Box>
-                <ChartContainerRegion type="esr" />
+                <span ref={ccESR}>
+                  <ChartContainerRegion type="esr" />
+                </span>
               </ContentMaxWidth>
             </MetricSection>
           </div>
@@ -258,7 +352,9 @@ export function PathHome({ intl }) {
                     </SectionIntroText>
                   </SectionIntro>
                 </Box>
-                <ChartContainerRegion type="cpr" />
+                <span ref={ccCPR}>
+                  <ChartContainerRegion type="cpr" />
+                </span>
               </ContentMaxWidth>
             </MetricSection>
           </div>
@@ -277,7 +373,9 @@ export function PathHome({ intl }) {
                     </SectionIntroText>
                   </SectionIntro>
                 </Box>
-                <ChartContainerRegion type="vdem" />
+                <span ref={ccVDEM}>
+                  <ChartContainerRegion type="vdem" />
+                </span>
               </ContentMaxWidth>
             </MetricSection>
           </div>

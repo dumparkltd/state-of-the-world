@@ -183,6 +183,7 @@ const theme = {
         light: '#000000', // on light background (empowerment)
       },
       border: { light: '#ceced2', dark: '#ffffff' },
+      bgTrans: 'rgba(248, 248, 248, 0.9)', // <<< lightest      empowerment: '#262064', // AA large
       'light-0': '#F8F8F8', // <<< lightest      empowerment: '#262064', // AA large
       'light-1': '#F0EFF5', // <<< lightest      empowerment: '#262064', // AA large
       'light-2': '#EFEFEF',

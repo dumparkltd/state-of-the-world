@@ -17,6 +17,9 @@ const Styled = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
 `;
+const FilterWrap = styled.div`
+  margin-bottom: 5px;
+`;
 // @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
 //   margin-top: ${({ top }) => (top ? 20 : 30)}px;
 //   margin-bottom: 20px;
@@ -28,8 +31,10 @@ const Styled = styled.div`
 export function ChartHeader({ filters, settings, year, metricType }) {
   return (
     <Styled top>
-      {filters &&
-        filters.map(f => <ChartFilters key={f.attribute} config={f} />)}
+      <FilterWrap>
+        {filters &&
+          filters.map(f => <ChartFilters key={f.attribute} config={f} />)}
+      </FilterWrap>
       {(settings || (year && metricType)) && (
         <Box direction="row" justify="between">
           {settings &&
