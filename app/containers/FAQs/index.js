@@ -163,8 +163,6 @@ function FAQs({ questions, intl, metric, countryCode, onSelectPage }) {
 FAQs.propTypes = {
   questions: PropTypes.array,
   metric: PropTypes.string,
-  onSelectMetric: PropTypes.func,
-  dateRange: PropTypes.object,
   countryCode: PropTypes.string,
   onSelectPage: PropTypes.func,
   intl: intlShape.isRequired,

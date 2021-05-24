@@ -257,7 +257,7 @@ export function* setTabSaga({ value }) {
   yield put(push(`${path}?${searchParams.toString()}`));
 }
 
-export function* selectMetricSaga({ code, tab, year }) {
+export function* selectMetricSaga({ code, tab, year, unregion }) {
   yield put(removeNote('asChanged'));
   const requestLocale = yield select(getLocale);
   const currentLocation = yield select(getRouterLocation);
@@ -273,6 +273,9 @@ export function* selectMetricSaga({ code, tab, year }) {
     if (details && details.type === 'cpr') {
       newSearchParams.set('ycpr', year);
     }
+  }
+  if (unregion) {
+    newSearchParams.set('unregion', unregion);
   }
   const newSearch = newSearchParams.toString();
   const search = newSearch.length > 0 ? `?${newSearch}` : '';

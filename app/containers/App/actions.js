@@ -156,12 +156,13 @@ export function selectCountry(code, tab) {
     tab,
   };
 }
-export function selectMetric(code, tab, year) {
+export function selectMetric({ code, tab, year, unregion }) {
   return {
     type: SELECT_METRIC,
     code,
     tab,
     year,
+    unregion,
   };
 }
 export function setStandard(value) {

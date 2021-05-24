@@ -185,8 +185,8 @@ const mapStateToProps = createStructuredSelector({
 export function mapDispatchToProps(dispatch) {
   return {
     onSelectPage: key => dispatch(navigate(`${PATHS.PAGE}/${key}`)),
-    onSelectMetric: (metric, tab, year) =>
-      dispatch(selectMetric(metric, tab, year)),
+    onSelectMetric: (code, tab, year) =>
+      dispatch(selectMetric({ code, tab, year })),
     // prettier-ignore
     onSetRegionFilter: region =>
       dispatch(navigate(

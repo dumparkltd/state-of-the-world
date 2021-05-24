@@ -110,7 +110,7 @@ SearchResults.propTypes = {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onSelectMetric: code => dispatch(selectMetric(code)),
+    onSelectMetric: code => dispatch(selectMetric({ code })),
     onSelectCountry: code => dispatch(selectCountry(code)),
     intl: intlShape.isRequired,
   };

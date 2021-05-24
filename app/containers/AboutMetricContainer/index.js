@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { Box, Heading, Text } from 'grommet';
 import styled from 'styled-components';
 
+import { UN_REGIONS } from 'containers/App/constants';
 import { selectMetric } from 'containers/App/actions';
 import FAQs from 'containers/FAQs';
 import ButtonHero from 'styled/ButtonHero';
@@ -40,14 +41,14 @@ export function AboutMetricContainer({
   metricCode,
   onSelectMetric,
   intl,
-  dateRange,
   countryCode,
   showMetricLink,
   questions,
 }) {
   const metric = getMetricDetails(metricCode);
   const { metricType } = metric;
-
+  const defaultRegion =
+    UN_REGIONS && UN_REGIONS.options && UN_REGIONS.options.find(o => o.default);
   return (
     <Box
       direction="column"
@@ -70,14 +71,19 @@ export function AboutMetricContainer({
             rootMessages[metric.metricType][metric.key],
           )}
           metrics={metric}
-          onSelectMetric={onSelectMetric}
-          dateRange={dateRange}
           countryCode={countryCode}
         />
       )}
       {showMetricLink && (
         <div>
-          <ButtonHero onClick={() => onSelectMetric(metricCode)}>
+          <ButtonHero
+            onClick={() =>
+              onSelectMetric(
+                metricCode,
+                defaultRegion ? defaultRegion.key : 'world',
+              )
+            }
+          >
             <FormattedMessage
               {...messages.metricLink}
               values={{
@@ -104,13 +110,13 @@ AboutMetricContainer.propTypes = {
   questions: PropTypes.array,
   showRelated: PropTypes.bool,
   countryCode: PropTypes.string,
-  dateRange: PropTypes.object,
   showAboutMetric: PropTypes.bool,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onSelectMetric: metric => dispatch(selectMetric(metric)),
+    onSelectMetric: (code, unregion) =>
+      dispatch(selectMetric({ code, unregion })),
   };
 }
 
