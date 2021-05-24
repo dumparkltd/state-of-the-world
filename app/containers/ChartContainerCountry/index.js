@@ -79,12 +79,6 @@ const StyledText = styled(Text)`
   line-height: ${({ theme }) => theme.text.small.height};
   margin: 1em 0;
 `;
-const WrapSource = styled.div`
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
-    padding-right: ${({ theme }) => theme.global.edgeSize.xsmall};
-    padding-left: ${({ theme }) => theme.global.edgeSize.xsmall};
-  }
-`;
 
 const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
 const getCardWidth = (width, number, theme) => {
@@ -266,10 +260,10 @@ export function ChartContainerCountry({
                       })}
                     </Box>
                   )}
-                  <WrapSource>
-                    <Source type="esr" />
-                  </WrapSource>
                 </MultiCardWrapper>
+              )}
+              {(hasESR || hasOtherESR) && (
+                <Source type="esr" />
               )}
               {(hasESR || hasOtherESR) && (
                 <ButtonTextIcon
@@ -366,10 +360,10 @@ export function ChartContainerCountry({
                       })}
                     </Box>
                   )}
-                  <WrapSource>
-                    <Source type="cpr" />
-                  </WrapSource>
                 </MultiCardWrapper>
+              )}
+              {hasCPR && (
+                <Source type="cpr" />
               )}
             </Box>
             <Box>
@@ -440,10 +434,10 @@ export function ChartContainerCountry({
                       })}
                     </Box>
                   )}
-                  <WrapSource>
-                    <Source type="vdem" />
-                  </WrapSource>
                 </MultiCardWrapper>
+              )}
+              {hasVDEM && (
+                <Source type="vdem" />
               )}
             </Box>
           </div>
