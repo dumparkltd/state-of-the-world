@@ -193,7 +193,7 @@ export function ChartContainerMetricRanking({
     <ResponsiveContext.Consumer>
       {size => (
         <Box margin={{ bottom: 'xlarge' }}>
-          <Box margin={{ top: 'medium' }}>
+          <Box margin={{ top: 'medium' }} direction="row" justif="between">
             <Heading level={1}>
               <FormattedMessage
                 {...messages.title}
@@ -246,9 +246,9 @@ export function ChartContainerMetricRanking({
               govRespondents:
                 showGovRespondentsLabel && hasGovRespondentsCountries,
               hiCountries: showHILabel && hasHICountries,
-              trendCPR: metric.type === 'cpr',
-              trendESR: metric.type === 'esr',
-              trendVDEM: metric.type === 'vdem',
+              trendCPR: isMinSize(size, 'sm') && metric.type === 'cpr',
+              trendESR: isMinSize(size, 'sm') && metric.type === 'esr',
+              trendVDEM: isMinSize(size, 'sm') && metric.type === 'vdem',
             }}
           />
         </Box>

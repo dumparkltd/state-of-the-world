@@ -239,6 +239,7 @@ export function* setStandardSaga({ value }) {
 }
 
 export function* setTabSaga({ value }) {
+  yield put(removeNote('asChanged'));
   // get URL search params
   const searchParams = yield select(getRouterSearchParams);
   yield searchParams.set('tab', value);
@@ -257,6 +258,7 @@ export function* setTabSaga({ value }) {
 }
 
 export function* selectMetricSaga({ code, tab, year }) {
+  yield put(removeNote('asChanged'));
   const requestLocale = yield select(getLocale);
   const currentLocation = yield select(getRouterLocation);
   const newSearchParams = new URLSearchParams(currentLocation.search);
@@ -287,6 +289,7 @@ export function* selectMetricSaga({ code, tab, year }) {
 
 // location can either be string or object { pathname, search}
 export function* navigateSaga({ location, args }) {
+  yield put(removeNote('asChanged'));
   // default args
   const xArgs = extend(
     {

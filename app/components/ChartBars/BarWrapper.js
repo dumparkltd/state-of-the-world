@@ -69,10 +69,12 @@ export function BarWrapper({ score, type, intl, color }) {
               width={chartColumnWidth(size, 'score')}
               align="start"
               flex={{ shrink: 0 }}
-              pad={{ left: 'small' }}
+              pad={{
+                left: 'small',
+                right: !isMinSize(size, 'sm') ? 'small' : 'edge',
+              }}
             >
               <Text
-                color={`${score.color}Dark`}
                 size={isMinSize(size, 'medium') ? 'small' : 'xxsmall'}
                 weight={600}
               >
@@ -81,23 +83,25 @@ export function BarWrapper({ score, type, intl, color }) {
                   intl.formatMessage(rootMessages.labels.abbrev.notAvailable)}
               </Text>
             </ScoreWrap>
-            <LabelWrap
-              width={chartColumnWidth(size, 'trend')}
-              align="center"
-              flex={{ shrink: 0 }}
-              pad={{ right: 'small' }}
-            >
-              {score.trend && score.trend === 'up' && (
-                <TrendWrap rotate={45}>
-                  <Ascending size="large" />
-                </TrendWrap>
-              )}
-              {score.trend && score.trend !== 'up' && (
-                <TrendWrap rotate={135}>
-                  <Ascending size="large" />
-                </TrendWrap>
-              )}
-            </LabelWrap>
+            {isMinSize(size, 'sm') && (
+              <LabelWrap
+                width={chartColumnWidth(size, 'trend')}
+                align="center"
+                flex={{ shrink: 0 }}
+                pad={{ right: 'small' }}
+              >
+                {score.trend && score.trend === 'up' && (
+                  <TrendWrap rotate={45}>
+                    <Ascending size="large" />
+                  </TrendWrap>
+                )}
+                {score.trend && score.trend !== 'up' && (
+                  <TrendWrap rotate={135}>
+                    <Ascending size="large" />
+                  </TrendWrap>
+                )}
+              </LabelWrap>
+            )}
             <BarWrap flex border="right">
               {!bullet && (
                 <Bar

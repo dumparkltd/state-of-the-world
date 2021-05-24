@@ -11,6 +11,8 @@ import { Box, Text, ResponsiveContext, Button } from 'grommet';
 import { Ascend, Descend } from 'grommet-icons';
 import styled from 'styled-components';
 
+import { isMinSize } from 'utils/responsive';
+
 import { COUNTRY_SORTS } from 'containers/App/constants';
 import Tooltip from 'components/Tooltip';
 import ChartNotes from 'components/ChartNotes';
@@ -53,7 +55,7 @@ export function ListHeader({
   return (
     <ResponsiveContext.Consumer>
       {size => (
-        <Box direction="row" align="end" pad={{ bottom: 'xxsmall' }}>
+        <Box direction="row" align="center" pad={{ bottom: 'xxsmall' }}>
           <ColumnWrap
             width={chartColumnWidth(size, 'rank')}
             flex={{ shrink: 0 }}
@@ -77,7 +79,7 @@ export function ListHeader({
               icon={sort.sort === 'name' ? renderSortIcon(sort.order) : null}
               label={
                 <ColumnText
-                  size="small"
+                  size={isMinSize(size, 'sm') ? 'small' : 'xxsmall'}
                   style={{ fontWeight: 300 }}
                   color={labelColor}
                 >
@@ -93,7 +95,9 @@ export function ListHeader({
             noBorder
             align="start"
             flex={{ shrink: 0 }}
-            pad={{ right: 'small' }}
+            pad={{
+              right: !isMinSize(size, 'sm') ? 'small' : 'edge',
+            }}
           >
             <ColumnSort
               onClick={() => {
@@ -107,7 +111,7 @@ export function ListHeader({
               icon={sort.sort === 'score' ? renderSortIcon(sort.order) : null}
               label={
                 <ColumnText
-                  size="small"
+                  size={isMinSize(size, 'sm') ? 'small' : 'xxsmall'}
                   style={{ fontWeight: 300 }}
                   color={labelColor}
                 >
@@ -118,14 +122,17 @@ export function ListHeader({
               }
             />
           </ColumnWrap>
-          <ColumnWrap
-            width={chartColumnWidth(size, 'trend')}
-            flex={{ shrink: 0 }}
-          >
-            <ColumnText size="small" style={{ fontWeight: 300 }}>
-              <FormattedMessage {...rootMessages.labels.trend} />
-            </ColumnText>
-          </ColumnWrap>
+          {isMinSize(size, 'sm') && (
+            <ColumnWrap
+              width={chartColumnWidth(size, 'trend')}
+              flex={{ shrink: 0 }}
+              pad={{ right: 'small' }}
+            >
+              <ColumnText size="small" style={{ fontWeight: 300 }}>
+                <FormattedMessage {...rootMessages.labels.trend} />
+              </ColumnText>
+            </ColumnWrap>
+          )}
           <BarWrap
             flex
             direction="row"
@@ -134,10 +141,13 @@ export function ListHeader({
           >
             {annotateMinMax && metric && (
               <Box direction="row" justify="between" width="100%">
-                <Text size="xsmall" style={{ transform: 'translateX(-50%)' }}>
+                <Text
+                  size={isMinSize(size, 'sm') ? 'xsmall' : 'xxsmall'}
+                  style={{ transform: 'translateX(-50%)' }}
+                >
                   0
                 </Text>
-                {metric && (
+                {metric && isMinSize(size, 'sm') && (
                   <Box direction="row" gap="xsmall">
                     <Text size="xsmall" weight={500} textAlign="center">
                       <FormattedMessage
@@ -191,7 +201,14 @@ export function ListHeader({
                     />
                   </Box>
                 )}
-                <Text size="xsmall" style={{ transform: 'translateX(50%)' }}>
+                <Text
+                  size={isMinSize(size, 'sm') ? 'xsmall' : 'xxsmall'}
+                  style={
+                    isMinSize(size, 'sm')
+                      ? { transform: 'translateX(50%)' }
+                      : { transform: 'translateX(25%)' }
+                  }
+                >
                   {maxValue}
                 </Text>
               </Box>

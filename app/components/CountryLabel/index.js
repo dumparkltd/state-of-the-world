@@ -8,6 +8,13 @@ import rootMessages from 'messages';
 
 const StyledMarks = styled.span`
   font-weight: normal !important;
+  position: relative;
+`;
+
+const Sup = styled.sup`
+  position: absolute;
+  right: -5px;
+  top: -3px;
 `;
 
 export function CountryLabel({
@@ -28,18 +35,18 @@ export function CountryLabel({
       <StyledMarks>
         {` `}
         {hiLabel && (
-          <sup>
+          <Sup>
             <small>
               <FormattedMessage {...rootMessages.labels.hiCountry} />
             </small>
-          </sup>
+          </Sup>
         )}
         {respondentsLabel && (
-          <sup>
+          <Sup>
             <small>
               <FormattedMessage {...rootMessages.labels.govResponseCountry} />
             </small>
-          </sup>
+          </Sup>
         )}
       </StyledMarks>
     </span>

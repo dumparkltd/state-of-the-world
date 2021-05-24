@@ -12,8 +12,8 @@ import { Box, Text, ResponsiveContext } from 'grommet';
 import { reduce } from 'lodash/collection';
 
 import { formatScore } from 'utils/scores';
-// import { isMinSize, isMaxSize } from 'utils/responsive';
-import { isMinSize } from 'utils/responsive';
+import { isMinSize, isMaxSize } from 'utils/responsive';
+// import { isMinSize } from 'utils/responsive';
 
 import ButtonPlain from 'styled/ButtonPlain';
 import rootMessages from 'messages';
@@ -227,7 +227,7 @@ function ScoreSheet({
         <Styled padding={margin} mode={mode}>
           <Inner>
             {labels &&
-              labels.map((label, index) => {
+              labels.map((label, index, list) => {
                 const isRegion =
                   label.code !== activeCountry &&
                   label.code !== highlightCountry;
@@ -253,83 +253,90 @@ function ScoreSheet({
                             rootMessages.labels.abbrev.notAvailable,
                           )}
                       </Text>
-                      <Text size="xsmall">
-                        {rootMessages.countries[label.code]
-                          ? intl.formatMessage(
-                            rootMessages.countries[label.code],
-                          )
-                          : label.code}
-                      </Text>
+                      {isMinSize(size, 'sm') && (
+                        <Text size="xsmall">
+                          {rootMessages.countries[label.code]
+                            ? intl.formatMessage(
+                              rootMessages.countries[label.code],
+                            )
+                            : label.code}
+                        </Text>
+                      )}
                     </CountryLabel>
                   );
                 }
                 if (
-                  label.value &&
                   isRegion &&
-                  mode === 'detail-region' &&
-                  isMinSize(size, 'large')
+                  label.value
                 ) {
-                  const inactive =
-                    highlightRegion && label.code !== highlightRegion;
-                  return (
-                    <RegionButton
-                      key={label.code}
-                      offsetY={label.offset}
-                      onClick={() =>
-                        currentRegion === 'all' && onSetRegionFilter(label.code)
-                      }
-                      onMouseOver={() =>
-                        currentRegion === 'all' && setRegion(label.code)
-                      }
-                      onFocus={() =>
-                        currentRegion === 'all' && setRegion(label.code)
-                      }
-                      onMouseOut={() => currentRegion === 'all' && setRegion(null)}
-                      onBlur={() => currentRegion === 'all' && setRegion(null)}
-                      disabled={currentRegion === 'world'}
-                    >
-                      <RegionLabelWrap
-                        direction="row"
-                        gap="xsmall"
-                        inactive={inactive}
-                        regionCode={label.code}
-                        align="center"
+                  if (mode === 'detail-region' && isMinSize(size, 'sm')) {
+                    const inactive =
+                      highlightRegion && label.code !== highlightRegion;
+                    return (
+                      <RegionButton
+                        key={label.code}
+                        offsetY={label.offset}
+                        onClick={() =>
+                          currentRegion === 'all' && onSetRegionFilter(label.code)
+                        }
+                        onMouseOver={() =>
+                          currentRegion === 'all' && setRegion(label.code)
+                        }
+                        onFocus={() =>
+                          currentRegion === 'all' && setRegion(label.code)
+                        }
+                        onMouseOut={() => currentRegion === 'all' && setRegion(null)}
+                        onBlur={() => currentRegion === 'all' && setRegion(null)}
+                        disabled={currentRegion === 'world'}
                       >
-                        <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
+                        <RegionLabelWrap
+                          direction="row"
+                          gap="xsmall"
+                          inactive={inactive}
+                          regionCode={label.code}
+                          align="center"
+                        >
+                          <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
+                            {formatScore(label.value, metric.type, intl)}
+                          </Text>
+                          <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
+                            <FormattedMessage
+                              {...rootMessages.un_regions_short[label.code]}
+                            />
+                          </Text>
+                        </RegionLabelWrap>
+                      </RegionButton>
+                    );
+                  }
+                  if (
+                    mode === 'multi-region' ||
+                    (mode === 'detail-region' && isMaxSize(size, 'small'))
+                  ) {
+                    const showTitleMulti =
+                      showLabel && highlightRegion && label.code === highlightRegion;
+                    const titleMultiAbove = showTitleMulti && index === 0;
+                    const scoreLarge =
+                      (mode === 'multi-region' && !highlightRegion) ||
+                      (mode === 'detail-region' && list.length === 1);
+                    return (
+                      <RegionLabelWrapMulti
+                        key={label.code}
+                        regionCode={label.code}
+                        offsetY={label.offset}
+                      >
+                        <RegionLabelMultiScore large={scoreLarge}>
                           {formatScore(label.value, metric.type, intl)}
-                        </Text>
-                        <Text size="xsmall" weight={inactive ? 'normal' : 'bold'}>
-                          <FormattedMessage
-                            {...rootMessages.un_regions_short[label.code]}
-                          />
-                        </Text>
-                      </RegionLabelWrap>
-                    </RegionButton>
-                  );
-                }
-                if (label.value && isRegion && mode === 'multi-region') {
-                  const showTitleMulti =
-                    showLabel && highlightRegion && label.code === highlightRegion;
-                  const titleMultiAbove = showTitleMulti && index === 0;
-
-                  return (
-                    <RegionLabelWrapMulti
-                      key={label.code}
-                      regionCode={label.code}
-                      offsetY={label.offset}
-                    >
-                      <RegionLabelMultiScore large={!highlightRegion}>
-                        {formatScore(label.value, metric.type, intl)}
-                      </RegionLabelMultiScore>
-                      {showTitleMulti && (
-                        <RegionLabelMultiTitle above={titleMultiAbove}>
-                          <FormattedMessage
-                            {...rootMessages.un_regions_short[label.code]}
-                          />
-                        </RegionLabelMultiTitle>
-                      )}
-                    </RegionLabelWrapMulti>
-                  );
+                        </RegionLabelMultiScore>
+                        {showTitleMulti && (
+                          <RegionLabelMultiTitle above={titleMultiAbove}>
+                            <FormattedMessage
+                              {...rootMessages.un_regions_short[label.code]}
+                            />
+                          </RegionLabelMultiTitle>
+                        )}
+                      </RegionLabelWrapMulti>
+                    );
+                  }
                 }
                 return null;
               })}
