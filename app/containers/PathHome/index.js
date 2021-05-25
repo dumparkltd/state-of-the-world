@@ -46,7 +46,7 @@ const IntroImg = styled.img`
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     max-width: 500px;
   }
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
     max-width: 700px;
   }
 `;
@@ -55,7 +55,11 @@ const IntroImg = styled.img`
 const IntroUpper = styled(p => (
   <ContentMaxWidth column align="center" justify="center" flex="grow" {...p} />
 ))`
+  padding-bottom: ${({ theme }) => theme.global.edgeSize.small};
   padding-top: ${({ theme }) => theme.global.edgeSize.medium};
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    padding-bottom: 0;
+  }
 `;
 
 const IntroSectionContainer = styled(p => (
@@ -77,9 +81,8 @@ const ButtonShortcut = styled(p => <ButtonText inverse {...p} />)`
   font-size: ${({ theme }) => theme.text.small.size};
   text-align: center;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    text-decoration: none;
-    font-weight: bold;
-    font-size: ${({ theme }) => theme.text.xlarge.size};
+    font-weight: 700;
+    font-size: ${({ theme }) => theme.text.large.size};
   }
   &:hover {
     opacity: 1;
@@ -91,20 +94,39 @@ const ButtonShortcut = styled(p => <ButtonText inverse {...p} />)`
 const Title = styled(p => (
   <Heading level={1} color="white" {...p} textAlign="center" />
 ))`
+  font-size: 24px;
+  line-height: 28px;
+  margin-bottom: 0.2em;
   font-weight: bold;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    font-size: 38px;
+    line-height: 42px;
+  }
 `;
 const SectionTitle = styled(p => <Heading level={2} {...p} size="large" />)`
   font-weight: bold;
   color: ${({ theme, color }) => theme.global.colors[color || 'brand']};
+  margin-bottom: 0.3em;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    font-size: 36px;
+    line-height: 42px;
+  }
 `;
 
 const SearchWrapper = styled.div`
-  width: 70%;
   margin: 20px auto;
+  width: 100%;
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+    width: 70%;
+  }
 `;
 
-const SectionIntro = styled(p => <Paragraph textAlign="center" {...p} />)``;
-const SectionIntroText = styled(Text)``;
+const SectionIntro = styled(p => <Paragraph textAlign="center" {...p} />)`
+  margin-bottom: 20px;
+`;
+const SectionIntroText = styled(Text)`
+  color: ${({ theme, color }) => theme.global.colors[color || 'dark-3']};
+`;
 
 const MetricSection = styled(p => (
   <SectionContainer pad={{ bottom: 'xsmall' }} {...p} />
@@ -221,7 +243,10 @@ export function PathHome({ intl }) {
               <Title>
                 <FormattedMessage {...messages.title} />
               </Title>
-              <Paragraph textAlign="center" size="large">
+              <Paragraph
+                textAlign="center"
+                size={isMinSize(size, 'sm') ? 'xlarge' : 'large'}
+              >
                 <FormattedMessage
                   {...messages.intro}
                   values={{
@@ -244,13 +269,10 @@ export function PathHome({ intl }) {
               </Paragraph>
             </IntroUpper>
             <ContentMaxWidth column flex={false}>
-              <Box margin={{ top: 'medium' }} align="center" gap="small">
-                <Text size={isMinSize(size, 'sm') ? 'medium' : 'small'}>
-                  <FormattedMessage {...messages.jumpToSection} />
-                </Text>
+              <Box align="center" gap="small">
                 <Box
-                  direction={isMinSize(size, 'sm') ? 'row' : 'column'}
-                  gap={isMinSize(size, 'sm') ? 'ml' : 'xsmall'}
+                  direction={isMinSize(size, 'ms') ? 'row' : 'column'}
+                  gap={isMinSize(size, 'ms') ? 'ml' : 'xsmall'}
                 >
                   <ButtonShortcut
                     onClick={() => {
@@ -293,7 +315,7 @@ export function PathHome({ intl }) {
                   icon={
                     <Down
                       color="white"
-                      size={isMinSize(size, 'sm') ? 'xxxlarge' : 'xxlarge'}
+                      size={isMinSize(size, 'ms') ? 'xxxlarge' : 'xxlarge'}
                     />
                   }
                 />
@@ -309,7 +331,7 @@ export function PathHome({ intl }) {
                   </SectionTitle>
                   <SectionIntro>
                     <SectionIntroText
-                      size={isMinSize(size, 'sm') ? 'medium' : 'small'}
+                      size={isMinSize(size, 'ms') ? 'large' : 'small'}
                     >
                       <FormattedMessage
                         {...messages.introESR}
@@ -346,7 +368,7 @@ export function PathHome({ intl }) {
                   </SectionTitle>
                   <SectionIntro>
                     <SectionIntroText
-                      size={isMinSize(size, 'sm') ? 'medium' : 'small'}
+                      size={isMinSize(size, 'ms') ? 'medium' : 'small'}
                     >
                       <FormattedMessage {...messages.introCPR} />
                     </SectionIntroText>
@@ -359,7 +381,7 @@ export function PathHome({ intl }) {
             </MetricSection>
           </div>
           <div ref={sectionVDEM}>
-            <MetricSection>
+            <MetricSection margin={{ bottom: 'large' }}>
               <ContentMaxWidth column>
                 <Box align="center">
                   <SectionTitle>
@@ -367,7 +389,7 @@ export function PathHome({ intl }) {
                   </SectionTitle>
                   <SectionIntro>
                     <SectionIntroText
-                      size={isMinSize(size, 'sm') ? 'medium' : 'small'}
+                      size={isMinSize(size, 'ms') ? 'medium' : 'small'}
                     >
                       <FormattedMessage {...messages.introVDEM} />
                     </SectionIntroText>
@@ -379,13 +401,13 @@ export function PathHome({ intl }) {
               </ContentMaxWidth>
             </MetricSection>
           </div>
-          <SectionContainer background="brand">
-            <ContentMaxWidth column>
+          <SectionContainer background="dark-4">
+            <ContentMaxWidth column align="center">
               <SectionTitle color="white">
                 <FormattedMessage {...messages.countrySearchTitle} />
               </SectionTitle>
               <SearchWrapper>
-                <Search bordersize="small" bordercolor="brandDarker" stretch />
+                <Search stretch />
               </SearchWrapper>
             </ContentMaxWidth>
           </SectionContainer>

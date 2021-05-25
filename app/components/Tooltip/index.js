@@ -25,7 +25,7 @@ const StyledDrop = styled(Drop)`
     height: 0;
     border-top: 8px solid
       ${({ theme, inverse }) =>
-    theme.global.colors[inverse ? 'white' : 'dark-3']};
+    theme.global.colors[inverse ? 'white' : 'dark-2']};
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     margin: 0 auto;
@@ -34,13 +34,13 @@ const StyledDrop = styled(Drop)`
 
 function Tooltip({
   text = 'I am a tooltip',
-  iconSize = 'medium',
+  iconSize = 'small',
   component,
   maxWidth,
   icon,
   insideButton,
-  margin,
-  large,
+  margin = {},
+  large = true,
   textAnchor,
   inverse,
   inAside,
@@ -54,7 +54,7 @@ function Tooltip({
   return (
     <ResponsiveContext.Consumer>
       {size => {
-        const openModal = large && isMaxSize(size, 'sm');
+        const openModal = large && isMaxSize(size, 'ms');
         // prettier-ignore
         return (
           <>
@@ -78,7 +78,7 @@ function Tooltip({
               onMouseLeave={!openModal ? () => setOver(false) : null}
               onFocus={!openModal ? () => setOver(true) : null}
               onBlur={!openModal ? () => setOver(false) : null}
-              margin={margin || { horizontal: 'xsmall' }}
+              margin={margin}
               style={{
                 WebkitAppearance: 'none',
                 MozAppearance: 'none',

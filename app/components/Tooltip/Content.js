@@ -12,7 +12,7 @@ function Content({ maxWidth, component, text, onClose, inModal, inverse }) {
   return (
     <Box
       pad={{ vertical: 'small', horizontal: 'small' }}
-      background={inverse ? 'white' : 'dark-1'}
+      background={inverse ? 'white' : 'dark-2'}
       style={{ maxWidth }}
       onClick={evt => {
         if (evt) evt.preventDefault();

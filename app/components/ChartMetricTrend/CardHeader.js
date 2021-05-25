@@ -45,7 +45,7 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
       {size => {
         const showRegion = mode === 'multi-region';
         const showTooltipLabel =
-          isMinSize(size, 'sm') && mode !== 'multi-country';
+          isMinSize(size, 'ms') && mode !== 'multi-country';
         // prettier-ignore
         return (
           <Styled>
@@ -80,9 +80,6 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                         </Text>
                       )}
                       <Tooltip
-                        large
-                        margin={{}}
-                        iconSize="small"
                         component={
                           <Box gap="small">
                             <Text size="xsmall" weight={600}>
@@ -165,9 +162,6 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                         </Text>
                       )}
                       <Tooltip
-                        large
-                        margin={{}}
-                        iconSize="small"
                         component={
                           <Box gap="small">
                             {mode === 'detail-region' && (

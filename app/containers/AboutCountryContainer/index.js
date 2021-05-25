@@ -31,6 +31,8 @@ import { COLUMNS, TREATIES } from 'containers/App/constants';
 
 import FAQs from 'containers/FAQs';
 import ButtonHero from 'styled/ButtonHero';
+import A from 'styled/A';
+import SupTitle from 'styled/SupTitle';
 
 import { roundScore } from 'utils/scores';
 import { getTerritoryStatus } from 'utils/narrative';
@@ -63,7 +65,7 @@ const DetailSection = styled(p => (
   <Box flex={{ shrink: 0 }} pad={{ vertical: 'ms' }} {...p} />
 ))``;
 const DetailBox = styled(p => (
-  <Box flex={{ shrink: 0 }} margin={{ bottom: 'xsmall' }} {...p} />
+  <Box flex={{ shrink: 0 }} margin={{ bottom: 'small' }} {...p} />
 ))``;
 const FlagBox = styled(p => (
   <Box
@@ -85,10 +87,6 @@ const CountryTitle = styled(p => (
   font-weight: 700;
 `;
 
-const PanelTitle = styled(p => <Text size="xsmall" {...p} />)`
-  text-transform: uppercase;
-  font-weight: 600;
-`;
 const HeadingBox = styled(p => <Box flex={{ shrink: 0 }} {...p} />)``;
 
 const FlagImg = styled.img`
@@ -180,6 +178,8 @@ const RangeKeyColor = styled.div`
     return theme.global.colors.brand;
   }};
 `;
+
+const AExternal = styled(p => <A hint target="_blank" {...p} />)``;
 
 const prepPopulationValue = (value, intl, year) => {
   if (parseInt(value, 10) > 1000000) {
@@ -317,9 +317,9 @@ function AboutCountryContainer({
         />
       </FlagBox>
       <HeadingBox>
-        <PanelTitle>
+        <SupTitle size="xsmall" dark>
           <FormattedMessage {...messages.title} />
-        </PanelTitle>
+        </SupTitle>
         <CountryTitle>
           <FormattedMessage {...rootMessages.countries[countryCode]} />
         </CountryTitle>
@@ -430,8 +430,7 @@ function AboutCountryContainer({
                 <FormattedMessage {...rootMessages.vdemClass[vdemCode]} />
               </Value>
               <Tooltip
-                iconSize="small"
-                large
+                margin={{ horizontal: 'xsmall' }}
                 component={
                   <Box margin={{ vertical: 'xsmall' }}>
                     <FormattedMarkdown {...rootMessages.vdemClassInfo[vdemCode]} />
@@ -459,8 +458,7 @@ function AboutCountryContainer({
                 <FormattedMessage {...rootMessages.eiuClass[eiuCode]} />
               </Value>
               <Tooltip
-                iconSize="small"
-                large
+                margin={{ horizontal: 'xsmall'}}
                 component={
                   <Box margin={{ vertical: 'xsmall' }}>
                     <FormattedMarkdown {...rootMessages.eiuClassInfo[eiuCode]} />
@@ -736,19 +734,18 @@ function AboutCountryContainer({
                   </Box>
                 )}
                 {country[COLUMNS.COUNTRIES.YOUR_HRC] && (
-                  <Box>
-                    <a
+                  <Box align="start">
+                    <AExternal
                       href={intl.formatMessage(messages.yourhrc_profile_url, {
                         code: country[COLUMNS.COUNTRIES.YOUR_HRC],
                       })}
-                      target="_blank"
                     >
                       <Value>
                         <FormattedMessage
                           {...rootMessages.countries[countryCode]}
                         />
                       </Value>
-                    </a>
+                    </AExternal>
                   </Box>
                 )}
                 {!country[COLUMNS.COUNTRIES.YOUR_HRC] && (
@@ -800,16 +797,15 @@ function AboutCountryContainer({
                       <FormattedMessage {...messages.index_rsf_hint} />
                     </Value>
                   )}
-                  <Box margin={{ vertical: 'xsmall' }}>
-                    <Value size="xsmall">
+                  <Box margin={{ vertical: 'xsmall' }} align="start">
+                    <Value size="xxsmall">
                       <FormattedMessage {...messages.index_label_source} />
                       {` `}
-                      <a
+                      <AExternal
                         href={intl.formatMessage(messages.index_rsf_link)}
-                        target="_blank"
                       >
                         <FormattedMessage {...messages.index_rsf_source} />
-                      </a>
+                      </AExternal>
                     </Value>
                   </Box>
                 </Box>
@@ -839,16 +835,15 @@ function AboutCountryContainer({
                       <FormattedMessage {...messages.index_ti_hint} />
                     </Value>
                   )}
-                  <Box margin={{ vertical: 'xsmall' }}>
-                    <Value size="xsmall">
+                  <Box margin={{ vertical: 'xsmall' }} align="start">
+                    <Value size="xxsmall">
                       <FormattedMessage {...messages.index_label_source} />
                       {` `}
-                      <a
+                      <AExternal
                         href={intl.formatMessage(messages.index_ti_link)}
-                        target="_blank"
                       >
                         <FormattedMessage {...messages.index_ti_source} />
-                      </a>
+                      </AExternal>
                     </Value>
                   </Box>
                 </Box>
@@ -878,16 +873,15 @@ function AboutCountryContainer({
                       <FormattedMessage {...messages.index_eiu_hint} />
                     </Value>
                   )}
-                  <Box margin={{ vertical: 'xsmall' }}>
-                    <Value size="xsmall">
+                  <Box margin={{ vertical: 'xsmall' }} align="start">
+                    <Value size="xxsmall">
                       <FormattedMessage {...messages.index_label_source} />
                       {` `}
-                      <a
+                      <AExternal
                         href={intl.formatMessage(messages.index_eiu_link)}
-                        target="_blank"
                       >
                         <FormattedMessage {...messages.index_eiu_source} />
-                      </a>
+                      </AExternal>
                     </Value>
                   </Box>
                 </Box>

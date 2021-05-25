@@ -5,12 +5,12 @@ const isMinXXLarge = size => size === 'xxlarge';
 const isMinXLarge = size => isMinXXLarge(size) || size === 'xlarge';
 const isMinLarge = size => isMinXLarge(size) || size === 'large';
 const isMinMedium = size => isMinLarge(size) || size === 'medium';
-const isMinSM = size => isMinMedium(size) || size === 'sm';
+const isMinSM = size => isMinMedium(size) || size === 'ms';
 const isMinSmall = () => true;
 
 export const isMinSize = (currentSize, checkSize) => {
   if (checkSize === 'small') return isMinSmall(currentSize);
-  if (checkSize === 'sm') return isMinSM(currentSize);
+  if (checkSize === 'ms') return isMinSM(currentSize);
   if (checkSize === 'medium') return isMinMedium(currentSize);
   if (checkSize === 'large') return isMinLarge(currentSize);
   if (checkSize === 'xlarge') return isMinXLarge(currentSize);
@@ -23,12 +23,12 @@ const isMaxXXLarge = () => true;
 const isMaxXLarge = size => isMaxLarge(size) || size === 'xlarge';
 const isMaxLarge = size => isMaxMedium(size) || size === 'large';
 const isMaxMedium = size => isMaxSM(size) || size === 'medium';
-const isMaxSM = size => isMaxSmall(size) || size === 'sm';
+const isMaxSM = size => isMaxSmall(size) || size === 'ms';
 const isMaxSmall = size => size === 'small';
 
 export const isMaxSize = (currentSize, checkSize) => {
   if (checkSize === 'small') return isMaxSmall(currentSize);
-  if (checkSize === 'sm') return isMaxSM(currentSize);
+  if (checkSize === 'ms') return isMaxSM(currentSize);
   if (checkSize === 'medium') return isMaxMedium(currentSize);
   if (checkSize === 'large') return isMaxLarge(currentSize);
   if (checkSize === 'xlarge') return isMaxXLarge(currentSize);

@@ -4,46 +4,36 @@ import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import styled from 'styled-components';
 
 import Hint from 'styled/Hint';
+import A from 'styled/A';
 
 import rootMessages from 'messages';
 import messages from './messages';
 
 const Styled = styled(Hint)`
-  max-width: ${({ maxWidth }) => maxWidth || 'none'};
-  font-size: 12px;
-  line-height: 16px;
-  text-align: ${({ center }) => (center ? 'center' : 'left')};
-  margin: 10px 0 20px;
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    font-size: 14px;
-    line-height: 20px;
-  }
+  margin: 0 0 20px;
 `;
+const StyledA = styled(p => <A hint target="_blank" {...p} />)``;
 
 function Source({ center = false, maxWidth = 'none', type, intl }) {
   return (
-    <Styled center={center} maxWidth={maxWidth}>
+    <Styled center={center} maxWidth={maxWidth} size="xxsmall">
       {type === 'esr' && (
         <FormattedMessage
           {...messages.sourceESR}
           values={{
             linkRightsTracker: (
-              <a
-                target="_blank"
+              <StyledA
                 href={intl.formatMessage(rootMessages.sources.urlRightsTracker)}
               >
                 <FormattedMessage
                   {...rootMessages.sources.anchorRightsTracker}
                 />
-              </a>
+              </StyledA>
             ),
             linkSERF: (
-              <a
-                target="_blank"
-                href={intl.formatMessage(rootMessages.sources.urlSERF)}
-              >
+              <StyledA href={intl.formatMessage(rootMessages.sources.urlSERF)}>
                 <FormattedMessage {...rootMessages.sources.anchorSERF} />
-              </a>
+              </StyledA>
             ),
           }}
         />
@@ -53,14 +43,13 @@ function Source({ center = false, maxWidth = 'none', type, intl }) {
           {...messages.sourceCPR}
           values={{
             linkRightsTracker: (
-              <a
-                target="_blank"
+              <StyledA
                 href={intl.formatMessage(rootMessages.sources.urlRightsTracker)}
               >
                 <FormattedMessage
                   {...rootMessages.sources.anchorRightsTracker}
                 />
-              </a>
+              </StyledA>
             ),
           }}
         />
@@ -70,12 +59,9 @@ function Source({ center = false, maxWidth = 'none', type, intl }) {
           {...messages.sourceVDEM}
           values={{
             linkVDEM: (
-              <a
-                target="_blank"
-                href={intl.formatMessage(rootMessages.sources.urlVDEM)}
-              >
+              <StyledA href={intl.formatMessage(rootMessages.sources.urlVDEM)}>
                 <FormattedMessage {...rootMessages.sources.anchorVDEM} />
-              </a>
+              </StyledA>
             ),
           }}
         />

@@ -11,6 +11,9 @@ export default styled(ButtonPlain)`
   border-top: 1px solid ${({ theme }) => theme.global.colors.border.light };
   border-left: 4px solid transparent;
   font-size: ${({ theme }) => theme.text.xsmall.size};
+  cursor: ${({ active }) => (active ? 'default' : 'pointer')} !important;
+  text-align: center;
+  color: ${({ theme }) => theme.global.colors.text.light};
   &:last-child {
     border-bottom: 1px solid
       ${({ theme, noBorderLast }) => noBorderLast
@@ -18,10 +21,10 @@ export default styled(ButtonPlain)`
     : theme.global.colors.border.light};
   }
   &:hover {
-    border-left: 4px solid ${({ theme, disabled }) => (disabled ? 'transparent' : theme.global.colors['dark-3'])};
+    color: ${({ theme, active }) => active ? theme.global.colors.text.light : theme.global.colors.brand};
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    padding: 4px 32px 4px 12px;
+    padding: 4px 22px 4px 22px;
     font-size: ${({ theme }) => theme.text.medium.size};
   }
 `;

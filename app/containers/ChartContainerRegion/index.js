@@ -11,7 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import styled, { withTheme } from 'styled-components';
-import { Box, ResponsiveContext, Text } from 'grommet';
+import { Box, ResponsiveContext } from 'grommet';
 
 import { RIGHTS, PATHS, GRADES } from 'containers/App/constants';
 
@@ -41,6 +41,7 @@ import Source from 'components/Source';
 
 import ButtonText from 'styled/ButtonText';
 import WrapPlot from 'styled/WrapPlot';
+import Hint from 'styled/Hint';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize, isMaxSize } from 'utils/responsive';
@@ -57,6 +58,8 @@ const MultiCardWrapper = styled(Box)`
   }}px);
   }
 `;
+
+const StyledButton = styled(p => <ButtonText hint size="xxsmall" {...p} />)``;
 
 const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
 const getCardWidth = (width, number, theme) => {
@@ -124,7 +127,7 @@ export function ChartContainerRegion({
             }
           />
           <MultiCardWrapper
-            pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+            pad={{ top: isMaxSize(size, 'ms') ? 'xsmall' : '0' }}
             align="center"
             responsive={false}
             margin={isMinSize(size, 'large') ?
@@ -176,16 +179,16 @@ export function ChartContainerRegion({
             )}
           </MultiCardWrapper>
           {(type === 'esr' || type === 'cpr') && (
-            <Box gap="xxsmall">
-              {isMinSize(size, 'sm') && type === 'cpr' && (
+            <Box gap="xxsmall" align="start" margin={{ bottom: 'small'}}>
+              {isMinSize(size, 'ms') && type === 'cpr' && (
                 <Box gap="xsmall" direction="row">
-                  <Text size="xxsmall" textAlign="start">
+                  <Hint size="xxsmall" as="span">
                     <FormattedMessage {...rootMessages.charts.gradesCPRWithLink} />
-                  </Text>
+                  </Hint>
                   {GRADES.cpr
                     .sort((a, b) => (a.min > b.min ? 1 : -1))
                     .map(g => (
-                      <Text size="xxsmall" textAlign="start" key={g.class}>
+                      <Hint size="xxsmall" key={g.class}>
                         <FormattedMessage
                           {...rootMessages.charts.gradeBracket}
                           values={{
@@ -197,19 +200,19 @@ export function ChartContainerRegion({
                             unit: '',
                           }}
                         />
-                      </Text>
+                      </Hint>
                     ))}
                 </Box>
               )}
-              {isMinSize(size, 'sm') && type === 'esr' && (
+              {isMinSize(size, 'ms') && type === 'esr' && (
                 <Box gap="xsmall" direction="row">
-                  <Text size="xxsmall" textAlign="start">
+                  <Hint size="xxsmall" as="span">
                     <FormattedMessage {...rootMessages.charts.gradesESRWithLink} />
-                  </Text>
+                  </Hint>
                   {GRADES.esr
                     .sort((a, b) => (a.min > b.min ? 1 : -1))
                     .map(g => (
-                      <Text size="xxsmall" textAlign="start" key={g.class}>
+                      <Hint size="xxsmall" key={g.class}>
                         <FormattedMessage
                           {...rootMessages.charts.gradeBracket}
                           values={{
@@ -221,32 +224,32 @@ export function ChartContainerRegion({
                             unit: '%',
                           }}
                         />
-                      </Text>
+                      </Hint>
                     ))}
                 </Box>
               )}
               {type === 'esr' && (
-                <Text size="xxsmall" color="dark-3">
+                <Hint size="xxsmall">
                   <FormattedMessage {...rootMessages.charts.noteRegionalBiasESR} />
-                </Text>
+                </Hint>
               )}
               {type === 'esr' && (
-                <Text size="xxsmall" color="dark-3">
-                  <ButtonText onClick={() => onSelectPage('methodology-esr')}>
-                    <FormattedMessage
-                      {...rootMessages.charts.methodologyLink}
-                    />
-                  </ButtonText>
-                </Text>
+                <StyledButton
+                  onClick={() => onSelectPage('methodology-esr')}
+                >
+                  <FormattedMessage
+                    {...rootMessages.charts.methodologyLink}
+                  />
+                </StyledButton>
               )}
-              {isMinSize(size, 'sm') && type === 'cpr' && (
-                <Text size="xxsmall" color="dark-3">
-                  <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
-                    <FormattedMessage
-                      {...rootMessages.charts.methodologyLink}
-                    />
-                  </ButtonText>
-                </Text>
+              {isMinSize(size, 'ms') && type === 'cpr' && (
+                <StyledButton
+                  onClick={() => onSelectPage('methodology-cpr')}
+                >
+                  <FormattedMessage
+                    {...rootMessages.charts.methodologyLink}
+                  />
+                </StyledButton>
               )}
             </Box>
           )}

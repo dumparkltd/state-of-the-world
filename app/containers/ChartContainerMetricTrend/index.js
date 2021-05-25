@@ -11,7 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withTheme } from 'styled-components';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { Box, Heading } from 'grommet';
+import { Box } from 'grommet';
 
 import { PATHS } from 'containers/App/constants';
 
@@ -38,6 +38,7 @@ import {
 import ChartMetricTrend from 'components/ChartMetricTrend';
 import ChartHeader from 'components/ChartHeader';
 import Source from 'components/Source';
+import ContentTitle from 'styled/ContentTitle';
 
 import { lowerCase } from 'utils/string';
 import { getMaxXScore, getMinXScore } from 'utils/scores';
@@ -76,7 +77,7 @@ export function ChartContainerMetricTrend({
   return (
     <div>
       <Box margin={{ top: 'medium' }}>
-        <Heading level={1}>
+        <ContentTitle>
           <FormattedMessage
             {...messages.title}
             values={{
@@ -85,7 +86,7 @@ export function ChartContainerMetricTrend({
               ),
             }}
           />
-        </Heading>
+        </ContentTitle>
       </Box>
       <ChartHeader
         filters={[
@@ -105,27 +106,29 @@ export function ChartContainerMetricTrend({
             : []
         }
       />
-      <ChartMetricTrend
-        mode="detail-region"
-        scores={scores}
-        maxYear={maxYear}
-        minYear={minYear}
-        maxValue={getMaxXScore(metric.type)}
-        minValue={getMinXScore(metric.type)}
-        benchmark={benchmark}
-        metric={metric}
-        onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
-        currentRegion={unRegionFilterValue || 'world'}
-        onCountryClick={onCountryClick}
-        onSetRegionFilter={onSetRegionFilter}
-        unRegionTotals={unRegionTotals}
-        onSelectPage={onSelectPage}
-        setHighlightYear={setYear}
-        highlightYear={highlightYear}
-        setHighlightRegion={setRegion}
-        highlightRegion={highlightRegion}
-        activeCountry={activeCode}
-      />
+      <Box margin={{ bottom: 'ms' }}>
+        <ChartMetricTrend
+          mode="detail-region"
+          scores={scores}
+          maxYear={maxYear}
+          minYear={minYear}
+          maxValue={getMaxXScore(metric.type)}
+          minValue={getMinXScore(metric.type)}
+          benchmark={benchmark}
+          metric={metric}
+          onSelectMetric={(tab, year) => onSelectMetric(metric.key, tab, year)}
+          currentRegion={unRegionFilterValue || 'world'}
+          onCountryClick={onCountryClick}
+          onSetRegionFilter={onSetRegionFilter}
+          unRegionTotals={unRegionTotals}
+          onSelectPage={onSelectPage}
+          setHighlightYear={setYear}
+          highlightYear={highlightYear}
+          setHighlightRegion={setRegion}
+          highlightRegion={highlightRegion}
+          activeCountry={activeCode}
+        />
+      </Box>
       <Source type={metric.type} />
     </div>
   );

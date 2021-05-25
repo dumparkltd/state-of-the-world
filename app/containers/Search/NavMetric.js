@@ -6,10 +6,12 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Box } from 'grommet';
 import { withTheme } from 'styled-components';
 
+import { getHeaderHeight } from 'utils/responsive';
+
 import { RIGHTS } from 'containers/App/constants';
 import { selectMetric } from 'containers/App/actions';
 
-import { getHeaderHeight } from 'utils/responsive';
+import Hint from 'styled/Hint';
 
 import rootMessages from 'messages';
 
@@ -91,8 +93,14 @@ export function NavMetric({
         size={size}
       />
       <NavScroll>
-        <Box flex overflow="auto" pad={{ vertical: 'medium' }}>
-          {!hasMetrics && <FormattedMessage {...messages.noResults} />}
+        <Box flex overflow="auto" pad={{ top: 'small', bottom: 'medium' }}>
+          {!hasMetrics && (
+            <Box pad="small">
+              <Hint italic>
+                <FormattedMessage {...messages.noResults} />
+              </Hint>
+            </Box>
+          )}
           {esr.length > 0 && (
             <NavOptionGroup
               label={intl.formatMessage(rootMessages.rightsTypes.esr)}

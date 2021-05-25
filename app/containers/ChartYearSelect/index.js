@@ -36,13 +36,15 @@ const StyledDropButton = styled(DropButton)`
   font-size: ${({ theme }) => theme.text.small.size};
   line-height: ${({ theme }) => theme.text.small.height};
   border-bottom: 2px solid;
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.sm}) {
+  color: ${({ theme }) => theme.global.colors['dark-3']};
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.ms}) {
     border-bottom: 2px solid transparent;
     &:hover {
       border-bottom: 2px solid;
     }
     font-size: ${({ theme }) => theme.text.medium.size};
     line-height: ${({ theme }) => theme.text.medium.height};
+    margin-bottom: -2px;
   }
 `;
 
@@ -95,16 +97,17 @@ export function ChartYearSelect({
           flex={{ shrink: 0 }}
           responsive={false}
           align="center"
+          margin={{ bottom: 'small', top: 'xsmall' }}
         >
           <Box direction="row" align="center">
             <Box pad={{ bottom: 'xsmall' }} direction="row">
-              <Text size="xsmall">
+              <Text size="xsmall" color="hint">
                 <FormattedMessage {...messages.selectYear} />
               </Text>
             </Box>
           </Box>
           <Box direction="row" align="center" gap="small">
-            {isMinSize(size, 'sm') && (
+            {isMinSize(size, 'ms') && (
               <ButtonPlain
                 onClick={() => onSelectYear(yearPrevious, param)}
                 disabled={quasiEquals(year, yearPrevious)}
@@ -146,7 +149,7 @@ export function ChartYearSelect({
                 </Box>
               }
             />
-            {isMinSize(size, 'sm') && (
+            {isMinSize(size, 'ms') && (
               <ButtonPlain
                 onClick={() => onSelectYear(yearNext, param)}
                 disabled={quasiEquals(year, yearNext)}

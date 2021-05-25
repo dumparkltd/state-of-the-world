@@ -18,16 +18,16 @@ const Styled = styled.div`
   left: 0;
   right: 0;
   z-index: 9;
-  background: ${({ hasAside }) => (hasAside ? 'transparent' : '#F8F8F8')};
-  box-shadow: ${({ hasAside }) =>
-    hasAside ? 'none' : '0px -10px 10px 1px #F8F8F8'};
+  background: ${({ theme, hasAside }) =>
+    hasAside ? 'transparent' : theme.global.colors.bgTrans};
 `;
 const StyledBox = styled(Box)`
-  background: ${({ hasAside }) => (!hasAside ? 'transparent' : '#F8F8F8')};
-  box-shadow: ${({ hasAside }) =>
-    !hasAside ? 'none' : '0px -10px 10px 1px #F8F8F8'};
+  background: ${({ theme, hasAside }) =>
+    hasAside ? theme.global.colors.bgTrans : 'transparent'};
   padding-right: ${({ hasAside, theme }) =>
     hasAside ? theme.global.edgeSize.xlarge : 0};
+  padding-left: ${({ hasAside }) => (hasAside ? 20 : 0)}px;
+  margin-left: ${({ hasAside }) => (hasAside ? -10 : 0)}px;
 `;
 
 function CountryNotes({ intl, hasAside, notes }) {

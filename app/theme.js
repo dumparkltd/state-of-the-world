@@ -28,7 +28,7 @@ export const SIZES = {
     height: 200,
   },
   aside: {
-    // small, sm, medium, large, xlarge, xxlarge
+    // small, ms, medium, large, xlarge, xxlarge
     width: [0, 0, 0, 360, 420, 420],
   },
   settings: {
@@ -41,7 +41,7 @@ export const SIZES = {
     xlarge: 56,
   },
   charts: {
-    // small, sm, medium, large, xlarge, xxlarge
+    // small, ms, medium, large, xlarge, xxlarge
     rank: [25, 35, 35, 35, 35, 35],
     label: [90, 100, 120, 120, 140, 180],
     score: [60, 60, 60, 60, 60, 60],
@@ -68,7 +68,7 @@ export const BREAKPOINTS = {
     name: 'mobile',
     index: 0,
   },
-  sm: {
+  ms: {
     min: 420, // exclusive
     max: 720,
     name: 'mobile (landscape)',
@@ -103,7 +103,7 @@ export const BREAKPOINTS = {
 const text = {
   xxxlarge: { size: '60px', height: '75px', maxWidth: '800px' },
   xxlarge: { size: '30px', height: '36px', maxWidth: '800px' },
-  xlarge: { size: '22px', height: '30px', maxWidth: '800px' },
+  xlarge: { size: '21px', height: '28px', maxWidth: '800px' },
   large: { size: '18px', height: '24px', maxWidth: '800px' },
   medium: { size: '16px', height: '21px', maxWidth: '800px' },
   mediumTight: { size: '16px', height: '18px', maxWidth: '800px' },
@@ -118,7 +118,7 @@ const icon = {
     large: '20px',
     xlarge: '24px',
     xxlarge: '32px',
-    xxxlarge: '56px',
+    xxxlarge: '48px',
   },
 };
 const edgeSize = {
@@ -141,7 +141,7 @@ const theme = {
   paragraph: text,
   breakpoints: {
     small: `${BREAKPOINTS.small.min}px`, // max
-    sm: `${BREAKPOINTS.sm.min}px`, // max
+    ms: `${BREAKPOINTS.ms.min}px`, // max
     medium: `${BREAKPOINTS.medium.min}px`, // min
     large: `${BREAKPOINTS.large.min}px`, // min
     xlarge: `${BREAKPOINTS.xlarge.min}px`, // min
@@ -149,7 +149,7 @@ const theme = {
   },
   breakpointsMin: {
     small: `${BREAKPOINTS.small.min + 1}px`, // min
-    sm: `${BREAKPOINTS.sm.min + 1}px`, // min
+    ms: `${BREAKPOINTS.ms.min + 1}px`, // min
     medium: `${BREAKPOINTS.medium.min + 1}px`, // min
     large: `${BREAKPOINTS.large.min + 1}px`, // min
     xlarge: `${BREAKPOINTS.xlarge.min + 1}px`, // min
@@ -181,7 +181,7 @@ const theme = {
       focus: 'transparent',
       text: {
         dark: '#FFFFFF', //  on dark background
-        light: '#000000', // on light background (empowerment)
+        light: '#333333', // on light background (empowerment)
       },
       border: {
         light: '#CECED2',
@@ -232,8 +232,8 @@ const theme = {
       small: {
         value: BREAKPOINTS.small.max,
       },
-      sm: {
-        value: BREAKPOINTS.sm.max,
+      ms: {
+        value: BREAKPOINTS.ms.max,
       },
       medium: {
         value: BREAKPOINTS.medium.max,
@@ -259,8 +259,8 @@ const theme = {
           height: '36px',
         },
         large: {
-          size: '50px',
-          height: '62px',
+          size: '52px',
+          height: '52px',
         },
       },
       2: {
@@ -269,8 +269,8 @@ const theme = {
           height: '24px',
         },
         medium: {
-          size: '24px',
-          height: '30px',
+          size: '30px',
+          height: '36px',
         },
         large: {
           size: '30px',
@@ -283,8 +283,8 @@ const theme = {
           height: '22px',
         },
         medium: {
-          size: '21px',
-          height: '25px',
+          size: '24px',
+          height: '30px',
         },
         large: {
           size: '24px',

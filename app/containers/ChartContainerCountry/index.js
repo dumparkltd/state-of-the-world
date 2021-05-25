@@ -53,6 +53,7 @@ import NarrativeVDEMNoData from 'components/CountryNarrative/NarrativeVDEMNoData
 import NarrativeCPRGovRespondents from 'components/CountryNarrative/NarrativeCPRGovRespondents';
 import Source from 'components/Source';
 import WrapPlot from 'styled/WrapPlot';
+import ContentTitle from 'styled/ContentTitle';
 import ButtonTextIcon from 'styled/ButtonTextIcon';
 
 import getMetricDetails from 'utils/metric-details';
@@ -78,6 +79,13 @@ const StyledText = styled(Text)`
   font-weight: 600;
   line-height: ${({ theme }) => theme.text.small.height};
   margin: 1em 0;
+`;
+
+const Section = styled(p => <Box margin={{ vertical: 'medium' }} {...p} />)``;
+const SectionTitle = styled(p => (
+  <Heading level={3} margin={{ bottom: 'medium' }} {...p} />
+))`
+  font-weight: 700;
 `;
 
 const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
@@ -172,14 +180,14 @@ export function ChartContainerCountry({
         {size => (
           <div>
             <Box margin={{ top: 'medium' }}>
-              <Heading level={1}>
+              <ContentTitle>
                 <FormattedMessage {...messages.title} values={messageValues} />
-              </Heading>
+              </ContentTitle>
             </Box>
-            <Box margin={{ top: 'medium', bottom: 'large' }}>
-              <h2>
+            <Section margin={{ bottom: 'large' }}>
+              <SectionTitle margin={{ top: 'small', bottom: 'hair' }}>
                 <FormattedMessage {...messages.titleESR} />
-              </h2>
+              </SectionTitle>
               {(hasESR || hasOtherESR) && (
                 <ChartHeader settings={[{ attribute: 'standard' }]} />
               )}
@@ -200,7 +208,7 @@ export function ChartContainerCountry({
               )}
               {(hasESR || hasOtherESR) && (
                 <MultiCardWrapper
-                  pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                  pad={{ top: isMaxSize(size, 'ms') ? 'xsmall' : '0' }}
                   align="center"
                   responsive={false}
                   margin={
@@ -266,41 +274,46 @@ export function ChartContainerCountry({
                 <Source type="esr" />
               )}
               {(hasESR || hasOtherESR) && (
-                <ButtonTextIcon
-                  href={intl.formatMessage(messages.rightsTrackerCountryURL, {
-                    url: intl.formatMessage(
-                      rootMessages.sources.urlRightsTracker,
-                    ),
-                    countryCode,
-                    standard,
-                  })}
-                  target="_blank"
-                  size="small"
-                  margin={{ vertical: 'xxsmall' }}
-                  gap="small"
-                  icon={<Share size="small" />}
-                  label={
-                    <StyledText size="small">
-                      {intl.formatMessage(
-                        messages.seeRightsTracker,
-                        messageValues,
-                      )}
-                    </StyledText>
-                  }
-                />
+                <Box direction="row" gap="xxsmall" align="center" margin="hair">
+                  <Text size="small">
+                    <FormattedMessage {...messages.seeRightsTracker} />
+                  </Text>
+                  <ButtonTextIcon
+                    href={intl.formatMessage(messages.rightsTrackerCountryURL, {
+                      url: intl.formatMessage(
+                        rootMessages.sources.urlRightsTracker,
+                      ),
+                      countryCode,
+                      standard,
+                    })}
+                    target="_blank"
+                    size="small"
+                    gap="xsmall"
+                    icon={<Share size="small" />}
+                    label={
+                      <StyledText size="small">
+                        {intl.formatMessage(
+                          messages.seeRightsTrackerLink,
+                          messageValues,
+                        )}
+                      </StyledText>
+                    }
+                  />
+                  {`.`}
+                </Box>
               )}
-            </Box>
-            <Box>
-              <h2>
+            </Section>
+            <Section>
+              <SectionTitle>
                 <FormattedMessage {...messages.titleCPR} />
-              </h2>
+              </SectionTitle>
               {!hasCPR && <NarrativeCPRNoData messageValues={messageValues} />}
               {hasCPR && hasGovRespondents && (
                 <NarrativeCPRGovRespondents messageValues={messageValues} />
               )}
               {hasCPR && (
                 <MultiCardWrapper
-                  pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                  pad={{ top: isMaxSize(size, 'ms') ? 'xsmall' : '0' }}
                   align="center"
                   responsive={false}
                   margin={
@@ -365,17 +378,17 @@ export function ChartContainerCountry({
               {hasCPR && (
                 <Source type="cpr" />
               )}
-            </Box>
-            <Box>
-              <h2>
+            </Section>
+            <Section>
+              <SectionTitle>
                 <FormattedMessage {...messages.titleVDEM} />
-              </h2>
+              </SectionTitle>
               {!hasVDEM && (
                 <NarrativeVDEMNoData messageValues={messageValues} />
               )}
               {hasVDEM && (
                 <MultiCardWrapper
-                  pad={{ top: isMaxSize(size, 'sm') ? 'xsmall' : '0' }}
+                  pad={{ top: isMaxSize(size, 'ms') ? 'xsmall' : '0' }}
                   align="center"
                   responsive={false}
                   margin={
@@ -439,7 +452,7 @@ export function ChartContainerCountry({
               {hasVDEM && (
                 <Source type="vdem" />
               )}
-            </Box>
+            </Section>
           </div>
         )}
       </ResponsiveContext.Consumer>

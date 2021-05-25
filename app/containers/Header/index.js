@@ -258,12 +258,12 @@ export function Header({
       {size => (
         <Styled role="banner" size={size}>
           <ElevationBox background="white">
-            <ContentMaxWidthHeader column={isMaxSize(size, 'sm')}>
+            <ContentMaxWidthHeader column={isMaxSize(size, 'ms')}>
               <BrandBox
                 direction="row"
                 align="center"
                 justify="stretch"
-                fill={isMaxSize(size, 'sm') ? 'horizontal' : false}
+                fill={isMaxSize(size, 'ms') ? 'horizontal' : false}
               >
                 <BrandButton plain onClick={onHome}>
                   <BrandInner
@@ -275,7 +275,7 @@ export function Header({
                   >
                     <LogoWrap
                       width={`${
-                        isMaxSize(size, 'sm')
+                        isMaxSize(size, 'ms')
                           ? theme.sizes.header.small.logoWidth
                           : theme.sizes.header.logoWidth
                       }px`}
@@ -301,7 +301,7 @@ export function Header({
                     </Box>
                   </BrandInner>
                 </BrandButton>
-                {isMaxSize(size, 'sm') && (
+                {isMaxSize(size, 'ms') && (
                   <Box margin={{ left: 'auto' }} direction="row" align="center">
                     {appLocales.length > 1 && (
                       <Box>
@@ -320,11 +320,11 @@ export function Header({
                 )}
                 {showMenu && isMaxSize(size, 'medium') && (
                   <Layer
-                    full={isMaxSize(size, 'sm') ? 'horizontal' : false}
+                    full={isMaxSize(size, 'ms') ? 'horizontal' : false}
                     margin={{ top: '50px' }}
                     onClickOutside={() => setShowMenu(false)}
                     responsive={false}
-                    position={isMaxSize(size, 'sm') ? 'top' : 'top-right'}
+                    position={isMaxSize(size, 'ms') ? 'top' : 'top-right'}
                     modal={false}
                     animate={false}
                   >

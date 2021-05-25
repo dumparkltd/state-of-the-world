@@ -79,7 +79,7 @@ export function ListHeader({
               icon={sort.sort === 'name' ? renderSortIcon(sort.order) : null}
               label={
                 <ColumnText
-                  size={isMinSize(size, 'sm') ? 'small' : 'xxsmall'}
+                  size={isMinSize(size, 'ms') ? 'small' : 'xxsmall'}
                   style={{ fontWeight: 300 }}
                   color={labelColor}
                 >
@@ -96,7 +96,7 @@ export function ListHeader({
             align="start"
             flex={{ shrink: 0 }}
             pad={{
-              right: !isMinSize(size, 'sm') ? 'small' : 'edge',
+              right: !isMinSize(size, 'ms') ? 'small' : 'edge',
             }}
           >
             <ColumnSort
@@ -111,7 +111,7 @@ export function ListHeader({
               icon={sort.sort === 'score' ? renderSortIcon(sort.order) : null}
               label={
                 <ColumnText
-                  size={isMinSize(size, 'sm') ? 'small' : 'xxsmall'}
+                  size={isMinSize(size, 'ms') ? 'small' : 'xxsmall'}
                   style={{ fontWeight: 300 }}
                   color={labelColor}
                 >
@@ -122,7 +122,7 @@ export function ListHeader({
               }
             />
           </ColumnWrap>
-          {isMinSize(size, 'sm') && (
+          {isMinSize(size, 'ms') && (
             <ColumnWrap
               width={chartColumnWidth(size, 'trend')}
               flex={{ shrink: 0 }}
@@ -142,12 +142,12 @@ export function ListHeader({
             {annotateMinMax && metric && (
               <Box direction="row" justify="between" width="100%">
                 <Text
-                  size={isMinSize(size, 'sm') ? 'xsmall' : 'xxsmall'}
+                  size={isMinSize(size, 'ms') ? 'xsmall' : 'xxsmall'}
                   style={{ transform: 'translateX(-50%)' }}
                 >
                   0
                 </Text>
-                {metric && isMinSize(size, 'sm') && (
+                {metric && isMinSize(size, 'ms') && (
                   <Box direction="row" gap="xsmall">
                     <Text size="xsmall" weight={500} textAlign="center">
                       <FormattedMessage
@@ -157,9 +157,6 @@ export function ListHeader({
                       />
                     </Text>
                     <Tooltip
-                      large
-                      margin={{}}
-                      iconSize="small"
                       component={
                         <Box gap="small">
                           <Text size="xsmall">
@@ -202,9 +199,9 @@ export function ListHeader({
                   </Box>
                 )}
                 <Text
-                  size={isMinSize(size, 'sm') ? 'xsmall' : 'xxsmall'}
+                  size={isMinSize(size, 'ms') ? 'xsmall' : 'xxsmall'}
                   style={
-                    isMinSize(size, 'sm')
+                    isMinSize(size, 'ms')
                       ? { transform: 'translateX(50%)' }
                       : { transform: 'translateX(25%)' }
                   }

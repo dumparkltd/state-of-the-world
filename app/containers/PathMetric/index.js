@@ -11,8 +11,8 @@ import { compose } from 'redux';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
-import { ResponsiveContext, Box, Text } from 'grommet';
-import styled, { withTheme } from 'styled-components';
+import { ResponsiveContext, Box } from 'grommet';
+import { withTheme } from 'styled-components';
 
 import { setAsideLayer } from 'containers/App/actions';
 import {
@@ -35,16 +35,12 @@ import ContentContainer from 'styled/ContentContainer';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 import PageTitle from 'styled/PageTitle';
 import PageTop from 'styled/PageTop';
+import SupTitle from 'styled/SupTitle';
 
 import getMetricDetails from 'utils/metric-details';
 import { isMinSize } from 'utils/responsive';
 
 import rootMessages from 'messages';
-
-const SupTitle = styled(p => <Text {...p} />)`
-  color: white;
-  font-weight: 600;
-`;
 
 const getQuestions = (type, key) => {
   if (type === 'cpr') {

@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl'; // not used now?
 import styled from 'styled-components';
-import { Box, Text } from 'grommet';
+import { Box, Text, ResponsiveContext } from 'grommet';
 
 import Tooltip from 'components/Tooltip';
 import ChartNotes from 'components/ChartNotes';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Hint from 'styled/Hint';
+import { isMaxSize } from 'utils/responsive';
 
 import rootMessages from 'messages';
 import messages from './messages';
@@ -43,97 +44,106 @@ function ChartBars({
   const hasResults = dataReady && (data && data.length > 0);
 
   return (
-    <Styled
-      pad={{
-        top: 'small',
-        bottom: 'medium',
-        left: 'small',
-        right: 'medium',
-      }}
-      direction="column"
-      fill="horizontal"
-      elevation="small"
-      background="white"
-    >
-      <Box
-        margin={{ bottom: 'small' }}
-        direction="row"
-        gap="small"
-        align="center"
-      >
-        <MetricIcon src={metric.iconInv} alt="" bgr={color} />
-        <Box fill direction="row" justify="between" gap="small" align="center">
-          <Text size="large" weight={600} color={color}>
-            <FormattedMessage {...rootMessages.rights[metric.key]} />
-          </Text>
-          <Tooltip
-            large
-            margin={{}}
-            iconSize="small"
-            component={
-              <Box gap="small">
-                <Text size="xsmall">
-                  {metric.type === 'esr' && (
-                    <FormattedMessage {...messages.infoESRintro} />
-                  )}
-                  {metric.type === 'cpr' && (
-                    <FormattedMessage {...messages.infoCPRintro} />
-                  )}
-                  {metric.type === 'vdem' && (
-                    <FormattedMessage {...messages.infoVDEMintro} />
-                  )}
-                </Text>
-                <Text size="xsmall">
-                  {metric.type === 'esr' && (
-                    <FormattedMessage {...messages.infoESRadditional} />
-                  )}
-                  {metric.type === 'cpr' && (
-                    <FormattedMessage {...messages.infoCPRadditional} />
-                  )}
-                  {metric.type === 'vdem' && (
-                    <FormattedMessage {...messages.infoVDEMadditional} />
-                  )}
-                </Text>
-                <ChartNotes
-                  notes={{
-                    gradesESR: metric.type === 'esr',
-                    gradesCPR: metric.type === 'cpr',
-                  }}
+    <ResponsiveContext.Consumer>
+      {size => (
+        <Styled
+          pad={{
+            top: 'small',
+            bottom: 'medium',
+            left: 'small',
+            right: 'medium',
+          }}
+          direction="column"
+          fill="horizontal"
+          elevation="small"
+          background="white"
+        >
+          <Box
+            margin={{ bottom: 'small' }}
+            direction="row"
+            gap="small"
+            align="center"
+          >
+            <MetricIcon src={metric.iconInv} alt="" bgr={color} />
+            <Box
+              fill
+              direction="row"
+              justify="between"
+              gap="small"
+              align="center"
+            >
+              <Text size="large" weight={600} color={color}>
+                <FormattedMessage {...rootMessages.rights[metric.key]} />
+              </Text>
+              {isMaxSize(size, 'sm') && (
+                <Tooltip
+                  component={
+                    <Box gap="small">
+                      <Text size="xsmall">
+                        {metric.type === 'esr' && (
+                          <FormattedMessage {...messages.infoESRintro} />
+                        )}
+                        {metric.type === 'cpr' && (
+                          <FormattedMessage {...messages.infoCPRintro} />
+                        )}
+                        {metric.type === 'vdem' && (
+                          <FormattedMessage {...messages.infoVDEMintro} />
+                        )}
+                      </Text>
+                      <Text size="xsmall">
+                        {metric.type === 'esr' && (
+                          <FormattedMessage {...messages.infoESRadditional} />
+                        )}
+                        {metric.type === 'cpr' && (
+                          <FormattedMessage {...messages.infoCPRadditional} />
+                        )}
+                        {metric.type === 'vdem' && (
+                          <FormattedMessage {...messages.infoVDEMadditional} />
+                        )}
+                      </Text>
+                      <ChartNotes
+                        notes={{
+                          gradesESR: metric.type === 'esr',
+                          gradesCPR: metric.type === 'cpr',
+                        }}
+                      />
+                    </Box>
+                  }
                 />
-              </Box>
-            }
-          />
-        </Box>
-      </Box>
-      {!dataReady && <LoadingIndicator />}
-      {!hasResults && dataReady && (
-        <Hint italic>
-          <FormattedMessage {...rootMessages.hints.noResults} />
-        </Hint>
-      )}
-      {hasResults && dataReady && (
-        <ListHeader
-          metric={metric}
-          benchmark={currentBenchmark && currentBenchmark.key}
-          hasAside={scoresAside}
-          annotateMinMax={annotateMinMax}
-          sort={sort}
-        />
-      )}
-      {hasResults && dataReady && (
-        <WrapInnerChart>
-          {data.map(d => (
-            <BarWrapper
-              key={d.key}
-              score={d}
-              allowWordBreak={allowWordBreak}
-              type={metric.type}
-              color={color}
+              )}
+            </Box>
+          </Box>
+          {!dataReady && <LoadingIndicator />}
+          {!hasResults && dataReady && (
+            <Hint italic>
+              <FormattedMessage {...rootMessages.hints.noResults} />
+            </Hint>
+          )}
+          {hasResults && dataReady && (
+            <ListHeader
+              metric={metric}
+              benchmark={currentBenchmark && currentBenchmark.key}
+              hasAside={scoresAside}
+              annotateMinMax={annotateMinMax}
+              sort={sort}
             />
-          ))}
-        </WrapInnerChart>
+          )}
+          {hasResults && dataReady && (
+            <WrapInnerChart>
+              {data.map(d => (
+                <BarWrapper
+                  key={d.key}
+                  score={d}
+                  allowWordBreak={allowWordBreak}
+                  type={metric.type}
+                  color={color}
+                />
+              ))}
+            </WrapInnerChart>
+          )}
+        </Styled>
       )}
-    </Styled>
+    </ResponsiveContext.Consumer>
   );
 }
 // metric={metric}

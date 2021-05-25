@@ -23,8 +23,6 @@ import rootMessages from 'messages';
 import messages from './messages';
 
 import SettingsToggle from './SettingsToggle';
-// import InfoStandard from './InfoStandard';
-// import InfoScale from './InfoScale';
 
 export function ChartSettings({
   config,

@@ -7,10 +7,12 @@ import { Box } from 'grommet';
 import { withTheme } from 'styled-components';
 import { groupBy } from 'lodash/collection';
 
+import { getHeaderHeight } from 'utils/responsive';
+
 import { selectCountry } from 'containers/App/actions';
 import { getCountries } from 'containers/App/selectors';
 
-import { getHeaderHeight } from 'utils/responsive';
+import Hint from 'styled/Hint';
 
 import rootMessages from 'messages';
 import messages from './messages';
@@ -90,9 +92,13 @@ export function NavCountry({
         size={size}
       />
       <NavScroll>
-        <Box flex overflow="auto" pad={{ vertical: 'medium' }}>
+        <Box flex overflow="auto" pad={{ top: 'small', bottom: 'medium' }}>
           {(!sorted || sorted.length === 0) && (
-            <FormattedMessage {...messages.noResults} />
+            <Box pad="small">
+              <Hint italic>
+                <FormattedMessage {...messages.noResults} />
+              </Hint>
+            </Box>
           )}
           {sorted && sorted.length > 0 && (
             <>

@@ -29,11 +29,11 @@ function SettingsToggle({
       direction="column"
       flex={{ shrink: 0 }}
       responsive={false}
-      margin={{ bottom: 'small' }}
+      margin={{ bottom: 'small', top: 'xsmall' }}
     >
       <Box direction="row" align="center">
         <Box pad={{ bottom: 'xsmall' }} direction="row">
-          <Text size="xsmall">
+          <Text size="xsmall" color="hint">
             {name || (
               <FormattedMessage
                 {...rootMessages.settings[setting].name}
@@ -43,7 +43,7 @@ function SettingsToggle({
           </Text>
           {setting === 'standard' && (
             <Tooltip
-              large
+              margin={{ horizontal: 'xsmall' }}
               component={
                 <Box gap="small">
                   <Box>

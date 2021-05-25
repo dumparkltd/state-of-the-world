@@ -45,9 +45,8 @@ export function NavTop({
     <Top>
       <Box
         pad={{
-          left: isMaxSize(size, 'sm') ? 'small' : 'medium',
+          horizontal: 'small',
           vertical: 'small',
-          right: isMaxSize(size, 'sm') ? 'small' : 'medium',
         }}
         direction="row"
         fill="vertical"
@@ -59,7 +58,7 @@ export function NavTop({
           direction="row"
           align="center"
           round="xlarge"
-          height={isMaxSize(size, 'sm') ? '26px' : '32px'}
+          height={isMaxSize(size, 'ms') ? '26px' : '32px'}
           pad={{ horizontal: 'ms', vertical: 'xsmall' }}
           fill="horizontal"
         >
@@ -76,17 +75,15 @@ export function NavTop({
               icon={
                 <Close
                   color="dark-3"
-                  size={isMaxSize(size, 'sm') ? 'small' : 'medium'}
+                  size={isMaxSize(size, 'ms') ? 'small' : 'medium'}
                 />
               }
               style={{ padding: '0' }}
             />
           )}
-          {(!search || search.length === 0) && (
-            <Search bordersize="small" bordercolor="dark-3" color="dark-3" />
-          )}
+          {(!search || search.length === 0) && <Search color="dark-3" />}
         </Box>
-        {isMaxSize(size, 'sm') && (
+        {isMaxSize(size, 'ms') && (
           <Box
             pad={{ vertical: 'xsmall' }}
             flex={{ shrink: 0 }}

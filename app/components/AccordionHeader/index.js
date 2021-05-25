@@ -2,11 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Heading } from 'grommet';
 import { Up, Down } from 'grommet-icons';
+import styled from 'styled-components';
+
+const StyledBox = styled(p => (
+  <Box direction="row" gap="small" align="center" {...p} />
+))`
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 
 function AccordionHeader({ title, open, level = 1 }) {
   // prettier-ignore
   return (
-    <Box direction="row" gap="small" align="center">
+    <StyledBox>
       <Box>
         <Heading
           responsive={false}
@@ -21,7 +30,7 @@ function AccordionHeader({ title, open, level = 1 }) {
         {!open && <Down size="small" />}
         {open && <Up size="small" />}
       </Box>
-    </Box>
+    </StyledBox>
   );
 }
 

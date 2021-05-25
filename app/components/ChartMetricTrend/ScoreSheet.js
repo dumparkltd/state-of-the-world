@@ -253,7 +253,7 @@ function ScoreSheet({
                             rootMessages.labels.abbrev.notAvailable,
                           )}
                       </Text>
-                      {isMinSize(size, 'sm') && (
+                      {isMinSize(size, 'ms') && (
                         <Text size="xsmall">
                           {rootMessages.countries[label.code]
                             ? intl.formatMessage(
@@ -269,7 +269,7 @@ function ScoreSheet({
                   isRegion &&
                   label.value
                 ) {
-                  if (mode === 'detail-region' && isMinSize(size, 'sm')) {
+                  if (mode === 'detail-region' && isMinSize(size, 'ms')) {
                     const inactive =
                       highlightRegion && label.code !== highlightRegion;
                     return (

@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-import { ResponsiveContext, Image as GImage, Text } from 'grommet';
+import { ResponsiveContext, Image as GImage } from 'grommet';
 import styled, { withTheme } from 'styled-components';
 
 import rootMessages from 'messages';
@@ -50,6 +50,7 @@ import PageTitle from 'styled/PageTitle';
 import PageTop from 'styled/PageTop';
 import ContentContainer from 'styled/ContentContainer';
 import MainColumn from 'styled/MainColumn';
+import SupTitle from 'styled/SupTitle';
 
 import { isMinSize } from 'utils/responsive';
 import { getMessageGrammar } from 'utils/narrative';
@@ -63,10 +64,6 @@ const StyledPageTitle = styled(PageTitle)`
     font-size: 40px;
     line-height: 43px;
   }
-`;
-const SupTitle = styled(p => <Text {...p} />)`
-  color: white;
-  font-weight: 600;
 `;
 
 const DEPENDENCIES = [

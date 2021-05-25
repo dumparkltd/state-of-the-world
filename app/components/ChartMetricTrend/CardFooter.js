@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { Text, Box, ResponsiveContext } from 'grommet';
+import { Box, ResponsiveContext } from 'grommet';
 
 import { getRegionYearCount } from 'utils/charts';
 import { isMinSize } from 'utils/responsive';
@@ -20,9 +20,11 @@ import Hint from 'styled/Hint';
 import rootMessages from 'messages';
 import messages from './messages';
 
-const Styled = styled.div`
+const Styled = styled(p => <Box gap="xsmall" {...p} />)`
   margin-top: 5px;
 `;
+
+const StyledHint = styled(p => <Hint size="xxsmall" as="span" {...p} />)``;
 
 const RangeWrapper = styled(Box)`
   position: relative;
@@ -135,6 +137,7 @@ function CardFooter({
       year: <strong>{year}</strong>,
       link: (
         <ButtonText
+          size="xxsmall"
           onClick={() => onSelectMetric('ranking', year)}
           color={currentRegion}
         >
@@ -150,7 +153,10 @@ function CardFooter({
     // prettier-ignore
     valuesInterval = {
       link: (
-        <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
+        <ButtonText
+          onClick={() => onSelectPage('methodology-cpr')}
+          size="xxsmall"
+        >
           <FormattedMessage
             {...messages.noteCredibleIntervalLinkCountry}
           />
@@ -162,7 +168,10 @@ function CardFooter({
     // prettier-ignore
     valuesInterval = {
       link: (
-        <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
+        <ButtonText
+          onClick={() => onSelectPage('methodology-cpr')}
+          size="xxsmall"
+        >
           <FormattedMessage
             {...messages.noteCredibleIntervalLinkRegions}
           />
@@ -174,7 +183,10 @@ function CardFooter({
     // prettier-ignore
     valuesInterval = {
       link: (
-        <ButtonText onClick={() => onSelectPage('methodology-vdem')}>
+        <ButtonText
+          onClick={() => onSelectPage('methodology-vdem')}
+          size="xxsmall"
+        >
           <FormattedMessage
             {...messages.noteCredibleIntervalLinkCountry}
           />
@@ -186,7 +198,10 @@ function CardFooter({
     // prettier-ignore
     valuesInterval = {
       link: (
-        <ButtonText onClick={() => onSelectPage('methodology-vdem')}>
+        <ButtonText
+          onClick={() => onSelectPage('methodology-vdem')}
+          size="xxsmall"
+        >
           <FormattedMessage
             {...messages.noteCredibleIntervalLinkRegions}
           />
@@ -194,84 +209,78 @@ function CardFooter({
       ),
     };
   }
+  // prettier-ignore
   return (
     <ResponsiveContext.Consumer>
       {size => (
         <Styled>
           {notes.regionBias && (
-            <Hint>
-              <Text size="xxsmall">
-                <FormattedMessage
-                  {...rootMessages.charts.noteRegionalBiasESRWithLink}
-                  values={{
-                    link: (
-                      <ButtonText
-                        onClick={() => onSelectPage('methodology-esr')}
-                      >
-                        <FormattedMessage
-                          {...rootMessages.charts.noteRegionalBiasESRLink}
-                        />
-                      </ButtonText>
-                    ),
-                  }}
-                />
-              </Text>
-            </Hint>
+            <StyledHint>
+              <FormattedMessage
+                {...rootMessages.charts.noteRegionalBiasESRWithLink}
+                values={{
+                  link: (
+                    <ButtonText
+                      size="xxsmall"
+                      onClick={() => onSelectPage('methodology-esr')}
+                    >
+                      <FormattedMessage
+                        {...rootMessages.charts.noteRegionalBiasESRLink}
+                      />
+                    </ButtonText>
+                  ),
+                }}
+              />
+            </StyledHint>
           )}
           {notes.regionAvg && (
             <>
               {(!currentRegion || currentRegion === 'all') && (
-                <Hint>
-                  <Text size="xxsmall">
-                    <FormattedMessage {...messages.noteAssessmentMultiple} />
-                  </Text>
-                </Hint>
+                <StyledHint>
+                  <FormattedMessage {...messages.noteAssessmentMultiple} />
+                </StyledHint>
               )}
               {currentRegion && (
-                <Hint>
+                <StyledHint>
                   {count > 0 && count < total && (
-                    <Text size="xxsmall">
-                      <FormattedMessage
-                        {...messages[
-                          isMinSize(size, 'sm')
-                            ? 'noteAssessmentRatio'
-                            : 'noteAssessmentRatioSmall'
-                        ]}
-                        values={valuesAvg}
-                      />
-                    </Text>
+                    <FormattedMessage
+                      {...messages[
+                        isMinSize(size, 'ms')
+                          ? 'noteAssessmentRatio'
+                          : 'noteAssessmentRatioSmall'
+                      ]}
+                      values={valuesAvg}
+                    />
                   )}
                   {count > 0 && count === total && (
-                    <Text size="xxsmall">
-                      <FormattedMessage
-                        {...messages.noteAssessmentRatioAll}
-                        values={valuesAvg}
-                      />
-                    </Text>
+                    <FormattedMessage
+                      {...messages.noteAssessmentRatioAll}
+                      values={valuesAvg}
+                    />
                   )}
-                  {count === 0 && (
-                    <Text size="xxsmall">
-                      {currentRegion === 'world' && (
-                        <FormattedMessage
-                          {...messages.noteAssessmentNoneWorld}
-                          values={{ year }}
-                        />
-                      )}
-                      {currentRegion !== 'world' && type === 'cpr' && (
-                        <FormattedMessage
-                          {...messages.noteAssessmentNoneRegion}
-                          values={{ year }}
-                        />
-                      )}
-                      {currentRegion !== 'world' && type === 'esr' && (
-                        <FormattedMessage
-                          {...messages.noteAssessmentNoneRegionESR}
-                          values={{ year }}
-                        />
-                      )}
-                    </Text>
+                  {count === 0 && currentRegion === 'world' && (
+                    <FormattedMessage
+                      {...messages.noteAssessmentNoneWorld}
+                      values={{ year }}
+                    />
                   )}
-                </Hint>
+                  {count === 0 &&
+                    currentRegion !== 'world' &&
+                    type === 'cpr' && (
+                    <FormattedMessage
+                      {...messages.noteAssessmentNoneRegion}
+                      values={{ year }}
+                    />
+                  )}
+                  {count === 0 &&
+                    currentRegion !== 'world' &&
+                    type === 'esr' && (
+                    <FormattedMessage
+                      {...messages.noteAssessmentNoneRegionESR}
+                      values={{ year }}
+                    />
+                  )}
+                </StyledHint>
               )}
             </>
           )}
@@ -281,22 +290,20 @@ function CardFooter({
                 <Range region={currentRegion} />
                 <Mean region={currentRegion} />
               </RangeWrapper>
-              <Hint>
-                <Text size="xxsmall">
-                  {notes.regionIntervalCPR && isMinSize(size, 'sm') && (
-                    <FormattedMessage
-                      {...messages.noteCredibleIntervalRegions}
-                      values={valuesInterval}
-                    />
-                  )}
-                  {(notes.countryIntervalCPR || size === 'small') && (
-                    <FormattedMessage
-                      {...messages.noteCredibleIntervalSmall}
-                      values={valuesInterval}
-                    />
-                  )}
-                </Text>
-              </Hint>
+              <StyledHint>
+                {notes.regionIntervalCPR && isMinSize(size, 'ms') && (
+                  <FormattedMessage
+                    {...messages.noteCredibleIntervalRegions}
+                    values={valuesInterval}
+                  />
+                )}
+                {(notes.countryIntervalCPR || size === 'small') && (
+                  <FormattedMessage
+                    {...messages.noteCredibleIntervalSmall}
+                    values={valuesInterval}
+                  />
+                )}
+              </StyledHint>
             </Box>
           )}
           {(notes.regionIntervalVDEM || notes.countryIntervalVDEM) && (
@@ -305,22 +312,20 @@ function CardFooter({
                 <Range region={currentRegion} />
                 <Mean region={currentRegion} />
               </RangeWrapper>
-              <Hint>
-                <Text size="xxsmall">
-                  {notes.regionIntervalVDEM && isMinSize(size, 'sm') && (
-                    <FormattedMessage
-                      {...messages.noteCredibleIntervalRegionsVDEM}
-                      values={valuesInterval}
-                    />
-                  )}
-                  {(notes.countryIntervalVDEM || size === 'small') && (
-                    <FormattedMessage
-                      {...messages.noteCredibleIntervalSmallVDEM}
-                      values={valuesInterval}
-                    />
-                  )}
-                </Text>
-              </Hint>
+              <StyledHint>
+                {notes.regionIntervalVDEM && isMinSize(size, 'ms') && (
+                  <FormattedMessage
+                    {...messages.noteCredibleIntervalRegionsVDEM}
+                    values={valuesInterval}
+                  />
+                )}
+                {(notes.countryIntervalVDEM || size === 'small') && (
+                  <FormattedMessage
+                    {...messages.noteCredibleIntervalSmallVDEM}
+                    values={valuesInterval}
+                  />
+                )}
+              </StyledHint>
             </Box>
           )}
           {notes.countryRegionAvg && (
@@ -328,25 +333,21 @@ function CardFooter({
               <RangeWrapper>
                 <MeanRegion />
               </RangeWrapper>
-              <Hint>
-                <Text size="xxsmall">
-                  <FormattedMessage
-                    {...messages.noteUNRegionAverage}
-                    values={{
-                      group: (
-                        <FormattedMessage
-                          {...rootMessages.un_regions_short[currentRegion]}
-                        />
-                      ),
-                    }}
-                  />
-                </Text>
+              <StyledHint>
+                <FormattedMessage
+                  {...messages.noteUNRegionAverage}
+                  values={{
+                    group: (
+                      <FormattedMessage
+                        {...rootMessages.un_regions_short[currentRegion]}
+                      />
+                    ),
+                  }}
+                />
                 {notes.countryRegionAvgNA && (
-                  <Text size="xxsmall">
-                    <FormattedMessage {...messages.noteUNRegionAverageNA} />
-                  </Text>
+                  <FormattedMessage {...messages.noteUNRegionAverageNA} />
                 )}
-              </Hint>
+              </StyledHint>
             </Box>
           )}
         </Styled>

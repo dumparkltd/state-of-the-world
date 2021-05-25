@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { Box, ResponsiveContext, Heading } from 'grommet';
+import { Box, ResponsiveContext } from 'grommet';
 
 import {
   getESRRightScores,
@@ -36,6 +36,7 @@ import ChartHeader from 'components/ChartHeader';
 import Source from 'components/Source';
 import CountryNotes from 'components/CountryNotes';
 import CountryLabel from 'components/CountryLabel';
+import ContentTitle from 'styled/ContentTitle';
 
 import { sortScores } from 'utils/scores';
 import { isMinSize } from 'utils/responsive';
@@ -194,7 +195,7 @@ export function ChartContainerMetricRanking({
       {size => (
         <Box margin={{ bottom: 'xlarge' }}>
           <Box margin={{ top: 'medium' }} direction="row" justif="between">
-            <Heading level={1}>
+            <ContentTitle>
               <FormattedMessage
                 {...messages.title}
                 values={{
@@ -203,7 +204,7 @@ export function ChartContainerMetricRanking({
                   ),
                 }}
               />
-            </Heading>
+            </ContentTitle>
           </Box>
           <ChartHeader
             filters={[
@@ -238,7 +239,9 @@ export function ChartContainerMetricRanking({
                 onOrderChange(currentSortOrder === 'asc' ? 'desc' : 'asc'),
             }}
           />
-          <Source type={metric.type} />
+          <Box margin={{ top: 'small' }}>
+            <Source type={metric.type} />
+          </Box>
           <CountryNotes
             hasAside={isMinSize(size, 'large')}
             settingHint
@@ -246,9 +249,9 @@ export function ChartContainerMetricRanking({
               govRespondents:
                 showGovRespondentsLabel && hasGovRespondentsCountries,
               hiCountries: showHILabel && hasHICountries,
-              trendCPR: isMinSize(size, 'sm') && metric.type === 'cpr',
-              trendESR: isMinSize(size, 'sm') && metric.type === 'esr',
-              trendVDEM: isMinSize(size, 'sm') && metric.type === 'vdem',
+              trendCPR: isMinSize(size, 'ms') && metric.type === 'cpr',
+              trendESR: isMinSize(size, 'ms') && metric.type === 'esr',
+              trendVDEM: isMinSize(size, 'ms') && metric.type === 'vdem',
             }}
           />
         </Box>

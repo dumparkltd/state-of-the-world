@@ -24,6 +24,11 @@ export default defineMessages({
     defaultMessage:
       'View Rights Tracker for underlying statistical indicator country scores and raw data',
   },
+  seeRightsTrackerLink: {
+    id: `${scope}.seeRightsTrackerLink`,
+    defaultMessage:
+      'View Rights Tracker for underlying statistical indicator country scores and raw data',
+  },
   titleESR: {
     id: `${scope}.titleESR`,
     defaultMessage: 'titleESR',

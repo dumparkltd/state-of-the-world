@@ -9,13 +9,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { compose } from 'redux';
-import { Box, Heading, Text } from 'grommet';
+import { Box, Heading } from 'grommet';
 import styled from 'styled-components';
 
 import { UN_REGIONS } from 'containers/App/constants';
 import { selectMetric } from 'containers/App/actions';
 import FAQs from 'containers/FAQs';
 import ButtonHero from 'styled/ButtonHero';
+import SupTitle from 'styled/SupTitle';
 
 import AboutMetric from 'components/AboutMetric';
 import AboutMetricSources from 'containers/AboutMetricSources';
@@ -31,10 +32,6 @@ const RightTitle = styled(p => <Heading level={3} responsive={false} {...p} />)`
   font-weight: 700;
 `;
 
-const PanelTitle = styled(p => <Text size="xsmall" {...p} />)`
-  text-transform: uppercase;
-  font-weight: 600;
-`;
 const HeadingBox = styled(p => <Box flex={{ shrink: 0 }} {...p} />)``;
 
 export function AboutMetricContainer({
@@ -55,9 +52,9 @@ export function AboutMetricContainer({
       pad={{ horizontal: 'medium', bottom: 'medium', top: 'xlarge' }}
     >
       <HeadingBox>
-        <PanelTitle>
+        <SupTitle size="xsmall" dark>
           <FormattedMessage {...messages.title} />
-        </PanelTitle>
+        </SupTitle>
         <RightTitle>
           <FormattedMessage {...rootMessages[metricType][metric.key]} />
         </RightTitle>

@@ -8,7 +8,7 @@ export const getXTime = year => new Date(`${year}`).getTime();
 
 const MAX_STEPS = {
   default: 11,
-  sm: 2,
+  ms: 2,
   multi: 2,
   'multi-country': 2,
   'multi-region': 2,
@@ -19,8 +19,8 @@ export const getTickValuesX = (size, mode, minYear, maxYear) => {
   if (MAX_STEPS[mode]) {
     max = MAX_STEPS[mode];
   }
-  if (isMaxSize(size, 'sm')) {
-    max = MAX_STEPS.sm;
+  if (isMaxSize(size, 'ms')) {
+    max = MAX_STEPS.ms;
   }
   if (max === 2) {
     return [getXTime(minYear), getXTime(maxYear)];

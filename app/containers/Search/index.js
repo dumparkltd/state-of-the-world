@@ -38,7 +38,6 @@ export function Search({
   onSearch,
   focus,
   countries,
-  bordercolor,
 }) {
   const hasToggle = typeof onToggle !== 'undefined';
   const [search, setSearch] = useState('');
@@ -93,10 +92,6 @@ export function Search({
       style={{ minWidth: expand ? '500px' : 0 }}
     >
       <Box
-        border={{
-          color: bordercolor,
-          size: 'xsmall',
-        }}
         direction="row"
         align="center"
         round="xlarge"
@@ -215,7 +210,6 @@ Search.propTypes = {
   theme: PropTypes.object,
   placeholder: PropTypes.string,
   countries: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  bordercolor: PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -7,12 +7,21 @@ import { FormNext } from 'grommet-icons';
 // prettier-ignore
 const Styled = styled(Button)`
   font-weight: ${({ weight }) => weight || 600};
-  color: ${({ theme, secondary, color }) => theme.global.colors[color || (secondary ? 'secondary' : 'dark-3')]};
+  color: ${({ theme, color, hint }) => {
+    if (hint) {
+      return theme.global.colors.hint;
+    }
+    return theme.global.colors[color || 'dark-3'];
+  }};
   font-size: ${({ theme, size }) => theme.text[size].size};
   padding: ${({ padding }) => padding || '0px'};
   border-radius: ${({ borderRadius }) => borderRadius || '18px'};
+  text-decoration: underline;
   &:hover {
+    color: ${({ theme, color }) => theme.global.colors[color || 'brand']};
+    background-color: transparent;
     text-decoration: underline;
+    opacity: ${({ color }) => (color ? 0.8 : 1)};
   }
 `;
 
@@ -25,6 +34,7 @@ export function ButtonTextIcon({
   iconSize,
   reverse = true,
   gap,
+  color,
   ...rest
 }) {
   let iSize = iconSize;
@@ -34,20 +44,17 @@ export function ButtonTextIcon({
   }
   return (
     <Styled
-      secondary={secondary}
       label={label}
       a11Title={label}
       icon={
-        icon ||
-        (hasIcon && (
-          <FormNext color={secondary ? 'secondary' : 'dark-3'} size={iSize} />
-        ))
+        icon || (hasIcon && <FormNext color={color || 'dark-3'} size={iSize} />)
       }
       plain
       reverse={reverse}
       gap={gap || (size !== 'medium' ? 'hair' : '0')}
       alignSelf="start"
       size={size}
+      color={color}
       {...rest}
     />
   );
@@ -63,6 +70,7 @@ ButtonTextIcon.propTypes = {
   size: PropTypes.string,
   iconSize: PropTypes.string,
   gap: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default ButtonTextIcon;

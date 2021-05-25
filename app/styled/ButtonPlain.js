@@ -11,20 +11,20 @@ export default styled.button`
   background-image: none;
   border: none;
   border-radius: 0;
-  color: ${({ theme, disabled }) => theme.global.colors[disabled ? 'disabled' : 'dark-3']};
+  color: ${({ theme, disabled }) => disabled ? theme.global.colors.disabled : theme.global.colors.text.light};
   background-color: transparent;
   text-decoration: none;
   text-align: left;
   &:hover {
-    color: ${({ theme, disabled }) => theme.global.colors[disabled ? 'disabled' : 'dark-3']};
+    color: ${({ theme, disabled }) => disabled ? theme.global.colors.disabled : theme.global.colors.text.light};
     background-color: transparent;
   }
   &:active {
-    color: ${({ theme }) => theme.global.colors['dark-3']};
+    color: ${({ theme }) => theme.global.colors.text.light};
     background-color: transparent;
   }
   &:visited {
-    color: ${({ theme }) => theme.global.colors['dark-3']};
+    color: ${({ theme }) => theme.global.colors.text.light};
     background-color: transparent;
   }
   &:focus {

@@ -27,14 +27,14 @@ export function NavBottom({ active, onClick, type, activeCode }) {
             ref={buttonRef}
             windowSize={size}
           />
-          {open && isMaxSize(size, 'sm') && type === 'metrics' && (
+          {open && isMaxSize(size, 'ms') && type === 'metrics' && (
             <NavMetric
               size={size}
               onClose={() => setOpen(false)}
               activeCode={activeCode}
             />
           )}
-          {open && isMaxSize(size, 'sm') && type === 'countries' && (
+          {open && isMaxSize(size, 'ms') && type === 'countries' && (
             <NavCountry
               size={size}
               onClose={() => setOpen(false)}

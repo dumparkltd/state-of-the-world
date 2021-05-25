@@ -71,7 +71,7 @@ export function FilterOptions({
         const regionOption = {
           key: 'unregion',
           value: option.key,
-          color: active ? option.key : 'dark-4',
+          color: active && option.key,
           active,
           label: intl.formatMessage(rootMessages.un_regions_short[option.key]),
           disabled: unRegionFilterValue === option.key,
@@ -89,7 +89,7 @@ export function FilterOptions({
     <Styled>
       {config.attribute === 'unregion' && (
         <Box pad={{ bottom: 'xsmall' }} direction="row">
-          <Text size="xsmall">
+          <Text size="xsmall" color="hint">
             {config.type === 'filter' && config.all && (
               <FormattedMessage {...messages.unregionFilterAll} />
             )}
@@ -108,7 +108,7 @@ export function FilterOptions({
             options.map(option => (
               <StyledButton
                 key={option.value}
-                color={option.color}
+                color={option.color || null}
                 title={option.label}
                 active={option.active}
                 onClick={option.onClick}
