@@ -22,7 +22,7 @@ const StyledButtonIcon = styled(ButtonIcon)`
   }
 `;
 const Top = styled.div`
-  background-color: ${({ theme }) => theme.global.colors.brandDarker};
+  background-color: ${({ theme }) => theme.global.colors['dark-4']};
   width: 100%;
   height: ${({ theme }) => theme.navTop};
 `;
@@ -75,7 +75,7 @@ export function NavTop({
               onClick={() => onSearch('')}
               icon={
                 <Close
-                  color="dark"
+                  color="dark-3"
                   size={isMaxSize(size, 'sm') ? 'small' : 'medium'}
                 />
               }
@@ -83,7 +83,7 @@ export function NavTop({
             />
           )}
           {(!search || search.length === 0) && (
-            <Search bordersize="small" bordercolor="dark" color="dark" />
+            <Search bordersize="small" bordercolor="dark-3" color="dark-3" />
           )}
         </Box>
         {isMaxSize(size, 'sm') && (

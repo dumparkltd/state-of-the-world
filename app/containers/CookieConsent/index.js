@@ -87,7 +87,7 @@ export function CookieConsent({
         >
           <Box
             pad={{ vertical: 'small', horizontal: 'medium' }}
-            background="darker"
+            background="dark-1"
             style={{ maxWidth: '100%', width: '360px' }}
             elevation="large"
           >

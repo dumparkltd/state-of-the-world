@@ -111,7 +111,9 @@ export function ChartYearSelect({
               >
                 <Previous
                   size="medium"
-                  color={quasiEquals(year, yearPrevious) ? 'disabled' : 'dark'}
+                  color={
+                    quasiEquals(year, yearPrevious) ? 'disabled' : 'dark-3'
+                  }
                 />
               </ButtonPlain>
             )}
@@ -151,7 +153,7 @@ export function ChartYearSelect({
               >
                 <Next
                   size="medium"
-                  color={quasiEquals(year, yearNext) ? 'disabled' : 'dark'}
+                  color={quasiEquals(year, yearNext) ? 'disabled' : 'dark-3'}
                 />
               </ButtonPlain>
             )}

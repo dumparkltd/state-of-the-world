@@ -34,7 +34,7 @@ const TrendWrap = styled.span`
 const ScoreWrap = styled(Box)`
 `;
 // border-right: 1px solid;
-// border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
+// border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors['dark-3']};
 
 export function BarWrapper({ score, type, intl, color }) {
   const [hover, setHover] = useState(false);
@@ -47,7 +47,7 @@ export function BarWrapper({ score, type, intl, color }) {
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >
-          {(hover || score.active) && <Active color={`${score.color}Active`} />}
+          {(hover || score.active) && <Active color={color} />}
           <Box key={score.key} direction="row" align="center">
             <LabelWrap
               width={chartColumnWidth(size, 'rank')}
@@ -126,8 +126,6 @@ export function BarWrapper({ score, type, intl, color }) {
     </ResponsiveContext.Consumer>
   );
 }
-// active={hover || score.active}
-// active={hover || score.active}
 
 BarWrapper.propTypes = {
   score: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),

@@ -12,15 +12,16 @@ export default styled(OptionButton)`
   padding: 8px 12px;
   position: relative;
   background: transparent;
-  font-weight: ${({ inFocus }) => inFocus ? 600 : 400};
+  font-weight: ${({ isActive }) => isActive ? 700 : 400};
   border-left: 4px solid
-    ${({ theme, isActive }) =>
-    isActive ? theme.global.colors.brandDarker : 'transparent'};
+    ${({ theme, inFocus }) =>
+    inFocus ? theme.global.colors.brandDarker : 'transparent'};
   &:last-child {
     border-bottom: 1px solid ${({ theme }) => theme.global.colors.border.light};
   }
   &:hover {
-    font-weight: 600;
+    /* font-weight: 600; */
+    color: ${({ theme }) => theme.global.colors.brand};
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     padding: 10px 16px 10px 12px;

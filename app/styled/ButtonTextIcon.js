@@ -7,7 +7,7 @@ import { FormNext } from 'grommet-icons';
 // prettier-ignore
 const Styled = styled(Button)`
   font-weight: ${({ weight }) => weight || 600};
-  color: ${({ theme, secondary, color }) => theme.global.colors[color || (secondary ? 'secondary' : 'dark')]};
+  color: ${({ theme, secondary, color }) => theme.global.colors[color || (secondary ? 'secondary' : 'dark-3')]};
   font-size: ${({ theme, size }) => theme.text[size].size};
   padding: ${({ padding }) => padding || '0px'};
   border-radius: ${({ borderRadius }) => borderRadius || '18px'};
@@ -40,7 +40,7 @@ export function ButtonTextIcon({
       icon={
         icon ||
         (hasIcon && (
-          <FormNext color={secondary ? 'secondary' : 'dark'} size={iSize} />
+          <FormNext color={secondary ? 'secondary' : 'dark-3'} size={iSize} />
         ))
       }
       plain

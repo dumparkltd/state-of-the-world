@@ -23,7 +23,7 @@ export function SectionFooter() {
   return (
     <ResponsiveContext.Consumer>
       {size => (
-        <SectionContainer background="footer" pad={{ top: 'medium' }}>
+        <SectionContainer background="brandDark" pad={{ top: 'medium' }}>
           <ContentMaxWidth stretch direction="column">
             <Box
               basis={isMinSize(size, 'large') ? '1/2' : '1'}

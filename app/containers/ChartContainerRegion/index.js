@@ -226,12 +226,12 @@ export function ChartContainerRegion({
                 </Box>
               )}
               {type === 'esr' && (
-                <Text size="xxsmall" color="dark">
+                <Text size="xxsmall" color="dark-3">
                   <FormattedMessage {...rootMessages.charts.noteRegionalBiasESR} />
                 </Text>
               )}
               {type === 'esr' && (
-                <Text size="xxsmall" color="dark">
+                <Text size="xxsmall" color="dark-3">
                   <ButtonText onClick={() => onSelectPage('methodology-esr')}>
                     <FormattedMessage
                       {...rootMessages.charts.methodologyLink}
@@ -240,7 +240,7 @@ export function ChartContainerRegion({
                 </Text>
               )}
               {isMinSize(size, 'sm') && type === 'cpr' && (
-                <Text size="xxsmall" color="dark">
+                <Text size="xxsmall" color="dark-3">
                   <ButtonText onClick={() => onSelectPage('methodology-cpr')}>
                     <FormattedMessage
                       {...rootMessages.charts.methodologyLink}

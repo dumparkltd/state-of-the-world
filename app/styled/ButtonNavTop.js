@@ -3,23 +3,22 @@ import ButtonPlain from './ButtonPlain';
 // prettier-ignore
 export default styled(ButtonPlain)`
   display: block;
-  color: ${({ theme }) => theme.global.colors.dark};
+  color: ${({ theme }) => theme.global.colors['dark-3']};
   padding: 10px 20px;
   font-size: 1em;
-  font-weight: 600;
-  text-align: 'left';
+  text-align: left;
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
-    text-align: 'center';
-    color: ${({ theme, active }) => theme.global.colors[active ? 'dark' : 'secondary' ]};
+    text-align: center;
+    color: ${({ theme, active }) => theme.global.colors[active ? 'brandDark' : 'dark-3' ]};
     padding: 0px 10px;
     display: inline-block;
     border: none;
     width: auto;
     &:visited {
-      color: ${({ theme }) => theme.global.colors.secondary};
+      color: ${({ theme }) => theme.global.colors['dark-3']};
     }
     &:hover {
-      color: ${({ theme }) => theme.global.colors.dark};
+      color: ${({ theme }) => theme.global.colors.brandDark};
     }
   }
 `;

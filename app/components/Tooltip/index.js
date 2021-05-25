@@ -8,6 +8,7 @@ import { isMaxSize } from 'utils/responsive';
 
 import Content from './Content';
 
+// prettier-ignore
 const StyledDrop = styled(Drop)`
   margin: 0 0 13px;
   overflow: visible;
@@ -23,7 +24,8 @@ const StyledDrop = styled(Drop)`
     width: 0;
     height: 0;
     border-top: 8px solid
-      ${({ theme, inverse }) => theme.global.colors[inverse ? 'white' : 'dark']};
+      ${({ theme, inverse }) =>
+    theme.global.colors[inverse ? 'white' : 'dark-3']};
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     margin: 0 auto;
@@ -63,7 +65,7 @@ function Tooltip({
                 textAnchor
                   ? null
                   : icon || (
-                    <CircleInformation size={iconSize} color={inverse ? 'white' : 'dark'} />
+                    <CircleInformation size={iconSize} color={inverse ? 'white' : 'dark-3'} />
                   )
               }
               ref={button}

@@ -36,7 +36,7 @@ const BarWrap = styled(Box)``;
 const ColumnWrap = styled(Box)`
 `;
 // border-right: 1px solid;
-// border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors.dark};
+// border-color: ${({ theme, noBorder }) => noBorder ? 'transparent' : theme.global.colors['dark-3']};
 
 const renderSortIcon = dir =>
   dir === 'asc' ? <Ascend size="small" /> : <Descend size="small" />;
@@ -45,7 +45,7 @@ export function ListHeader({
   metric,
   benchmark,
   commonLabel,
-  labelColor = 'dark',
+  labelColor = 'dark-3',
   annotateMinMax = true,
   sort,
 }) {

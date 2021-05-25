@@ -86,7 +86,7 @@ export function LayerAside({ onClose, theme, layer }) {
           >
             <ButtonWrap>
               <ButtonIcon onClick={onClose} subtle>
-                <CloseIcon size="xlarge" color="dark" />
+                <CloseIcon size="xlarge" color="dark-3" />
               </ButtonIcon>
             </ButtonWrap>
             <Styled

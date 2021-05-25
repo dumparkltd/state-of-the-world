@@ -11,7 +11,7 @@ const NavOptionWrap = styled(Box)`
 `;
 const StyledText = styled(Text)`
   padding: 0 10px 0 16px;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
 `;
 
 export function NavOptionGroup({
@@ -53,7 +53,7 @@ export function NavOptionGroup({
     <div>
       <NavOptionWrap>
         {label && (
-          <StyledText color="secondary" size="small">
+          <StyledText color="dark-3" size="small">
             {label}
           </StyledText>
         )}

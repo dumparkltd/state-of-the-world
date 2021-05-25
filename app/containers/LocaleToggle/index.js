@@ -32,16 +32,16 @@ const StyledDropButton = styled(DropButton)`
   background: transparent;
   vertical-align: middle;
   &:hover {
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
   }
   &:active {
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
   }
   &:visited {
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
   }
   &:focus {
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
     padding-left: 10px;

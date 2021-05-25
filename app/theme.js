@@ -178,75 +178,33 @@ const theme = {
     colors: {
       black: '#000000',
       white: '#FFFFFF',
+      focus: 'transparent',
       text: {
         dark: '#FFFFFF', //  on dark background
         light: '#000000', // on light background (empowerment)
       },
-      border: { light: '#ceced2', dark: '#ffffff' },
-      bgTrans: 'rgba(248, 248, 248, 0.9)', // <<< lightest      empowerment: '#262064', // AA large
-      'light-0': '#F8F8F8', // <<< lightest      empowerment: '#262064', // AA large
-      'light-1': '#F0EFF5', // <<< lightest      empowerment: '#262064', // AA large
+      border: {
+        light: '#CECED2',
+        dark: '#FFFFFF',
+      },
+      'light-0': '#F8F8F8', // <<< lightest // AA large
+      'light-1': '#F0EFF5', // AA large
       'light-2': '#EFEFEF',
       'light-3': '#E8EAE9',
       'light-4': '#D7D9DB',
       'light-5': '#D0D2D3',
-      'dark-1': '#192E3A', // darkest >>>
-      'dark-2': '#2C3F4B',
-      'dark-3': '#757575', // AA
-      'dark-4': '#8896A0', // AA large
       'dark-5': '#BBBBBB', // AA large
-      dark: '#555555', // empowerment',
-      darker: '#111111', // empowerment',
-      secondary: '#8996A0',
-      disabled: '#8896A0',
-      hint: '#333333',
+      'dark-4': '#8896A0', // AA large
+      'dark-3': '#6A7883', // AA
+      'dark-2': '#2C3F4B',
+      'dark-1': '#192E3A', // darkest >>>
+      bgTrans: 'rgba(248, 248, 248, 0.9)', // <<< lightest      empowerment: '#262064', // AA large
       brand: '#0077B3',
       brandDark: '#0E6B9B',
       brandDarker: '#0a4a6b',
-      termsPast: '#66ADD1',
-      termsFuture: '#B3D6E8',
-      termsPastHover: '#6EA6C3',
-      termsFutureHover: '#B7D3E1',
-      highlight: '#FDB933',
-      highlight2: '#DB7E00', // AA large
-      highlight3: '#AD6500', // AA
-      focus: 'transparent',
-      selected: 'brand',
-      cprTrans: 'rgba(108, 63, 153, 0.3)', // AA
-      cprActiveTrans: 'rgba(108, 63, 153, 0.3)', // AA
-      cpr: '#6C3F99', // AA large
-      cprLight: '#E7DFEF', // AA large
-      cprDark: '#6C3F99', // AA
-      cprActive: '#491d75', // AA
-      esrTrans: 'rgba(39, 170, 225, 0.3)', // AA large
-      esrActiveTrans: 'rgba(39, 170, 225, 0.3)', // AA large
-      esr: '#27AAE1', // AA large
-      esrLight: '#D9EBF2', // AA large
-      esrDark: '#027AC0', // AA
-      esrActive: '#0674b5', // AA
-      esrCloud: '#004f8f', // AA
-      hover: '#6C3F99',
-      countries: '#0D6D64',
-      countriesLight: '#C9E0D4',
-      countriesLightRGBA: 'rgba(38, 32, 100, .85)',
-      metrics: '#7F59A6',
-      people: '#BD5747',
-      sectionDark: '#FFFAE8',
-      sectionCountries: '#f2fff8',
-      sectionDataCards: '#f9e8e4',
-      sectionPeople: '#fdf0dd',
-      sectionAbout: '#ededf5',
-      sectionCountryOverview: '#ededf5',
-      graphicRed: '#EF4123',
-      graphicPurple: '#8D60BA',
-      graphicYellow: '#FDC65B',
-      buttonPrimary: '#0077B3',
-      footer: '#0E6B9B',
-      buttonPrimaryHover: '#0E6B9B',
-      buttonSecondary: '#ffffff',
-      buttonSecondaryOnWhite: '#ffffff',
-      buttonSecondaryHover: '#dddddd',
-      buttonSecondaryOnWhiteHover: '#dddddd',
+      secondary: '#8896A0', // AA large
+      disabled: '#8896A0',
+      hint: '#6A7883',
       world: '#0077B3', // blue
       AG: '#D67200', // orange
       APG: '#0F914B', // green
@@ -254,6 +212,19 @@ const theme = {
       GRULAC: '#D00379', // pink
       WEOG: '#5E2498', // purple
       all: '#262262', // purple
+      termsPast: '#66ADD1',
+      termsFuture: '#B3D6E8',
+      termsPastHover: '#6EA6C3',
+      termsFutureHover: '#B7D3E1',
+      countries: '#0D6D64',
+      countriesLight: '#C9E0D4',
+      countriesLightRGBA: 'rgba(38, 32, 100, .85)',
+      buttonPrimary: '#0077B3',
+      buttonPrimaryHover: '#0E6B9B',
+      buttonSecondary: '#ffffff',
+      buttonSecondaryOnWhite: '#ffffff',
+      buttonSecondaryHover: '#dddddd',
+      buttonSecondaryOnWhiteHover: '#dddddd',
     },
     // margins & paddings
     edgeSize,

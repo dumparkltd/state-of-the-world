@@ -5,7 +5,7 @@ export default styled(TextInput)`
   font-weight: 600;
   font-size: ${({ theme }) => theme.text.small.size};
   &::placeholder {
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
     font-weight: 400;
     opacity: 0.8;
   }

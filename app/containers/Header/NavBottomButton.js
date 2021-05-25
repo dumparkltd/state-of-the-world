@@ -18,15 +18,15 @@ const ButtonNavSecondary = styled(Button)`
   background: transparent;
   border-top: 4px solid transparent;
   border-bottom: 4px solid;
-  border-bottom-color: ${({ theme, active }) => (
-    active ? theme.global.colors.dark : 'transparent'
+  border-bottom-color: ${({ theme, open }) => (
+    open ? theme.global.colors['dark-3'] : 'transparent'
   )};
-  color: ${({ theme }) => theme.global.colors.dark};
+  color: ${({ theme }) => theme.global.colors['dark-3']};
   &:first-child {
     margin-left: 0;
   }
   &:hover {
-    border-bottom-color: ${({ theme }) => theme.global.colors.dark};
+    border-bottom-color: ${({ theme }) => theme.global.colors['dark-3']};
   }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     height: ${({ theme }) => getHeaderHeightBottom('medium', theme)}px;

@@ -9,17 +9,17 @@ export default styled(Button)`
   &:hover {
     color: ${({ theme }) => theme.global.colors.white};
     background-color:
-    ${({ theme, disabled, color }) => theme.global.colors[disabled ? color || 'dark' : 'buttonPrimaryHover']};
+    ${({ theme, disabled, color }) => theme.global.colors[disabled ? color || 'dark-3' : 'buttonPrimaryHover']};
 }
   &:active {
     color: ${({ theme }) => theme.global.colors.white};
     background-color:
-    ${({ theme, disabled, color }) => theme.global.colors[disabled ? color || 'dark' : 'buttonPrimaryHover']};
+    ${({ theme, disabled, color }) => theme.global.colors[disabled ? color || 'dark-3' : 'buttonPrimaryHover']};
 }
   &:focus {
     color: ${({ theme }) => theme.global.colors.white};
     background-color:
-    ${({ theme, disabled, color }) => theme.global.colors[disabled ? color || 'dark' : 'buttonPrimaryHover']};
+    ${({ theme, disabled, color }) => theme.global.colors[disabled ? color || 'dark-3' : 'buttonPrimaryHover']};
 }
   &:visited {
     color: ${({ theme }) => theme.global.colors.white};

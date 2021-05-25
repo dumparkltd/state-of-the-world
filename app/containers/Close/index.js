@@ -56,7 +56,7 @@ function Close({ onClose, closeTarget, keepTab = true, onClick }) {
             })
         }
       >
-        <CloseIcon size="xlarge" color="dark" />
+        <CloseIcon size="xlarge" color="dark-3" />
       </ButtonIcon>
     </Styled>
   );

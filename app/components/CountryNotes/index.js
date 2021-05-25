@@ -47,7 +47,7 @@ function CountryNotes({ intl, hasAside, notes }) {
               background="white"
             >
               {notes.trendESR && (
-                <Text size="xxsmall" color="dark" textAlign="start">
+                <Text size="xxsmall" color="dark-3" textAlign="start">
                   <FormattedMessage
                     {...messages.trendESRNote}
                     values={{
@@ -57,7 +57,7 @@ function CountryNotes({ intl, hasAside, notes }) {
                 </Text>
               )}
               {notes.trendCPR && (
-                <Text size="xxsmall" color="dark" textAlign="start">
+                <Text size="xxsmall" color="dark-3" textAlign="start">
                   <FormattedMessage
                     {...messages.trendCPRNote}
                     values={{
@@ -67,7 +67,7 @@ function CountryNotes({ intl, hasAside, notes }) {
                 </Text>
               )}
               {notes.trendVDEM && (
-                <Text size="xxsmall" color="dark" textAlign="start">
+                <Text size="xxsmall" color="dark-3" textAlign="start">
                   <FormattedMessage
                     {...messages.trendVDEMNote}
                     values={{
@@ -77,7 +77,7 @@ function CountryNotes({ intl, hasAside, notes }) {
                 </Text>
               )}
               {notes.hiCountries && (
-                <Text size="xxsmall" color="dark" textAlign="start">
+                <Text size="xxsmall" color="dark-3" textAlign="start">
                   <FormattedMessage
                     {...messages.hiNote}
                     values={{
@@ -91,7 +91,7 @@ function CountryNotes({ intl, hasAside, notes }) {
                 </Text>
               )}
               {notes.govRespondents && (
-                <Text size="xxsmall" color="dark" textAlign="start">
+                <Text size="xxsmall" color="dark-3" textAlign="start">
                   <FormattedMessage
                     {...messages.govResponseNote}
                     values={{

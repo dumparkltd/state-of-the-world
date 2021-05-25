@@ -31,7 +31,7 @@ import {
   setAsideLayer,
 } from 'containers/App/actions';
 
-import ButtonNavPrimary from 'styled/ButtonNavPrimary';
+import ButtonNavTop from 'styled/ButtonNavTop';
 import ContentMaxWidth from 'styled/ContentMaxWidth';
 
 import {
@@ -215,7 +215,7 @@ const navButtonOnClick = ({ match, onClick, align }) =>
       const active =
         page.key === match || children.some(ch => ch.key === match);
       return (
-        <ButtonNavPrimary
+        <ButtonNavTop
           key={page.key}
           active={active}
           align={align}
@@ -224,7 +224,7 @@ const navButtonOnClick = ({ match, onClick, align }) =>
           <TextWrap>
             <FormattedMessage {...rootMessages.pageMenu[page.key]} />
           </TextWrap>
-        </ButtonNavPrimary>
+        </ButtonNavTop>
       );
     });
 
@@ -313,8 +313,8 @@ export function Header({
                       onClick={() => setShowMenu(!showMenu)}
                       ref={menuRef}
                     >
-                      {!showMenu && <Menu color="dark" />}
-                      {showMenu && <Close color="dark" />}
+                      {!showMenu && <Menu color="dark-3" />}
+                      {showMenu && <Close color="dark-3" />}
                     </ToggleMenu>
                   </Box>
                 )}

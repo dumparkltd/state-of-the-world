@@ -9,23 +9,23 @@ const StyledPrimary = styled(ButtonPrimary)`
   border-radius: 0px !important;
   padding: 0px 4px;
   background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
-  color: ${({ theme }) => theme.global.colors.dark};
+  color: ${({ theme }) => theme.global.colors['dark-3']};
   border: 1px solid ${({ theme }) => theme.global.colors['light-4']};
   &:hover {
     background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
 }
   &:active {
     background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
 }
   &:focus {
     background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
 }
   &:visited {
     background-color: ${({ theme, color }) => theme.global.colors[color || 'light-3']};
-    color: ${({ theme }) => theme.global.colors.dark};
+    color: ${({ theme }) => theme.global.colors['dark-3']};
 }
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     padding: 0px 8px;

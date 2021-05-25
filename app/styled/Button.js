@@ -9,7 +9,7 @@ export default styled(ButtonPlain)`
   text-align: center;
   vertical-align: middle;
   border-radius: 99999px;
-  color: ${({ theme }) => theme.global.colors.dark};
+  color: ${({ theme }) => theme.global.colors['dark-3']};
   background-color:
     ${({ theme, hasWhiteBG = true }) => hasWhiteBG
     ? theme.global.colors.buttonSecondaryOnWhite

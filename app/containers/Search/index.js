@@ -118,7 +118,7 @@ export function Search({
               <Text weight={600}>{intl.formatMessage(messages.search)}</Text>
             }
             reverse
-            icon={<SearchIcon size={size} color="dark" />}
+            icon={<SearchIcon size={size} color="dark-3" />}
             style={{ textAlign: 'center' }}
             gap="xsmall"
           />
@@ -146,7 +146,7 @@ export function Search({
             />
             {!hasToggle && search.length === 0 && (
               <Box pad={{ right: 'xsmall' }}>
-                <SearchIcon size={size} color="dark" />
+                <SearchIcon size={size} color="dark-3" />
               </Box>
             )}
             {(hasToggle || search.length > 0) && (
@@ -159,7 +159,7 @@ export function Search({
                   if (hasToggle) onToggle(false);
                   setFocusOption(0);
                 }}
-                icon={<Close size={size} color="dark" />}
+                icon={<Close size={size} color="dark-3" />}
                 style={{
                   textAlign: 'center',
                   height: `${theme.sizes.search[size]}px`,

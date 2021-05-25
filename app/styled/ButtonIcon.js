@@ -4,7 +4,7 @@ import Button from './Button';
 export default styled(Button)`
   color: ${({ theme }) => theme.global.colors.white};
   background-color: ${({ theme, subtle }) =>
-    subtle ? 'transparent' : theme.global.colors.dark};
+    subtle ? 'transparent' : theme.global.colors['dark-3']};
   border-radius: 100%;
   width: 36px;
   height: 36px;
@@ -13,15 +13,15 @@ export default styled(Button)`
   box-shadow: ${({ float }) => float ? '0 0 3px 1px rgba(0, 0, 0, 0.15)' : ''};
   &:hover{
     color: ${({ theme }) => theme.global.colors.white};
-    background-color: ${({ theme, subtle, inverse }) => theme.global.colors[(subtle && !inverse) ? 'buttonSecondary' : 'dark']};
+    background-color: ${({ theme, subtle, inverse }) => theme.global.colors[(subtle && !inverse) ? 'buttonSecondary' : 'dark-3']};
   }
   &:active{
     color: ${({ theme }) => theme.global.colors.white};
-    background-color: ${({ theme, subtle }) => subtle ? 'transparent' : theme.global.colors.dark};
+    background-color: ${({ theme, subtle }) => subtle ? 'transparent' : theme.global.colors['dark-3']};
   }
   &:visited{
     color: ${({ theme }) => theme.global.colors.white};
-    background-color: ${({ theme }) => theme.global.colors.dark};
+    background-color: ${({ theme }) => theme.global.colors['dark-3']};
   }
   &:focus{
     color: ${({ theme }) => theme.global.colors.white};

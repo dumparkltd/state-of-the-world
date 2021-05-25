@@ -33,7 +33,7 @@ const BarReference = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${({ theme, color }) =>
-    theme.global.colors[color || 'dark']};
+    theme.global.colors[color || 'dark-3']};
   opacity: 0.33;
 `;
 
