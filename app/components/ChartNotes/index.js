@@ -68,6 +68,13 @@ function ChartNotes({ intl, notes }) {
           </Box>
         </Box>
       )}
+      {notes.gradesVDEM && (
+        <Box>
+          <Text size="xxsmall" textAlign="start">
+            <FormattedMessage {...rootMessages.charts.gradesVDEM} />
+          </Text>
+        </Box>
+      )}
     </Styled>
   );
 }

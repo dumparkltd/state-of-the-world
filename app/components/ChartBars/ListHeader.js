@@ -191,6 +191,7 @@ export function ListHeader({
                             notes={{
                               gradesESR: metric.type === 'esr',
                               gradesCPR: metric.type === 'cpr',
+                              gradesVDEM: metric.type === 'vdem',
                             }}
                           />
                         </Box>

@@ -455,6 +455,11 @@ export default defineMessages({
       defaultMessage:
         'Indicative ranges for interpreting civil and political rights scores (please refer to the Methodology page for details):',
     },
+    gradesVDEM: {
+      id: `${scope}.charts.gradesVDEM`,
+      defaultMessage:
+        'For all indices, V-Dem uses interval scale from 0-1, where 0 is the lowest (i.e., the corresponding democracy index is the less realised) and 1 is the highest (i.e., the corresponding democracy index is the further realised)',
+    },
     gradesESRWithLink: {
       id: `${scope}.charts.gradesESRWithLink`,
       defaultMessage:

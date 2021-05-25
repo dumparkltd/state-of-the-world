@@ -100,6 +100,7 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                               notes={{
                                 gradesESR: metric.type === 'esr',
                                 gradesCPR: metric.type === 'cpr',
+                                gradesVDEM: metric.type === 'vdem',
                               }}
                             />
                           </Box>
@@ -193,6 +194,7 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                               notes={{
                                 gradesESR: metric.type === 'esr',
                                 gradesCPR: metric.type === 'cpr',
+                                gradesVDEM: metric.type === 'vdem',
                               }}
                             />
                           </Box>
