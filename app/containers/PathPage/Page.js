@@ -34,17 +34,22 @@ export function Page({ pageId, onLoadContent, content, closeTarget, intl }) {
   }, [pageId]);
 
   const pageTitle = intl.formatMessage(rootMessages.page[pageId]);
+  const pageTitleMenu = intl.formatMessage(rootMessages.pageMenu[pageId]);
 
   return (
     <ContentWrap>
       <Helmet>
-        <title>{pageTitle}</title>
+        <title>{pageTitleMenu}</title>
         <meta name="description" content="Description of Page" />
       </Helmet>
       <ContentContainer direction="column" header>
         <ContentMaxWidth>
           <Close closeTarget={closeTarget} />
-          <Content content={content} pageTitle={pageTitle} />
+          <Content
+            content={content}
+            pageTitle={pageTitle}
+            supTitle={pageTitleMenu}
+          />
         </ContentMaxWidth>
       </ContentContainer>
       {content && <SectionCredits />}

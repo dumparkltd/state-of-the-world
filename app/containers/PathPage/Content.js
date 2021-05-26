@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import HTMLWrapper from 'components/HTMLWrapper';
 import LoadingIndicator from 'components/LoadingIndicator';
 import PageTitle from 'styled/PageTitle';
+import SupTitle from 'styled/SupTitle';
 
 const StyledContent = styled.div`
   width: 100%;
@@ -25,10 +26,15 @@ const StyledContent = styled.div`
   }
 `;
 
-export function Content({ content, pageTitle, isChild }) {
+export function Content({ content, pageTitle, supTitle, isChild }) {
   return (
     <StyledContent isChild={isChild}>
-      {!isChild && (
+      {!isChild && supTitle && (
+        <SupTitle level={1} dark>
+          {supTitle}
+        </SupTitle>
+      )}
+      {!isChild && pageTitle && (
         <PageTitle level={1} dark>
           {pageTitle}
         </PageTitle>
@@ -41,6 +47,7 @@ export function Content({ content, pageTitle, isChild }) {
 
 Content.propTypes = {
   pageTitle: PropTypes.string,
+  supTitle: PropTypes.string,
   isChild: PropTypes.bool,
   content: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };

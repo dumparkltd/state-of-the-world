@@ -51,6 +51,7 @@ export function PageParent({
   }, [childDetails]);
 
   const pageTitle = intl.formatMessage(rootMessages.page[pageId]);
+  const pageTitleMenu = intl.formatMessage(rootMessages.pageMenu[pageId]);
   const childTitle = intl.formatMessage(rootMessages.page[childDetails.key]);
 
   return (
@@ -62,7 +63,11 @@ export function PageParent({
       <SectionContainer background="white">
         <ContentMaxWidth>
           <Close closeTarget={closeTarget} />
-          <Content content={content} pageTitle={pageTitle} />
+          <Content
+            content={content}
+            pageTitle={pageTitle}
+            supTitle={pageTitleMenu}
+          />
         </ContentMaxWidth>
       </SectionContainer>
       <ContentChild

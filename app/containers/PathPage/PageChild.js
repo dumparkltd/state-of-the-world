@@ -51,6 +51,9 @@ export function PageChild({
 
   const pageTitle = intl.formatMessage(rootMessages.page[details.key]);
   const parentTitle = intl.formatMessage(rootMessages.page[details.parent]);
+  const parentTitleMenu = intl.formatMessage(
+    rootMessages.pageMenu[details.parent],
+  );
 
   return (
     <ContentWrap>
@@ -61,7 +64,11 @@ export function PageChild({
       <SectionContainer background="white">
         <ContentMaxWidth>
           <Close closeTarget={closeTarget} />
-          <Content content={contentParent} pageTitle={parentTitle} />
+          <Content
+            content={contentParent}
+            pageTitle={parentTitle}
+            supTitle={parentTitleMenu}
+          />
         </ContentMaxWidth>
       </SectionContainer>
       <ContentChild
