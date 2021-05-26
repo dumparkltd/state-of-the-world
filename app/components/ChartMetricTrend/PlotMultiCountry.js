@@ -70,10 +70,10 @@ function PlotMultiCountry({
       height={height}
       xType="time"
       margin={{
-        bottom: 20,
+        bottom: 30,
         top: 10,
-        right: 12,
-        left: 30,
+        right: 18,
+        left: metric.type === 'esr' ? 38 : 28,
       }}
     >
       <AreaSeries data={dataForceYRange} style={{ opacity: 0 }} />
@@ -139,7 +139,10 @@ function PlotMultiCountry({
         style={{
           line: { strokeWidth: 0 },
           ticks: { strokeWidth: 0 },
-          text: { fontWeight: 700 },
+          text: {
+            fontWeight: 700,
+            textShadow: theme.global.outline,
+          },
         }}
         tickValues={[getXTime(year)]}
         tickPadding={2}
@@ -151,10 +154,6 @@ function PlotMultiCountry({
         style={{
           line: { strokeWidth: 0 },
           ticks: { strokeWidth: 1 },
-          text: {
-            fontWeight: 700,
-            textShadow: theme.global.outline,
-          },
         }}
         tickSize={3}
         tickValues={tickValuesY}
@@ -230,11 +229,7 @@ function PlotMultiCountry({
           className="sotw-chart-nodata-watermark-small"
           includeMargin={false}
           xPercent={0.5}
-          yPercent={0.5}
-          style={{
-            dominantBaseline: 'middle',
-            textAnchor: 'middle',
-          }}
+          yPercent={1}
         />
       )}
     </FlexibleWidthXYPlot>

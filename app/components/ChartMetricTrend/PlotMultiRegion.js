@@ -79,7 +79,7 @@ function PlotMultiRegion({
         bottom: 20,
         top: 10,
         right: 12,
-        left: 30,
+        left: 39,
       }}
       style={{
         cursor: highlightRegion ? 'pointer' : 'default',
@@ -291,10 +291,6 @@ function PlotMultiRegion({
           includeMargin={false}
           xPercent={0.5}
           yPercent={1}
-          style={{
-            dominantBaseline: 'middle',
-            textAnchor: 'middle',
-          }}
         />
       )}
     </FlexibleWidthXYPlot>

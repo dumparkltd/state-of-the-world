@@ -73,7 +73,7 @@ function PlotDetailRegion({
       height={height}
       xType="time"
       margin={{
-        bottom: 20,
+        bottom: 30,
         top: 10,
         right: 12,
         left: 50,
@@ -408,10 +408,6 @@ function PlotDetailRegion({
           includeMargin={false}
           xPercent={0.5}
           yPercent={0.5}
-          style={{
-            dominantBaseline: 'middle',
-            textAnchor: 'middle',
-          }}
         />
       )}
     </FlexibleWidthXYPlot>

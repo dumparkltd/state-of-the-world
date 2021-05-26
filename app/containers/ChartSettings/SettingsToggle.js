@@ -103,9 +103,30 @@ function SettingsToggle({
         ))}
       </Box>
       {note && (
-        <Box direction="row" align="center" gap="xsmall">
-          <Text>{note}</Text>
-          <ButtonIcon onClick={() => onDismissNote()} subtle>
+        <Box
+          background="dark-2"
+          pad={{
+            vertical: 'xsmall',
+            left: 'small',
+            right: 'large',
+          }}
+          responsive={false}
+          round="xxsmall"
+          margin={{ top: 'small' }}
+          align="center"
+          direction="row"
+          style={{ position: 'relative', minHeight: '36px' }}
+        >
+          <Text size="xsmall">{note}</Text>
+          <ButtonIcon
+            onClick={() => onDismissNote()}
+            subtle
+            style={{
+              position: 'absolute',
+              top: '-1px',
+              right: '2px',
+            }}
+          >
             <Close size="small" />
           </ButtonIcon>
         </Box>

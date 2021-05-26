@@ -43,13 +43,12 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
   return (
     <ResponsiveContext.Consumer>
       {size => {
-        const showRegion = mode === 'multi-region';
-        const showTooltipLabel =
-          isMinSize(size, 'medium') && mode !== 'multi-country';
+        const showRegion = mode === 'multi-region' || mode === 'detail-region';
+        const showTooltipLabel = isMinSize(size, 'medium');
         // prettier-ignore
         return (
           <Styled>
-            <Box direction="row" gap="small" align="center" fill="horizontal">
+            <Box direction="row" gap="xxsmall" align="center" fill="horizontal">
               <MetricIcon
                 src={metric.iconInv}
                 alt=""
@@ -69,13 +68,30 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                       <FormattedMessage {...rootMessages.un_regions[currentRegion]} />
                     </Text>
                     <Box direction="row" gap="xsmall">
-                      {showTooltipLabel  && (
+                      {showTooltipLabel && mode === 'multi-region' && (
                         <Text size="xxsmall" color="secondary" textAlign="end">
                           {currentRegion === 'world' && (
                             <FormattedMessage {...rootMessages.labels.worldScore} />
                           )}
                           {currentRegion !== 'world' && (
                             <FormattedMessage {...rootMessages.labels.regionScore} />
+                          )}
+                        </Text>
+                      )}
+                      {showTooltipLabel && mode === 'detail-region' && (
+                        <Text size="xxsmall" color="secondary">
+                          {currentRegion === 'world' && (
+                            <FormattedMessage
+                              {...rootMessages.labels.worldDetailScore}
+                            />
+                          )}
+                          {currentRegion === 'all' && (
+                            <FormattedMessage {...rootMessages.labels.allDetailScore} />
+                          )}
+                          {currentRegion !== 'world' && currentRegion !== 'all' && (
+                            <FormattedMessage
+                              {...rootMessages.labels.regionDetailScore}
+                            />
                           )}
                         </Text>
                       )}
@@ -124,6 +140,9 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                         size={mode === 'multi-country' ? 'medium' : 'large'}
                         weight={600}
                         color={currentRegion}
+                        style={{
+                          lineHeight: mode === 'multi-country' ? '20px' : '22px',
+                        }}
                       >
                         {metric.type === 'esr' && (
                           <FormattedMessage {...rootMessages.rights[metric.key]} />
@@ -138,47 +157,23 @@ function CardHeader({ metric, currentRegion, onSelectMetric, mode }) {
                   )}
                   {mode === 'detail-region' && (
                     <Box>
-                      <Text size="large" weight={600} color={color}>
+                      <Text
+                        size="large"
+                        weight={600}
+                        color={color}
+                        style={{
+                          lineHeight: '22px',
+                        }}
+                      >
                         <FormattedMessage {...rootMessages.rights[metric.key]} />
                       </Text>
                     </Box>
                   )}
-                  {(mode === 'multi-country' || mode === 'detail-region') && (
+                  {(mode === 'multi-country') && (
                     <Box direction="row" gap="xxsmall" align="center">
-                      {showTooltipLabel && (
-                        <Text size="xxsmall" color="secondary">
-                          {currentRegion === 'world' && (
-                            <FormattedMessage
-                              {...rootMessages.labels.worldDetailScore}
-                            />
-                          )}
-                          {currentRegion === 'all' && (
-                            <FormattedMessage {...rootMessages.labels.allDetailScore} />
-                          )}
-                          {currentRegion !== 'world' && currentRegion !== 'all' && (
-                            <FormattedMessage
-                              {...rootMessages.labels.regionDetailScore}
-                            />
-                          )}
-                        </Text>
-                      )}
                       <Tooltip
                         component={
                           <Box gap="small">
-                            {mode === 'detail-region' && (
-                              <Text size="xsmall">
-                                {currentRegion === 'all' && (
-                                  <FormattedMessage {...messages.infoIntroAll} />
-                                )}
-                                {currentRegion === 'world' && (
-                                  <FormattedMessage {...messages.infoIntroWorld} />
-                                )}
-                                {currentRegion !== 'world' &&
-                                  currentRegion !== 'all' && (
-                                  <FormattedMessage {...messages.infoIntro} />
-                                )}
-                              </Text>
-                            )}
                             <Text size="xsmall">
                               {metric.type === 'esr' && (
                                 <FormattedMessage {...messages.infoESRadditional} />

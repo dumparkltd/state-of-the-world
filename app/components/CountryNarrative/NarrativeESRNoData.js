@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Paragraph } from 'grommet';
 import { lowerCase } from 'utils/string';
+import Hint from 'styled/Hint';
 
 import rootMessages from 'messages';
 import messages from './messages';
@@ -24,32 +25,46 @@ function NarrativeESRNoData({
   //   <div>no data available for current (recommended) standard</div>
   // )}
   return (
-    <Paragraph margin={{ bottom: 'medium' }}>
-      {!hasScoreForOtherStandard && (
-        <FormattedMessage {...messages.esr.noData} values={messageValues} />
-      )}
-      {hasScoreForOtherStandard && !isRecommendedStandard && (
-        <FormattedMessage
-          {...messages.esr.dataOnlyForRecommendedStandard}
-          values={{
-            ...messageValues,
-            otherStandard: lowerCase(
-              intl.formatMessage(rootMessages.settings.standard[otherStandard]),
-            ),
-          }}
-        />
-      )}
-      {hasScoreForOtherStandard && isRecommendedStandard && (
-        <FormattedMessage
-          {...messages.esr.dataOnlyForOtherStandard}
-          values={{
-            ...messageValues,
-            otherStandard: lowerCase(
-              intl.formatMessage(rootMessages.settings.standard[otherStandard]),
-            ),
-          }}
-        />
-      )}
+    <Paragraph margin={{ bottom: 'medium', top: '0' }}>
+      <Hint size="xsmall">
+        {!hasScoreForOtherStandard && (
+          <FormattedMessage {...messages.esr.noData} values={messageValues} />
+        )}
+        {hasScoreForOtherStandard && !isRecommendedStandard && (
+          <FormattedMessage
+            {...messages.esr.dataOnlyForRecommendedStandard}
+            values={{
+              ...messageValues,
+              otherStandard: (
+                <strong>
+                  {lowerCase(
+                    intl.formatMessage(
+                      rootMessages.settings.standard[otherStandard],
+                    ),
+                  )}
+                </strong>
+              ),
+            }}
+          />
+        )}
+        {hasScoreForOtherStandard && isRecommendedStandard && (
+          <FormattedMessage
+            {...messages.esr.dataOnlyForOtherStandard}
+            values={{
+              ...messageValues,
+              otherStandard: (
+                <strong>
+                  {lowerCase(
+                    intl.formatMessage(
+                      rootMessages.settings.standard[otherStandard],
+                    ),
+                  )}
+                </strong>
+              ),
+            }}
+          />
+        )}
+      </Hint>
     </Paragraph>
   );
 }

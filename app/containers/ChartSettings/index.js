@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 // import styled from 'styled-components';
 import { Box } from 'grommet';
 
@@ -44,15 +44,20 @@ export function ChartSettings({
           horizontal
           name={intl.formatMessage(messages.labelStandard)}
           note={notes && notes.asChanged && notes.asChanged.msg &&
-            intl.formatMessage(
-              messages[notes.asChanged.msg],
-              {
-                type: lowerCase(
-                  intl.formatMessage(
-                    rootMessages.income[standard === 'hi' ? 'hi' : 'lmi'],
-                  ),
+            <FormattedMessage
+              {... messages[notes.asChanged.msg]}
+              values={{
+                type: (
+                  <strong>
+                    {
+                      lowerCase(intl.formatMessage(
+                        rootMessages.income[standard === 'hi' ? 'hi' : 'lmi'],
+                      ))
+                    }
+                  </strong>
                 ),
-              })
+              }}
+            />
           }
           onDismissNote={() => onDismissNote('asChanged')}
         />

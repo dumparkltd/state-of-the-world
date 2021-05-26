@@ -128,7 +128,11 @@ export function ListHeader({
               flex={{ shrink: 0 }}
               pad={{ right: 'small' }}
             >
-              <ColumnText size="small" style={{ fontWeight: 300 }}>
+              <ColumnText
+                size="small"
+                color={labelColor}
+                style={{ fontWeight: 300 }}
+              >
                 <FormattedMessage {...rootMessages.labels.trend} />
               </ColumnText>
             </ColumnWrap>
@@ -140,7 +144,12 @@ export function ListHeader({
             align="center"
           >
             {annotateMinMax && metric && (
-              <Box direction="row" justify="between" width="100%">
+              <Box
+                direction="row"
+                justify="between"
+                width="100%"
+                align="center"
+              >
                 <Text
                   size={isMinSize(size, 'medium') ? 'xsmall' : 'xxsmall'}
                   style={{ transform: 'translateX(-50%)' }}
@@ -148,8 +157,8 @@ export function ListHeader({
                   0
                 </Text>
                 {metric && isMinSize(size, 'medium') && (
-                  <Box direction="row" gap="xsmall">
-                    <Text size="xsmall" weight={500} textAlign="center">
+                  <Box direction="row" gap="xsmall" align="center">
+                    <Text size="xxsmall" weight={500} textAlign="center">
                       <FormattedMessage
                         {...rootMessages.labels.xAxis[
                           metric.type === 'esr' ? benchmark : 'cpr'

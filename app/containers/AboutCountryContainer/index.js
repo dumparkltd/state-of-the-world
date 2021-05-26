@@ -793,12 +793,12 @@ function AboutCountryContainer({
                     )}
                   </Value>
                   {intl.formatMessage(messages.index_rsf_hint) && intl.formatMessage(messages.index_rsf_hint).trim() !== '' && (
-                    <Value size="xsmall">
+                    <Value size="xxsmall" color="hint">
                       <FormattedMessage {...messages.index_rsf_hint} />
                     </Value>
                   )}
                   <Box margin={{ vertical: 'xsmall' }} align="start">
-                    <Value size="xxsmall">
+                    <Value size="xxsmall" color="hint">
                       <FormattedMessage {...messages.index_label_source} />
                       {` `}
                       <AExternal
@@ -831,12 +831,12 @@ function AboutCountryContainer({
                     )}
                   </Value>
                   {intl.formatMessage(messages.index_ti_hint) && intl.formatMessage(messages.index_ti_hint).trim() !== '' && (
-                    <Value size="xsmall">
+                    <Value size="xxsmall" color="hint">
                       <FormattedMessage {...messages.index_ti_hint} />
                     </Value>
                   )}
                   <Box margin={{ vertical: 'xsmall' }} align="start">
-                    <Value size="xxsmall">
+                    <Value size="xxsmall" color="hint">
                       <FormattedMessage {...messages.index_label_source} />
                       {` `}
                       <AExternal
@@ -869,12 +869,12 @@ function AboutCountryContainer({
                     )}
                   </Value>
                   {intl.formatMessage(messages.index_eiu_hint) && intl.formatMessage(messages.index_eiu_hint).trim() !== '' && (
-                    <Value size="xsmall">
+                    <Value size="xxsmall" color="hint">
                       <FormattedMessage {...messages.index_eiu_hint} />
                     </Value>
                   )}
                   <Box margin={{ vertical: 'xsmall' }} align="start">
-                    <Value size="xxsmall">
+                    <Value size="xxsmall" color="hint">
                       <FormattedMessage {...messages.index_label_source} />
                       {` `}
                       <AExternal

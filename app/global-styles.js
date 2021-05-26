@@ -104,16 +104,29 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .rv-xy-plot__axis__title.sotw-chart-nodata-watermark text{
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
-    fill: ${({ theme }) => theme.global.colors.grey};
-    fill-opacity: 0.4;
+    fill: ${({ theme }) => theme.global.colors['dark-5']};
+    fill-opacity: 0.8;
+    dominant-baseline: middle;
+    text-anchor: middle;
+    text-shadow: 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff;
+    @media (min-width: ${({ theme }) => theme.breakpointsMin.ms}) {
+      font-size: 16px;
+    }
+    @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+      font-size: 24px;
+    }
   }
   .rv-xy-plot__axis__title.sotw-chart-nodata-watermark-small text{
-    font-size: 18px;
-    font-weight: 600;
-    fill: ${({ theme }) => theme.global.colors.grey};
-    fill-opacity: 0.4;
+    font-size: 14px;
+    transform: translateY(3px);
+    font-weight: 700;
+    fill: ${({ theme }) => theme.global.colors['dark-5']};
+    fill-opacity: 0.8;
+    dominant-baseline: hanging;
+    text-anchor: middle;
+    text-shadow: 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff;
   }
 `;
 

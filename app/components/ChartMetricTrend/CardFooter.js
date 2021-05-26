@@ -20,8 +20,8 @@ import Hint from 'styled/Hint';
 import rootMessages from 'messages';
 import messages from './messages';
 
-const Styled = styled(p => <Box gap="xsmall" {...p} />)`
-  margin-top: 5px;
+const Styled = styled(p => <Box gap="xxsmall" {...p} />)`
+  margin: ${({ mode }) => (mode === 'detail-region' ? '5px 10px' : '5px 0 0')};
 `;
 
 const StyledHint = styled(p => <Hint size="xxsmall" as="span" {...p} />)``;
@@ -213,7 +213,7 @@ function CardFooter({
   return (
     <ResponsiveContext.Consumer>
       {size => (
-        <Styled>
+        <Styled mode={mode}>
           {notes.regionBias && (
             <StyledHint>
               <FormattedMessage

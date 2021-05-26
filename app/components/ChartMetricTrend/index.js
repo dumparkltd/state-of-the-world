@@ -72,9 +72,9 @@ function ChartMetricTrend({
   return (
     <ResponsiveContext.Consumer>
       {size => {
-        let h = mode === 'detail-region' ? 200 : 120;
+        let h = mode === 'detail-region' ? 200 : 140;
         if (isMinSize(size, 'medium')) {
-          h = mode === 'detail-region' ? 280 : 120;
+          h = mode === 'detail-region' ? 280 : 140;
         }
         // year !== maxYear ? 'highlight' : mode,
         const tickValuesX = getTickValuesX(
@@ -129,7 +129,7 @@ function ChartMetricTrend({
                 </Box>
                 <ScoreSheet
                   height={h}
-                  margin={{ bottom: 20, top: 10 }}
+                  margin={{ bottom: 30, top: 10 }}
                   highlightCountry={highlightCountry}
                   activeCountry={activeCountry}
                   highlightRegion={highlightRegion}

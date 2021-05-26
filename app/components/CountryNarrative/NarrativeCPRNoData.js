@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 
 import { Paragraph } from 'grommet';
-// import ButtonTextIcon from 'styled/ButtonTextIcon';
-
+import Hint from 'styled/Hint';
 import messages from './messages';
 
 function NarrativeCPRNoData({ messageValues }) {
   return (
-    <Paragraph margin={{ bottom: 'medium' }}>
-      <FormattedMessage {...messages.cpr.noData} values={messageValues} />
+    <Paragraph margin={{ bottom: 'medium', top: '0' }}>
+      <Hint size="xsmall">
+        <FormattedMessage {...messages.cpr.noData} values={messageValues} />
+      </Hint>
     </Paragraph>
   );
 }

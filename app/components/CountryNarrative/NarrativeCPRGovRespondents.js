@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Paragraph } from 'grommet';
-import styled from 'styled-components';
+import Hint from 'styled/Hint';
 
 import messages from './messages';
 
-const StyledPara = styled(Paragraph)``;
-
 function NarrativeCPRGovRespondents({ messageValues }) {
   return (
-    <StyledPara margin={{ bottom: 'medium' }}>
-      <FormattedMessage
-        {...messages.cpr.govRespondents}
-        values={messageValues}
-      />
-    </StyledPara>
+    <Paragraph margin={{ bottom: 'medium', top: '0' }}>
+      <Hint size="xsmall">
+        <FormattedMessage
+          {...messages.cpr.govRespondents}
+          values={messageValues}
+        />
+      </Hint>
+    </Paragraph>
   );
 }
 

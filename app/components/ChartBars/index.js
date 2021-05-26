@@ -59,66 +59,87 @@ function ChartBars({
           background="white"
         >
           <Box
-            margin={{ bottom: 'small' }}
             direction="row"
-            gap="small"
+            gap="xxsmall"
+            margin={{ bottom: 'small' }}
             align="center"
+            fill="horizontal"
           >
             <MetricIcon src={metric.iconInv} alt="" bgr={color} />
-            <Box
-              fill
-              direction="row"
-              justify="between"
-              gap="small"
-              align="center"
-            >
-              <Text size="large" weight={600} color={color}>
-                <FormattedMessage {...rootMessages.rights[metric.key]} />
-              </Text>
-              {isMaxSize(size, 'medium') && (
-                <Tooltip
-                  component={
-                    <Box gap="small">
-                      <Text size="xsmall">
-                        {metric.type === 'esr' && (
-                          <FormattedMessage {...messages.infoESRintro} />
-                        )}
-                        {metric.type === 'cpr' && (
-                          <FormattedMessage {...messages.infoCPRintro} />
-                        )}
-                        {metric.type === 'vdem' && (
-                          <FormattedMessage {...messages.infoVDEMintro} />
-                        )}
-                      </Text>
-                      <Text size="xsmall">
-                        {metric.type === 'esr' && (
-                          <FormattedMessage {...messages.infoESRadditional} />
-                        )}
-                        {metric.type === 'cpr' && (
-                          <FormattedMessage {...messages.infoCPRadditional} />
-                        )}
-                        {metric.type === 'vdem' && (
-                          <FormattedMessage {...messages.infoVDEMadditional} />
-                        )}
-                      </Text>
-                      <ChartNotes
-                        notes={{
-                          gradesESR: metric.type === 'esr',
-                          gradesCPR: metric.type === 'cpr',
-                          gradesVDEM: metric.type === 'vdem',
-                        }}
-                      />
-                    </Box>
-                  }
-                />
-              )}
+            <Box gap="xxsmall" fill="horizontal">
+              <Box
+                fill
+                direction="row"
+                justify="between"
+                gap="small"
+                align="start"
+              >
+                <Text size="xxsmall" color={color}>
+                  <FormattedMessage {...rootMessages.un_regions[color]} />
+                </Text>
+                {isMaxSize(size, 'medium') && (
+                  <Box direction="row" gap="xsmall">
+                    <Tooltip
+                      component={
+                        <Box gap="small">
+                          <Text size="xsmall">
+                            {metric.type === 'esr' && (
+                              <FormattedMessage {...messages.infoESRintro} />
+                            )}
+                            {metric.type === 'cpr' && (
+                              <FormattedMessage {...messages.infoCPRintro} />
+                            )}
+                            {metric.type === 'vdem' && (
+                              <FormattedMessage {...messages.infoVDEMintro} />
+                            )}
+                          </Text>
+                          <Text size="xsmall">
+                            {metric.type === 'esr' && (
+                              <FormattedMessage
+                                {...messages.infoESRadditional}
+                              />
+                            )}
+                            {metric.type === 'cpr' && (
+                              <FormattedMessage
+                                {...messages.infoCPRadditional}
+                              />
+                            )}
+                            {metric.type === 'vdem' && (
+                              <FormattedMessage
+                                {...messages.infoVDEMadditional}
+                              />
+                            )}
+                          </Text>
+                          <ChartNotes
+                            notes={{
+                              gradesESR: metric.type === 'esr',
+                              gradesCPR: metric.type === 'cpr',
+                              gradesVDEM: metric.type === 'vdem',
+                            }}
+                          />
+                        </Box>
+                      }
+                    />
+                  </Box>
+                )}
+              </Box>
+              <Box>
+                <Text size="large" weight={600} color={color}>
+                  <FormattedMessage {...rootMessages.rights[metric.key]} />
+                </Text>
+              </Box>
             </Box>
           </Box>
           {!dataReady && <LoadingIndicator />}
           {!hasResults && dataReady && (
-            <Hint italic>
-              <FormattedMessage {...rootMessages.hints.noResults} />
-            </Hint>
+            <Box
+              margin={{ left: 'large', vertical: 'medium', right: 'small' }}
+              align="left"
+            >
+              <Hint italic>
+                <FormattedMessage {...rootMessages.hints.noResults} />
+              </Hint>
+            </Box>
           )}
           {hasResults && dataReady && (
             <ListHeader
