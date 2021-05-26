@@ -25,6 +25,9 @@ const ButtonNavSecondary = styled(Button)`
   &:first-child {
     margin-left: 0;
   }
+  &:last-child {
+    margin-right: 0;
+  }
   &:hover {
     border-bottom-color: ${({ theme }) => theme.global.colors['dark-3']};
   }

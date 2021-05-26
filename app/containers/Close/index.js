@@ -23,6 +23,11 @@ const Styled = styled(Box)`
   right: ${({ theme }) => theme.global.edgeSize.small};
   @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     top: 36px;
+    right: ${({ theme }) => theme.global.edgeSize.medium};
+  }
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+    top: 54px;
+    right: ${({ theme }) => theme.global.edgeSize.xlarge};
   }
 `;
 

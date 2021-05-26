@@ -14,6 +14,12 @@ export default styled(ButtonPlain)`
     display: inline-block;
     border: none;
     width: auto;
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
     &:visited {
       color: ${({ theme }) => theme.global.colors['dark-3']};
     }
