@@ -26,7 +26,7 @@ const StyledContent = styled.div`
   }
 `;
 
-export function Content({ content, pageTitle, supTitle, isChild }) {
+export function Content({ content, pageTitle, supTitle, isChild, pageId }) {
   return (
     <StyledContent isChild={isChild}>
       {!isChild && supTitle && (
@@ -39,7 +39,9 @@ export function Content({ content, pageTitle, supTitle, isChild }) {
           {pageTitle}
         </PageTitle>
       )}
-      {content && <HTMLWrapper innerhtml={content.content} fullPage />}
+      {content && (
+        <HTMLWrapper innerhtml={content.content} fullPage pageId={pageId} />
+      )}
       {!content && <LoadingIndicator />}
     </StyledContent>
   );
@@ -48,6 +50,7 @@ export function Content({ content, pageTitle, supTitle, isChild }) {
 Content.propTypes = {
   pageTitle: PropTypes.string,
   supTitle: PropTypes.string,
+  pageId: PropTypes.string,
   isChild: PropTypes.bool,
   content: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };

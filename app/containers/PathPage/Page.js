@@ -49,6 +49,7 @@ export function Page({ pageId, onLoadContent, content, closeTarget, intl }) {
             content={content}
             pageTitle={pageTitle}
             supTitle={pageTitleMenu}
+            pageId={pageId}
           />
         </ContentMaxWidth>
       </ContentContainer>

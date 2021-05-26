@@ -67,6 +67,7 @@ export function PageParent({
             content={content}
             pageTitle={pageTitle}
             supTitle={pageTitleMenu}
+            pageId={pageId}
           />
         </ContentMaxWidth>
       </SectionContainer>

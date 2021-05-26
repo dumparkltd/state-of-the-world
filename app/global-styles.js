@@ -42,9 +42,13 @@ const GlobalStyle = createGlobalStyle`
   }
   .hrmi-html-full-page p {
     &:first-child {
+      margin: 2em 0;
+    }
+  }
+  .hrmi-html-full-page.hrmi-html-page-about p {
+    &:first-child {
       font-size: 1.1em;
       line-height: 1.3;
-      margin: 2em 0;
       @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
         font-size: 1.2em;
         line-height: 1.4;
