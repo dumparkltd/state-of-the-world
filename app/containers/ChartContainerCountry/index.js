@@ -78,7 +78,6 @@ const MultiCardWrapper = styled(Box)`
 const StyledText = styled(Text)`
   font-weight: 600;
   line-height: ${({ theme }) => theme.text.small.height};
-  margin: 1em 0;
 `;
 
 const Section = styled(p => <Box margin={{ vertical: 'medium' }} {...p} />)``;
@@ -274,10 +273,11 @@ export function ChartContainerCountry({
                 <Source type="esr" />
               )}
               {(hasESR || hasOtherESR) && (
-                <Box direction="row" gap="xxsmall" align="center" margin="hair">
+                <div>
                   <Text size="small">
                     <FormattedMessage {...messages.seeRightsTracker} />
                   </Text>
+                  {` `}
                   <ButtonTextIcon
                     href={intl.formatMessage(messages.rightsTrackerCountryURL, {
                       url: intl.formatMessage(
@@ -300,7 +300,7 @@ export function ChartContainerCountry({
                     }
                   />
                   {`.`}
-                </Box>
+                </div>
               )}
             </Section>
             <Section>

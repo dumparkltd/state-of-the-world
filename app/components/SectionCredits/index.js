@@ -71,27 +71,34 @@ export function SectionCredits({ intl }) {
                 <LabelCredit>
                   <FormattedMessage {...messages.data} />
                 </LabelCredit>
-                <Box direction={isMinSize(size, 'medium') ? 'row' : 'column'}>
-                  <ACredit
-                    href={intl.formatMessage(messages.link_hrmi)}
-                    target="_blank"
-                    title={intl.formatMessage(messages.link_hrmi_title)}
-                  >
-                    <img
-                      src={logoHRMI}
-                      alt={intl.formatMessage(messages.link_hrmi_title)}
-                    />
-                  </ACredit>
-                  <ACredit
-                    href={intl.formatMessage(messages.link_serf)}
-                    target="_blank"
-                    title={intl.formatMessage(messages.link_serf_title)}
-                  >
-                    <img
-                      src={logoSERF}
-                      alt={intl.formatMessage(messages.link_serf_title)}
-                    />
-                  </ACredit>
+                <Box
+                  direction={isMinSize(size, 'ms') ? 'row' : 'column'}
+                  basis="1/2"
+                >
+                  <Box>
+                    <ACredit
+                      href={intl.formatMessage(messages.link_hrmi)}
+                      target="_blank"
+                      title={intl.formatMessage(messages.link_hrmi_title)}
+                    >
+                      <img
+                        src={logoHRMI}
+                        alt={intl.formatMessage(messages.link_hrmi_title)}
+                      />
+                    </ACredit>
+                  </Box>
+                  <Box>
+                    <ACredit
+                      href={intl.formatMessage(messages.link_serf)}
+                      target="_blank"
+                      title={intl.formatMessage(messages.link_serf_title)}
+                    >
+                      <img
+                        src={logoSERF}
+                        alt={intl.formatMessage(messages.link_serf_title)}
+                      />
+                    </ACredit>
+                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -105,27 +112,34 @@ export function SectionCredits({ intl }) {
                 <LabelCredit>
                   <FormattedMessage {...messages.funding} />
                 </LabelCredit>
-                <Box direction={isMinSize(size, 'medium') ? 'row' : 'column'}>
-                  <ACredit
-                    href={intl.formatMessage(messages.link_norway)}
-                    target="_blank"
-                    title={intl.formatMessage(messages.link_norway_title)}
-                  >
-                    <img
-                      src={logoNorway}
-                      alt={intl.formatMessage(messages.link_norway_title)}
-                    />
-                  </ACredit>
-                  <ACredit
-                    href={intl.formatMessage(messages.link_denmark)}
-                    target="_blank"
-                    title={intl.formatMessage(messages.link_denmark_title)}
-                  >
-                    <img
-                      src={logoDenmark}
-                      alt={intl.formatMessage(messages.link_denmark_title)}
-                    />
-                  </ACredit>
+                <Box
+                  direction={isMinSize(size, 'ms') ? 'row' : 'column'}
+                  basis="1/2"
+                >
+                  <Box>
+                    <ACredit
+                      href={intl.formatMessage(messages.link_norway)}
+                      target="_blank"
+                      title={intl.formatMessage(messages.link_norway_title)}
+                    >
+                      <img
+                        src={logoNorway}
+                        alt={intl.formatMessage(messages.link_norway_title)}
+                      />
+                    </ACredit>
+                  </Box>
+                  <Box>
+                    <ACredit
+                      href={intl.formatMessage(messages.link_denmark)}
+                      target="_blank"
+                      title={intl.formatMessage(messages.link_denmark_title)}
+                    >
+                      <img
+                        src={logoDenmark}
+                        alt={intl.formatMessage(messages.link_denmark_title)}
+                      />
+                    </ACredit>
+                  </Box>
                 </Box>
               </Box>
               <Box>

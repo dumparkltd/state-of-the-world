@@ -22,6 +22,7 @@ import {
 
 import { lowerCase } from 'utils/string';
 
+import LoadingIndicator from 'components/LoadingIndicator';
 import AccordionHeader from 'components/AccordionHeader';
 import { STANDARDS, INDICATORS } from 'containers/App/constants';
 
@@ -86,7 +87,7 @@ export function AboutMetricSources({
         },
       ];
     }, []);
-  if (!indicators) return null;
+  if (!indicators) return <LoadingIndicator />;
   return (
     <Box pad={{ vertical: 'small' }} flex={{ shrink: 0 }}>
       <Heading responsive={false} level={5} margin={{ bottom: 'xxsmall' }}>

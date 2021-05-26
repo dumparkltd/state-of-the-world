@@ -75,7 +75,7 @@ function ChartBars({
               <Text size="large" weight={600} color={color}>
                 <FormattedMessage {...rootMessages.rights[metric.key]} />
               </Text>
-              {isMaxSize(size, 'sm') && (
+              {isMaxSize(size, 'medium') && (
                 <Tooltip
                   component={
                     <Box gap="small">

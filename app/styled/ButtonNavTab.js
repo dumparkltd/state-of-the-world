@@ -4,7 +4,7 @@ import ButtonPlain from './ButtonPlain';
 export default styled(ButtonPlain)`
   display: block;
   text-align: center;
-  padding: 0px 6px;
+  padding: 0px 12px;
   font-size: ${({ theme }) => theme.text.small.size};
   font-weight: bold;
   color: ${({ theme, active }) => theme.global.colors[active ? 'world' : 'white']};

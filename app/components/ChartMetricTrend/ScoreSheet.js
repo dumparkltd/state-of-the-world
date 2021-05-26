@@ -269,7 +269,7 @@ function ScoreSheet({
                   isRegion &&
                   label.value
                 ) {
-                  if (mode === 'detail-region' && isMinSize(size, 'ms')) {
+                  if (mode === 'detail-region' && isMinSize(size, 'medium')) {
                     const inactive =
                       highlightRegion && label.code !== highlightRegion;
                     return (
@@ -310,7 +310,7 @@ function ScoreSheet({
                   }
                   if (
                     mode === 'multi-region' ||
-                    (mode === 'detail-region' && isMaxSize(size, 'small'))
+                    (mode === 'detail-region' && isMaxSize(size, 'ms'))
                   ) {
                     const showTitleMulti =
                       showLabel && highlightRegion && label.code === highlightRegion;

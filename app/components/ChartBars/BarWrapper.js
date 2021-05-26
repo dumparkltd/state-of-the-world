@@ -71,7 +71,7 @@ export function BarWrapper({ score, type, intl, color }) {
               flex={{ shrink: 0 }}
               pad={{
                 left: 'small',
-                right: !isMinSize(size, 'ms') ? 'small' : 'edge',
+                right: !isMinSize(size, 'medium') ? 'small' : 'edge',
               }}
             >
               <Text
@@ -83,7 +83,7 @@ export function BarWrapper({ score, type, intl, color }) {
                   intl.formatMessage(rootMessages.labels.abbrev.notAvailable)}
               </Text>
             </ScoreWrap>
-            {isMinSize(size, 'ms') && (
+            {isMinSize(size, 'medium') && (
               <LabelWrap
                 width={chartColumnWidth(size, 'trend')}
                 align="center"

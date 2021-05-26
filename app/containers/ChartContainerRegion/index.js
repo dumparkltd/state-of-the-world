@@ -180,7 +180,7 @@ export function ChartContainerRegion({
           </MultiCardWrapper>
           {(type === 'esr' || type === 'cpr') && (
             <Box gap="xxsmall" align="start" margin={{ bottom: 'small'}}>
-              {isMinSize(size, 'ms') && type === 'cpr' && (
+              {isMinSize(size, 'medium') && type === 'cpr' && (
                 <Box gap="xsmall" direction="row">
                   <Hint size="xxsmall" as="span">
                     <FormattedMessage {...rootMessages.charts.gradesCPRWithLink} />
@@ -204,7 +204,7 @@ export function ChartContainerRegion({
                     ))}
                 </Box>
               )}
-              {isMinSize(size, 'ms') && type === 'esr' && (
+              {isMinSize(size, 'medium') && type === 'esr' && (
                 <Box gap="xsmall" direction="row">
                   <Hint size="xxsmall" as="span">
                     <FormattedMessage {...rootMessages.charts.gradesESRWithLink} />

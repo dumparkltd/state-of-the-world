@@ -249,9 +249,9 @@ export function ChartContainerMetricRanking({
               govRespondents:
                 showGovRespondentsLabel && hasGovRespondentsCountries,
               hiCountries: showHILabel && hasHICountries,
-              trendCPR: isMinSize(size, 'ms') && metric.type === 'cpr',
-              trendESR: isMinSize(size, 'ms') && metric.type === 'esr',
-              trendVDEM: isMinSize(size, 'ms') && metric.type === 'vdem',
+              trendCPR: isMinSize(size, 'medium') && metric.type === 'cpr',
+              trendESR: isMinSize(size, 'medium') && metric.type === 'esr',
+              trendVDEM: isMinSize(size, 'medium') && metric.type === 'vdem',
             }}
           />
         </Box>

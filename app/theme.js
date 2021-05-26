@@ -42,10 +42,10 @@ export const SIZES = {
   },
   charts: {
     // small, ms, medium, large, xlarge, xxlarge
-    rank: [25, 35, 35, 35, 35, 35],
+    rank: [25, 30, 35, 35, 35, 35],
     label: [90, 100, 120, 120, 140, 180],
     score: [60, 60, 60, 60, 60, 60],
-    trend: [0, 50, 60, 60, 60, 60],
+    trend: [0, 0, 60, 60, 60, 60],
   },
 };
 
@@ -269,8 +269,8 @@ const theme = {
           height: '24px',
         },
         medium: {
-          size: '30px',
-          height: '36px',
+          size: '26px',
+          height: '31px',
         },
         large: {
           size: '30px',
@@ -283,8 +283,8 @@ const theme = {
           height: '22px',
         },
         medium: {
-          size: '24px',
-          height: '30px',
+          size: '21px',
+          height: '26px',
         },
         large: {
           size: '24px',

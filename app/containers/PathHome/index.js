@@ -271,8 +271,8 @@ export function PathHome({ intl }) {
             <ContentMaxWidth column flex={false}>
               <Box align="center" gap="small">
                 <Box
-                  direction={isMinSize(size, 'ms') ? 'row' : 'column'}
-                  gap={isMinSize(size, 'ms') ? 'ml' : 'xsmall'}
+                  direction={isMinSize(size, 'medium') ? 'row' : 'column'}
+                  gap={isMinSize(size, 'medium') ? 'ml' : 'xsmall'}
                 >
                   <ButtonShortcut
                     onClick={() => {
