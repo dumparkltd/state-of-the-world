@@ -73,14 +73,20 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   .hrmi-html h2 {
-    font-size: 24px;
-    margin-top: 2em;
-    margin-bottom: 0.2em;
-  }
-  .hrmi-html h3 {
     font-size: 20px;
     margin-top: 2em;
     margin-bottom: 0.2em;
+    @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+      font-size: 24px;
+    }
+  }
+  .hrmi-html h3 {
+    font-size: 18px;
+    margin-top: 2em;
+    margin-bottom: 0.2em;
+    @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
+      font-size: 20px;
+    }
   }
   .hrmi-html h4 {
     font-size: 16px;

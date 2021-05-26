@@ -60,7 +60,7 @@ export function PageParent({
         <title>{`${pageTitle} | ${childTitle}`}</title>
         <meta name="description" content="Description of Page" />
       </Helmet>
-      <SectionContainer background="white">
+      <SectionContainer background="white" style={{ paddingTop: '0' }}>
         <ContentMaxWidth>
           <Close closeTarget={closeTarget} />
           <Content

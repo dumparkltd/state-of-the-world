@@ -121,6 +121,7 @@ function SettingsToggle({
           <ButtonIcon
             onClick={() => onDismissNote()}
             subtle
+            inverse
             style={{
               position: 'absolute',
               top: '-1px',

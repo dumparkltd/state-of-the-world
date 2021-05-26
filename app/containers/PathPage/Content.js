@@ -11,8 +11,8 @@ import styled from 'styled-components';
 
 import HTMLWrapper from 'components/HTMLWrapper';
 import LoadingIndicator from 'components/LoadingIndicator';
-import PageTitle from 'styled/PageTitle';
 import SupTitle from 'styled/SupTitle';
+import PageTitle from './PageTitle';
 
 const StyledContent = styled.div`
   width: 100%;

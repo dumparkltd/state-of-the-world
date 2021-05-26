@@ -260,7 +260,7 @@ const theme = {
         },
         large: {
           size: '52px',
-          height: '52px',
+          height: '54px',
         },
       },
       2: {
