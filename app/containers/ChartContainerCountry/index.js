@@ -87,10 +87,15 @@ const SectionTitle = styled(p => (
   font-weight: 700;
 `;
 
-const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
+const getCardNumber = size => {
+  if (isMinSize(size, 'xlarge')) return 3;
+  if (isMinSize(size, 'medium')) return 2;
+  return 1;
+};
+
 const getCardWidth = (width, number, theme) => {
   const edge = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
-  return `${width / number - edge * 2}px`;
+  return `${(width - edge) / number}px`;
 };
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
@@ -218,10 +223,10 @@ export function ChartContainerCountry({
                 >
                   {gridWidth && (
                     <Box
-                      direction={isMinSize(size, 'large') ? 'row' : 'column'}
-                      wrap={isMinSize(size, 'large')}
+                      direction={isMinSize(size, 'medium') ? 'row' : 'column'}
+                      wrap={isMinSize(size, 'medium')}
                       overflow={
-                        isMaxSize(size, 'medium') ? 'hidden' : 'visible'
+                        isMaxSize(size, 'sm') ? 'hidden' : 'visible'
                       }
                       align="center"
                       fill="horizontal"
@@ -234,7 +239,7 @@ export function ChartContainerCountry({
                           <WrapPlot
                             key={right.key}
                             width={
-                              isMinSize(size, 'large') ?
+                              isMinSize(size, 'medium') ?
                                 getCardWidth(
                                   gridWidth,
                                   getCardNumber(size),
@@ -324,10 +329,10 @@ export function ChartContainerCountry({
                 >
                   {gridWidth && (
                     <Box
-                      direction={isMinSize(size, 'large') ? 'row' : 'column'}
-                      wrap={isMinSize(size, 'large')}
+                      direction={isMinSize(size, 'medium') ? 'row' : 'column'}
+                      wrap={isMinSize(size, 'medium')}
                       overflow={
-                        isMaxSize(size, 'medium') ? 'hidden' : 'visible'
+                        isMaxSize(size, 'sm') ? 'hidden' : 'visible'
                       }
                       align="center"
                       fill="horizontal"
@@ -340,7 +345,7 @@ export function ChartContainerCountry({
                           <WrapPlot
                             key={right.key}
                             width={
-                              isMinSize(size, 'large') ?
+                              isMinSize(size, 'medium') ?
                                 getCardWidth(
                                   gridWidth,
                                   getCardNumber(size),
@@ -399,10 +404,10 @@ export function ChartContainerCountry({
                 >
                   {gridWidth && (
                     <Box
-                      direction={isMinSize(size, 'large') ? 'row' : 'column'}
-                      wrap={isMinSize(size, 'large')}
+                      direction={isMinSize(size, 'medium') ? 'row' : 'column'}
+                      wrap={isMinSize(size, 'medium')}
                       overflow={
-                        isMaxSize(size, 'medium') ? 'hidden' : 'visible'
+                        isMaxSize(size, 'sm') ? 'hidden' : 'visible'
                       }
                       align="center"
                       fill="horizontal"
@@ -415,7 +420,7 @@ export function ChartContainerCountry({
                           <WrapPlot
                             key={right.key}
                             width={
-                              isMinSize(size, 'large') ?
+                              isMinSize(size, 'medium') ?
                                 getCardWidth(
                                   gridWidth,
                                   getCardNumber(size),

@@ -51,7 +51,7 @@ import rootMessages from 'messages';
 
 // prettier-ignore
 const MultiCardWrapper = styled(Box)`
-  @media (min-width: ${({ theme }) => theme.breakpointsMin.large}) {
+  @media (min-width: ${({ theme }) => theme.breakpointsMin.medium}) {
     max-width: calc(100% + ${({ theme }) => {
     const value = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
     return value * 2;
@@ -61,10 +61,14 @@ const MultiCardWrapper = styled(Box)`
 
 const StyledButton = styled(p => <ButtonText hint size="xxsmall" {...p} />)``;
 
-const getCardNumber = size => (isMinSize(size, 'large') ? 3 : 1);
+const getCardNumber = size => {
+  if (isMinSize(size, 'large')) return 3;
+  if (isMinSize(size, 'medium')) return 2;
+  return 1;
+};
 const getCardWidth = (width, number, theme) => {
   const edge = parseInt(theme.global.edgeSize.xsmall.split('px')[0], 10);
-  return `${width / number - edge * 2}px`;
+  return `${(width - edge) / number}px`;
 };
 
 const DEPENDENCIES = ['countries', 'cprScores', 'esrScores', 'vdemScores'];
@@ -130,16 +134,16 @@ export function ChartContainerRegion({
             pad={{ top: isMaxSize(size, 'ms') ? 'xsmall' : '0' }}
             align="center"
             responsive={false}
-            margin={isMinSize(size, 'large') ?
+            margin={isMinSize(size, 'medium') ?
               { horizontal: `-${theme.global.edgeSize.xsmall}` } : {}
             }
             ref={ref}
           >
             {gridWidth && (
               <Box
-                direction={isMinSize(size, 'large') ? 'row' : 'column'}
-                wrap={isMinSize(size, 'large')}
-                overflow={isMaxSize(size, 'medium') ? 'hidden' : 'visible'}
+                direction={isMinSize(size, 'medium') ? 'row' : 'column'}
+                wrap={isMinSize(size, 'medium')}
+                overflow={isMaxSize(size, 'sm') ? 'hidden' : 'visible'}
                 align="center"
                 fill="horizontal"
               >
@@ -147,7 +151,7 @@ export function ChartContainerRegion({
                   <WrapPlot
                     key={right.key}
                     width={
-                      isMinSize(size, 'large') ?
+                      isMinSize(size, 'medium') ?
                         getCardWidth(
                           gridWidth,
                           getCardNumber(size),
