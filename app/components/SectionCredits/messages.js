@@ -41,6 +41,10 @@ export default defineMessages({
     id: `${scope}.link_serf`,
     defaultMessage: 'http://serfindex.org',
   },
+  link_vdem: {
+    id: `${scope}.link_vdem`,
+    defaultMessage: '//www.v-dem.net',
+  },
   link_dumpark: {
     id: `${scope}.link_dumpark`,
     defaultMessage: '//dumpark.com',
@@ -61,8 +65,12 @@ export default defineMessages({
     id: `${scope}.link_hrmi_title`,
     defaultMessage: 'HRMI Rights Tracker',
   },
+  link_vdem_title: {
+    id: `${scope}.link_vdem_title`,
+    defaultMessage: 'V-Dem Institute',
+  },
   link_serf_title: {
-    id: `${scope}.link_serf`,
+    id: `${scope}.link_serf_title`,
     defaultMessage: 'SERF Index',
   },
   link_dumpark_title: {

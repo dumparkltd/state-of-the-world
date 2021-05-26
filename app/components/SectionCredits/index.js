@@ -13,6 +13,7 @@ import logoNorway from 'images/logos/logo_NorwegianMinistryFA.png';
 import logoDenmark from 'images/logos/logo_PermanentMissionDenmark.png';
 import logoHRMI from 'images/logos/logo_HRMI.png';
 import logoSERF from 'images/logos/logo_SERF_www.png';
+import logoVDEM from 'images/logos/logo_VDem.png';
 import logoURG from 'images/logos/logo_URG.png';
 import logoDumpark from 'images/logos/logo_dumpark.png';
 
@@ -37,6 +38,10 @@ const ACredit = styled.a`
   }
 `;
 
+const Image = styled.img`
+  max-width: 100%;
+`;
+
 export function SectionCredits({ intl }) {
   return (
     <ResponsiveContext.Consumer>
@@ -46,34 +51,40 @@ export function SectionCredits({ intl }) {
             <SectionTitleSecondary>
               <FormattedMessage {...messages.title} />
             </SectionTitleSecondary>
-            <Box
-              direction={isMinSize(size, 'medium') ? 'row' : 'column'}
-              justify="center"
-              gap="xlarge"
-              margin={{ bottom: 'large' }}
-            >
-              <Box>
+            <div style={{ margin: '0 auto' }}>
+              <Box margin={{ bottom: 'medium' }}>
                 <LabelCredit>
                   <FormattedMessage {...messages.main} />
                 </LabelCredit>
-                <ACredit
-                  href={intl.formatMessage(messages.link_urg)}
-                  target="_blank"
-                  title={intl.formatMessage(messages.link_urg_title)}
+                <Box
+                  direction={isMinSize(size, 'ms') ? 'row' : 'column'}
+                  gap="medium"
+                  basis="1/3"
+                  justify="start"
+                  fill={false}
                 >
-                  <img
-                    src={logoURG}
-                    alt={intl.formatMessage(messages.link_urg_title)}
-                  />
-                </ACredit>
+                  <Box>
+                    <ACredit
+                      href={intl.formatMessage(messages.link_urg)}
+                      target="_blank"
+                      title={intl.formatMessage(messages.link_urg_title)}
+                    >
+                      <Image
+                        src={logoURG}
+                        alt={intl.formatMessage(messages.link_urg_title)}
+                      />
+                    </ACredit>
+                  </Box>
+                </Box>
               </Box>
-              <Box>
+              <Box margin={{ bottom: 'medium' }}>
                 <LabelCredit>
                   <FormattedMessage {...messages.data} />
                 </LabelCredit>
                 <Box
                   direction={isMinSize(size, 'ms') ? 'row' : 'column'}
-                  basis="1/2"
+                  gap="medium"
+                  basis="1/3"
                 >
                   <Box>
                     <ACredit
@@ -81,7 +92,7 @@ export function SectionCredits({ intl }) {
                       target="_blank"
                       title={intl.formatMessage(messages.link_hrmi_title)}
                     >
-                      <img
+                      <Image
                         src={logoHRMI}
                         alt={intl.formatMessage(messages.link_hrmi_title)}
                       />
@@ -93,71 +104,83 @@ export function SectionCredits({ intl }) {
                       target="_blank"
                       title={intl.formatMessage(messages.link_serf_title)}
                     >
-                      <img
+                      <Image
                         src={logoSERF}
                         alt={intl.formatMessage(messages.link_serf_title)}
                       />
                     </ACredit>
                   </Box>
-                </Box>
-              </Box>
-            </Box>
-            <Box
-              direction={isMinSize(size, 'medium') ? 'row' : 'column'}
-              justify="center"
-              gap="xlarge"
-              margin={{ bottom: 'medium' }}
-            >
-              <Box>
-                <LabelCredit>
-                  <FormattedMessage {...messages.funding} />
-                </LabelCredit>
-                <Box
-                  direction={isMinSize(size, 'ms') ? 'row' : 'column'}
-                  basis="1/2"
-                >
                   <Box>
                     <ACredit
-                      href={intl.formatMessage(messages.link_norway)}
+                      href={intl.formatMessage(messages.link_vdem)}
                       target="_blank"
-                      title={intl.formatMessage(messages.link_norway_title)}
+                      title={intl.formatMessage(messages.link_vdem_title)}
                     >
-                      <img
-                        src={logoNorway}
-                        alt={intl.formatMessage(messages.link_norway_title)}
-                      />
-                    </ACredit>
-                  </Box>
-                  <Box>
-                    <ACredit
-                      href={intl.formatMessage(messages.link_denmark)}
-                      target="_blank"
-                      title={intl.formatMessage(messages.link_denmark_title)}
-                    >
-                      <img
-                        src={logoDenmark}
-                        alt={intl.formatMessage(messages.link_denmark_title)}
+                      <Image
+                        src={logoVDEM}
+                        alt={intl.formatMessage(messages.link_vdem_title)}
                       />
                     </ACredit>
                   </Box>
                 </Box>
               </Box>
-              <Box>
-                <LabelCredit>
-                  <FormattedMessage {...messages.development} />
-                </LabelCredit>
-                <ACredit
-                  href={intl.formatMessage(messages.link_dumpark)}
-                  target="_blank"
-                  title={intl.formatMessage(messages.link_dumpark_title)}
-                >
-                  <img
-                    src={logoDumpark}
-                    alt={intl.formatMessage(messages.link_dumpark_title)}
-                  />
-                </ACredit>
+              <Box
+                direction={isMinSize(size, 'medium') ? 'row' : 'column'}
+                gap="medium"
+                margin={{ bottom: 'medium' }}
+              >
+                <Box>
+                  <LabelCredit>
+                    <FormattedMessage {...messages.funding} />
+                  </LabelCredit>
+                  <Box
+                    direction={isMinSize(size, 'ms') ? 'row' : 'column'}
+                    basis="1/2"
+                    gap="medium"
+                  >
+                    <Box>
+                      <ACredit
+                        href={intl.formatMessage(messages.link_norway)}
+                        target="_blank"
+                        title={intl.formatMessage(messages.link_norway_title)}
+                      >
+                        <Image
+                          src={logoNorway}
+                          alt={intl.formatMessage(messages.link_norway_title)}
+                        />
+                      </ACredit>
+                    </Box>
+                    <Box>
+                      <ACredit
+                        href={intl.formatMessage(messages.link_denmark)}
+                        target="_blank"
+                        title={intl.formatMessage(messages.link_denmark_title)}
+                      >
+                        <Image
+                          src={logoDenmark}
+                          alt={intl.formatMessage(messages.link_denmark_title)}
+                        />
+                      </ACredit>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box>
+                  <LabelCredit>
+                    <FormattedMessage {...messages.development} />
+                  </LabelCredit>
+                  <ACredit
+                    href={intl.formatMessage(messages.link_dumpark)}
+                    target="_blank"
+                    title={intl.formatMessage(messages.link_dumpark_title)}
+                  >
+                    <Image
+                      src={logoDumpark}
+                      alt={intl.formatMessage(messages.link_dumpark_title)}
+                    />
+                  </ACredit>
+                </Box>
               </Box>
-            </Box>
+            </div>
           </ContentMaxWidth>
         </SectionContainer>
       )}
