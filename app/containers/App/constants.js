@@ -267,12 +267,12 @@ export const IMAGE_PATH =
   '//app.dumpark.com/state-of-the-world-content/assets/uploads';
 
 export const FAQS = {
-  COUNTRY_SNAPSHOT: ['scale', 'year', 'standards', 'uncertainty'],
+  COUNTRY_SNAPSHOT: ['scale', 'year', 'standards'],
   ESR_REGIONS: ['measureRightESR', 'standards'],
-  CPR_REGIONS: ['measureRightCPR', 'uncertainty'],
+  CPR_REGIONS: ['measureRightCPR'],
   VDEM_REGIONS: ['measureVDEM'],
   ESR_RIGHT: ['measureRightESR', 'standards'],
-  CPR_RIGHT: ['measureRightCPR', 'uncertainty'],
+  CPR_RIGHT: ['measureRightCPR'],
   VDEM_RIGHT: ['measureVDEM'],
 };
 
