@@ -102,7 +102,7 @@
   "hrmi.charts.noteRegionalBiasESRLink": "click here for details",
   "hrmi.charts.gradesESR": "Indicative ranges for interpreting economic and social rights scores (please refer to the Methodology page for details):",
   "hrmi.charts.gradesCPR": "Indicative ranges for interpreting civil and political rights scores (please refer to the Methodology page for details):",
-  "hrmi.charts.gradesVDEM": "For all indices, V-Dem uses interval scale from 0-1, where 0 is the lowest (i.e., the corresponding democracy index is the less realised) and 1 is the highest (i.e., the corresponding democracy index is the further realised)",
+  "hrmi.charts.gradesVDEM": "For all indices, V-Dem uses theoretical and methodological expertise to produce a score for each reported year. Final scores are on an interval scale from 0-1, where 0 is the lowest (i.e., the corresponding democracy index is the less realised) and 1 is the highest (i.e., the corresponding democracy index is the further realised)",
   "hrmi.charts.gradesESRWithLink": "Indicative ranges for interpreting economic and social rights scores:",
   "hrmi.charts.gradesCPRWithLink": "Indicative ranges for interpreting civil and political rights scores:",
   "hrmi.charts.gradeBracket": "{grade}: {min} - {max}{unit}",
