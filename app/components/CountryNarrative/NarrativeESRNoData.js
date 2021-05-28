@@ -26,7 +26,7 @@ function NarrativeESRNoData({
   // )}
   return (
     <Paragraph margin={{ bottom: 'medium', top: '0' }}>
-      <Hint size="xsmall">
+      <Hint size="xsmall" as="span">
         {!hasScoreForOtherStandard && (
           <FormattedMessage {...messages.esr.noData} values={messageValues} />
         )}

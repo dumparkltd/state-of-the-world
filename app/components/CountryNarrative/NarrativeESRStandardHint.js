@@ -30,7 +30,7 @@ function NarrativeESRStandardHint({ standard, country, intl, messageValues }) {
 
   return isDefaultStandard(country, standard) ? null : (
     <Paragraph margin={{ bottom: 'medium', top: '0' }}>
-      <Hint size="xsmall">
+      <Hint size="xsmall" as="span">
         <FormattedMessage
           {...messages.esr.changeStandardNote}
           values={{

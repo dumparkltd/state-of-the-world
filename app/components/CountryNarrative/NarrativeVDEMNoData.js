@@ -9,7 +9,7 @@ import messages from './messages';
 function NarrativeCPRNoData({ messageValues }) {
   return (
     <Paragraph margin={{ bottom: 'medium', top: '0' }}>
-      <Hint size="xsmall">
+      <Hint size="xsmall" as="span">
         <FormattedMessage {...messages.vdem.noData} values={messageValues} />
       </Hint>
     </Paragraph>
